@@ -31,5 +31,27 @@
 				p.parts_name LIKE '%'#{partsName}'%'
 			</if>
 		</where>
-	</select>	
+	</select>
+	
+	<!-- parts추가 -->
+	<insert id="addParts" parameterType="com.goodee.groupware.vo.Parts">
+		INSERT INTO parts 
+			(parts_category_no, parts_name, parts_cnt, parts_price, parts_content, createdate, updatedate) 
+		VALUES(#{partsCategoryNo}, #{partsName}, #{partsCnt}, #{partsPrice}, #{partsContent}, NOW(), NOW());
+	</insert>	
+	
+	<!-- parts추가시 상위 카테고리 출력 0번은 부모번호이기 때문에 빼고 하위 번호만 출력 -->
+	<select id="getPartsCategoryList" resultType="java.util.Map">
+		SELECT 
+		parts_category_no partsCategoryNo,
+		parts_category partsCategory,
+		parts_parent_no partsParentNo
+		FROM parts_category
+		WHERE parts_parent_no > 0;
+	</select>
+	
+	<delete id="deleteParts" parameterType="com.goodee.groupware.vo.Parts">
+		DELETE FROM parts 
+		WHERE parts_no = #{partsNo}
+	</delete>
 </mapper>
