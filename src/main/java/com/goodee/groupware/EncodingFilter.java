@@ -16,7 +16,6 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @WebFilter("/*")
-@Order(3)
 public class EncodingFilter extends HttpFilter implements Filter {
     public EncodingFilter() {
         super();

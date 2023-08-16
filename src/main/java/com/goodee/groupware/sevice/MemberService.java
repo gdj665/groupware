@@ -14,4 +14,8 @@ public class MemberService {
 	public int checkMember(Member member) {
 		return memberMapper.checkMember(member);
 	}
+	
+	public int updatePw(Member member) {
+		return memberMapper.updatePw(member);
+	}
 }

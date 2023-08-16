@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.goodee.groupware.mapper.DepartmentMapper">
+	<select id="getDepartmentList" resultType="java.util.Map">
+		SELECT d1.`department_id` departmentId, d1.`department_no` departmentNo, d2.`department_id` departmentParentId FROM department d1 LEFT JOIN department d2 ON d1.`department_parent_no`= d2.`department_no` ORDER BY d1.`department_no` DESC;
+	</select>
 </mapper>

@@ -1,3 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.goodee.groupware.mapper.ScheduleMapper"></mapper>
+<mapper namespace="com.goodee.groupware.mapper.ScheduleMapper">
+	<!-- 월 별 스케줄 전체(null) or 개인 or 부서 -->
+	<select id="selectScheduleListByMonth" parameterType="java.util.Map" resultType="com.goodee.groupware.vo.Schedule">
+		SELECT
+			schedule_no scheduleNo,
+ 			schedule_category scheduleCategory,
+			schedule_title scheduleTitle,
+			schedule_content scheduleContent,
+			schedule_begindate scheduleBegindate,
+			schedule_enddate scheduleEnddate
+		FROM schedule
+		<where>
+			<if test="scheduleCategory != null">
+				schedule_category = #{scheduleCategory}
+			</if>
+			AND member_id = #{memberId}
+			AND YEAR(schedule_begindate) = #{targetYear}
+			AND MONTH(schedule_begindate) = #{targetMonth}
+		</where>
+	</select>
+</mapper>

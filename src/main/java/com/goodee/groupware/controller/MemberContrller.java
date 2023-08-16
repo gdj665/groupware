@@ -50,20 +50,47 @@ public class MemberContrller {
 //		로그인 성공시
 		session.setAttribute("loginMember", memberId);
 		session.setMaxInactiveInterval(2*60*60);
+		log.debug("세션 유지 시간 : " + session.getMaxInactiveInterval());
 		if(saveId != null) {
 //			쿠키에 저장된 아이디가 있다면 response속성에 저장
 			Cookie cookie = new Cookie("saveLoginId", memberId);
 			cookie.setDomain("localhost");
-			cookie.setMaxAge(7*24*60*60*60);
+			cookie.setMaxAge(7*24*60*60);//일 * 시 * 분 * 초
+			response.addCookie(cookie);
+			log.debug("쿠키 유지 시간 : " + cookie.getMaxAge());
+		} else {
+			Cookie cookie = new Cookie("saveLoginId", "");
+			cookie.setDomain("localhost");
+			cookie.setMaxAge(0);
 			response.addCookie(cookie);
 		}
-		Cookie cookie = new Cookie("saveLoginId", "");
-		cookie.setDomain("localhost");
-		cookie.setMaxAge(0);
-		response.addCookie(cookie);
+		
+//		비밀번호 1234 일때 비밀번호 변경페이지로 이동
+		if(memberPw.equals("1234")) {
+			return "redirect:/member/updatePw";
+		}
 		return "redirect:/home";
 	}
 	
+//	비밀번호 수정 페이지
+	@GetMapping("/member/updatePw")
+	public String updatePw(HttpSession session,
+							HttpServletRequest request) {
+		String memberId = (String)session.getAttribute("loginMember");
+		request.setAttribute("memberId", memberId);
+		return "/member/updatePw";
+	}
+//	비밀번호 수정 실행 페이지
+	@PostMapping("/member/updatePw")
+	public String updatePw(@RequestParam(name = "memberId") String memberId,
+							@RequestParam(name = "memberPw") String memberPw) {
+		Member member = new Member();
+		member.setMemberId(memberId);
+		member.setMemberPw(memberPw);
+		int row = memberService.updatePw(member);
+		log.debug("MemberController updatePw row = " + row);
+		return "redirct:/member/addSign";
+	}
 //	login 유의성 검사
 //	RestController를 안쓰고 Controller만 썻을때 메소드에 ResponseBody 붙이면 RestController처럼 사용가능
 //	AJAX 사용하기위해 붙인 어노테이션
@@ -76,7 +103,7 @@ public class MemberContrller {
 		Member member = new Member();
 		member.setMemberId(memberId);
 		member.setMemberPw(memberPw);
-		log.debug("checkMember result 값 : " + memberService.checkMember(member));
+		log.debug("MemberController checkMember result 값 : " + memberService.checkMember(member));
 //		결과 값 return
 		return memberService.checkMember(member);
 	}
