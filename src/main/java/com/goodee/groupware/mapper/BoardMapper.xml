@@ -1,3 +1,83 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.goodee.groupware.mapper.BoardMapper"></mapper>
+<mapper namespace="com.goodee.groupware.mapper.BoardMapper">
+	
+	<!-- 
+	조인 사용 보류중
+	<resultMap type = "com.goodee.groupware.vo.BoardFile" id="BoardFile">
+		<result column="board_file_ori" property="boardFileOri"/>
+		<result column="board_file_type" property="boardFileType"/>
+	</resultMap>
+	<resultMap type = "com.goodee.groupware.vo.Board" id="BoardWithFiles" extends="Board">
+		<collection property="board_file" resultMap="BoardFile"/>
+	</resultMap> -->
+	
+	<!-- 게시판 리스트출력 -->
+	<select id = "getBoardList" parameterType="java.util.Map" resultType="java.util.Map">
+		SELECT 
+			board_no boardNo, 
+			member_id memberId,
+			board_title boardTitle,
+			board_content boardContent,
+			createdate
+		FROM board
+		WHERE department_no = #{departmentNo}
+		ORDER BY board_status,createdate DESC
+		LIMIT #{beginRow},#{rowPerPage}
+	</select>
+	
+	<!-- 게시판 상세출력 -->
+	<select id = "getOneBoard" parameterType="com.goodee.groupware.vo.Board" resultType="com.goodee.groupware.vo.Board">
+		SELECT 
+			board_no boardNo,
+			member_id memberId,
+			board_title boardTitle,
+			board_content boardContent,
+			department_no departmentNo,
+			createdate createdate,
+		FROM board
+		WHERE board_no = #{boardNo}
+	</select>
+	
+	<select id="getBoardListCount" parameterType="int" resultType="int">
+		SELECT
+			COUNT(*)
+		FROM board
+		WHERE department_no = #{departmentNo}
+	</select>
+	
+	<!-- 게시판 삭제 -->
+	<delete id="deleteBoard" parameterType="com.goodee.groupware.vo.Board">
+		DELETE 
+		FROM board
+		WHERE board_no = #{boardNo}
+		AND (member_id = #{memberId}
+		OR member_id = 'admin')
+	</delete>
+	
+	<!-- 게시판 추가 -->
+	<insert id ="addBoard" parameterType="com.goodee.groupware.vo.Board">
+		<!-- INSERT 작업 이후에 실행되며 Board vo에 boardNo로 선언되어 있는 값을 가져온다 -->
+		<selectKey order="AFTER" keyProperty="boardNo" resultType="int">
+			SELECT last_insert_id()
+		</selectKey>
+		INSERT INTO board(
+			member_id,
+			board_title,
+			board_content,
+			department_no,
+			board_status,
+			createdate,
+			updatedate
+		) VALUES(
+			#{memberId},
+			#{boardTitle},
+			#{boardContent},
+			#{departmentNo},
+			#{boardStatus},
+			NOW(),
+			NOW()
+		)
+	</insert>
+	
+</mapper>
