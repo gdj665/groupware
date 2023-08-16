@@ -1,3 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.goodee.groupware.mapper.MemberMapper"></mapper>
+<mapper namespace="com.goodee.groupware.mapper.MemberMapper">
+	<select id="checkMember"
+			parameterType="com.goodee.groupware.vo.Member"
+			resultType="int">
+		SELECT count(*) cnt
+		FROM member
+		<where>
+			<if test="memberPw.equals(&quot;1234&quot;)">
+				member_id = #{memberId}
+				AND member_pw = #{memberPw}
+			</if>
+			<if test="!memberPw.equals(&quot;1234&quot;)">
+				member_id = #{memberId}
+				AND member_pw = PASSWORD(#{memberPw})
+			</if>
+		</where>
+	</select>
+
+</mapper>

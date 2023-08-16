@@ -1,5 +1,22 @@
 package com.goodee.groupware.vo;
 
-public class Member {
+import lombok.Data;
 
+@Data
+public class Member {
+	String memberId;
+	int departmentNo;
+	String memberPw;
+	String memberName;
+	String memberAddress;
+	String memberEmail;
+	String memberBrith;
+	String memberGender;
+	String memberPhone;
+	String memberSignFile;
+	String memberRank;
+	String memberLevel;
+	String memberHiredate;
+	String createdate;
+	String updatedate;
 }
