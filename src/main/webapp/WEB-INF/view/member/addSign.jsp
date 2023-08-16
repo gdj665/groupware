@@ -7,6 +7,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-
+	사인 등록
 </body>
 </html>
