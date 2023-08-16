@@ -1,5 +1,12 @@
 package com.goodee.groupware.vo;
 
-public class PartsCategory {
+import lombok.Data;
 
+@Data
+public class PartsCategory {
+	private int partsCategoryNo;
+	private String partsCategory;
+	private int partsParentNo;
+	private String createdate;
+	private String updatedate;
 }

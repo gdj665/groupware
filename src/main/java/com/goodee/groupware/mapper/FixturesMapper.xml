@@ -1,3 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.goodee.groupware.mapper.FixturesMapper"></mapper>
+<mapper namespace="com.goodee.groupware.mapper.FixturesMapper">
+	<select id="getFixturesList" parameterType="java.util.Map" resultType="java.util.Map">
+		SELECT 
+		p.parts_no partsNo,
+		pc.parts_category_no partsCategoryNo,
+		pc.parts_category partsCategory,
+		p.parts_name partsName,
+		p.parts_cnt partsCnt,
+		p.parts_price partsPrice,
+		p.parts_content partsContent	
+		FROM parts p INNER JOIN parts_category pc ON p.parts_category_no = pc.parts_category_no
+		<where>
+		<!-- 검색분기 -->
+			<if test="partsName != null">
+				p.parts_name LIKE '%' #{partsName} '%'
+			</if>
+		</where>
+		ORDER BY p.createdate DESC
+		LIMIT #{beginRow}, #{rowPerPage}
+	</select>
+	
+	<select id="getFixturesListCount" resultType="int" parameterType="String">
+		SELECT 
+			COUNT(*)
+		FROM parts p INNER JOIN parts_category pc ON p.parts_category_no = pc.parts_category_no
+		<where>
+			<!-- 검색분기 -->
+			<if test="partsName != null">
+				p.parts_name LIKE '%'#{partsName}'%'
+			</if>
+		</where>
+	</select>	
+</mapper>
