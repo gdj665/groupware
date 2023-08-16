@@ -17,5 +17,5 @@ public interface FileMapper {
 	int deleteBoardFile(BoardFile boardFile);
 	
 	// 게시물 리스트 출력
-	List<BoardFile> getBoardFileList(Map<String, Object>map);
+	List<BoardFile> getBoardFileList(BoardFile boardFile);
 }

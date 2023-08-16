@@ -12,7 +12,7 @@
 	<div>
 		<a href="/board/addBoard">게시물 추가</a>
 	</div>
-	<table class="table">
+	<table class="table table-hover">
 		<tr>
 			<th>번호</th>
 			<th>제목</th>
@@ -21,7 +21,7 @@
 			<th>생성날짜</th>
 		</tr>
 		<c:forEach var="b" items="${boardList}">
-			<tr>
+			<tr onClick="location.href='/board/boardOne?boardNo=${b.boardNo}'" style="cursor:pointer;">
 				<td>${b.boardNo}</td>
 				<td>${b.boardTitle}</td>
 				<td>${b.boardContent}</td>
