@@ -7,11 +7,13 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.goodee.groupware.sevice.HrmService;
 import com.goodee.groupware.sevice.MemberService;
 import com.goodee.groupware.vo.Member;
 
@@ -22,6 +24,9 @@ import lombok.extern.slf4j.Slf4j;
 public class MemberContrller {
 	@Autowired
 	private MemberService memberService;
+	
+	@Autowired
+	private HrmService hrmService;
 	
 	@GetMapping("/login")
 	public String login(HttpSession session,
@@ -61,11 +66,13 @@ public class MemberContrller {
 //		로그인 성공시
 		session.setAttribute("loginMember", memberId);
 		session.setAttribute("departmentNo", member.getDepartmentNo());
+		session.setAttribute("departmentParentNo", member.getDepartmentParentNo());
 		session.setAttribute("memberLevel", member.getMemberLevel());
 		session.setMaxInactiveInterval(2*60*60);
 		log.debug("세션 유지 시간 : " + session.getMaxInactiveInterval());
 		log.debug("seesion loginMember : " + session.getAttribute("loginMember"));
 		log.debug("seesion departmentNo : " + session.getAttribute("departmentNo"));
+		log.debug("seesion departmentParentNo : " + session.getAttribute("departmentParentNo"));
 		log.debug("seesion memberLevel : " + session.getAttribute("memberLevel"));
 		if(saveId != null) {
 //			쿠키에 저장된 아이디가 있다면 response속성에 저장
@@ -133,12 +140,20 @@ public class MemberContrller {
 	}
 
 	@GetMapping("/home")
-	public String home(HttpSession session) {
-		
-		if(session.getAttribute("loginMember") == null) {
-			return "redirect:/login";
-		};
-//		service(memberId, memberPw) -> mapper -> 로그인 성공 유무 반환
+	public String home(HttpSession session,
+						HttpServletRequest request) {
+		String memberId = (String)session.getAttribute("loginMember");
+		request.setAttribute("memberId", memberId);
 		return "/home";
 	}
+	
+//	마이페이지
+	@GetMapping("/member/mypage")
+	public String mypage(Model model, String memberId) {
+		Member member = hrmService.getOneMember(memberId);
+		model.addAttribute("member", member);
+		
+		return "/member/mypage";
+	}
+	
 }

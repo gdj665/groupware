@@ -5,8 +5,9 @@
 	<select id="checkMember"
 			parameterType="com.goodee.groupware.vo.Member"
 			resultType="com.goodee.groupware.vo.Member">
-		SELECT department_no departmentNo, member_level memberLevel, count(*) cnt
-		FROM member
+		SELECT m.department_no departmentNo, d.department_parent_no departmentParentNo, m.member_level memberLevel, count(*) cnt
+		FROM member m inner join department d
+				on m.department_no = d.department_no
 		<where>
 			<if test="memberPw.equals(&quot;1234&quot;)">
 				member_id = #{memberId}

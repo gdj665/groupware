@@ -1,3 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.goodee.groupware.mapper.HrmMapper"></mapper>
+<mapper namespace="com.goodee.groupware.mapper.HrmMapper">
+	<!-- member 상세보기 -->
+	<select id="getOneMember"
+			parameterType="String"
+			resultType="com.goodee.groupware.vo.Member">
+	SELECT member_id memberId, department_no departmentNo, member_name memberName, member_address memberAddress, member_email memberEmail, member_birth memberBirth,
+			member_gender memberGender,	member_phone memberPhone, member_sign_file memberSignFile, member_rank memberRank, member_level memberLevel, member_hiredate memberHiredate
+	FROM member
+	WHERE member_id = #{memberId}
+	</select>
+	
+
+</mapper>

@@ -7,6 +7,7 @@ public class Member {
 	int cnt;
 	String memberId;
 	int departmentNo;
+	int departmentParentNo;
 	String memberPw;
 	String memberName;
 	String memberAddress;

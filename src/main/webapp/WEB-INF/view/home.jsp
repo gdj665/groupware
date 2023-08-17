@@ -8,6 +8,8 @@
 </head>
 <body>
 	<h1>home</h1>
+	<h5>${memberId}</h5>
+	<a href="/member/mypage?memberId=${memberId}">마이페이지</a>
 	<a href="/logout">로그아웃</a>
 </body>
 </html>
