@@ -12,6 +12,15 @@
 		WHERE board_no = #{boardNo}
 	</select>
 	
+	<select id = "getOneBoardFile" parameterType="int" resultType="com.goodee.groupware.vo.BoardFile">
+		SELECT 
+			board_file_ori boardFileOri,
+			board_file_save boardFileSave,
+			board_file_type boardFileType
+		FROM board_file
+		WHERE board_file_no = #{boardFileNo}
+	</select>
+	
 	<insert id = "addBoardFile" parameterType="com.goodee.groupware.vo.BoardFile">
 		INSERT INTO board_file (
 			board_no,

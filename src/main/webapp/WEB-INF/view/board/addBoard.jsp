@@ -27,13 +27,13 @@
 					<textarea name="boardContent" rows="3" cols="50"></textarea>
 				</td>
 			</tr>
-			<tr>
+<!-- 			<tr>
 				<th>작성자</th>
 				<td>
 					<input type="hidden" name="memberId" value="23081601">
 					<input type="hidden" name="departmentNo" value="999">
 				</td>
-			</tr>
+			</tr> -->
 			<tr>
 				<td>
 					<input type="file" name="multipartFile" multiple="multiple">

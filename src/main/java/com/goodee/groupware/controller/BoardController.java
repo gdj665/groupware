@@ -3,6 +3,7 @@ package com.goodee.groupware.controller;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -29,14 +30,16 @@ public class BoardController {
 		Model model, 
 		@RequestParam(name = "currentPage", defaultValue = "1") int currentPage,
 		@RequestParam(name = "rowPerPage", defaultValue = "3") int rowPerPage,
-		@RequestParam(name = "departmentNo", defaultValue = "999") int departmentNo,
-		@RequestParam(name = "searchWord", required = false) String searchWord) {
+		@RequestParam(name = "searchWord", required = false) String searchWord,
+		HttpSession session) {
 		
-		Map<String, Object> resultMap = boardService.getBoardList(currentPage, rowPerPage, departmentNo, searchWord);
+		// 세션값 선언
+		int loginDepartmentNo = (Integer) session.getAttribute("departmentNo");
+		
+		Map<String, Object> resultMap = boardService.getBoardList(currentPage, rowPerPage, loginDepartmentNo, searchWord);
 
 		// Model에 addAttribute를 사용하여 view에 값을 보낸다.
 		model.addAttribute("boardList", resultMap.get("boardList"));
-
 		// 페이징 변수 값
 		model.addAttribute("currentPage", currentPage);
 		model.addAttribute("lastPage", resultMap.get("lastPage"));
@@ -58,9 +61,15 @@ public class BoardController {
 		return "board/addBoard";
 	}
 	@PostMapping("/board/addBoard")
-	public String addBoard(HttpServletRequest request,Board board) { 
+	public String addBoard(HttpServletRequest request,Board board, HttpSession session) { 
 		//매개값으로 request객체를 받는다 <- request api를 직접 호출하기 위해서
 		// 파일 이 저장될 경로 설정
+		int loginDepartmentNo = (Integer) session.getAttribute("departmentNo");
+		String loginMemberId = (String) session.getAttribute("loginMember");
+		
+		board.setMemberId(loginMemberId);
+		board.setDepartmentNo(loginDepartmentNo);
+		
 		String path = request.getServletContext().getRealPath("/boardFile/");
 		int row = boardService.addBoard(board,path);
 		System.out.println("BoardControllerAddRow --> "+row);

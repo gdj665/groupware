@@ -43,9 +43,9 @@
 			<th>${boardOne.updatedate}</th>
 		</tr>
 		<c:forEach var="b" items="${boardFileList}">
-			<tr onClick="location href='/board/boardDownload${b.boardFileNo}'" style="cursor:pointer;">
+			<tr>
 				<td>${b.boardFileOri}</td>
-				<td>${b.boardFileType}</td>
+				<td><a href="/board/boardDownload?boardFileNo=${b.boardFileNo}" style="cursor:pointer;">${b.boardFileNo}다운로드</a></td>
 			</tr>
 		</c:forEach>
 	</table>
