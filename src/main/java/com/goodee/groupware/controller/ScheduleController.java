@@ -35,13 +35,12 @@ public class ScheduleController {
 		log.debug("\u001B[31m"+"targetMonth : "+ targetMonth+"\u001B[0m");
 		log.debug("\u001B[31m"+"scheduleCategory : "+ scheduleCategory+"\u001B[0m");
 		
-		// session.getAttribute(" "); 세션값으로 넣어야함 ㅎㅎ
-		String memberId = "23081601";
-		
+		// 세션 아이디 값 저장
+		String memberId =(String)session.getAttribute("loginMember");
+
 		// 요청한 매개값을 담아 서비스를 호출
 		Map<String, Object> scheduleMap = new HashMap<>();
 		scheduleMap = scheduleService.getScheduleList(memberId, targetYear, targetMonth, scheduleCategory);
-		
 		log.debug("\u001B[31m"+"ScheduleController.getScheduleList() scheduleMap : "+ scheduleMap.toString()+"\u001B[0m");
 		
 		model.addAttribute("scheduleMap", scheduleMap);
@@ -53,29 +52,34 @@ public class ScheduleController {
 	public String getOnePersonalSchedule(HttpSession session, Model model,
 											@RequestParam(required = false, name = "targetYear") Integer targetYear,		
 											@RequestParam(required = false, name = "targetMonth") Integer targetMonth,
-											@RequestParam(required = false, name = "targetDate") Integer targetDate) {
+											@RequestParam(required = false, name = "targetDate") Integer targetDate,
+											@RequestParam(required = false, name = "scheduleCategory") String scheduleCategory) {
 		
 		log.debug("\u001B[31m"+"targetYear : "+ targetYear+"\u001B[0m");
 		log.debug("\u001B[31m"+"targetMonth : "+ targetMonth+"\u001B[0m");
 		log.debug("\u001B[31m"+"targetDate : "+ targetDate+"\u001B[0m");
+		log.debug("\u001B[31m"+"scheduleCategory : "+ scheduleCategory+"\u001B[0m");
 		
-		// session.getAttribute(" "); 세션값으로 넣어야함 ㅎㅎ
-		String memberId = "23081601";
+		// 세션 아이디 값 저장
+		String memberId =(String)session.getAttribute("loginMember");
 		
 		
 		// 요청한 매개값을 담아 서비스를 호출
 		Map<String, Object> oneScheduleMap = new HashMap<>();
+		oneScheduleMap = scheduleService.getOneSchedule(memberId, targetYear, targetMonth, targetDate, scheduleCategory);
+		log.debug("\u001B[31m"+"ScheduleController.getOneSchedule() oneScheduleMap : "+ oneScheduleMap.toString()+"\u001B[0m");
 		
-		// oneScheduleMap = scheduleService.getScheduleList(memberId, targetYear, targetMonth, targetDate);
-		
+		model.addAttribute("oneScheduleMap", oneScheduleMap);
 		
 		return "/schedule/oneSchedule";
 	}
 	
+	/*
 	// ----- 개인 일정 등록 -----
 	@GetMapping("/schedule/addPersonalSchedule")
 	public String addPersonalSchedule() {
 		
 		return "/schedule/addPersonalSchedule";
 	}
+	 */
 }

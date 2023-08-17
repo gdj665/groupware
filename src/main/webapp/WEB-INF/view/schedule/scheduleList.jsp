@@ -15,14 +15,14 @@
 	<c:set var="m" value="${scheduleMap}"></c:set>
 	
 	<a href="/schedule/scheduleList?targetYear=${m.targetYear}&targetMonth=${m.targetMonth-1}&scheduleCategory=${m.scheduleCategory}">이전달</a>
-	<span>${m.memberId}님의 ${m.targetYear}년 ${m.targetMonth+1}월 달력</span>
+	<h1>${m.memberId}님의 ${m.targetYear}년 ${m.targetMonth+1}월 달력</h1>
 	<a href="/schedule/scheduleList?targetYear=${m.targetYear}&targetMonth=${m.targetMonth+1}&scheduleCategory=${m.scheduleCategory}">다음달</a>
 	<br><br><br>
 	
 	<a href="/schedule/scheduleList?targetYear=${m.targetYear}&targetMonth=${m.targetMonth}">전체</a>
 	<a href="/schedule/scheduleList?targetYear=${m.targetYear}&targetMonth=${m.targetMonth}&scheduleCategory=부서">부서</a>
 	<a href="/schedule/scheduleList?targetYear=${m.targetYear}&targetMonth=${m.targetMonth}&scheduleCategory=개인">개인</a>
-	<br>
+	<br><br><br>
 	<table style="width: 1000px; height: 500px;">
 		<tr>
 			<th style="width: 15%;">일</th>
@@ -45,7 +45,7 @@
 					<c:when test="${d > 0 && d <= m.lastDate}">
 						<td>
 							<div style="text-align: left;">
-								<a style="color: black;" href="/schedule/scheduleSchedule?targetYear=${m.targetYear}&targetMonth=${m.targetMonth}&targetDate=${d}">
+								<a style="color: black;" href="/schedule/oneSchedule?targetYear=${m.targetYear}&targetMonth=${m.targetMonth}&targetDate=${d}">
 									<c:choose>
 										<c:when test="${i % 7 == 0}">
 											<span style="color: red;">${d}</span>
@@ -64,14 +64,10 @@
 								<c:if test="${d == (fn:substring(c.scheduleBegindate,8,10))}">
 								<div>
 									<c:if test="${c.scheduleCategory == '개인'}">
-										<a href="">
-											<span style="color:green">${c.scheduleCategory} ${c.scheduleTitle}(시작)</span>
-										</a>
+											<span style="color:green">${c.scheduleCategory} ${c.scheduleTitle}</span>
 									</c:if>
 									<c:if test="${c.scheduleCategory == '부서'}">
-										<a href="">
-											<span style="color:orange">${c.scheduleCategory} ${c.scheduleTitle}(시작)</span>
-										</a>
+											<span style="color:orange">${c.scheduleCategory} ${c.scheduleTitle}</span>
 									</c:if>
 								</div>
 								</c:if>

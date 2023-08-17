@@ -8,19 +8,21 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.goodee.groupware.mapper.ScheduleMapper;
 import com.goodee.groupware.vo.Schedule;
 
 import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
 @Service
+@Transactional
+@Slf4j
 public class ScheduleService {
 	@Autowired
 	private ScheduleMapper scheduleMapper;
 	
-	// 달력 출력 + 해당 날짜의 Schedule 정보 조회
+	// 달력 출력 + 월 별 일정 정보 조회
 	public Map<String, Object> getScheduleList(String memberId, Integer targetYear, Integer targetMonth, String scheduleCategory){
 		
 		// 달력 API 가져오기
@@ -50,7 +52,6 @@ public class ScheduleService {
 			endBlank = 7 - ((beginBlank + lastDate)%7);
 			// 부족한 칸 수만큼 공백 수를 더해주면 7로 나누어 떨어짐
 		}
-		
 		int totalTd = beginBlank + lastDate + endBlank; // 출력 될 총 칸 수 
 		
 		// 전월 마지막 일 구하기
@@ -71,23 +72,50 @@ public class ScheduleService {
 		scheduleMap.put("memberId", memberId);
 		scheduleMap.put("scheduleCategory", scheduleCategory);
 		
-		
-		// 월 별 일정 정보 조회 
+		// 매개변수 값들을 Map에 담음
 		Map<String, Object> paramMap = new HashMap<String, Object>();
 		paramMap.put("targetYear", targetYear);
 		paramMap.put("targetMonth", targetMonth + 1); // targetMonth에 +1을 해주어야한다
 		paramMap.put("memberId", memberId);
 		paramMap.put("scheduleCategory", scheduleCategory);
 		
+		// 월 별 일정 정보 조회 
 		List<Schedule> scheduleList = new ArrayList<>();
-		scheduleList = scheduleMapper.selectScheduleListByMonth(paramMap);
-		
+		scheduleList = scheduleMapper.getScheduleList(paramMap);	
 		// Map에 담아서 넘기기
 		scheduleMap.put("scheduleList", scheduleList);
-		
 		log.debug("\u001B[31m"+"ScheduleService.getScheduleList() scheduleMap : "+ scheduleMap.toString()+"\u001B[0m");
-		
+
 		return scheduleMap;
 	}
-
+	
+	// 일 별 전체 일정 상세보기 조회
+	public Map<String, Object> getOneSchedule(String memberId, Integer targetYear, Integer targetMonth, Integer targetDate, String scheduleCategory){
+	
+		// Map에 담아서 Conntroller로 넘기기
+		Map<String, Object> oneScheduleMap = new HashMap<String, Object>();
+		oneScheduleMap.put("targetYear", targetYear);
+		oneScheduleMap.put("targetMonth", targetMonth);
+		oneScheduleMap.put("targetDate", targetDate);
+		oneScheduleMap.put("memberId", memberId);
+		oneScheduleMap.put("scheduleCategory", scheduleCategory);
+		
+		// 매개변수 값들을 Map에 담음
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("targetYear", targetYear);
+		paramMap.put("targetMonth", targetMonth + 1);
+		paramMap.put("targetDate", targetDate);
+		paramMap.put("memberId", memberId);
+		paramMap.put("scheduleCategory", scheduleCategory);
+		
+		// 일 별 전체 일정 상세보기
+		List<Map<String, Object>> oneScheduleList = new ArrayList<>();
+		oneScheduleList = scheduleMapper.getOneSchedule(paramMap);
+		oneScheduleMap.put("oneScheduleList", oneScheduleList);
+		
+		log.debug("\u001B[31m"+"ScheduleService.getOneSchedule() oneScheduleMap : "+ oneScheduleMap.toString()+"\u001B[0m");
+		
+		return oneScheduleMap;
+	}
+	
 }

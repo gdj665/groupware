@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.goodee.groupware.mapper.ScheduleMapper">
-	<!-- 월 별 일정 전체(null) or 개인 or 부서 -->
-	<select id="selectScheduleListByMonth" parameterType="java.util.Map" resultType="com.goodee.groupware.vo.Schedule">
+	<!-- 월 별 일정 (전체 or 개인 or 부서) -->
+	<select id="getScheduleList" parameterType="java.util.Map" resultType="com.goodee.groupware.vo.Schedule">
 		SELECT
 			schedule_no scheduleNo,
  			schedule_category scheduleCategory,
@@ -21,13 +21,28 @@
         </where>
 	</select>
 	
-	<!-- 일 별 일정 상세 보기 
-	<select id="selectOneSchedule" parameterType="java.util.Map" resultType="com.goodee.groupware.vo.Schedule">
-	
-	
-	
+	<!-- 일 별 일정 상세보기 (전체 or 개인 or 부서) -->
+	<select id="getOneSchedule" parameterType="java.util.Map" resultType="java.util.Map">
+		SELECT
+			s.schedule_no scheduleNo,
+			m.department_no departmentNo,
+			s.schedule_category scheduleCategory,
+			s.schedule_title scheduleTitle,
+			s.schedule_content scheduleContent,
+			s.schedule_begindate scheduleBegindate,
+			s.schedule_enddate scheduleEnddate
+		FROM schedule s INNER JOIN member m ON s.member_id = m.member_id
+		<where>
+            <if test="scheduleCategory != null">
+				schedule_category = #{scheduleCategory}
+            </if>
+			AND s.member_id = #{memberId} 
+			AND YEAR(schedule_begindate) = #{targetYear}
+            AND MONTH(schedule_begindate) = #{targetMonth} 	
+			AND DAY(schedule_begindate) = #{targetDate}
+		</where>	
 	</select>
-	-->
+	
 	
 	
 	
