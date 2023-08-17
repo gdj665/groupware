@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.goodee.groupware.mapper.MemberMapper">
+	<!-- id 체크 및 부서번호, 직급 -->
 	<select id="checkMember"
 			parameterType="com.goodee.groupware.vo.Member"
-			resultType="int">
-		SELECT count(*) cnt
+			resultType="com.goodee.groupware.vo.Member">
+		SELECT department_no departmentNo, member_level memberLevel, count(*) cnt
 		FROM member
 		<where>
 			<if test="memberPw.equals(&quot;1234&quot;)">
@@ -17,6 +18,8 @@
 			</if>
 		</where>
 	</select>
+	
+	<!-- 비밀번호 수정 -->
 	<update id="updatePw"
 			parameterType="com.goodee.groupware.vo.Member">
 		UPDATE member

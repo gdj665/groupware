@@ -11,7 +11,7 @@ public class MemberService {
 	@Autowired
 	private MemberMapper memberMapper;
 	
-	public int checkMember(Member member) {
+	public Member checkMember(Member member) {
 		return memberMapper.checkMember(member);
 	}
 	

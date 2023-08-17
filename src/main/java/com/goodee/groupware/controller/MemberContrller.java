@@ -47,10 +47,26 @@ public class MemberContrller {
 						@RequestParam(name = "memberId") String memberId,
 						@RequestParam(name = "memberPw") String memberPw,
 						@RequestParam(name = "saveId", defaultValue = "") String saveId) {
+//		로그인 유의성 검사 및 부서번호, 레벨 가져오기
+		Member member = new Member();
+		member.setMemberId(memberId);
+		member.setMemberPw(memberPw);
+		member = memberService.checkMember(member);
+		
+//		cnt 없을 경우 로그인으로 리턴
+		if(member.getCnt() == 0) {
+			log.debug("로그인실패");
+			return "redirect:/member/login";
+		}
 //		로그인 성공시
 		session.setAttribute("loginMember", memberId);
+		session.setAttribute("departmentNo", member.getDepartmentNo());
+		session.setAttribute("memberLevel", member.getMemberLevel());
 		session.setMaxInactiveInterval(2*60*60);
 		log.debug("세션 유지 시간 : " + session.getMaxInactiveInterval());
+		log.debug("seesion loginMember : " + session.getAttribute("loginMember"));
+		log.debug("seesion departmentNo : " + session.getAttribute("departmentNo"));
+		log.debug("seesion memberLevel : " + session.getAttribute("memberLevel"));
 		if(saveId != null) {
 //			쿠키에 저장된 아이디가 있다면 response속성에 저장
 			Cookie cookie = new Cookie("saveLoginId", memberId);
@@ -105,7 +121,8 @@ public class MemberContrller {
 		member.setMemberPw(memberPw);
 		log.debug("MemberController checkMember result 값 : " + memberService.checkMember(member));
 //		결과 값 return
-		return memberService.checkMember(member);
+		member = memberService.checkMember(member);
+		return member.getCnt();
 	}
 	
 //	logout 실행

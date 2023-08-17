@@ -35,6 +35,8 @@ public class SessionUpdateFilter extends HttpFilter implements Filter {
 //		로그인 상태일때 세션 초기화 되게 만듬
 		if(session.getAttribute("loginMember") != null) {
 			session.setAttribute("loginMember", session.getAttribute("loginMember"));
+			session.setAttribute("departmentNo", session.getAttribute("departmentNo"));
+			session.setAttribute("memberLevel", session.getAttribute("memberLevel"));
 			session.setMaxInactiveInterval(2 * 60 * 60); // 시간 * 분 * 초
 			log.debug("세션초기화");
 		}
