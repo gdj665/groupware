@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.goodee.groupware.mapper.DepartmentMapper;
+import com.goodee.groupware.vo.Department;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -25,8 +26,19 @@ public class DepartmentService {
 		// departmentList 디버깅
 		log.debug("DepartmentService.getDepartmentList()-->" + departmentList);
 		
+		// 사원 리스트
+		List<Map<String,Object>> memberList = departmentMapper.getMemberList();
+		log.debug("DepartmentService.getMemberList()-->" + memberList);
+		
 		Map<String,Object> resultMap = new HashMap<String,Object>();
 		resultMap.put("department", departmentList);
+		resultMap.put("memberList", memberList);
 		return resultMap;
+	}
+	
+	// 게시물 추가
+	public int addDepartment(Department department) {
+		int row = departmentMapper.addDepartment(department);
+		return row;
 	}
 }
