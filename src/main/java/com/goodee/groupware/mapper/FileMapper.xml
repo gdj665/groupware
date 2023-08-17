@@ -4,7 +4,9 @@
 	
 	<select id = "getBoardFileList" parameterType="com.goodee.groupware.vo.BoardFile" resultType="com.goodee.groupware.vo.BoardFile">
 		SELECT 
-			board_file_ori boardFileOri, 
+			board_file_no boardFileNo,
+			board_file_ori boardFileOri,
+			board_file_save boardFileSave,
 			board_file_type boardFileType
 		FROM board_file
 		WHERE board_no = #{boardNo}
@@ -31,7 +33,7 @@
 	</insert>
 	
 	<delete id="deleteBoardFile" parameterType="com.goodee.groupware.vo.BoardFile">
-		DELETE FROM boardfile
+		DELETE FROM board_file
 		WHERE board_no = #{boardNo}
 	</delete>
 	

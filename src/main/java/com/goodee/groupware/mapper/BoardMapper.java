@@ -23,5 +23,5 @@ public interface BoardMapper {
 	Board getOneBoard(Board board);
 	
 	// 게시판 별 수량 출력
-	int getBoardListCount(int departmentNo);
+	int getBoardListCount(Map<String, Object>map);
 }

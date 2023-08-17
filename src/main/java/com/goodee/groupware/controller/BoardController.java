@@ -23,15 +23,16 @@ public class BoardController {
 	@Autowired
 	private BoardService boardService;
 
-// 게시물 리스트 출력
+	// 게시물 리스트 출력
 	@GetMapping("board/boardList")
 	public String getBoardList(
 		Model model, 
 		@RequestParam(name = "currentPage", defaultValue = "1") int currentPage,
 		@RequestParam(name = "rowPerPage", defaultValue = "3") int rowPerPage,
-		@RequestParam(name = "departmentNo", defaultValue = "999") int departmentNo) {
+		@RequestParam(name = "departmentNo", defaultValue = "999") int departmentNo,
+		@RequestParam(name = "searchWord", required = false) String searchWord) {
 		
-		Map<String, Object> resultMap = boardService.getBoardList(currentPage, rowPerPage, departmentNo);
+		Map<String, Object> resultMap = boardService.getBoardList(currentPage, rowPerPage, departmentNo, searchWord);
 
 		// Model에 addAttribute를 사용하여 view에 값을 보낸다.
 		model.addAttribute("boardList", resultMap.get("boardList"));
@@ -42,7 +43,7 @@ public class BoardController {
 
 		return "/board/boardList";
 	}
-// 게시물 상세출력
+	// 게시물 상세출력
 	@GetMapping("board/boardOne")
 	public String getOneBoard(Model model,Board board,BoardFile boardFile) {
 		Map<String, Object> boardOneMap = boardService.getOneBoard(board, boardFile);
@@ -51,7 +52,7 @@ public class BoardController {
 		return "/board/boardOne";
 	}
 	
-// 게시물 추가하기
+	// 게시물 추가하기
 	@GetMapping("/board/addBoard")
 	public String addBoard() {
 		return "board/addBoard";
@@ -62,7 +63,16 @@ public class BoardController {
 		// 파일 이 저장될 경로 설정
 		String path = request.getServletContext().getRealPath("/boardFile/");
 		int row = boardService.addBoard(board,path);
-		System.out.println("BoardControllerRow --> "+row);
+		System.out.println("BoardControllerAddRow --> "+row);
+		return "redirect:/board/boardList";
+	}
+	
+	// 게시물 삭제하기
+	@PostMapping("/board/deleteBoard")
+	public String deleteBoard(HttpServletRequest request,Board board,BoardFile boardFile) {
+		String path = request.getServletContext().getRealPath("/boardFile/");
+		int row = boardService.deleteBoard(path, boardFile, board);
+		System.out.println("BoardControllerDeleteRow --> "+row);
 		return "redirect:/board/boardList";
 	}
 }

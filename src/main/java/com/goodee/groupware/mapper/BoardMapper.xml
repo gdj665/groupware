@@ -21,9 +21,15 @@
 			board_content boardContent,
 			createdate
 		FROM board
-		WHERE department_no = #{departmentNo}
-		ORDER BY board_status,createdate DESC
-		LIMIT #{beginRow},#{rowPerPage}
+		<where>
+			<if test="searchWord != null">
+				board_title LIKE '%' #{searchWord} '%'
+				OR board_content LIKE '%' #{searchWord} '%'
+			</if>
+				AND department_no = #{departmentNo}
+				ORDER BY board_status,createdate DESC
+				LIMIT #{beginRow},#{rowPerPage}
+		</where> 
 	</select>
 	
 	<!-- 게시판 상세출력 -->
@@ -41,11 +47,18 @@
 		WHERE board_no = #{boardNo}
 	</select>
 	
-	<select id="getBoardListCount" parameterType="int" resultType="int">
+	<select id="getBoardListCount" parameterType="java.util.Map" resultType="int">
 		SELECT
 			COUNT(*)
 		FROM board
-		WHERE department_no = #{departmentNo}
+		<where>
+			<!-- 검색분기 -->
+			<if test="searchWord != null">
+				board_title LIKE '%' #{searchWord} '%'
+				OR board_content LIKE '%' #{searchWord} '%'
+			</if>
+		AND department_no = #{departmentNo}
+		</where>
 	</select>
 	
 	<!-- 게시판 삭제 -->
@@ -53,8 +66,8 @@
 		DELETE 
 		FROM board
 		WHERE board_no = #{boardNo}
-		AND (member_id = #{memberId}
-		OR member_id = 'admin')
+<!-- 		AND (member_id = #{memberId}
+		OR member_id = 'admin') -->
 	</delete>
 	
 	<!-- 게시판 추가 -->
