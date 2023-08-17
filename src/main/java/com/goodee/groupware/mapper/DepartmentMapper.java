@@ -18,5 +18,9 @@ public interface DepartmentMapper {
 	// 부서 추가
 	int addDepartment(Department department);
 	
+	//사원 리스트
 	List<Map<String,Object>> getMemberList();
+	
+	// 부서별 팀 리스트
+	List<Map<String,Object>> getTeamDepartment(Department department);
 }

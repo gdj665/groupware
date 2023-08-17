@@ -22,7 +22,7 @@ public class DepartmentController {
 	private DepartmentService departmentService;
 	
 	// 리스트 출력 
-	@GetMapping("department/departmentList")
+	@GetMapping("/department/departmentList")
 		public String getDepartmentList(Model model) {
 		
 		Map<String,Object> resultMap = departmentService.getDepartmentList();
@@ -38,11 +38,11 @@ public class DepartmentController {
 	}
 	
 	// 부서추가
-		@GetMapping("department/addDepartment")
+		@GetMapping("/department/addDepartment")
 		public String addDepartment() {
 			return "department/addDepartment";
 		}
-		@PostMapping("department/addDepartment")
+		@PostMapping("/department/addDepartment")
 		public String addDepartment(Department department) {
 			//매개값으로 request객체를 받는다 <- request api를 직접 호출하기 위해서
 			int row = departmentService.addDepartment(department);

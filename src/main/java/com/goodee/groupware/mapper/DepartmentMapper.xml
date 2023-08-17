@@ -39,4 +39,9 @@
 		FROM member
 		ORDER BY memberLevel
 	</select>
+	
+	<!-- 부서별 팀 리스트 출력 -->
+	<select id="getTeamDepartment" parameterType="com.goodee.groupware.vo.Department" resultType="java.util.Map">
+		SELECT department_id departmentId, department_no departmentNo FROM department WHERE department_parent_no = #{departmentNo} ORDER BY departmentId;
+	</select>
 </mapper>

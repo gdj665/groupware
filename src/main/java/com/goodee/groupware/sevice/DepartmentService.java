@@ -41,4 +41,15 @@ public class DepartmentService {
 		int row = departmentMapper.addDepartment(department);
 		return row;
 	}
+	
+	// 부서별 팀 출력
+	public Map<String, Object> getTeamDepartment(Department department){
+		List<Map<String,Object>> teamDepartmentList = departmentMapper.getTeamDepartment(department);
+		
+		Map<String,Object> teamResultMap = new HashMap<String,Object>();
+		teamResultMap.put("teamDepartmentList", teamDepartmentList);
+		log.debug("DepartmentService.getTeamDepartment()-->" + teamResultMap);
+		
+		return teamResultMap;
+	}
 }
