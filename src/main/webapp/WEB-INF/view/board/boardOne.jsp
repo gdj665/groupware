@@ -43,12 +43,15 @@
 			<th>${boardOne.updatedate}</th>
 		</tr>
 		<c:forEach var="b" items="${boardFileList}">
-			<tr style="cursor:pointer;">
+			<tr onClick="location href='/board/boardDownload${b.boardFileNo}'" style="cursor:pointer;">
 				<td>${b.boardFileOri}</td>
 				<td>${b.boardFileType}</td>
 			</tr>
 		</c:forEach>
 	</table>
-	<a href="" onClick="return confirm('삭제하시겠습니까?')">삭제</a>
+	<form action="/board/deleteBoard" method="post">
+		<input type="hidden" name="boardNo" value="${boardOne.boardNo}">
+		<button type="submit" onClick="return confirm('삭제하시겠습니까?')">삭제</button>
+	</form>
 </body>
 </html>
