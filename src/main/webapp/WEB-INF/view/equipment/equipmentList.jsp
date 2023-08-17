@@ -43,7 +43,7 @@
 				$('#equipmentInspectCycleIdMsg').text('점검주기를 숫자로 입력해주세요');
 				return;
 			} else {
-				$('#partsCntIdMsg').text('');
+				$('#equipmentInspectCycleIdMsg').text('');
 			}
 			
 			if($('#equipmentContentId').val().length == 0) {
@@ -82,7 +82,10 @@
 				<td>${e.equipmentNo}</td>
 				<td>${e.equipmentName}</td>
 				<td>${e.equipmentLastInspect}</td>
-				<td>${e.nextinspect}</td>
+				<td>
+					<c:set var="dueDate" value="${e.daysUntilNextInspect < 0 ? 'red' : e.daysUntilNextInspect <= 30 ? 'pink' : 'black'}" />
+                	<span style="color: ${dueDate};">${e.nextinspect}</span>
+				</td>
 				<td>
 					<a href="/equipment/updateStatus?equipmentNo=${e.equipmentNo}">점검갱신</a>
 				</td>
@@ -117,13 +120,13 @@
 						<td>점검주기</td>
 						<td>
 							<input type="text" name="equipmentInspectCycle" id="equipmentInspectCycleId">개월
-							<span id="equipmentInspectCycleId" class="msg"></span>
+							<span id="equipmentInspectCycleIdMsg" class="msg"></span>
 						</td>
 					</tr>
 					<tr>
 						<td>대여유무</td>
 						<td>
-							<input type="text" name="equipmentStatus" value="비대여" readonly="readonly">초기상태 비대여고정
+							<input type="text" name="equipmentStatus" value="비대여" readonly="readonly">
 						</td>
 					</tr>
 					<tr>

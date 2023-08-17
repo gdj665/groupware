@@ -1,5 +1,11 @@
 package com.goodee.groupware.sevice;
 
+import java.sql.Date;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -36,6 +42,28 @@ public class EquipmentService {
 		List<Map<String,Object>> equipmentList = equipmentMapper.getEquipmentList(pageMap);
 		log.debug("EquipmentService.getEquipmentList() equipmentList --->" + equipmentList.toString());
 		
+		// 현재 날짜를 가져옵니다.
+        LocalDate now = LocalDate.now();
+		
+		// 각 장비의 정보를 순회하면서 날짜 비교와 일 수 차이 계산을 수행합니다.
+        for(Map<String, Object> equipment : equipmentList) {
+        	// equipment에서 nextinsepct날짜를 (Date)타입으로 형변환 해준 후 nextinspectDate에 담습니다.
+            Date nextinspectDate = (Date) equipment.get("nextinspect");
+            // 만약 담긴 날짜가 있다면 
+            if (nextinspectDate != null) {
+                // Date를 LocalDate로 변환합니다.
+                LocalDate nextInspectLocalDate = nextinspectDate.toLocalDate();
+
+                // 현재 날짜와 점검 예정일 사이의 일 수 차이를 계산합니다.
+                long daysUntilNextInspect = ChronoUnit.DAYS.between(now, nextInspectLocalDate);
+
+                // 디버깅을 위한 코드: 장비 번호와 일 수 차이를 출력합니다.
+                System.out.println("Equipment Number: " + equipment.get("equipmentNo") + ", Days Until Next Inspect: " + daysUntilNextInspect);
+                // equipmentList에 해당 장비의 일 수 차이를 추가합니다.
+                equipment.put("daysUntilNextInspect", daysUntilNextInspect);
+            }
+        }	
+		
 		// 장비리스트에 전체행의 개수를 구하는 메서드 호출
 		int equipmentListCount = equipmentMapper.getEquipmentListCnt(equipmentName);
 		log.debug("EquipmentService.getEquipmentList() equipmentListCount --->" + equipmentListCount);
@@ -46,12 +74,15 @@ public class EquipmentService {
 			lastPage += 1;
 		}
 		log.debug("EquipmentService.getEquipmentList() lastPage --->" + lastPage);
+				
 		
 		// 결과값을 반환하는 resultMap
 		Map<String, Object> resultMap = new HashMap<>();
 		
 		resultMap.put("equipmentList", equipmentList);
-		resultMap.put("lastPage", lastPage);
+		resultMap.put("lastPage", lastPage);	
+		// 현재날짜 반환
+		resultMap.put("now", now);
 		
 		return resultMap;
 	}
