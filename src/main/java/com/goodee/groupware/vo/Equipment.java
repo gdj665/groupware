@@ -7,7 +7,7 @@ public class Equipment {
 	private int equipmentNo;
 	private String equipmentName;
 	private String equipmentLastInspect;
-	private int inspectCycle;
+	private int equipmentInspectCycle;
 	private String equipmentStatus;
 	private String equipmentContent;
 	private String createdate;

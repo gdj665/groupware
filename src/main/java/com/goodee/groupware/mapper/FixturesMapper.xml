@@ -3,13 +3,13 @@
 <mapper namespace="com.goodee.groupware.mapper.FixturesMapper">
 	<select id="getFixturesList" parameterType="java.util.Map" resultType="java.util.Map">
 		SELECT 
-		p.parts_no partsNo,
-		pc.parts_category_no partsCategoryNo,
-		pc.parts_category partsCategory,
-		p.parts_name partsName,
-		p.parts_cnt partsCnt,
-		p.parts_price partsPrice,
-		p.parts_content partsContent	
+			p.parts_no partsNo,
+			pc.parts_category_no partsCategoryNo,
+			pc.parts_category partsCategory,
+			p.parts_name partsName,
+			p.parts_cnt partsCnt,
+			p.parts_price partsPrice,
+			p.parts_content partsContent	
 		FROM parts p INNER JOIN parts_category pc ON p.parts_category_no = pc.parts_category_no
 		<where>
 		<!-- 검색분기 -->
@@ -28,7 +28,7 @@
 		<where>
 			<!-- 검색분기 -->
 			<if test="partsName != null">
-				p.parts_name LIKE '%'#{partsName}'%'
+				p.parts_name LIKE '%' #{partsName} '%'
 			</if>
 		</where>
 	</select>

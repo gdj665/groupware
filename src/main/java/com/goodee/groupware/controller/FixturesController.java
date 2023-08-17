@@ -20,10 +20,10 @@ public class FixturesController {
 	@Autowired private FixturesService fixturesService;
 	
 	// 1) 자재 리스트 
-	@GetMapping("fixtures/fixturesList")
+	@GetMapping("/fixtures/fixturesList")
 	public String getFixturesList(Model model, 
 								@RequestParam(name ="currentPage", defaultValue = "1") int currentPage,
-								@RequestParam(name ="rowPerPage", defaultValue = "10") int rowPerPage,
+								@RequestParam(name ="rowPerPage", defaultValue = "5") int rowPerPage,
 								@RequestParam(name ="partsName", required = false) String partsName) {
 		// 서비스 호출
 		Map<String, Object> resultMap = fixturesService.getFixturesList(currentPage, rowPerPage, partsName);
@@ -42,7 +42,7 @@ public class FixturesController {
 	}
 	
 	// 2) parts 추가
-	@PostMapping("fixtures/addParts")
+	@PostMapping("/fixtures/addParts")
 	public String addParts(Parts parts) {
 		int row = fixturesService.addParts(parts);
 		
@@ -56,7 +56,7 @@ public class FixturesController {
 	}
 	
 	// 3) parts 삭제
-	@GetMapping("fixtures/deleteParts")
+	@GetMapping("/fixtures/deleteParts")
 	public String deleteParts(Parts parts) {
 		int row = fixturesService.deleteParts(parts);
 		

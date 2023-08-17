@@ -28,7 +28,6 @@
 <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/1.3.8/FileSaver.min.js"></script>
 
-
 <!-- Latest compiled and minified CSS -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
 
@@ -36,70 +35,83 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
 
 <script>
-	//엑셀다운할 리스트 변수
-	let fixturesArr = [];
 
+	// 엑셀다운 ---------------------------------------
+	
+	//엑셀다운할 배열 변수
 	$(document).ready(function() {
-		$('#excelBtn').click(function() {
-			$.ajax({
-				// 비동기
-				async : false,
-				url : '/fixtures/fixturesExcel',
-				type : 'get',
-				success : function(data) {
-					// 데이터가 제대로 넘어왔는지 확인 디버깅
-					console.log(data);
-					$(data).each(function(index, item) {
-						fixturesArr.push(item.partsNo);
-						fixturesArr.push(item.partsCategory);
-						fixturesArr.push(item.partsName);
-						fixturesArr.push(item.partsCnt);
-						fixturesArr.push(item.partsPrice);
-						fixturesArr.push(item.partsContent);
-					});
-					console.log(fixturesArr);
-				}
-			});
-			// 1) 엑셀파일
-			let book = XLSX.utils.book_new();
-			// 2) 1)안에 빈시트와 이름생성
-			book.SheetNames.push('one');
-
-			// 3) 시트생성
-			let sheet = XLSX.utils.aoa_to_sheet(fixturesArr);
-
-			// 2)와 3)을 연결
-			book.Sheets['one'] = sheet;
-
-			// 4) boot -> 기계어파일로
-			let source = XLSX.write(book, {
-				bookType : 'xlsx',
-				type : 'binary'
-			});
-
-			// 다운로드
-			// 1) source 크기의 빈 스트림 생성
-			let buf = new ArrayBuffer(source.length);
-			// 2) 8비트(1Byte) 배열로 버프 랩핑 -> 1byte씩 옮길려고....
-			let buf2 = new Uint8Array(buf);
-
-			for (let i = 0; i < source.length; i++) {
-				buf2[i] = source.charCodeAt(i) & 0xFF;
-			}
-
-			let b = new Blob([ buf2 ], {
-				type : "application/octet-stream"
-			});
-			saveAs(b, "test.xlsx");
-		});
 		
-		// 모달창 이벤트
+		let fixturesArr = [];
+		
+	    $('#excelBtn').click(function() {
+	        $.ajax({
+	            async: false,
+	            url: '/fixtures/fixturesExcel',
+	            type: 'get',
+	            success: function(data) {
+	                console.log(data);
+	                $(data).each(function(index, item) {
+	                    fixturesArr.push(item.partsNo);
+	                    fixturesArr.push(item.partsCategory);
+	                    fixturesArr.push(item.partsName);
+	                    fixturesArr.push(item.partsCnt);
+	                    fixturesArr.push(item.partsPrice);
+	                    fixturesArr.push(item.partsContent);
+	                });
+
+	                console.log(fixturesArr); // 데이터가 제대로 채워진 것을 확인
+	                
+	                // 엑셀 생성 및 다운로드 로직
+	                let book = XLSX.utils.book_new();
+	                // ... (이하 생략)
+	                
+	             	// 2) 빈 워크북에 시트이름을 one으로 추가
+					book.SheetNames.push('one');
+		
+					// 3) 배열에 데이터를 이용하여 시트 데이터를 생성
+					let sheet = XLSX.utils.aoa_to_sheet(fixturesArr);
+		
+					// 2)와 3)을 연결
+					book.Sheets['one'] = sheet;
+		
+					// 4) 엑셀 워크북을 -> 바이너리 형태로 변환
+					let source = XLSX.write(book, {
+						bookType : 'xlsx',
+						type : 'binary'
+					});
+		
+					// 다운로드
+					// 1) source 변수 크기에 맞는 빈 ArrayBuffer을 생성 엑셀 데이터를 저장하는데 사용함
+					let buf = new ArrayBuffer(source.length);
+					// 2) 8비트(1Byte) 배열로 버프 랩핑 -> 1byte씩 옮길려고....
+					let buf2 = new Uint8Array(buf);
+					// 변수의 문자열 데이터를 8비트로 변환하여 하나씩 읽어와 buf2에 추가		
+					for (let i = 0; i < source.length; i++) {
+						buf2[i] = source.charCodeAt(i) & 0xFF;
+					}
+		
+					let b = new Blob([ buf2 ], {
+						type : "application/octet-stream"
+					});
+					saveAs(b, "fixtures.xlsx");
+	            }
+	        });
+	    });
+		
+		// 모달창 이벤트 -------------------------------------
 		$('#open').click(function(){
 			$('.modal').fadeIn();
 		});
 		
 		$('#partsAddBtn').click(function(){
 			// 입력값 유효성 검사
+			if($('#partsCategoryId').val().length == 0) {
+				$('#partsCategoryIdMsg').text('장비분류를 선택해주세요');
+				return;
+			} else {
+				$('#partsCategoryIdMsg').text('');
+			}
+			
 			if($('#partsNameId').val().length == 0) {
 				$('#partsNameIdMsg').text('장비명을 입력해주세요');
 				return;
@@ -107,28 +119,15 @@
 				$('#partsNameIdMsg').text('');
 			}
 			
-			if($('#partsCntId').val().length == 0) {
-				$('#partsCntIdMsg').text('개수를 입력해주세요');
-				return;
-			} else {
-				$('#partsCntIdMsg').text('');
-			}
-			
-			if(isNaN($('partsCntId').val() == true)) {
+			if($('#partsCntId').val().length == 0 || isNaN($('#partsCntId').val()) == true) {
 				$('#partsCntIdMsg').text('개수를 숫자로 입력해주세요');
+				return;
 			} else {
 				$('#partsCntIdMsg').text('');
 			}
 			
-			if($('#partsPriceId').val().length == 0) {
+			if($('#partsPriceId').val().length == 0 || isNaN($('#partsPriceId').val()) == true) {
 				$('#partsPriceIdMsg').text('가격을 입력해주세요');
-				return;
-			} else {
-				$('#partsPriceIdMsg').text('');
-			}
-			
-			if(isNaN($('partsPriceId').val() == true)) {
-				$('#partsPriceIdMsg').text('가격을 숫자로 입력해주세요');
 				return;
 			} else {
 				$('#partsPriceIdMsg').text('');
@@ -152,8 +151,8 @@
 </script>
 </head>
 <body>
-	<h1>자재 목록</h1> <button id="open">모달창열기</button>
-	<table>
+	<h1>자재 목록</h1> <button id="open">자재 추가</button>
+	<table >
 		<tr>
 			<th>자재번호</th>
 			<th>분류명</th>
@@ -183,11 +182,11 @@
 	</div>
 	<c:if test="${currentPage > 1}">
 		<a
-			href="/fixtures/fixturesList?currentPage=${currentPage-1}&partsName=${fixturesList.partsName}">이전</a>
+			href="/fixtures/fixturesList?currentPage=${currentPage-1}&partsName=${param.partsName}">이전</a>
 	</c:if>
 	<c:if test="${currentPage < lastPage}">
 		<a
-			href="/fixtures/fixturesList?currentPage=${currentPage+1}&partsName=${fixturesList.partsName}">다음</a>
+			href="/fixtures/fixturesList?currentPage=${currentPage+1}&partsName=${param.partsName}">다음</a>
 	</c:if>
 
 	<div>
@@ -196,13 +195,13 @@
 	
 	<div class="modal">
 		<div class="modal_content">
-			<h3>모달테스트</h3>
+			<h3>자재 추가</h3>
 			<form id="addPartsForm" action="${pageContext.request.contextPath}/fixtures/addParts" method="post">
 				<table>
 					<tr>
-						<td>장비 분류</td>
+						<td>자재 분류</td>
 						<td>
-							<select name ="partsCategoryNo">
+							<select name ="partsCategoryNo" id="partsCategoryId">
 								<option value="">= 선택하기 =</option>
 								<c:forEach var="fm" items="${partsCategoryList}">
 									<option value="${fm.partsCategoryNo}">
@@ -210,10 +209,11 @@
 									</option>
 								</c:forEach>
 							</select>
+							<span id="partsCategoryIdMsg" class="msg"></span>
 						</td>
 					</tr>
 					<tr>
-						<td>장비 이름</td>
+						<td>자재 이름</td>
 						<td>
 							<input id="partsNameId" type="text" name="partsName">
 							<span id="partsNameIdMsg" class="msg"></span>

@@ -20,7 +20,7 @@ public class FixturesService {
 	@Autowired
 	private FixturesMapper fixturesMapper;
 	
-	// 1) 자재 리스트
+	// 1) 자재 리스트(검색, 페이징)
 	public Map<String, Object> getFixturesList(int currentPage, int rowPerPage, String partsName) {
 		
 		// 페이징 작업
@@ -31,8 +31,6 @@ public class FixturesService {
 		pageMap.put("beginRow", beginRow);
 		pageMap.put("rowPerPage", rowPerPage);
 		pageMap.put("partsName", partsName);
-		
-		
 		log.debug("FixturesService.getFixturesList() pageMap --->" + pageMap.toString());
 		
 		// 자재리스트메서드 호출 페이징을 위해 만든 pageMap을 매개변수로 한다.
