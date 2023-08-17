@@ -47,19 +47,18 @@ public class EquipmentService {
 		
 		// 각 장비의 정보를 순회하면서 날짜 비교와 일 수 차이 계산을 수행합니다.
         for(Map<String, Object> equipment : equipmentList) {
-        	// equipment에서 nextinsepct날짜를 (Date)타입으로 형변환 해준 후 nextinspectDate에 담습니다.
+        	// equipment에서 nextinsepct날짜를 (Date)타입으로 형변환 해준 후 nextinspectDate에 담습니다. // Date클래스는 날짜정보와 시간정보까지 담고 있습니다.
             Date nextinspectDate = (Date) equipment.get("nextinspect");
             // 만약 담긴 날짜가 있다면 
             if (nextinspectDate != null) {
-                // Date를 LocalDate로 변환합니다.
+                // Date를 LocalDate로 (LocalDate는 날짜 정보만을 담고 있는 클래스) 변환합니다. -> 날짜만 비교할 것이니 Date클래스의 시간정보는 필요없어 변환하는 것
                 LocalDate nextInspectLocalDate = nextinspectDate.toLocalDate();
 
-                // 현재 날짜와 점검 예정일 사이의 일 수 차이를 계산합니다.
+                // 현재 날짜 now와 점검 예정일 nextInspectLocalDate 사이의 일 수 차이를 계산합니다. -> ChronoUnit.DAYS.between() 메서드를 사용해(두 날짜를 일단위로 계산해준다)
                 long daysUntilNextInspect = ChronoUnit.DAYS.between(now, nextInspectLocalDate);
 
-                // 디버깅을 위한 코드: 장비 번호와 일 수 차이를 출력합니다.
-                System.out.println("Equipment Number: " + equipment.get("equipmentNo") + ", Days Until Next Inspect: " + daysUntilNextInspect);
-                // equipmentList에 해당 장비의 일 수 차이를 추가합니다.
+                log.debug("EquipmentService.getEquipmentList() 현재날짜:" + now +"점검예정일 :" + equipment.get("nextinspect") + "점검 D-day" + daysUntilNextInspect);
+                // equipmentList에 해당 장비의 일 수 차이를 추가시킨다.
                 equipment.put("daysUntilNextInspect", daysUntilNextInspect);
             }
         }	
@@ -81,8 +80,6 @@ public class EquipmentService {
 		
 		resultMap.put("equipmentList", equipmentList);
 		resultMap.put("lastPage", lastPage);	
-		// 현재날짜 반환
-		resultMap.put("now", now);
 		
 		return resultMap;
 	}

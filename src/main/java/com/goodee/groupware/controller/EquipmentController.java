@@ -37,9 +37,6 @@ public class EquipmentController {
 		// 페이징 변수 값
 		model.addAttribute("currentPage", currentPage);
 		model.addAttribute("lastPage", resultMap.get("lastPage"));
-		// 장비 점검주기를 위한 오늘 날짜
-		model.addAttribute("now", resultMap.get("now"));
-		
 		
 		return "/equipment/equipmentList";
 	}
