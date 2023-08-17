@@ -59,7 +59,7 @@ public class ScheduleService {
 		preDate.set(Calendar.MONTH, targetMonth - 1);
 		int preEndDate = preDate.getActualMaximum(Calendar.DATE);
 		
-		// Map에 담아서 넘기기
+		// Map에 담아서 Controller로 넘기기
 		Map<String, Object> scheduleMap = new HashMap<String, Object>();
 		scheduleMap.put("targetYear", targetYear);
 		scheduleMap.put("targetMonth", targetMonth);
@@ -69,12 +69,16 @@ public class ScheduleService {
 		scheduleMap.put("totalTd", totalTd);
 		scheduleMap.put("preEndDate", preEndDate);
 		scheduleMap.put("memberId", memberId);
+		scheduleMap.put("scheduleCategory", scheduleCategory);
 		
-		// schedul 정보 조회 
+		
+		// 월 별 일정 정보 조회 
 		Map<String, Object> paramMap = new HashMap<String, Object>();
 		paramMap.put("targetYear", targetYear);
 		paramMap.put("targetMonth", targetMonth + 1); // targetMonth에 +1을 해주어야한다
 		paramMap.put("memberId", memberId);
+		paramMap.put("scheduleCategory", scheduleCategory);
+		
 		List<Schedule> scheduleList = new ArrayList<>();
 		scheduleList = scheduleMapper.selectScheduleListByMonth(paramMap);
 		
@@ -85,10 +89,5 @@ public class ScheduleService {
 		
 		return scheduleMap;
 	}
-	
-	
-	
-	
-	
-	
+
 }

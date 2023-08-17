@@ -21,7 +21,8 @@ public class ScheduleController {
 	@Autowired
 	ScheduleService scheduleService;
 	
-	@GetMapping("/schedule/scheculeList")
+	// ----- 일정 목록 -----
+	@GetMapping("/schedule/scheduleList")
 	public String getScheduleList(HttpSession session, Model model,
 									@RequestParam(required = false, name = "targetYear") Integer targetYear,		
 									@RequestParam(required = false, name = "targetMonth") Integer targetMonth,
@@ -44,7 +45,37 @@ public class ScheduleController {
 		log.debug("\u001B[31m"+"ScheduleController.getScheduleList() scheduleMap : "+ scheduleMap.toString()+"\u001B[0m");
 		
 		model.addAttribute("scheduleMap", scheduleMap);
+		return "/schedule/scheduleList";
+	}
+	
+	// ----- 일 별 일정 상세보기 -----
+	@GetMapping("/schedule/oneSchedule")
+	public String getOnePersonalSchedule(HttpSession session, Model model,
+											@RequestParam(required = false, name = "targetYear") Integer targetYear,		
+											@RequestParam(required = false, name = "targetMonth") Integer targetMonth,
+											@RequestParam(required = false, name = "targetDate") Integer targetDate) {
 		
-		return "/schedule/scheculeList";
+		log.debug("\u001B[31m"+"targetYear : "+ targetYear+"\u001B[0m");
+		log.debug("\u001B[31m"+"targetMonth : "+ targetMonth+"\u001B[0m");
+		log.debug("\u001B[31m"+"targetDate : "+ targetDate+"\u001B[0m");
+		
+		// session.getAttribute(" "); 세션값으로 넣어야함 ㅎㅎ
+		String memberId = "23081601";
+		
+		
+		// 요청한 매개값을 담아 서비스를 호출
+		Map<String, Object> oneScheduleMap = new HashMap<>();
+		
+		// oneScheduleMap = scheduleService.getScheduleList(memberId, targetYear, targetMonth, targetDate);
+		
+		
+		return "/schedule/oneSchedule";
+	}
+	
+	// ----- 개인 일정 등록 -----
+	@GetMapping("/schedule/addPersonalSchedule")
+	public String addPersonalSchedule() {
+		
+		return "/schedule/addPersonalSchedule";
 	}
 }

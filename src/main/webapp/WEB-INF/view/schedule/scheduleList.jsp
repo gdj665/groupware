@@ -14,10 +14,15 @@
 	<!-- model값 받아와서 문자로 셋팅 -->
 	<c:set var="m" value="${scheduleMap}"></c:set>
 	
-	<a href="/schedule/scheculeList?targetYear=${m.targetYear}&targetMonth=${m.targetMonth-1}">이전달</a>
+	<a href="/schedule/scheduleList?targetYear=${m.targetYear}&targetMonth=${m.targetMonth-1}&scheduleCategory=${m.scheduleCategory}">이전달</a>
 	<span>${m.memberId}님의 ${m.targetYear}년 ${m.targetMonth+1}월 달력</span>
-	<a href="/schedule/scheculeList?targetYear=${m.targetYear}&targetMonth=${m.targetMonth+1}">다음달</a>
+	<a href="/schedule/scheduleList?targetYear=${m.targetYear}&targetMonth=${m.targetMonth+1}&scheduleCategory=${m.scheduleCategory}">다음달</a>
 	<br><br><br>
+	
+	<a href="/schedule/scheduleList?targetYear=${m.targetYear}&targetMonth=${m.targetMonth}">전체</a>
+	<a href="/schedule/scheduleList?targetYear=${m.targetYear}&targetMonth=${m.targetMonth}&scheduleCategory=부서">부서</a>
+	<a href="/schedule/scheduleList?targetYear=${m.targetYear}&targetMonth=${m.targetMonth}&scheduleCategory=개인">개인</a>
+	<br>
 	<table style="width: 1000px; height: 500px;">
 		<tr>
 			<th style="width: 15%;">일</th>
@@ -40,39 +45,33 @@
 					<c:when test="${d > 0 && d <= m.lastDate}">
 						<td>
 							<div style="text-align: left;">
-								<c:choose>
-									<c:when test="${i % 7 == 0}">
-										<span style="color: red;">${d}</span>
-									</c:when>
-									<c:when test="${i % 7 == 6}">
-										<span style="color: blue;">${d}</span>
-									</c:when>
-									<c:otherwise>
-										<span>${d}</span>
-									</c:otherwise>
-								</c:choose>
+								<a style="color: black;" href="/schedule/scheduleSchedule?targetYear=${m.targetYear}&targetMonth=${m.targetMonth}&targetDate=${d}">
+									<c:choose>
+										<c:when test="${i % 7 == 0}">
+											<span style="color: red;">${d}</span>
+										</c:when>
+										<c:when test="${i % 7 == 6}">
+											<span style="color: blue;">${d}</span>
+										</c:when>
+										<c:otherwise>
+											<span>${d}</span>
+										</c:otherwise>
+									</c:choose>
+								</a>
 							</div>
-							
+						
 							<c:forEach var="c" items="${m.scheduleList}">
 								<c:if test="${d == (fn:substring(c.scheduleBegindate,8,10))}">
 								<div>
 									<c:if test="${c.scheduleCategory == '개인'}">
-										<span style="color:green">${c.scheduleCategory} ${c.scheduleTitle}(시작)</span>
+										<a href="">
+											<span style="color:green">${c.scheduleCategory} ${c.scheduleTitle}(시작)</span>
+										</a>
 									</c:if>
 									<c:if test="${c.scheduleCategory == '부서'}">
-										<span style="color:orange">${c.scheduleCategory} ${c.scheduleTitle}(시작)</span>
-									</c:if>
-								</div>
-								</c:if>
-							</c:forEach>
-							<c:forEach var="c" items="${m.scheduleList}">
-								<c:if test="${d == (fn:substring(c.scheduleEnddate,8,10))}">
-								<div>
-									<c:if test="${c.scheduleCategory == '개인'}">
-										<span style="color:green">${c.scheduleCategory} ${c.scheduleTitle}(끝)</span>
-									</c:if>
-									<c:if test="${c.scheduleCategory == '부서'}">
-										<span style="color:orange">${c.scheduleCategory} ${c.scheduleTitle}(끝)</span>
+										<a href="">
+											<span style="color:orange">${c.scheduleCategory} ${c.scheduleTitle}(시작)</span>
+										</a>
 									</c:if>
 								</div>
 								</c:if>
@@ -91,5 +90,7 @@
 			</c:forEach>
 		</tr>
 	</table>
+	
+	
 </body>
 </html>
