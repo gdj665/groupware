@@ -13,6 +13,10 @@
 	${m.departmentNo}<br>
 	${m.memberName}<br>
 	${m.memberGender}<br>
+	${m.memberPhone}<br>
+	${m.memberEmail}<br>
+	${m.memberAddress}<br>
 	${m.memberSignFile}<br>
+	<a href="/member/updateMypage?memberId=${m.memberId}">수정페이지</a>
 </body>
 </html>

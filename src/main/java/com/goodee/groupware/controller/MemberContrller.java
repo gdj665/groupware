@@ -114,6 +114,18 @@ public class MemberContrller {
 		log.debug("MemberController updatePw row = " + row);
 		return "redirct:/member/addSign";
 	}
+//	비밀번호 수정 실행 페이지
+	@ResponseBody
+	@PostMapping("/updateMemberPw")
+	public int updateMemberPw(@RequestParam(name = "memberId") String memberId,
+							@RequestParam(name = "memberPw") String memberPw) {
+		Member member = new Member();
+		member.setMemberId(memberId);
+		member.setMemberPw(memberPw);
+		int row = memberService.updatePw(member);
+		log.debug("MemberController updateMemberPw row = " + row);
+		return row;
+	}
 //	login 유의성 검사
 //	RestController를 안쓰고 Controller만 썻을때 메소드에 ResponseBody 붙이면 RestController처럼 사용가능
 //	AJAX 사용하기위해 붙인 어노테이션
@@ -121,7 +133,6 @@ public class MemberContrller {
 	@PostMapping("/checkMember")
 	public int checkId(@RequestParam(name = "memberId") String memberId,
 						@RequestParam(name = "memberPw") String memberPw) {
-		
 //		member에 id, pw 입력
 		Member member = new Member();
 		member.setMemberId(memberId);
@@ -147,13 +158,38 @@ public class MemberContrller {
 		return "/home";
 	}
 	
-//	마이페이지
+//	마이페이지 출력
 	@GetMapping("/member/mypage")
 	public String mypage(Model model, String memberId) {
 		Member member = hrmService.getOneMember(memberId);
 		model.addAttribute("member", member);
 		
 		return "/member/mypage";
+	}
+	
+//	마이페이지 수정 출력
+	@GetMapping("/member/updateMypage")
+	public String updateMypage(Model model, String memberId) {
+		Member member = hrmService.getOneMember(memberId);
+		model.addAttribute("member", member);
+		
+		return "/member/updateMypage";
+	}
+//	마이페이지 출력
+	@PostMapping("/member/updateMypage")
+	public String updateMypage(@RequestParam(name = "memberId") String memberId,
+								@RequestParam(name = "memberName") String memberName,
+								@RequestParam(name = "memberPhone") String memberPhone,
+								@RequestParam(name = "memberEmail") String memberEmail,
+								@RequestParam(name = "memberAddress") String memberAddress) {
+		Member member = new Member();
+		member.setMemberId(memberId);
+		member.setMemberName(memberName);
+		member.setMemberPhone(memberPhone);
+		member.setMemberEmail(memberEmail);
+		member.setMemberAddress(memberAddress);
+		int row = memberService.updateOneMember(member);
+		return "redirect:/member/mypage?memberId=" + memberId;
 	}
 	
 }

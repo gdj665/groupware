@@ -18,4 +18,8 @@ public class MemberService {
 	public int updatePw(Member member) {
 		return memberMapper.updatePw(member);
 	}
+	
+	public int updateOneMember(Member member) {
+		return memberMapper.updateOneMember(member);
+	}
 }

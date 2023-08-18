@@ -11,4 +11,7 @@ public interface MemberMapper {
 	
 //	memberPw 수정
 	int updatePw(Member member);
+	
+//	member 수정
+	int updateOneMember(Member member);
 }
