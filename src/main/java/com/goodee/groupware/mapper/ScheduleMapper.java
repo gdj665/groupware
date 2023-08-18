@@ -16,6 +16,13 @@ public interface ScheduleMapper {
 	// 일 별 일정 상세보기
 	List<Map<String, Object>> getOneSchedule(Map<String, Object> paramMap);
 	
-	// 개인 일정 추가
-	int addPersonalSchedule(Schedule schedule);
+	// 일정 추가
+	int addSchedule(Schedule schedule);
+	
+	// 부서장 유무 확인
+	int getMemberLevelCount(Map<String, Object> paramMap);
+	
+	// 일정 삭제
+	int deleteSchedule(Schedule schedule);
+	
 }

@@ -28,6 +28,7 @@
 			<th>내용</th>
 			<th>시작일</th>
 			<th>종료일</th>
+			<th>삭제</th>
 		</tr>
 		<c:forEach var="c" items="${m.oneScheduleList}">
 		<tr>
@@ -36,6 +37,7 @@
 			<td>${c.scheduleContent}</td>
 			<td>${c.scheduleBegindate}</td>
 			<td>${c.scheduleEnddate}</td>
+			<td><a href="/schedule/deletePersonalSchedule?scheduleNo=${c.scheduleNo}&schedulCategory=${c.scheduleCategory}">개인일정삭제</a></td>
 		</tr>
 		</c:forEach>
 	</table>

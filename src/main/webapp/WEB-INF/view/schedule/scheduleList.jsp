@@ -21,6 +21,8 @@
 	<a href="/schedule/scheduleList?targetYear=${m.targetYear}&targetMonth=${m.targetMonth+1}">다음달</a>
 	<br><br><br>
 	<a href="/schedule/addPersonalSchedule">개인일정 등록</a>
+	<a href="/schedule/addDepartmentSchedule">부서일정 등록</a>
+	
 	<br><br><br>
 	<a href="/schedule/scheduleList?targetYear=${m.targetYear}&targetMonth=${m.targetMonth}">전체</a>
 	<a style="color:orange" href="/schedule/scheduleList?targetYear=${m.targetYear}&targetMonth=${m.targetMonth}&scheduleCategory=부서">부서</a>

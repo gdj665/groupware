@@ -42,8 +42,8 @@
 		</where>	
 	</select>
 	
-	<!-- 개인 일정 추가 -->
-	<insert id="addPersonalSchedule" parameterType="com.goodee.groupware.vo.Schedule">
+	<!-- 일정 추가 -->
+	<insert id="addSchedule" parameterType="com.goodee.groupware.vo.Schedule">
 		INSERT INTO schedule(
 			member_id,
 			schedule_category,
@@ -65,17 +65,18 @@
 		)	
 	</insert>
 	
+	<!-- 부서장 유무 조회 -->
+	<select id="getMemberLevelCount" parameterType="java.util.Map" resultType="int">
+		SELECT COUNT(*)
+		FROM member
+		WHERE member_id = #{memberId} 
+			AND member_level = #{memberLevel}
+	</select>
 	
-	<!-- 부서 일정 추가 -->
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	<!-- 일정 삭제 -->
+	<delete id="deleteSchedule" parameterType="com.goodee.groupware.vo.Schedule">
+		DELETE FROM schedule
+		WHERE schedule_no = #{scheduleNo}
+			AND schedule_category = '개인'
+	</delete>	
 </mapper>

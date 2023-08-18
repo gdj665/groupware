@@ -29,10 +29,7 @@ public class ScheduleController {
 									@RequestParam(required = false, name = "targetYear") Integer targetYear,		
 									@RequestParam(required = false, name = "targetMonth") Integer targetMonth,
 									@RequestParam(required = false, name = "scheduleCategory") String scheduleCategory) {
-		// required를 false로 주어야 null값 검사가 가능
-		// null일시 오늘 날짜 달력 출력 
-		// null일시 카테고리 = "전체"
-		
+		// required를 false로 주어야 null값 검사가 가능 // null일시 오늘 날짜 달력 출력 
 		log.debug("\u001B[31m"+"targetYear : "+ targetYear+"\u001B[0m");
 		log.debug("\u001B[31m"+"targetMonth : "+ targetMonth+"\u001B[0m");
 		log.debug("\u001B[31m"+"scheduleCategory : "+ scheduleCategory+"\u001B[0m");
@@ -45,6 +42,7 @@ public class ScheduleController {
 		scheduleMap = scheduleService.getScheduleList(memberId, targetYear, targetMonth, scheduleCategory);
 		log.debug("\u001B[31m"+"ScheduleController.getScheduleList() scheduleMap : "+ scheduleMap.toString()+"\u001B[0m");
 		
+		// Model에 담아서 View로 넘기기
 		model.addAttribute("scheduleMap", scheduleMap);
 		return "/schedule/scheduleList";
 	}
@@ -56,7 +54,6 @@ public class ScheduleController {
 											@RequestParam(required = false, name = "targetMonth") Integer targetMonth,
 											@RequestParam(required = false, name = "targetDate") Integer targetDate,
 											@RequestParam(required = false, name = "scheduleCategory") String scheduleCategory) {
-		
 		log.debug("\u001B[31m"+"targetYear : "+ targetYear+"\u001B[0m");
 		log.debug("\u001B[31m"+"targetMonth : "+ targetMonth+"\u001B[0m");
 		log.debug("\u001B[31m"+"targetDate : "+ targetDate+"\u001B[0m");
@@ -70,27 +67,54 @@ public class ScheduleController {
 		oneScheduleMap = scheduleService.getOneSchedule(memberId, targetYear, targetMonth, targetDate, scheduleCategory);
 		log.debug("\u001B[31m"+"ScheduleController.getOneSchedule() oneScheduleMap : "+ oneScheduleMap.toString()+"\u001B[0m");
 		
+		// Model에 담아서 View로 넘기기
 		model.addAttribute("oneScheduleMap", oneScheduleMap);
-		
 		return "/schedule/oneSchedule";
 	}
 	
 	// ----- 개인 일정 등록 -----
 	@GetMapping("/schedule/addPersonalSchedule")
 	public String addPersonalSchedule(HttpSession session, Model model) {
+		// 세션 아이디 값 저장
+		String memberId =(String)session.getAttribute("loginMember");
 		
+		// Model에 담아서 View로 넘기기
+		model.addAttribute("memberId", memberId);
+		return "/schedule/addPersonalSchedule";
+	}
+	@PostMapping("/schedule/addPersonalSchedule")
+	public String addPersonalSchedule(Schedule schedule) {
+		int row = 0;
+		row = scheduleService.addPersonalSchedule(schedule);
+		log.debug("\u001B[31m"+"ScheduleController.addPersonalSchedule() row : "+row+"\u001B[0m");
+		return "redirect:/schedule/scheduleList";
+	}
+	
+	// ----- 부서 일정 등록 -----
+	@GetMapping("/schedule/addDepartmentSchedule")
+	public String addDepartmentSchedule(HttpSession session, Model model) {
 		// 세션 아이디 값 저장
 		String memberId =(String)session.getAttribute("loginMember");
 		
 		model.addAttribute("memberId", memberId);
-		
-		return "/schedule/addPersonalSchedule";
+		return "/schedule/addDepartmentSchedule";
+	}
+	@PostMapping("/schedule/addDepartmentSchedule")
+	public String addDepartmentSchedule(Schedule schedule) {
+		int row = 0;
+		row = scheduleService.addDepartmentSchedule(schedule);
+		log.debug("\u001B[31m"+"ScheduleController.addDepartmentSchedule() row : "+row+"\u001B[0m");
+		return "redirect:/schedule/scheduleList"; 
 	}
 	
-	@PostMapping("/schedule/addPersonalSchedule")
-	public String addPersonalSchedule(Schedule schedule) {
-		int row = scheduleService.addPersonalSchedule(schedule);
-		log.debug("\u001B[31m"+"ScheduleController.addPersonalSchedule() row : "+row+"\u001B[0m");
+	// ----- 개인 일정 삭제 ------
+	@GetMapping("/schedule/deletePersonalSchedule")
+	public String deletePersonalSchedule(Schedule schedule) {
+		int row = 0;
+		row = scheduleService.deletePersonalSchedule(schedule);
+		log.debug("\u001B[31m"+"ScheduleController.deletePersonalSchedule() row : "+row+"\u001B[0m");
 		return "redirect:/schedule/scheduleList";
 	}
+	
+	// ----- 부서 일정 삭제 ------
 }
