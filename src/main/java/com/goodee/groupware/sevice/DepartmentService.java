@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.goodee.groupware.mapper.DepartmentMapper;
 import com.goodee.groupware.vo.Department;
+import com.goodee.groupware.vo.Member;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -51,5 +52,10 @@ public class DepartmentService {
 		log.debug("DepartmentService.getTeamDepartment()-->" + teamResultMap);
 		
 		return teamResultMap;
+	}
+	// 부서 이동
+	public int updateDepartment(Member member) {
+		int row = departmentMapper.updateDepartment(member);
+		return row;
 	}
 }
