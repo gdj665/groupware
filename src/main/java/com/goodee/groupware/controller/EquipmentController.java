@@ -11,8 +11,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.goodee.groupware.sevice.EquipmentHistoryService;
 import com.goodee.groupware.sevice.EquipmentService;
 import com.goodee.groupware.vo.Equipment;
+import com.goodee.groupware.vo.EquipmentHistory;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -30,7 +32,7 @@ public class EquipmentController {
 									@RequestParam(name ="rowPerPage", defaultValue = "10") int rowPerPage,
 									@RequestParam(name ="equipmentName", required = false) String equipmentName) {
 		log.debug("EquipmentController.getEquipmentList() 요청값 디버깅 --->" + currentPage, rowPerPage, equipmentName);
-		// 서비스 호출
+		// 장비 리스트 서비스 호출
 		Map<String, Object> resultMap = equipmentService.getEquipmentList(currentPage, rowPerPage, equipmentName);
 		log.debug("EquipmentController.getEquipmentList() resultMap --->" + resultMap.toString());
 		
@@ -82,16 +84,16 @@ public class EquipmentController {
 	}
 	
 	// 4) 장비 점검 업데이트 매핑
-	@GetMapping("/equipment/updateStatus")
-	public String updateEquipmentStatus(Equipment equipment) {
+	@GetMapping("/equipment/updateEqInspect")
+	public String updateEquipmentInspect(Equipment equipment) {
 		// 장비 점검 서비스 호출
-		int row = equipmentService.updateEquipmentStatus(equipment);
+		int row = equipmentService.updateEquipmentInspect(equipment);
 		
-		log.debug("EquipmentController.updateEquipmentStatus() equipment --->" + equipment.toString());
+		log.debug("EquipmentController.updateEquipmentInspect() equipment --->" + equipment.toString());
 		if(row > 0) {
-			log.debug("EquipmentController.updateEquipmentStatus() row --->" + row + "장비점검성공"); 
+			log.debug("EquipmentController.updateEquipmentInspect() row --->" + row + "장비점검성공"); 
 		} else {
-			log.debug("EquipmentController.updateEquipmentStatus() row --->" + row + "장비점검실패"); 
+			log.debug("EquipmentController.updateEquipmentInspect() row --->" + row + "장비점검실패"); 
 		}
 		
 		return "redirect:/equipment/equipmentList";
@@ -99,11 +101,18 @@ public class EquipmentController {
 	
 	// 5) 장비 상세보기 매핑
 	@GetMapping("/equipment/equipmentOne")
-	public String getEquipmentOne(Model model, Equipment equipment) {
+	public String getEquipmentOne(Model model, Equipment equipment, EquipmentHistory eqHistory,
+									@RequestParam(name ="currentPage", defaultValue = "1") int currentPage,
+									@RequestParam(name ="rowPerPage", defaultValue = "10") int rowPerPage) {
 		// 장비 상세보기 서비스 호출
-		Map<String, Object> equipmentOneMap = equipmentService.getEquipmentOne(equipment);
+		Map<String, Object> resultMap = equipmentService.getEquipmentOne(equipment, currentPage, rowPerPage, eqHistory);
 		
-		model.addAttribute("equipmentOneMap", equipmentOneMap);
+		// 장비상세보기 값 
+		model.addAttribute("equipmentOne", resultMap.get("equipmentOne"));
+		// 장비사용내역 리스트 값
+		model.addAttribute("eqHistoryList", resultMap.get("eqHistoryList"));
+		// 페이징 값
+		model.addAttribute("lastPage", resultMap.get("lastPage"));
 		
 		return "/equipment/equipmentOne";
 	}

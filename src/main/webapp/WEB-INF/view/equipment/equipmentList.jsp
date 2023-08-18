@@ -5,6 +5,7 @@
 <html>
 <head>
 <style>
+    /* 모달 컨테이너 스타일 */
 	.modal {
         display: none;
         position: fixed;
@@ -16,7 +17,6 @@
         background-color: rgba(0, 0, 0, 0.4);
     }
 	
-    /* 모달 컨테이너 스타일 */
     .statusModal {
         display: none;
         position: fixed;
@@ -204,11 +204,11 @@
                 	<span style="color: ${dateColor};">${e.nextinspect}</span>
 				</td>
 				<td>
-					<a href="${pageContext.request.contextPath}/equipment/updateStatus?equipmentNo=${e.equipmentNo}" onClick="return confirm('${e.equipmentName} 점검하시겠습니까?')">점검하기</a>
+					<a href="${pageContext.request.contextPath}/equipment/updateEqInspect?equipmentNo=${e.equipmentNo}" onClick="return confirm('${e.equipmentName} 점검하시겠습니까?')">점검하기</a>
 				</td>
 				<td><a href="#" class="statusOpenModal" data-equipmentNo="${e.equipmentNo}" data-equipmentName="${e.equipmentName}" data-loginId="${loginId}">${e.equipmentStatus}</a></td>
 				<td><a href="/equipment/deleteEquipment?equipmentNo=${e.equipmentNo}"
-					onClick="return confirm('삭제하시겠습니까?')">삭제</a></td>
+					onClick="return confirm('${e.equipmentName} 삭제하시겠습니까?')">삭제</a></td>
 			</tr>
 		</c:forEach>
 	</table>
@@ -267,6 +267,7 @@
 			<h3>장비 대여</h3>
 			<form id="addEqHistoryForm" action="${pageContext.request.contextPath}/eqHistory/addEqHistory" method="post">
 				<input type="hidden" name="equipmentNo" id="equipmentNoInput" value="equipmentNoInput">
+				<input type="hidden" name="equipmentStatus" value="대여">
 				<table>
 					<tr>
 						<td>장비명</td>

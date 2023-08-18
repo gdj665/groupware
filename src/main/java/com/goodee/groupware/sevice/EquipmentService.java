@@ -14,8 +14,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.goodee.groupware.mapper.EquipmentHistoryMapper;
 import com.goodee.groupware.mapper.EquipmentMapper;
 import com.goodee.groupware.vo.Equipment;
+import com.goodee.groupware.vo.EquipmentHistory;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -25,6 +27,8 @@ import lombok.extern.slf4j.Slf4j;
 public class EquipmentService {
 	@Autowired
 	private EquipmentMapper equipmentMapper;
+	@Autowired
+	private EquipmentHistoryMapper eqHistoryMapper;
 	
 	// 1) 장비 목록 리스트(검색, 페이징)
 	public Map<String, Object> getEquipmentList(int currentPage, int rowPerPage, String equipmentName) {
@@ -73,7 +77,6 @@ public class EquipmentService {
 			lastPage += 1;
 		}
 		log.debug("EquipmentService.getEquipmentList() lastPage --->" + lastPage);
-				
 		
 		// 결과값을 반환하는 resultMap
 		Map<String, Object> resultMap = new HashMap<>();
@@ -104,19 +107,44 @@ public class EquipmentService {
 	}
 	
 	// 4) 장비 점검업데이트
-	public int updateEquipmentStatus(Equipment equipment) {
+	public int updateEquipmentInspect(Equipment equipment) {
 		
 		// 업데이트 매퍼 호출
-		int row = equipmentMapper.updateEquipmentStatus(equipment);
+		int row = equipmentMapper.updateEquipmentInspect(equipment);
 		
 		// 업데이트된 행 개수 반환
 		return row;
 	}
 	
 	// 5) 장비 상세보기
-	public Map<String,Object> getEquipmentOne(Equipment equipment) {
+	public Map<String,Object> getEquipmentOne(Equipment equipment, int currentPage, int rowPerPage, EquipmentHistory eqHistory) {
 		
-		Map<String,Object> resultMap = equipmentMapper.getEquipmentOne(equipment);
+		Map<String,Object> equipmentOne = equipmentMapper.getEquipmentOne(equipment);
+		
+		Map<String,Object> pageMap = new HashMap<>();
+		
+		// 페이징 작업
+		int beginRow = (currentPage -1) * rowPerPage;
+				
+		pageMap.put("beginRow", beginRow);
+		pageMap.put("rowPerPage", rowPerPage);
+		pageMap.put("memberId", eqHistory.getMemberId());
+		pageMap.put("equipmentNo", eqHistory.getEquipmentNo());
+		
+		List<Map<String,Object>> eqHistoryList = eqHistoryMapper.getEqHistoryList(pageMap);
+		
+		int eqHistoryListCnt = eqHistoryMapper.getEqHistoryListCnt(eqHistory);
+		// 마지막 페이지 구하기
+		int lastPage = eqHistoryListCnt / rowPerPage;
+		if(eqHistoryListCnt % rowPerPage != 0) {
+			lastPage += 1;
+		}
+		log.debug("EquipmentService.getEquipmentOne() lastPage --->" + lastPage);
+		
+		Map<String,Object> resultMap = new HashMap<>();
+		resultMap.put("equipmentOne", equipmentOne);
+		resultMap.put("eqHistoryList", eqHistoryList);
+		resultMap.put("lastPage", lastPage);
 		
 		return resultMap;
 	}
