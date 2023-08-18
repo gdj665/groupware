@@ -47,10 +47,10 @@
 		</form>
 	</div> --%>
 	<c:if test="${currentPage>1 }">
-		<a href="/board/boardList?currentPage=${currentPage-1}&searchWord=${param.searchWord}&departmentNo=${departmentNo}">이전</a>
+		<a href="/board/boardList?currentPage=${currentPage-1}&departmentNo=${param.departmentNo}">이전</a>
 	</c:if>
 	<c:if test="${currentPage<lastPage}">
-		<a href="/board/boardList?currentPage=${currentPage+1}&searchWord=${param.searchWord}&departmentNo=${departmentNo}">다음</a>
+		<a href="/board/boardList?currentPage=${currentPage+1}&departmentNo=${param.departmentNo}">다음</a>
 	</c:if>
 </body>
 </html>
