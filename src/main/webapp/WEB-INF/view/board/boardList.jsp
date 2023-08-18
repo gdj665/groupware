@@ -6,12 +6,21 @@
 <meta charset="UTF-8">
 <title>게시판</title>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+<script>
+    function changeDepartment(departmentNo) {
+        document.location.href = "/board/boardList?departmentNo=" + departmentNo;
+    }
+</script>
+
 </head>
 <body>
+
 	<h1>게시판</h1>
 	<div>
 		<a href="/board/addBoard">게시물 추가</a>
 	</div>
+	<button type="button" onclick="changeDepartment(0)">부서 게시판</button>
+    <button type="button" onclick="changeDepartment(999)">회사 게시판</button>
 	<table class="table table-hover">
 		<tr>
 			<th>번호</th>
@@ -30,17 +39,18 @@
 			</tr>
 		</c:forEach>
 	</table>
-	<div>
+<%-- 	<div>
 		<form action="${pageContext.request.contextPath}/board/boardList" method="get">
-			<input type="text" name="searchWord">
+			<input type="text" name="departmentNo" value="${departmentNo}">
+			<input type="text" name="searchWord" value="${param.searchWord}">
 			<button type="submit">검색</button>
 		</form>
-	</div>
+	</div> --%>
 	<c:if test="${currentPage>1 }">
-		<a href="/board/boardList?currentPage=${currentPage-1}&searchWord=${param.searchWord}">이전</a>
+		<a href="/board/boardList?currentPage=${currentPage-1}&searchWord=${param.searchWord}&departmentNo=${departmentNo}">이전</a>
 	</c:if>
 	<c:if test="${currentPage<lastPage}">
-		<a href="/board/boardList?currentPage=${currentPage+1}&searchWord=${param.searchWord}">다음</a>
+		<a href="/board/boardList?currentPage=${currentPage+1}&searchWord=${param.searchWord}&departmentNo=${departmentNo}">다음</a>
 	</c:if>
 </body>
 </html>

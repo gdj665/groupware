@@ -2,17 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.goodee.groupware.mapper.BoardMapper">
 	
-	<!-- 
-	조인 사용 보류중
-	<resultMap type = "com.goodee.groupware.vo.BoardFile" id="BoardFile">
-		<result column="board_file_ori" property="boardFileOri"/>
-		<result column="board_file_type" property="boardFileType"/>
-	</resultMap>
-	<resultMap type = "com.goodee.groupware.vo.Board" id="BoardWithFiles" extends="Board">
-		<collection property="board_file" resultMap="BoardFile"/>
-	</resultMap> -->
-	
-	<!-- 게시판 리스트출력 -->
+	<!-- 부서 게시판 리스트출력 -->
 	<select id = "getBoardList" parameterType="java.util.Map" resultType="java.util.Map">
 		SELECT 
 			board_no boardNo, 
@@ -21,15 +11,9 @@
 			board_content boardContent,
 			createdate
 		FROM board
-		<where>
-			<if test="searchWord != null">
-				board_title LIKE '%' #{searchWord} '%'
-				OR board_content LIKE '%' #{searchWord} '%'
-			</if>
-				AND department_no = #{departmentNo}
-				ORDER BY board_status,createdate DESC
-				LIMIT #{beginRow},#{rowPerPage}
-		</where> 
+		WHERE department_no = #{departmentNo}
+		ORDER BY board_status,createdate DESC
+		LIMIT #{beginRow},#{rowPerPage}
 	</select>
 	
 	<!-- 게시판 상세출력 -->
@@ -51,14 +35,7 @@
 		SELECT
 			COUNT(*)
 		FROM board
-		<where>
-			<!-- 검색분기 -->
-			<if test="searchWord != null">
-				board_title LIKE '%' #{searchWord} '%'
-				OR board_content LIKE '%' #{searchWord} '%'
-			</if>
-		AND department_no = #{departmentNo}
-		</where>
+		WHERE department_no = #{departmentNo}
 	</select>
 	
 	<!-- 게시판 삭제 -->

@@ -30,7 +30,7 @@ public class BoardService {
 	private FileMapper fileMapper;
 	
 	// 게시판 리스트 출력
-	public Map<String,Object> getBoardList(int currentPage, int rowPerPage, int departmentNo, String searchWord) {
+	public Map<String,Object> getBoardList(int currentPage, int rowPerPage, int departmentNo) {
 		
 		// 페이징 첫 번째 줄
 		int beginRow = (currentPage-1)*rowPerPage;
@@ -40,17 +40,14 @@ public class BoardService {
 		boardMap.put("beginRow",beginRow);
 		boardMap.put("rowPerPage",rowPerPage);
 		boardMap.put("departmentNo",departmentNo);
-		boardMap.put("searchWord",searchWord);
 		// boardMap 디버깅
 		log.debug("BoardService.getBoardList() boardMap --->" + boardMap.toString());
 		
 		List<Map<String,Object>> boardList = boardMapper.getBoardList(boardMap);
 		
-		
 		// 페이징
 		Map<String,Object> boardMapCount = new HashMap<String,Object>();
 		boardMapCount.put("departmentNo",departmentNo);
-		boardMapCount.put("searchWord",searchWord);
 		
 		int boardCount = boardMapper.getBoardListCount(boardMapCount);
 		int lastPage = boardCount / rowPerPage;
@@ -142,22 +139,4 @@ public class BoardService {
 		int deleteBoardRow = boardMapper.deleteBoard(board);
 		return deleteBoardRow;
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 }

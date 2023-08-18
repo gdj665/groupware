@@ -25,18 +25,20 @@ public class BoardController {
 	private BoardService boardService;
 
 	// 게시물 리스트 출력
-	@GetMapping("board/boardList")
+	@GetMapping("/board/boardList")
 	public String getBoardList(
 		Model model, 
 		@RequestParam(name = "currentPage", defaultValue = "1") int currentPage,
 		@RequestParam(name = "rowPerPage", defaultValue = "3") int rowPerPage,
-		@RequestParam(name = "searchWord", required = false) String searchWord,
+		@RequestParam(name = "departmentNo", defaultValue="0") int departmentNo,
 		HttpSession session) {
 		
-		// 세션값 선언
-		int loginDepartmentNo = (Integer) session.getAttribute("departmentNo");
+		if(departmentNo==0) {
+			departmentNo = (Integer) session.getAttribute("departmentNo");
+			System.out.println("BoardController.부서게시판 실행");
+		}
 		
-		Map<String, Object> resultMap = boardService.getBoardList(currentPage, rowPerPage, loginDepartmentNo, searchWord);
+		Map<String, Object> resultMap = boardService.getBoardList(currentPage, rowPerPage, departmentNo);
 
 		// Model에 addAttribute를 사용하여 view에 값을 보낸다.
 		model.addAttribute("boardList", resultMap.get("boardList"));
@@ -46,8 +48,9 @@ public class BoardController {
 
 		return "/board/boardList";
 	}
+	
 	// 게시물 상세출력
-	@GetMapping("board/boardOne")
+	@GetMapping("/board/boardOne")
 	public String getOneBoard(Model model,Board board,BoardFile boardFile) {
 		Map<String, Object> boardOneMap = boardService.getOneBoard(board, boardFile);
 		model.addAttribute("boardOne",boardOneMap.get("boardOne"));
@@ -58,7 +61,7 @@ public class BoardController {
 	// 게시물 추가하기
 	@GetMapping("/board/addBoard")
 	public String addBoard() {
-		return "board/addBoard";
+		return "/board/addBoard";
 	}
 	@PostMapping("/board/addBoard")
 	public String addBoard(HttpServletRequest request,Board board, HttpSession session) { 

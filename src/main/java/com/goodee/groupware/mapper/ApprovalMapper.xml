@@ -1,3 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.goodee.groupware.mapper.ApprovalMapper"></mapper>
+<mapper namespace="com.goodee.groupware.mapper.ApprovalMapper">
+
+	<!-- 부서 게시판 리스트출력 -->
+	<select id = "getBoardList" parameterType="java.util.Map" resultType="java.util.Map">
+		SELECT 
+			approval_no approvalNo,
+			member_id memberId,
+			approval_title approvalTitle,
+			approval_content aprrovalContent,
+			approval_form approvalForm,
+			approval_now_status approvalNowStatus,
+			approval_first_id approvalFirstId,
+			approval_first_comment approvalFirstComment,
+			approval_second_id approvalSecondId,
+			approval_second_comment approvalSecondComment,
+			approval_third_id approvalThirdId,
+			approval_third_comment approvalThirdComment,
+			approval_last_number approvalLastNumber,
+			approval_last_status approvalLastStatus,
+			createdate,
+			updatedate
+		FROM approval
+		LIMIT #{beginRow},#{rowPerPage}
+	</select>
+	
+</mapper>
