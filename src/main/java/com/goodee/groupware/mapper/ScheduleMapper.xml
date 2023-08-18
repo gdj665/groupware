@@ -24,25 +24,49 @@
 	<!-- 일 별 일정 상세보기 (전체 or 개인 or 부서) -->
 	<select id="getOneSchedule" parameterType="java.util.Map" resultType="java.util.Map">
 		SELECT
-			s.schedule_no scheduleNo,
-			m.department_no departmentNo,
-			s.schedule_category scheduleCategory,
-			s.schedule_title scheduleTitle,
-			s.schedule_content scheduleContent,
-			s.schedule_begindate scheduleBegindate,
-			s.schedule_enddate scheduleEnddate
-		FROM schedule s INNER JOIN member m ON s.member_id = m.member_id
+			schedule_no scheduleNo,
+			schedule_category scheduleCategory,
+			schedule_title scheduleTitle,
+			schedule_content scheduleContent,
+			schedule_begindate scheduleBegindate,
+			schedule_enddate scheduleEnddate
+		FROM schedule
 		<where>
             <if test="scheduleCategory != null">
 				schedule_category = #{scheduleCategory}
             </if>
-			AND s.member_id = #{memberId} 
+			AND member_id = #{memberId} 
 			AND YEAR(schedule_begindate) = #{targetYear}
             AND MONTH(schedule_begindate) = #{targetMonth} 	
 			AND DAY(schedule_begindate) = #{targetDate}
 		</where>	
 	</select>
 	
+	<!-- 개인 일정 추가 -->
+	<insert id="addPersonalSchedule" parameterType="com.goodee.groupware.vo.Schedule">
+		INSERT INTO schedule(
+			member_id,
+			schedule_category,
+			schedule_title,
+			schedule_content,
+			schedule_begindate,
+			schedule_enddate,
+			createdate,
+			updatedate
+		) VALUES(
+			#{memberId},
+			#{scheduleCategory},
+			#{scheduleTitle},
+			#{scheduleContent},
+			#{scheduleBegindate},
+			#{scheduleEnddate},
+			NOW(),
+			NOW()
+		)	
+	</insert>
+	
+	
+	<!-- 부서 일정 추가 -->
 	
 	
 	

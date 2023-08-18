@@ -118,4 +118,11 @@ public class ScheduleService {
 		return oneScheduleMap;
 	}
 	
+	// 개인 일정 추가
+	public int addPersonalSchedule(Schedule schedule) {
+		int row = 0;
+		row = scheduleMapper.addPersonalSchedule(schedule);
+		return row;
+	}
+	
 }

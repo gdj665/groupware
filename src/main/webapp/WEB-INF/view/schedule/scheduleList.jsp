@@ -7,28 +7,31 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <style>
-	table, tr, td , th{border: 1px solid; border-color: black;}
+	 tr, td , th{border: 1px solid; border-color: black;
+		width:100px; height: 50px;
+						}
 </style>
 </head>
 <body>
 	<!-- model값 받아와서 문자로 셋팅 -->
 	<c:set var="m" value="${scheduleMap}"></c:set>
 	
-	<a href="/schedule/scheduleList?targetYear=${m.targetYear}&targetMonth=${m.targetMonth-1}&scheduleCategory=${m.scheduleCategory}">이전달</a>
-	<h1>${m.memberId}님의 ${m.targetYear}년 ${m.targetMonth+1}월 달력</h1>
-	<a href="/schedule/scheduleList?targetYear=${m.targetYear}&targetMonth=${m.targetMonth+1}&scheduleCategory=${m.scheduleCategory}">다음달</a>
+	<a href="/schedule/scheduleList?targetYear=${m.targetYear}&targetMonth=${m.targetMonth-1}">이전달</a>
+	<span>${m.memberId}님의 ${m.targetYear}년 ${m.targetMonth+1}월 달력</span>
+	<a href="/schedule/scheduleList?targetYear=${m.targetYear}&targetMonth=${m.targetMonth+1}">다음달</a>
 	<br><br><br>
-	
+	<a href="/schedule/addPersonalSchedule">개인일정 등록</a>
+	<br><br><br>
 	<a href="/schedule/scheduleList?targetYear=${m.targetYear}&targetMonth=${m.targetMonth}">전체</a>
-	<a href="/schedule/scheduleList?targetYear=${m.targetYear}&targetMonth=${m.targetMonth}&scheduleCategory=부서">부서</a>
-	<a href="/schedule/scheduleList?targetYear=${m.targetYear}&targetMonth=${m.targetMonth}&scheduleCategory=개인">개인</a>
+	<a style="color:orange" href="/schedule/scheduleList?targetYear=${m.targetYear}&targetMonth=${m.targetMonth}&scheduleCategory=부서">부서</a>
+	<a style="color:green" href="/schedule/scheduleList?targetYear=${m.targetYear}&targetMonth=${m.targetMonth}&scheduleCategory=개인">개인</a>
 	<br><br><br>
 	<table style="width: 1000px; height: 500px;">
 		<tr>
-			<th style="width: 15%;">일</th>
+			<th>일</th>
 			<th>월</th>
 			<th>화</th>
-			<th style="width: 15%;">수</th>
+			<th>수</th>
 			<th>목</th>
 			<th>금</th>
 			<th>토</th>

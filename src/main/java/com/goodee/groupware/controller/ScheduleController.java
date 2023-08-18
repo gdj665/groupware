@@ -9,9 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.goodee.groupware.sevice.ScheduleService;
+import com.goodee.groupware.vo.Schedule;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -49,7 +51,7 @@ public class ScheduleController {
 	
 	// ----- 일 별 일정 상세보기 -----
 	@GetMapping("/schedule/oneSchedule")
-	public String getOnePersonalSchedule(HttpSession session, Model model,
+	public String getOneSchedule(HttpSession session, Model model,
 											@RequestParam(required = false, name = "targetYear") Integer targetYear,		
 											@RequestParam(required = false, name = "targetMonth") Integer targetMonth,
 											@RequestParam(required = false, name = "targetDate") Integer targetDate,
@@ -63,7 +65,6 @@ public class ScheduleController {
 		// 세션 아이디 값 저장
 		String memberId =(String)session.getAttribute("loginMember");
 		
-		
 		// 요청한 매개값을 담아 서비스를 호출
 		Map<String, Object> oneScheduleMap = new HashMap<>();
 		oneScheduleMap = scheduleService.getOneSchedule(memberId, targetYear, targetMonth, targetDate, scheduleCategory);
@@ -74,12 +75,22 @@ public class ScheduleController {
 		return "/schedule/oneSchedule";
 	}
 	
-	/*
 	// ----- 개인 일정 등록 -----
 	@GetMapping("/schedule/addPersonalSchedule")
-	public String addPersonalSchedule() {
+	public String addPersonalSchedule(HttpSession session, Model model) {
+		
+		// 세션 아이디 값 저장
+		String memberId =(String)session.getAttribute("loginMember");
+		
+		model.addAttribute("memberId", memberId);
 		
 		return "/schedule/addPersonalSchedule";
 	}
-	 */
+	
+	@PostMapping("/schedule/addPersonalSchedule")
+	public String addPersonalSchedule(Schedule schedule) {
+		int row = scheduleService.addPersonalSchedule(schedule);
+		log.debug("\u001B[31m"+"ScheduleController.addPersonalSchedule() row : "+row+"\u001B[0m");
+		return "redirect:/schedule/scheduleList";
+	}
 }
