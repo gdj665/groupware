@@ -19,19 +19,23 @@ body {
 /* 컨테이너 레이아웃 스타일 */
 .container-wrapper {
     display: flex;
-    justify-content: space-between;
+    justify-content: center; /* 가운데 정렬을 위해 수정 */
     align-items: flex-start;
     padding: 20px; /* 패딩을 좁혀줍니다 */
+    max-width: 1200px; /* 최대 가로 길이 설정 */
+    margin: 0 auto; /* 가운데 정렬을 위해 추가 */
 }
 
 .container {
     width: calc(33.33% - 20px);
-    margin: 0;
+    margin: 0 10px; /* 컨테이너 사이의 간격을 늘림 */
     background-color: #f9f9f9;
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     overflow: hidden;
 }
+
+
 
 /* 첫 번째, 두 번째, 세 번째 컨테이너 공통 스타일 */
 .container:nth-child(1),
@@ -44,8 +48,12 @@ body {
 /* 두 번째 컨테이너 스타일 */
 .container:nth-child(2) {
     width: calc(16.66% - 20px); /* 가로 길이 절반으로 줄임 */
+    margin: 0 10px; /* 컨테이너 사이의 간격을 늘림 */
+    background-color: transparent; /* 배경색 제거 */
+    border: none; /* 테두리 제거 */
+    box-shadow: none; /* 그림자 효과 제거 */
+    overflow-y: hidden; /* 스크롤 제거 */
 }
-
 /* 화살표 버튼 스타일 */
 .arrow-buttons {
     display: flex;
@@ -131,6 +139,39 @@ button[type="submit"] {
 button[type="submit"]:hover {
     background-color: #0056b3;
 }
+/* 체크박스 스타일 */
+.member-checkbox {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    width: 18px;
+    height: 18px;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    margin-right: 10px;
+    vertical-align: middle;
+    cursor: pointer;
+    transition: border-color 0.2s;
+}
+
+.member-checkbox:checked {
+    border-color: #007bff;
+    background-color: #007bff;
+}
+
+/* 체크박스 컨테이너 스타일 */
+.member-checkbox-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.member-name {
+    font-size: 14px;
+    color: #333;
+}
+
+
 </style>
 </head>
 <script>
@@ -152,7 +193,7 @@ $(document).ready(function () {
                     $('#littleDepartment').append('<option value="">==팀 선택==</option>');
                     // 받아온 팀 리스트를 옵션으로 추가
                     data.teamDepartmentList.forEach(function (item, index) {
-                        $('#littleDepartment').append('<option value="' + item.departmentId + '">' + item.departmentId + '</option>');
+                        $('#littleDepartment').append('<option value="' + item.departmentNo + '">' + item.departmentId + '</option>');
                     });
                 }
             });
@@ -213,12 +254,12 @@ $(document).ready(function () {
                     <!-- 최상위 회사 --> <a href="#" class="toggle-link">회사</a>
                     <ul class="sub-list">
                         <c:forEach var="d" items="${departmentList}">
-                            <c:if test="${d.departmentParentId eq 'test'}">
+                            <c:if test="${d.departmentParentId eq '회사'}">
                                 <li><a href="#" class="toggle-link">${d.departmentId}</a>
                                     <ul class="sub-list">
                                         <c:forEach var="a" items="${memberList}">
                                             <c:if test="${d.departmentNo eq a.departmentNo}">
-                                                <li><label> <input type="checkbox" value="${a.memberId}" class="member-checkbox">${a.memberName}
+                                                <li><label> <input type="checkbox" value="${a.memberId}" class="member-checkbox">&nbsp;${a.memberName}
                                                 </label></li>
                                             </c:if>
                                         </c:forEach>
@@ -228,7 +269,7 @@ $(document).ready(function () {
                                                     <ul class="sub-list">
                                                         <c:forEach var="t" items="${memberList}">
                                                             <c:if test="${c.departmentNo eq t.departmentNo}">
-                                                                <li><label> <input type="checkbox" value="${t.memberId}" class="member-checkbox">${t.memberName}
+                                                                <li><label> <input type="checkbox" value="${t.memberId}" class="member-checkbox">&nbsp;${t.memberName}
                                                                 </label></li>
                                                             </c:if>
                                                         </c:forEach>
@@ -270,7 +311,7 @@ $(document).ready(function () {
                             <option value="">== 선택==</option>
                             <!-- 서버에서 받아온 팀 리스트를 반복하여 옵션 생성 -->
                             <c:forEach var="team" items="${teamDepartmentList}">
-                                <option value="${team.departmentId}">${team.departmentId}</option>
+                                <option value="${team.departmentNo}">${team.departmentId}</option>
                             </c:forEach>
                         </select>
                     </td>

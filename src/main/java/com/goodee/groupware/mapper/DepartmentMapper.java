@@ -1,11 +1,13 @@
 package com.goodee.groupware.mapper;
 
+
 import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
 import com.goodee.groupware.vo.Department;
+import com.goodee.groupware.vo.Member;
 
 @Mapper
 public interface DepartmentMapper {
@@ -23,4 +25,6 @@ public interface DepartmentMapper {
 	
 	// 부서별 팀 리스트
 	List<Map<String,Object>> getTeamDepartment(Department department);
+	
+	int updateDepartment(Member member);
 }

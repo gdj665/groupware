@@ -44,4 +44,10 @@
 	<select id="getTeamDepartment" parameterType="com.goodee.groupware.vo.Department" resultType="java.util.Map">
 		SELECT department_id departmentId, department_no departmentNo FROM department WHERE department_parent_no = #{departmentNo} ORDER BY departmentId;
 	</select>
+	
+	<!-- 부서이동 -->
+	<update id="updateDepartment" parameterType="com.goodee.groupware.vo.Member">
+		UPDATE member SET department_no = #{departmentNo}
+		WHERE member_id = #{memberId}
+	</update>
 </mapper>
