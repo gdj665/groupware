@@ -112,4 +112,13 @@ public class EquipmentService {
 		// 업데이트된 행 개수 반환
 		return row;
 	}
+	
+	// 5) 장비 상세보기
+	public Map<String,Object> getEquipmentOne(Equipment equipment) {
+		
+		Map<String,Object> resultMap = equipmentMapper.getEquipmentOne(equipment);
+		
+		return resultMap;
+	}
+
 }

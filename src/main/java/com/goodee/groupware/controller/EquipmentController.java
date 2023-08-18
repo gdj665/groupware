@@ -2,6 +2,8 @@ package com.goodee.groupware.controller;
 
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,7 +24,8 @@ public class EquipmentController {
 	
 	// 1) 장비 리스트 매핑
 	@GetMapping("/equipment/equipmentList")
-	public String getEquipmentList(Model model,
+	public String getEquipmentList(Model model, 
+									HttpSession session,
 									@RequestParam(name ="currentPage", defaultValue = "1") int currentPage,
 									@RequestParam(name ="rowPerPage", defaultValue = "10") int rowPerPage,
 									@RequestParam(name ="equipmentName", required = false) String equipmentName) {
@@ -31,9 +34,14 @@ public class EquipmentController {
 		Map<String, Object> resultMap = equipmentService.getEquipmentList(currentPage, rowPerPage, equipmentName);
 		log.debug("EquipmentController.getEquipmentList() resultMap --->" + resultMap.toString());
 		
+		// 장비 대여 추가시 ID값은 세션사용자 ID값을 넣기 위해 세션에서 값 불러옴
+		String loginId = (String) session.getAttribute("loginMember");
+		
 		// Model에 addAttribute를 사용하여 view에 값을 보낸다.
 		// 장비리스트 데이터
 		model.addAttribute("equipmentList", resultMap.get("equipmentList"));
+		// 세션 아이디값
+		model.addAttribute("loginId", loginId);
 		// 페이징 변수 값
 		model.addAttribute("currentPage", currentPage);
 		model.addAttribute("lastPage", resultMap.get("lastPage"));
@@ -87,5 +95,16 @@ public class EquipmentController {
 		}
 		
 		return "redirect:/equipment/equipmentList";
+	}
+	
+	// 5) 장비 상세보기 매핑
+	@GetMapping("/equipment/equipmentOne")
+	public String getEquipmentOne(Model model, Equipment equipment) {
+		// 장비 상세보기 서비스 호출
+		Map<String, Object> equipmentOneMap = equipmentService.getEquipmentOne(equipment);
+		
+		model.addAttribute("equipmentOneMap", equipmentOneMap);
+		
+		return "/equipment/equipmentOne";
 	}
 }

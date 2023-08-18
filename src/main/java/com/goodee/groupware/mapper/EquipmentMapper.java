@@ -23,4 +23,7 @@ public interface EquipmentMapper {
 	
 	// 장비 점검일자 갱신
 	int updateEquipmentStatus(Equipment equipment);
+	
+	// 장비 상세보기
+	Map<String,Object> getEquipmentOne(Equipment equipment);
 }

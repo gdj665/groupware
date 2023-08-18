@@ -2,4 +2,10 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper
 	namespace="com.goodee.groupware.mapper.EquipmentHistoryMapper">
+	
+	<insert id="addEqHistory" parameterType="com.goodee.groupware.vo.EquipmentHistory">
+		INSERT INTO equipment_history 
+			(equipment_no, member_id, equipment_begindate, equipment_enddate)
+		VALUES(#{equipmentNo}, #{memberId}, #{equipmentBegindate}, #{equipmentEnddate})
+	</insert>
 </mapper>
