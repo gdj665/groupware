@@ -101,9 +101,12 @@ public class EquipmentController {
 	
 	// 5) 장비 상세보기 매핑
 	@GetMapping("/equipment/equipmentOne")
-	public String getEquipmentOne(Model model, Equipment equipment, EquipmentHistory eqHistory,
+	public String getEquipmentOne(Model model, Equipment equipment, EquipmentHistory eqHistory, HttpSession session,
 									@RequestParam(name ="currentPage", defaultValue = "1") int currentPage,
 									@RequestParam(name ="rowPerPage", defaultValue = "10") int rowPerPage) {
+		// 장비 대여 추가시 ID값은 세션사용자 ID값을 넣기 위해 세션에서 값 불러옴
+		String memberId = (String) session.getAttribute("loginMember");
+				
 		// 장비 상세보기 서비스 호출
 		Map<String, Object> resultMap = equipmentService.getEquipmentOne(equipment, currentPage, rowPerPage, eqHistory);
 		
@@ -113,6 +116,8 @@ public class EquipmentController {
 		model.addAttribute("eqHistoryList", resultMap.get("eqHistoryList"));
 		// 페이징 값
 		model.addAttribute("lastPage", resultMap.get("lastPage"));
+		// 장비 대여시 대여자 아이디값
+		model.addAttribute("memberId", memberId);
 		
 		return "/equipment/equipmentOne";
 	}

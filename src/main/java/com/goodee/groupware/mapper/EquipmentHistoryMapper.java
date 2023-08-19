@@ -24,8 +24,8 @@ public interface EquipmentHistoryMapper {
 	int getEqHistoryListCnt (EquipmentHistory eqHistroy);
 	
 	// 3) 장비 사용내역 세션아이디값으로 조회해 자신이 사용한 장비 기록 목록
-	List<Map<String,Object>> getEqHistoryListByMember (Map<String,Object> eqHistoryByIdMap);
+	List<Map<String,Object>> getEqHistoryListById (Map<String,Object> eqHistoryByIdMap);
 	
 	// 3.1) 장비 사용내역 세션아이디값으로 조회해 자신이 사용한 장비 기록 목록 총 행의 개수
-	int getEqHistoryListByMemberCnt (Map<String, Object> eqHistoryByIdCntMap);
+	int getEqHistoryListByIdCnt (Map<String, Object> eqHistoryByIdCntMap);
 }

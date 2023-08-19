@@ -13,20 +13,27 @@
 	<table border=1>
 		<tr>
 			<th>대여 번호</th>
-			<th>장비 번호</th>
-			<th>아이디(대여자)</th>
+			<th>장비명</th>
+			<th>장비상태</th>
 			<th>대여시작일</th>
 			<th>반납예정일</th>
 			<th>반납하기</th>
 		</tr>
-		<c:forEach var="eh" items="${eqHistoryList}">
+		<c:forEach var="eh" items="${eqHistoryListById}">
 			<tr>
 				<td>${eh.equipmentHistoryNo}</td>			
 				<td>${eh.equipmentName}</td>			
-				<td>${eh.memberId}</td>			
+				<td>${eh.equipmentStatus}</td>			
 				<td>${eh.equipmentBegindate}</td>			
-				<td>${eh.equipmentEnddate}</td>			
-				<td><a href="${pageContext.request.contextPath}/eqHistory/updateEquipment?equipmentNo=${eh.equipmentNo}&equipmentStatus=비대여">반납</a></td>			
+				<td>${eh.equipmentEnddate}</td>
+				<c:if test="${eh.equipmentStatus eq '대여'}">
+					<td>
+						<a href="${pageContext.request.contextPath}/eqHistory/updateEquipment?equipmentNo=${eh.equipmentNo}&equipmentStatus=비대여" onClick="return confirm('${e.equipmentName} 반납하시겠습니까?')">반납</a>
+					</td>			
+				</c:if>	
+				<c:if test="${eh.equipmentStatus ne '대여'}">
+					<td></td>
+				</c:if>		
 			</tr>
 		</c:forEach>
 	</table>

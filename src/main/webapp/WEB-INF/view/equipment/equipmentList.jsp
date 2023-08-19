@@ -98,8 +98,7 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <!-- jquery -->
-<script
-	src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
 	
 <script>
 	$(document).ready(function(){
@@ -196,7 +195,7 @@
 		<c:forEach var="e" items="${equipmentList}">
 			<tr>
 				<td><a href="${pageContext.request.contextPath}/equipment/equipmentOne?equipmentNo=${e.equipmentNo}">${e.equipmentNo}</a></td>
-				<td>${e.equipmentName}</td>
+				<td><a href="${pageContext.request.contextPath}/equipment/equipmentOne?equipmentNo=${e.equipmentNo}">${e.equipmentName}</a></td>
 				<td>${e.equipmentLastInspect}</td>
 				<td>
 					<!-- dateColor이라는 변수를 선언후 daysUntilNextInspect가 <0보다 작으면 점검예정일이 지났으므로 red를 넣고 <= 30 30일이내면 pink 나머지는 black으로 한다 -->
@@ -206,7 +205,13 @@
 				<td>
 					<a href="${pageContext.request.contextPath}/equipment/updateEqInspect?equipmentNo=${e.equipmentNo}" onClick="return confirm('${e.equipmentName} 점검하시겠습니까?')">점검하기</a>
 				</td>
-				<td><a href="#" class="statusOpenModal" data-equipmentNo="${e.equipmentNo}" data-equipmentName="${e.equipmentName}" data-loginId="${loginId}">${e.equipmentStatus}</a></td>
+				<!-- 대여중인 상품은 대여 불가 대여중아닌 상품만 대여 가능 -->
+				<c:if test="${e.equipmentStatus eq '대여'}">
+					<td>${e.equipmentStatus}중</td>
+				</c:if>
+				<c:if test="${e.equipmentStatus ne '대여'}">
+					<td><a href="#" class="statusOpenModal" data-equipmentNo="${e.equipmentNo}" data-equipmentName="${e.equipmentName}" data-loginId="${loginId}">${e.equipmentStatus}</a></td>
+				</c:if>
 				<td><a href="/equipment/deleteEquipment?equipmentNo=${e.equipmentNo}"
 					onClick="return confirm('${e.equipmentName} 삭제하시겠습니까?')">삭제</a></td>
 			</tr>

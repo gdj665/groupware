@@ -2,6 +2,8 @@ package com.goodee.groupware.controller;
 
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.bind.DefaultValue;
 import org.springframework.stereotype.Controller;
@@ -33,35 +35,15 @@ public class EquipmentHistoryController {
 		if (eqHistory != null && equipment != null) {
 		    row = equipmentHistoryService.addEqHistry(eqHistory, equipment);
 		    if (row > 0) {
-		        log.debug("EquipmentController.addEquipment() row --->" + row + "장비 대여 추가성공");
+		        log.debug("EquipmentHistoryController.addEquipment() row --->" + row + "장비 대여 추가성공");
 		    } else {
-		        log.debug("EquipmentController.addEquipment() row --->" + row + "장비 대여 추가실패");
+		        log.debug("EquipmentHistoryController.addEquipment() row --->" + row + "장비 대여 추가실패");
 		    }
 		} 
 		return "redirect:/equipment/equipmentList";
 	}
 	
-	// 2) 장비 사용내역 목록 매핑
-	@GetMapping("/eqHistory/eqHistoryList")
-	public String eqHistoryList(Model model, EquipmentHistory eqHistory,
-								@RequestParam(name ="currentPage", defaultValue = "1") int currentPage,
-								@RequestParam(name ="rowPerPage", defaultValue = "10") int rowPerPage) {
-		log.debug("EquipmentController.getEquipmentList() 요청값 디버깅 --->" + currentPage, rowPerPage, eqHistory.toString());
-		
-		// 장비 사용내역 목록 서비스 호출
-		Map<String, Object> resultMap = equipmentHistoryService.getEqHistoryList(currentPage, rowPerPage, eqHistory);
-		log.debug("EquipmentHistoryController.eqHistoryList() resultMap --->" + resultMap.toString());		
-		// Model을 사용하여 view로 값 전달
-		// 장비 사용내역 목록 값
-		model.addAttribute("eqHistoryList", resultMap.get("eqHistoryList"));
-		// 페이징 값
-		model.addAttribute("currentPage", currentPage);
-		model.addAttribute("lastPage", resultMap.get("lastPage"));
-		
-		return "/eqHistory/eqHistoryList";
-	}
-	
-	// 3) 장비 반납시 비대여로 업데이트
+	// 1.1) 장비 반납시 비대여로 업데이트
 	@GetMapping("/eqHistory/updateEquipment") 
 	public String updateEquipment(Equipment equipment) {
 		int row = 0;
@@ -69,12 +51,36 @@ public class EquipmentHistoryController {
 		if (equipment != null) {
 			row = equipmentHistoryService.updateEquipment(equipment);
 		    if (row > 0) {
-		        log.debug("EquipmentController.updateEquipment() row --->" + row + "장비 반납 성공");
+		        log.debug("EquipmentHistoryController.updateEquipment() row --->" + row + "장비 반납 성공");
 		    } else {
-		        log.debug("EquipmentController.updateEquipment() row --->" + row + "장비 반납 실패");
+		        log.debug("EquipmentHistoryController.updateEquipment() row --->" + row + "장비 반납 실패");
 		    }
 		} 
 		return "redirect:/eqHistory/eqHistoryList";
 	}
 	
+	// 2) 장비 사용내역(본인 아이디값으로 본인이 사용한 장비내역) 목록 매핑
+	@GetMapping("/eqHistory/eqHistoryList")
+	public String eqHistoryList(Model model, HttpSession session,
+								@RequestParam(name ="equipmentName", required = false) String equipmentName,
+								@RequestParam(name ="currentPage", defaultValue = "1") int currentPage,
+								@RequestParam(name ="rowPerPage", defaultValue = "10") int rowPerPage) {
+		log.debug("EquipmentHistoryController.eqHistoryList() 요청값 디버깅 currentPage :" + currentPage +"rowPerPage :" + rowPerPage + "equipmentName :" + equipmentName);
+		
+		// 해당 사용자의 장비사용내역을 보여주기 위해 세션에서 아이디값 받아옴
+		String memberId = (String) session.getAttribute("loginMember");
+		
+		// 장비 사용내역 (해당 아이디) 목록 서비스 호출
+		Map<String, Object> resultMap = equipmentHistoryService.getEqHistoryListById(currentPage, rowPerPage, memberId, equipmentName);
+		log.debug("EquipmentHistoryController.eqHistoryList() resultMap --->" + resultMap.toString());	
+		
+		// Model을 사용하여 view로 값 전달
+		// 장비 사용내역 목록 값
+		model.addAttribute("eqHistoryListById", resultMap.get("eqHistoryListById"));
+		// 페이징 값
+		model.addAttribute("currentPage", currentPage);
+		model.addAttribute("lastPage", resultMap.get("lastPage"));
+		
+		return "/eqHistory/eqHistoryList";
+	}
 }

@@ -47,7 +47,7 @@ public class EquipmentHistoryService {
 		return row;
 	}
 	
-	// 2) 장비 사용내역 목록(장비 상세보기에서 해당장비 사용내역 출력)
+	// 2) 장비 사용내역 목록(장비 상세보기에서 해당장비 사용내역 출력) (EquipmentController에서 호출함)
 	public Map<String,Object> getEqHistoryList(int currentPage, int rowPerPage, EquipmentHistory eqHistory) {
 		
 		// 페이징 작업
@@ -85,7 +85,7 @@ public class EquipmentHistoryService {
 	}
 	
 	// 3) 장비 사용내역(본인 아이디값으로 본인이 사용한 장비내역 출력)
-	public Map<String,Object> getEqHistoryListByMember(int currentPage, int rowPerPage, String memberId, String equipmentName) {
+	public Map<String,Object> getEqHistoryListById(int currentPage, int rowPerPage, String memberId, String equipmentName) {
 		// 페이징 작업
 		int beginRow = (currentPage -1) * rowPerPage;
 		// 페이징 && 검색을 위한 변수를 맵에 담아 사용한다.
@@ -96,10 +96,23 @@ public class EquipmentHistoryService {
 		pageMap.put("equipmentName", equipmentName);
 		
 		// 장비 사용내역 목록 메서드 호출 페이징을 위해 만든 pageMap을 매개변수로 한다.
-		List<Map<String,Object>> eqHistoryList = eqHistoryMapper.getEqHistoryList(pageMap);
-		log.debug("EquipmentHistoryService.getEqHistoryList() eqHistoryList --->" + eqHistoryList.toString());
-		// 여기서부터 다시하기
+		List<Map<String,Object>> eqHistoryListById = eqHistoryMapper.getEqHistoryList(pageMap);
+		log.debug("EquipmentHistoryService.getEqHistoryListById() eqHistoryListById --->" + eqHistoryListById.toString());
+		
+		int eqHistoryListByIdCnt = eqHistoryMapper.getEqHistoryListByIdCnt(pageMap);
+		log.debug("EquipmentHistoryService.getEqHistoryListById() eqHistoryListByIdCnt --->" + eqHistoryListByIdCnt);
+		
+		// 마지막 페이지 구하기
+		int lastPage = eqHistoryListByIdCnt / rowPerPage;
+		if(eqHistoryListByIdCnt % rowPerPage != 0) {
+			lastPage += 1;
+		}
+		log.debug("EquipmentHistoryService.getEqHistoryListById() lastPage --->" + lastPage);
+		
+		// 결과값 반환 resultMap
 		Map<String, Object> resultMap = new HashMap<>();
+		resultMap.put("eqHistoryListById", eqHistoryListById);
+		resultMap.put("lastPage", lastPage);
 		
 		return resultMap;
 	}

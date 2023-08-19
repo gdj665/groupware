@@ -119,8 +119,10 @@ public class EquipmentService {
 	// 5) 장비 상세보기
 	public Map<String,Object> getEquipmentOne(Equipment equipment, int currentPage, int rowPerPage, EquipmentHistory eqHistory) {
 		
+		// 장비 상세보기 매퍼 호출
 		Map<String,Object> equipmentOne = equipmentMapper.getEquipmentOne(equipment);
 		
+		// 장비 상세보기 내부 해당장비 사용내역 리스트 페이징 값을 담을 맵
 		Map<String,Object> pageMap = new HashMap<>();
 		
 		// 페이징 작업
@@ -131,9 +133,14 @@ public class EquipmentService {
 		pageMap.put("memberId", eqHistory.getMemberId());
 		pageMap.put("equipmentNo", eqHistory.getEquipmentNo());
 		
+		// 페이징 값을 매개변수로 한 해당장비 사용내역 목록 매퍼 EquipmentHistoryMapper 여기서 호출
 		List<Map<String,Object>> eqHistoryList = eqHistoryMapper.getEqHistoryList(pageMap);
+		log.debug("EquipmentService.getEquipmentOne() eqHistoryList --->" + eqHistoryList);
 		
+		// 페이징을 위한 총행의 개수 매퍼 호출
 		int eqHistoryListCnt = eqHistoryMapper.getEqHistoryListCnt(eqHistory);
+		log.debug("EquipmentService.getEquipmentOne() eqHistoryListCnt --->" + eqHistoryListCnt);
+
 		// 마지막 페이지 구하기
 		int lastPage = eqHistoryListCnt / rowPerPage;
 		if(eqHistoryListCnt % rowPerPage != 0) {
@@ -141,9 +148,13 @@ public class EquipmentService {
 		}
 		log.debug("EquipmentService.getEquipmentOne() lastPage --->" + lastPage);
 		
+		// 반환값을 넣은 resultMap 
 		Map<String,Object> resultMap = new HashMap<>();
+		// 상세보기
 		resultMap.put("equipmentOne", equipmentOne);
+		// 사용내역 목록
 		resultMap.put("eqHistoryList", eqHistoryList);
+		// 페이징 값
 		resultMap.put("lastPage", lastPage);
 		
 		return resultMap;
