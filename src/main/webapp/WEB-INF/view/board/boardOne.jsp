@@ -49,9 +49,12 @@
 			</tr>
 		</c:forEach>
 	</table>
-	<form action="/board/deleteBoard" method="post">
-		<input type="hidden" name="boardNo" value="${boardOne.boardNo}">
-		<button type="submit" onClick="return confirm('삭제하시겠습니까?')">삭제</button>
-	</form>
+	<!-- 작성자만 지울수 있도록 수정 -->
+	<c:if test="${boardOne.memberId == loginMemberId}">
+		<form action="/board/deleteBoard" method="post">
+			<input type="hidden" name="boardNo" value="${boardOne.boardNo}">
+			<button type="submit" onClick="return confirm('삭제하시겠습니까?')">삭제</button>
+		</form>
+	</c:if>
 </body>
 </html>

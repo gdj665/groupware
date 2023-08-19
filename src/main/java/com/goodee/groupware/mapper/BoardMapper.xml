@@ -43,8 +43,8 @@
 		DELETE 
 		FROM board
 		WHERE board_no = #{boardNo}
-<!-- 		AND (member_id = #{memberId}
-		OR member_id = 'admin') -->
+		AND (member_id = #{memberId}
+		OR member_id = 'admin')
 	</delete>
 	
 	<!-- 게시판 추가 -->

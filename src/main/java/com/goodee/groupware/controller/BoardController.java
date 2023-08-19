@@ -51,10 +51,13 @@ public class BoardController {
 	
 	// 게시물 상세출력
 	@GetMapping("/board/boardOne")
-	public String getOneBoard(Model model,Board board,BoardFile boardFile) {
+	public String getOneBoard(Model model,Board board,BoardFile boardFile, HttpSession session) {
+		
+		String loginMemberId = (String) session.getAttribute("loginMember");
 		Map<String, Object> boardOneMap = boardService.getOneBoard(board, boardFile);
 		model.addAttribute("boardOne",boardOneMap.get("boardOne"));
 		model.addAttribute("boardFileList",boardOneMap.get("boardFileList"));
+		model.addAttribute("loginMemberId",loginMemberId);
 		return "/board/boardOne";
 	}
 	
@@ -81,8 +84,12 @@ public class BoardController {
 	
 	// 게시물 삭제하기
 	@PostMapping("/board/deleteBoard")
-	public String deleteBoard(HttpServletRequest request,Board board,BoardFile boardFile) {
+	public String deleteBoard(HttpServletRequest request,Board board,BoardFile boardFile, HttpSession session) {
 		String path = request.getServletContext().getRealPath("/boardFile/");
+		
+		String loginMemberId = (String) session.getAttribute("loginMember");
+		board.setMemberId(loginMemberId);
+		
 		int row = boardService.deleteBoard(path, boardFile, board);
 		System.out.println("BoardControllerDeleteRow --> "+row);
 		return "redirect:/board/boardList";
