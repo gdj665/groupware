@@ -5,6 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <title>부서관리</title>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
 <style>
@@ -170,7 +171,50 @@ button[type="submit"]:hover {
     font-size: 14px;
     color: #333;
 }
+/* ... (이전 스타일 코드) ... */
 
+/* toggle-link 스타일 변경 */
+.toggle-link {
+    display: block;
+    padding: 10px 0;
+    text-decoration: none;
+    color: #333;
+    transition: color 0.2s;
+    position: relative; /* 아이콘 위치 설정을 위해 추가 */
+}
+
+/* 아이콘 스타일 설정 */
+.toggle-link::before {
+    content: ">";
+    position: absolute;
+    right: 0;
+    transition: transform 0.3s;
+}
+
+.toggle-link.active::before {
+    transform: rotate(90deg);
+}
+/* toggle-link 스타일 변경 */
+.toggle-link {
+    display: block;
+    padding: 10px 0;
+    text-decoration: none;
+    color: #333;
+    transition: color 0.2s;
+    position: relative; /* 아이콘 위치 설정을 위해 추가 */
+}
+
+/* 아이콘 스타일 설정 */
+.toggle-link::before {
+    content: ">";
+    position: absolute;
+    right: 0;
+    transition: transform 0.3s;
+}
+
+.toggle-link.active::before {
+    transform: rotate(90deg);
+}
 
 </style>
 </head>
@@ -200,13 +244,17 @@ $(document).ready(function () {
         }
     });
 
-    // ul li 숨기고 보이는 기능
+ // ul li 숨기고 보이는 기능
     $('.toggle-link').click(function (e) {
         e.preventDefault();
 
         // 클릭한 요소의 하위 ul 요소를 활성화/비활성화합니다.
         $(this).next('ul').toggleClass('active');
+
+        // 아이콘 방향을 변경합니다.
+        $(this).toggleClass('active');
     });
+
    
     
     // 왼쪽 화살표 버튼 동작 구현
@@ -244,7 +292,9 @@ $(document).ready(function () {
 <body>
 <h1 class="text-center mt-4">부서관리</h1>
 <div class="text-center mt-3">
-    <a href="/department/addDepartment" class="btn btn-primary">부서추가</a>
+<!-- "부서추가" 버튼 -->
+<a href="#" id="addDepartmentLink" class="btn btn-primary">부서추가</a>
+
 </div>
 <div class="container-wrapper">
     <div class="container">
@@ -298,7 +348,7 @@ $(document).ready(function () {
                     <td>부서</td>
                     <td>
                         <select name="bigDepartment" id="bigDepartment">
-                            <option value="">==부서 선택==</option>
+                            <option value="">===   부서 선택   ===</option>
                             <option value="998">인사 부</option>
                             <option value="997">서비스 부</option>
                         </select>
@@ -308,7 +358,7 @@ $(document).ready(function () {
                     <td>팀</td>
                     <td>
                         <select name="littleDepartment" id="littleDepartment">
-                            <option value="">== 선택==</option>
+                            <option value="">=== 선택 ===</option>
                             <!-- 서버에서 받아온 팀 리스트를 반복하여 옵션 생성 -->
                             <c:forEach var="team" items="${teamDepartmentList}">
                                 <option value="${team.departmentNo}">${team.departmentId}</option>
