@@ -44,6 +44,7 @@ public class FixturesController {
 	// 2) parts 추가
 	@PostMapping("/fixtures/addParts")
 	public String addParts(Parts parts) {
+		// 추가 서비스 호출
 		int row = fixturesService.addParts(parts);
 		
 		log.debug("FixturesController.addParts parts --->" + parts.toString());
@@ -58,6 +59,7 @@ public class FixturesController {
 	// 3) parts 삭제
 	@GetMapping("/fixtures/deleteParts")
 	public String deleteParts(Parts parts) {
+		// 삭제 서비스 호출
 		int row = fixturesService.deleteParts(parts);
 		
 		log.debug("FixturesController.addParts parts --->" + parts.toString());
