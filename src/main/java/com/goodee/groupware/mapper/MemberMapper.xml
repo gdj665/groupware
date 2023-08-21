@@ -38,4 +38,13 @@
 			member_address = #{memberAddress}
 		WHERE member_id = #{memberId}
 	</update>
+	
+	<!-- 사인 수정 -->
+	<update id="updateSign"
+			parameterType="com.goodee.groupware.vo.Member">
+		UPDATE member
+		SET member_sign_file = #{memberSignFile}
+		WHERE member_id = #{memberId}
+	</update>
+	
 </mapper>

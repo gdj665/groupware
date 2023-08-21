@@ -6,6 +6,7 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.0/dist/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/signature_pad/1.5.3/signature_pad.min.js"></script>
 	<script>
 //			비밀번호 정규식 -> 8자리 이상 하나 이상 문자, 하나 이상 특수문자, 하나 이상 숫자	
 			const reg = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
@@ -99,7 +100,6 @@
 		<input type="text" value="${m.memberPhone}" maxlength="11" name="memberPhone" required="required"><br>
 		<input type="text" value="${m.memberEmail}" name="memberEmail" required="required"><br>
 		<input type="text" value="${m.memberAddress}" name="memberAddress" required="required"><br>
-		${m.memberSignFile}사인 수정(모달 aJax 비동기)<br>
 		<button type="button" id="updateBtn">수정</button>
 		<a href="/member/mypage?memberId=${m.memberId}">취소</a>
 	</form>

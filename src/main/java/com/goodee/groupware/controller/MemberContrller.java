@@ -28,6 +28,16 @@ public class MemberContrller {
 	@Autowired
 	private HrmService hrmService;
 	
+//	home 페이지 이동
+	@GetMapping("/home")
+	public String home(HttpSession session,
+			HttpServletRequest request) {
+		String memberId = (String)session.getAttribute("loginMember");
+		request.setAttribute("memberId", memberId);
+		return "/home";
+	}
+	
+//	login 페이지 이동
 	@GetMapping("/login")
 	public String login(HttpSession session,
 						HttpServletRequest request) {
@@ -46,6 +56,7 @@ public class MemberContrller {
 		return "/member/login";
 	}
 	
+//	login 실행
 	@PostMapping("/login")
 	public String login(HttpSession session,
 						HttpServletResponse response,
@@ -103,7 +114,7 @@ public class MemberContrller {
 		request.setAttribute("memberId", memberId);
 		return "/member/updatePw";
 	}
-//	비밀번호 수정 실행 페이지
+//	비밀번호 수정 실행 페이지 (첫 로그인 or 비번 초기화 후)
 	@PostMapping("/member/updatePw")
 	public String updatePw(@RequestParam(name = "memberId") String memberId,
 							@RequestParam(name = "memberPw") String memberPw) {
@@ -112,9 +123,14 @@ public class MemberContrller {
 		member.setMemberPw(memberPw);
 		int row = memberService.updatePw(member);
 		log.debug("MemberController updatePw row = " + row);
+		
+//		비밀번호 초기화 했을경우 addSign 할 필요없어서 home으로 가게 분기처리
+		if (hrmService.getOneMember(memberId).getMemberSignFile() != null) {
+			return "redirect:/home";
+		}
 		return "redirct:/member/addSign";
 	}
-//	비밀번호 수정 실행 페이지
+//	비밀번호 수정 실행 페이지(마이페이지에서 수정)
 	@ResponseBody
 	@PostMapping("/updateMemberPw")
 	public int updateMemberPw(@RequestParam(name = "memberId") String memberId,
@@ -126,6 +142,22 @@ public class MemberContrller {
 		log.debug("MemberController updateMemberPw row = " + row);
 		return row;
 	}
+	
+//	사인 추가 페이지
+	@GetMapping("/member/addSign")
+	public String addSign() {
+		return "/member/addSign";
+	}
+	
+//	사인 수정 페이지
+	@GetMapping("/member/updateSign")
+	public String updateSign(Model model, String memberId) {
+//		기존 사인 데이터 가지고 오기 위함
+		Member member = hrmService.getOneMember(memberId);
+		model.addAttribute("member", member);
+		return "/member/updateSign";
+	}
+	
 //	login 유의성 검사
 //	RestController를 안쓰고 Controller만 썻을때 메소드에 ResponseBody 붙이면 RestController처럼 사용가능
 //	AJAX 사용하기위해 붙인 어노테이션
@@ -148,14 +180,6 @@ public class MemberContrller {
 	public String logout(HttpSession session) {
 		session.invalidate();
 		return "redirect:/login";
-	}
-
-	@GetMapping("/home")
-	public String home(HttpSession session,
-						HttpServletRequest request) {
-		String memberId = (String)session.getAttribute("loginMember");
-		request.setAttribute("memberId", memberId);
-		return "/home";
 	}
 	
 //	마이페이지 출력

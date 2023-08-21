@@ -14,4 +14,8 @@ public interface MemberMapper {
 	
 //	member 수정
 	int updateOneMember(Member member);
+	
+//	member sign 수정
+	int updateSign(Member member);
+	
 }
