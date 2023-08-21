@@ -19,8 +19,8 @@
 	<div>
 		<a href="/board/addBoard">게시물 추가</a>
 	</div>
-	<button type="button" onclick="changeDepartment(0)">부서 게시판</button>
-    <button type="button" onclick="changeDepartment(999)">회사 게시판</button>
+	<button type="button" onclick="changeDepartment(-1)">부서 게시판</button>
+    <button type="button" onclick="changeDepartment(0)">회사 게시판</button>
 	<table class="table table-hover">
 		<tr>
 			<th>번호</th>

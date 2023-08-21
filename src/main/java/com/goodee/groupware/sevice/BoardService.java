@@ -76,12 +76,13 @@ public class BoardService {
 	// 게시물 추가
 	// 게시물 추가되면서 첨부파일 있으면 폴더 저장+ DB에 저장
 	public int addBoard(Board board, String path) {
+		// addBoard가 insert된 후의 boardNo를 가져와서 파일 업로드 실행
 		int row = boardMapper.addBoard(board);
 		
 		// 첨부파일 있는지 확인
 		// board vo에 선언 해둔 MultipartFile의 사이즈 확인
 		List<MultipartFile> boardFileList = board.getMultipartFile();
-		if(row==1 && boardFileList != null && !boardFileList.isEmpty()) {
+		if(row==1) {
 			// Stream Api사용 및 선언
 			// 스트림 api 사용하지 않을시에boardFileList가 계속 사이즈가 1로 출력
 			List<MultipartFile> validBoardFileList = boardFileList.stream()

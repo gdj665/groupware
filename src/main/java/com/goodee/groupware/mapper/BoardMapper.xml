@@ -7,8 +7,8 @@
 		SELECT 
 			board_no boardNo, 
 			member_id memberId,
-			board_title boardTitle,
-			board_content boardContent,
+			CASE WHEN CHAR_LENGTH(board_title)>10 THEN CONCAT(LEFT(board_title,10),'...') ELSE board_title END boardTitle,
+			CASE WHEN CHAR_LENGTH(board_content)>10 THEN CONCAT(LEFT(board_content,10),'...') ELSE board_content END boardContent,
 			createdate
 		FROM board
 		WHERE department_no = #{departmentNo}
@@ -43,8 +43,8 @@
 		DELETE 
 		FROM board
 		WHERE board_no = #{boardNo}
-		AND (member_id = #{memberId}
-		OR member_id = 'admin')
+		AND member_id = #{memberId}
+	<!-- 추후에 관리자 ID정해지면 ID 추가예정 -->
 	</delete>
 	
 	<!-- 게시판 추가 -->

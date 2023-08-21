@@ -30,11 +30,12 @@ public class BoardController {
 		Model model, 
 		@RequestParam(name = "currentPage", defaultValue = "1") int currentPage,
 		@RequestParam(name = "rowPerPage", defaultValue = "3") int rowPerPage,
-		@RequestParam(name = "departmentNo", defaultValue="0") int departmentNo,
+		@RequestParam(name = "departmentNo", defaultValue = "0") int departmentNo,
 		HttpSession session) {
 		
-		if(departmentNo==0) {
+		if(departmentNo==-1) {
 			departmentNo = (Integer) session.getAttribute("departmentNo");
+			departmentNo = departmentNo/100*100;
 			System.out.println("BoardController.부서게시판 실행");
 		}
 		
@@ -71,6 +72,7 @@ public class BoardController {
 		//매개값으로 request객체를 받는다 <- request api를 직접 호출하기 위해서
 		// 파일 이 저장될 경로 설정
 		int loginDepartmentNo = (Integer) session.getAttribute("departmentNo");
+		loginDepartmentNo = loginDepartmentNo/100*100;
 		String loginMemberId = (String) session.getAttribute("loginMember");
 		
 		board.setMemberId(loginMemberId);
