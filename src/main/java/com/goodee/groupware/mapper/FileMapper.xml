@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.goodee.groupware.mapper.FileMapper">
-	
+<!-- BOARD(게시판 테이블) 파일 CRUD --> 
 	<select id = "getBoardFileList" parameterType="com.goodee.groupware.vo.BoardFile" resultType="com.goodee.groupware.vo.BoardFile">
 		SELECT 
 			board_file_no boardFileNo,
@@ -44,6 +44,52 @@
 	<delete id="deleteBoardFile" parameterType="com.goodee.groupware.vo.BoardFile">
 		DELETE FROM board_file
 		WHERE board_no = #{boardNo}
+	</delete>
+	
+<!-- APPROVAL(결재 테이블) 파일 CRUD --> 
+	
+	<select id = "getApprovalFileList" parameterType="com.goodee.groupware.vo.ApprovalFile" resultType="com.goodee.groupware.vo.ApprovalFile">
+		SELECT 
+			approval_file_no approvalFileNo,
+			approval_file_ori approvalFileOri,
+			approval_file_save approvalFileSave,
+			approval_file_type approvalFileType
+		FROM approval_file
+		WHERE approval_no = #{approvalNo}
+	</select>
+	
+	<select id = "getOneApprovalFile" parameterType="int" resultType="com.goodee.groupware.vo.ApprovalFile">
+		SELECT 
+			approval_file_ori approvalFileOri,
+			approval_file_save approvalFileSave,
+			approval_file_type approvalFileType
+		FROM approval_file
+		WHERE approval_file_no = #{approvalFileNo}
+	</select>
+	
+	<insert id = "addApprovalFile" parameterType="com.goodee.groupware.vo.ApprovalFile">
+		INSERT INTO approval_file (
+			approval_no,
+			approval_file_ori,
+			approval_file_save,
+			approval_file_type,
+			approval_file_size,
+			createdate,
+			updatedate
+		) VALUES (
+			#{approvalNo},
+			#{approvalFileOri},
+			#{approvalFileSave},
+			#{approvalFileType},
+			#{approvalFileSize},
+			NOW(),
+			NOW()
+		)
+	</insert>
+	
+	<delete id="deleteApprovalFile" parameterType="com.goodee.groupware.vo.ApprovalFile">
+		DELETE FROM approval_file
+		WHERE approval_no = #{approvalNo}
 	</delete>
 	
 </mapper>

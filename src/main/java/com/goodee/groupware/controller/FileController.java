@@ -41,7 +41,7 @@ public class FileController {
 				// 파일의 입력 스트림으로부터 리소스 생성(InputStreamResoure란 파일데이터를 읽을 수 있는 입력스트림을 가지고있는 리소스)
 				Resource resource = new InputStreamResource(Files.newInputStream(filePath));
 				
-				// 파일 다운로드를 위한 헤더 생ㅅ어
+				// 파일 다운로드를 위한 헤더 생성
 				HttpHeaders headers = new HttpHeaders();
 				// 생성한 헤더에 빌더 객체를 생성한 뒤 어떤 이름으로 다운받을지(filename 설정) 설정합니다
 				headers.setContentDisposition(ContentDisposition.builder("attachment").filename(boardFile.getBoardFileOri()).build());

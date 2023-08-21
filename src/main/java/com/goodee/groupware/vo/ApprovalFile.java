@@ -9,7 +9,7 @@ public class ApprovalFile {
 	private String approvalFileOri;
 	private String approvalFileSave;
 	private String approvalFileType;
-	private int approvalFileSize;
+	private long approvalFileSize;
 	private String createdate;
 	private String updatedate;
 }

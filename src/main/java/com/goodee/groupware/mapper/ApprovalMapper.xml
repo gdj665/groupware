@@ -1,14 +1,14 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<!-- <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.goodee.groupware.mapper.ApprovalMapper">
 
-	<!-- 결재 리스트출력 -->
+	결재 리스트출력
 	<select id = "getApprovalList" parameterType="java.util.Map" resultType="java.util.Map">
 		SELECT 
 			approval_no approvalNo,
 			member_id memberId,
 			approval_title approvalTitle,
-			approval_content aprrovalContent,
+			approval_content approvalContent,
 			approval_form approvalForm,
 			approval_now_status approvalNowStatus,
 			approval_first_id approvalFirstId,
@@ -34,7 +34,7 @@
 		LIMIT #{beginRow},#{rowPerPage}
 	</select>
 	
-	<!-- 결재 상세출력 -->
+	결재 상세출력
 	<select id = "getOneApproval" parameterType="com.goodee.groupware.vo.Approval" resultType="com.goodee.groupware.vo.Approval">
 		SELECT 
 			approval_no approvalNo,
@@ -57,7 +57,7 @@
 		WHERE approval_no = #{approvalNo}
 	</select>
 	
-	<!-- 결재 분기값에 따른 결재행 개수 -->
+	결재 분기값에 따른 결재행 개수
 	<select id="getApprovalListCount" parameterType="java.util.Map" resultType="int">
 		SELECT
 			COUNT(*)
@@ -73,9 +73,9 @@
 		</where>
 	</select>
 	
-	<!-- 결재 추가 -->
+	결재 추가
 	<insert id ="addApproval" parameterType="com.goodee.groupware.vo.Approval">
-		<!-- INSERT 작업 이후에 실행되며 Board vo에 boardNo로 선언되어 있는 값을 가져온다 -->
+		INSERT 작업 이후에 실행되며 Board vo에 boardNo로 선언되어 있는 값을 가져온다
 		<selectKey order="AFTER" keyProperty="approvalNo" resultType="int">
 			SELECT last_insert_id()
 		</selectKey>
@@ -106,10 +106,10 @@
 		)
 	</insert>
 	
-	<!-- 결재 회수 -->
+	결재 회수
 	<update id="updateApprovalRecall" parameterType="com.goodee.groupware.vo.Approval">
 		UPDATE approval 
 		SET aproval_last_status = '4회수'
 		WHERE approval_no = #{approvalNo}
 	</update>
-</mapper>
+</mapper> -->
