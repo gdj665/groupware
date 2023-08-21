@@ -61,6 +61,8 @@ public class ScheduleController {
 		
 		// 세션 아이디 값 저장
 		String memberId =(String)session.getAttribute("loginMember");
+		// 세션 부서 레벨 저장
+		String memberLevel =(String)session.getAttribute("memberLevel");
 		
 		// 요청한 매개값을 담아 서비스를 호출
 		Map<String, Object> oneScheduleMap = new HashMap<>();
@@ -69,6 +71,7 @@ public class ScheduleController {
 		
 		// Model에 담아서 View로 넘기기
 		model.addAttribute("oneScheduleMap", oneScheduleMap);
+		model.addAttribute("memberLevel",memberLevel);
 		return "/schedule/oneSchedule";
 	}
 	
@@ -107,14 +110,17 @@ public class ScheduleController {
 		return "redirect:/schedule/scheduleList"; 
 	}
 	
-	// ----- 개인 일정 삭제 ------
-	@GetMapping("/schedule/deletePersonalSchedule")
-	public String deletePersonalSchedule(Schedule schedule) {
+	// ----- 부서 일정 삭제(부서장만) ------
+	@GetMapping("/schedule/deleteDepartmentSchedule")
+	public String deleteDepartmentSchedule(HttpSession session, Schedule schedule) {
+		// 세션 아이디 값 저장
+		String memberId =(String)session.getAttribute("loginMember");
+		schedule.setMemberId(memberId);
+		
 		int row = 0;
-		row = scheduleService.deletePersonalSchedule(schedule);
-		log.debug("\u001B[31m"+"ScheduleController.deletePersonalSchedule() row : "+row+"\u001B[0m");
+		row = scheduleService.deleteDepartmentSchedule(schedule);
+		log.debug("\u001B[31m"+"ScheduleController.deleteDepartmentSchedule() row : "+row+"\u001B[0m");
 		return "redirect:/schedule/scheduleList";
 	}
 	
-	// ----- 부서 일정 삭제 ------
 }
