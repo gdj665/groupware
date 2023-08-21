@@ -19,7 +19,7 @@
 	<a href="/schedule/oneSchedule?targetYear=${m.targetYear}&targetMonth=${m.targetMonth}&targetDate=${m.targetDate}">전체</a>
 	<a href="/schedule/oneSchedule?targetYear=${m.targetYear}&targetMonth=${m.targetMonth}&targetDate=${m.targetDate}&scheduleCategory=부서">부서</a>
 	<a href="/schedule/oneSchedule?targetYear=${m.targetYear}&targetMonth=${m.targetMonth}&targetDate=${m.targetDate}&scheduleCategory=개인">개인</a>
-	
+	<span>${memberLevel}</span>
 	<br><br><br>
 	<table>
 		<tr>
@@ -28,7 +28,7 @@
 			<th>내용</th>
 			<th>시작일</th>
 			<th>종료일</th>
-			<th>삭제</th>
+			<th colspan="2">삭제</th>
 		</tr>
 		<c:forEach var="c" items="${m.oneScheduleList}">
 		<tr>
@@ -37,7 +37,13 @@
 			<td>${c.scheduleContent}</td>
 			<td>${c.scheduleBegindate}</td>
 			<td>${c.scheduleEnddate}</td>
-			<td><a href="/schedule/deletePersonalSchedule?scheduleNo=${c.scheduleNo}&schedulCategory=${c.scheduleCategory}">개인일정삭제</a></td>
+			<c:if test="${c.scheduleCategory == '개인'}">
+				<td><a href="/schedule/deleteSchedule?scheduleNo=${c.scheduleNo}">개인일정삭제</a></td>
+			</c:if>
+			<c:if test="${c.scheduleCategory == '부서'}">
+				<td><a href="/schedule/deleteDepartmentSchedule?scheduleNo=${c.scheduleNo}">부서일정삭제</a></td>
+			</c:if>
+			
 		</tr>
 		</c:forEach>
 	</table>

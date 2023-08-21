@@ -77,6 +77,5 @@
 	<delete id="deleteSchedule" parameterType="com.goodee.groupware.vo.Schedule">
 		DELETE FROM schedule
 		WHERE schedule_no = #{scheduleNo}
-			AND schedule_category = '개인'
 	</delete>	
 </mapper>
