@@ -10,7 +10,7 @@
 </head>
 <body>
 	<h1>개인 일정 등록</h1>
-	<form method="post" action="/schedule/addPersonalSchedule">
+	<form method="post" action="${pageContext.request.contextPath}/schedule/addPersonalSchedule">
 		<input type="hidden" name="memberId" value="${memberId}">
 		<input type="hidden" name="scheduleCategory" value="개인">
 		<table>

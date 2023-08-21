@@ -16,27 +16,27 @@
 	<!-- model값 받아와서 문자로 셋팅 -->
 	<c:set var="m" value="${scheduleMap}"></c:set>
 	
-	<a href="/schedule/scheduleList?targetYear=${m.targetYear}&targetMonth=${m.targetMonth-1}">이전달</a>
+	<a href="${pageContext.request.contextPath}/schedule/scheduleList?targetYear=${m.targetYear}&targetMonth=${m.targetMonth-1}">이전달</a>
 	<span>${m.memberId}님의 ${m.targetYear}년 ${m.targetMonth+1}월 달력</span>
-	<a href="/schedule/scheduleList?targetYear=${m.targetYear}&targetMonth=${m.targetMonth+1}">다음달</a>
+	<a href="${pageContext.request.contextPath}/schedule/scheduleList?targetYear=${m.targetYear}&targetMonth=${m.targetMonth+1}">다음달</a>
 	<br><br><br>
-	<a href="/schedule/addPersonalSchedule">개인일정 등록</a>
-	<a href="/schedule/addDepartmentSchedule">부서일정 등록</a>
+	<a href="${pageContext.request.contextPath}/schedule/addPersonalSchedule">개인일정 등록</a>
+	<a href="${pageContext.request.contextPath}/schedule/addDepartmentSchedule">부서일정 등록</a>
 	
 	<br><br><br>
-	<a href="/schedule/scheduleList?targetYear=${m.targetYear}&targetMonth=${m.targetMonth}">전체</a>
-	<a style="color:orange" href="/schedule/scheduleList?targetYear=${m.targetYear}&targetMonth=${m.targetMonth}&scheduleCategory=부서">부서</a>
-	<a style="color:green" href="/schedule/scheduleList?targetYear=${m.targetYear}&targetMonth=${m.targetMonth}&scheduleCategory=개인">개인</a>
+	<a href="${pageContext.request.contextPath}/schedule/scheduleList?targetYear=${m.targetYear}&targetMonth=${m.targetMonth}">전체</a>
+	<a style="color:orange" href="${pageContext.request.contextPath}/schedule/scheduleList?targetYear=${m.targetYear}&targetMonth=${m.targetMonth}&scheduleCategory=부서">부서</a>
+	<a style="color:green" href="${pageContext.request.contextPath}/schedule/scheduleList?targetYear=${m.targetYear}&targetMonth=${m.targetMonth}&scheduleCategory=개인">개인</a>
 	<br><br><br>
 	<table style="width: 1000px; height: 500px;">
 		<tr>
-			<th>일</th>
+			<th style="color: red;">일</th>
 			<th>월</th>
 			<th>화</th>
 			<th>수</th>
 			<th>목</th>
 			<th>금</th>
-			<th>토</th>
+			<th style="color: blue;">토</th>
 		</tr>
 		<tr>
 			<!-- totalTd 전까지 반복해야 하므로 -1 해야함 -->
@@ -50,7 +50,7 @@
 					<c:when test="${d > 0 && d <= m.lastDate}">
 						<td>
 							<div style="text-align: left;">
-								<a style="color: black;" href="/schedule/oneSchedule?targetYear=${m.targetYear}&targetMonth=${m.targetMonth}&targetDate=${d}">
+								<a style="color: black;" href="${pageContext.request.contextPath}/schedule/oneSchedule?targetYear=${m.targetYear}&targetMonth=${m.targetMonth}&targetDate=${d}">
 									<c:choose>
 										<c:when test="${i % 7 == 0}">
 											<span style="color: red;">${d}</span>
@@ -69,10 +69,20 @@
 								<c:if test="${d == (fn:substring(c.scheduleBegindate,8,10))}">
 								<div>
 									<c:if test="${c.scheduleCategory == '개인'}">
-											<span style="color:green">${c.scheduleCategory} ${c.scheduleTitle}</span>
+											<span style="color:green">${c.scheduleCategory} ${c.scheduleTitle}(시작일)</span>
 									</c:if>
 									<c:if test="${c.scheduleCategory == '부서'}">
-											<span style="color:orange">${c.scheduleCategory} ${c.scheduleTitle}</span>
+											<span style="color:orange">${c.scheduleCategory} ${c.scheduleTitle}(시작일)</span>
+									</c:if>
+								</div>
+								</c:if>
+								<c:if test="${d == (fn:substring(c.scheduleEnddate,8,10))}">
+								<div>
+									<c:if test="${c.scheduleCategory == '개인'}">
+											<span style="color:green">${c.scheduleCategory} ${c.scheduleTitle}(종료일)</span>
+									</c:if>
+									<c:if test="${c.scheduleCategory == '부서'}">
+											<span style="color:orange">${c.scheduleCategory} ${c.scheduleTitle}(종료일)</span>
 									</c:if>
 								</div>
 								</c:if>

@@ -16,9 +16,9 @@
 	
 	<h1>${m.memberId}님의 ${m.targetYear}년 ${m.targetMonth+1}월 ${m.targetDate}일 일정</h1>
 
-	<a href="/schedule/oneSchedule?targetYear=${m.targetYear}&targetMonth=${m.targetMonth}&targetDate=${m.targetDate}">전체</a>
-	<a href="/schedule/oneSchedule?targetYear=${m.targetYear}&targetMonth=${m.targetMonth}&targetDate=${m.targetDate}&scheduleCategory=부서">부서</a>
-	<a href="/schedule/oneSchedule?targetYear=${m.targetYear}&targetMonth=${m.targetMonth}&targetDate=${m.targetDate}&scheduleCategory=개인">개인</a>
+	<a href="${pageContext.request.contextPath}/schedule/oneSchedule?targetYear=${m.targetYear}&targetMonth=${m.targetMonth}&targetDate=${m.targetDate}">전체</a>
+	<a style="color:orange" href="${pageContext.request.contextPath}/schedule/oneSchedule?targetYear=${m.targetYear}&targetMonth=${m.targetMonth}&targetDate=${m.targetDate}&scheduleCategory=부서">부서</a>
+	<a style="color:green" href="${pageContext.request.contextPath}/schedule/oneSchedule?targetYear=${m.targetYear}&targetMonth=${m.targetMonth}&targetDate=${m.targetDate}&scheduleCategory=개인">개인</a>
 	<span>${memberLevel}</span>
 	<br><br><br>
 	<table>
@@ -38,10 +38,10 @@
 			<td>${c.scheduleBegindate}</td>
 			<td>${c.scheduleEnddate}</td>
 			<c:if test="${c.scheduleCategory == '개인'}">
-				<td><a href="/schedule/deleteSchedule?scheduleNo=${c.scheduleNo}">개인일정삭제</a></td>
+				<td><a href="${pageContext.request.contextPath}/schedule/deleteSchedule?scheduleNo=${c.scheduleNo}">개인일정삭제</a></td>
 			</c:if>
 			<c:if test="${c.scheduleCategory == '부서'}">
-				<td><a href="/schedule/deleteDepartmentSchedule?scheduleNo=${c.scheduleNo}">부서일정삭제</a></td>
+				<td><a href="${pageContext.request.contextPath}/schedule/deleteDepartmentSchedule?scheduleNo=${c.scheduleNo}">부서일정삭제</a></td>
 			</c:if>
 			
 		</tr>
