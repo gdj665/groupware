@@ -18,8 +18,8 @@ public interface EquipmentMapper {
 	// 2) 장비 추가
 	int addEquipment(Equipment equipment);
 	
-	// 3) 장비 삭제
-	int deleteEquipment(Equipment equipment);
+	// 3) 장비 비활성화
+	int updateEquipment(Equipment equipment);
 	
 	// 4) 장비 점검일자 갱신
 	int updateEquipmentInspect(Equipment equipment);

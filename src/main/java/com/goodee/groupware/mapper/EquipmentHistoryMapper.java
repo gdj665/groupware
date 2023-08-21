@@ -16,6 +16,8 @@ public interface EquipmentHistoryMapper {
 	
 	// 1.1) 장비 대여시 대여로 변경 반납시 비대여로 변경
 	int updateEquipmentStatus(Equipment equipment);
+	// 1.2) 장비 반납시 equipment_history 테이블 equipment_enddate 현재날짜로 변경
+	int updateEqHistoryEnddate(EquipmentHistory eqHistory);
 	
 	// 2) 장비 사용내역 리스트(장비상세보기에서 해당장비 사용내역만 나옴)
 	List<Map<String,Object>> getEqHistoryList (Map<String,Object> eqHistoryMap); 

@@ -68,17 +68,17 @@ public class EquipmentController {
 		return "redirect:/equipment/equipmentList";
 	}
 	
-	// 3) 장비 삭제 매핑
-	@GetMapping("/equipment/deleteEquipment")
-	public String deleteEquipment(Equipment equipment) {
+	// 3) 장비 비활성화 매핑
+	@GetMapping("/equipment/updateEquipment")
+	public String updateEquipment(Equipment equipment) {
 		// 삭제 서비스 호출
-		int row = equipmentService.deleteEquipment(equipment);
+		int row = equipmentService.updateEquipment(equipment);
 		
-		log.debug("EquipmentController.deleteEquipment() equipment --->" + equipment.toString());
+		log.debug("EquipmentController.updateEquipment() equipment --->" + equipment.toString());
 		if(row > 0) {
-			log.debug("EquipmentController.deleteEquipment() row --->" + row + "장비삭제성공"); 
+			log.debug("EquipmentController.updateEquipment() row --->" + row + "장비삭제성공"); 
 		} else {
-			log.debug("EquipmentController.deleteEquipment() row --->" + row + "장비삭제실패"); 
+			log.debug("EquipmentController.updateEquipment() row --->" + row + "장비삭제실패"); 
 		}
 		return "redirect:/equipment/equipmentList";
 	}

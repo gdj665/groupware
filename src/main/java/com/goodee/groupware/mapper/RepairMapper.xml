@@ -1,3 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.goodee.groupware.mapper.RepairMapper"></mapper>
+<mapper namespace="com.goodee.groupware.mapper.RepairMapper">
+	<!-- 1) repair테이블에 접수추가 -->
+	<insert id="addRepair" parameterType="com.goodee.groupware.vo.Repair">
+		INSERT INTO repair(
+				repair_product_category, 
+				repair_product_name, 
+				receiving_date, 
+				repair_status, 
+				repair_receiving_reason, 
+				createdate, 
+				updatedate
+		)
+		VALUES(
+				#{repairProductCategory}, 
+				#{repairProductName}, 
+				#{receivingDate}, 
+				'대기중',  
+				#{repairReceivingReason}, 
+				NOW(), 
+				NOW()
+		)
+	</insert>
+	
+	
+</mapper>

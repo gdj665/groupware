@@ -12,7 +12,8 @@
 			equipment_content equipmentContent
 		FROM equipment
 		<where>
-		<!-- 검색분기 -->
+			equipment_alive = 'Y'
+			<!-- 검색분기 -->
 			<if test="equipmentName != null">
 				equipment_name LIKE '%' #{equipmentName} '%'
 			</if>
@@ -26,6 +27,7 @@
 			COUNT(*)
 		FROM equipment
 		<where>
+			equipment_alive = 'Y'
 			<!-- 검색분기 -->
 			<if test="equipmentName != null">
 				equipment_name LIKE '%'#{equipmentName}'%'
@@ -40,10 +42,10 @@
 		VALUES(#{equipmentName}, NOW(), #{equipmentInspectCycle}, #{equipmentStatus}, #{equipmentContent}, NOW(),NOW())
 	</insert>
 	
-	<!-- 3) 장비 삭제 -->
-	<delete id="deleteEquipment" parameterType="com.goodee.groupware.vo.Equipment">
-		DELETE FROM equipment WHERE equipment_no = #{equipmentNo}
-	</delete>
+	<!-- 3) 장비 비활성화 -> 장비 equipment_alive N으로 변경 비활성화 -->
+	<update id="updateEquipment" parameterType="com.goodee.groupware.vo.Equipment">
+		UPDATE equipment SET equipment_alive = 'N' WHERE equipment_no = #{equipmentNo}
+	</update>
 	
 	<!-- 4) 장비 점검일자 갱신 -->
 	<update id="updateEquipmentInspect" parameterType="com.goodee.groupware.vo.Equipment">

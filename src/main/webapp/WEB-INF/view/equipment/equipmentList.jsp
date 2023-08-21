@@ -150,26 +150,24 @@
 	    });
 		
 	 	// 장비 대여 추가 버튼
+	 		
+	 	// 장비 대여날짜가 현재보다 이전이면 안되기 때문에 현재날짜 가져옴
+	 	var currentDateTime = new Date();
+	 	
 		$('#addEqHistroyBtn').click(function(){
 			if($('#equipmentBegindateId').val().length == 0) {
 				$('#equipmentBegindateIdMsg').text('대여시작일을 입력해주세요');
+				return;
+			} else if(new Date($('#equipmentBegindateId').val()) < currentDateTime) {
+				$('#equipmentBegindateIdMsg').text('대여시작일을 현재보다 이전으로 설정할 수 없습니다');
 				return;
 			} else {
 				$('#equipmentBegindateIdMsg').text('');
 			}
 			
-			if($('#equipmentEnddateId').val().length == 0) {
-				$('#equipmentEnddateIdMsg').text('반납일을 입력해주세요');
-				return;
-			} else {
-				$('#equipmentEnddateIdMsg').text('');
-			}
-			
 			$('#addEqHistoryForm').submit();
 			$('.statusModal').fadeOut();
 		});
-		
-			
 			
 		// 모달창 닫기
 	    $('.close').click(function(){
@@ -212,7 +210,7 @@
 				<c:if test="${e.equipmentStatus ne '대여'}">
 					<td><a href="#" class="statusOpenModal" data-equipmentNo="${e.equipmentNo}" data-equipmentName="${e.equipmentName}" data-loginId="${loginId}">${e.equipmentStatus}</a></td>
 				</c:if>
-				<td><a href="/equipment/deleteEquipment?equipmentNo=${e.equipmentNo}"
+				<td><a href="/equipment/updateEquipment?equipmentNo=${e.equipmentNo}"
 					onClick="return confirm('${e.equipmentName} 삭제하시겠습니까?')">삭제</a></td>
 			</tr>
 		</c:forEach>
@@ -291,13 +289,6 @@
 						<td>
 							<input id="equipmentBegindateId" type="date" name="equipmentBegindate">
 							<span id="equipmentBegindateIdMsg" class="msg"></span>
-						</td>
-					</tr>
-					<tr>
-						<td>반납일</td>
-						<td>
-							<input id="equipmentEnddateId" type="date" name="equipmentEnddate">
-							<span id="equipmentEnddateIdMsg" class="msg"></span>
 						</td>
 					</tr>
 				</table>

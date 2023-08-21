@@ -31,6 +31,7 @@ public class EquipmentHistoryService {
 		int eqStatusRow =0;
 		
 		// 장비사용내역이 추가되어야 장비가 대여로 업데이트됨
+		
 		if(historyRow > 0) {
 			eqStatusRow = eqHistoryMapper.updateEquipmentStatus(equipment);
 			log.debug("EquipmentHistoryService.addEqHistry() eqStatusRow --->" + eqStatusRow);
@@ -39,12 +40,17 @@ public class EquipmentHistoryService {
 	}
 	
 	// 1.1) 장비 반납 업데이트
-	public int updateEquipment(Equipment equipment) {
+	public int updateEquipment(Equipment equipment, EquipmentHistory eqHistory) {
+		int endRow = 0;
 		
 		// 장비 비대여로 업데이트 매퍼 호출
 		int row = eqHistoryMapper.updateEquipmentStatus(equipment);
 		
-		return row;
+		// 장비가 비대여로 수정되었을시 사용내역테이블 enddate날짜 현재날짜로 변경
+		if(row > 0) {
+			endRow = eqHistoryMapper.updateEqHistoryEnddate(eqHistory);
+		}
+		return endRow;
 	}
 	
 	// 2) 장비 사용내역 목록(장비 상세보기에서 해당장비 사용내역 출력) (EquipmentController에서 호출함)
@@ -96,7 +102,7 @@ public class EquipmentHistoryService {
 		pageMap.put("equipmentName", equipmentName);
 		
 		// 장비 사용내역 목록 메서드 호출 페이징을 위해 만든 pageMap을 매개변수로 한다.
-		List<Map<String,Object>> eqHistoryListById = eqHistoryMapper.getEqHistoryList(pageMap);
+		List<Map<String, Object>> eqHistoryListById = eqHistoryMapper.getEqHistoryListById(pageMap);
 		log.debug("EquipmentHistoryService.getEqHistoryListById() eqHistoryListById --->" + eqHistoryListById.toString());
 		
 		int eqHistoryListByIdCnt = eqHistoryMapper.getEqHistoryListByIdCnt(pageMap);

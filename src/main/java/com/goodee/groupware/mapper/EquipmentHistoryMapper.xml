@@ -6,13 +6,19 @@
 	<!-- 1) 장비 사용내역 추가 -->
 	<insert id="addEqHistory" parameterType="com.goodee.groupware.vo.EquipmentHistory">
 		INSERT INTO equipment_history 
-			(equipment_no, member_id, equipment_begindate, equipment_enddate)
-		VALUES(#{equipmentNo}, #{memberId}, #{equipmentBegindate}, #{equipmentEnddate})
+			(equipment_no, member_id, equipment_begindate)
+		VALUES(#{equipmentNo}, #{memberId}, #{equipmentBegindate})
 	</insert>
 	<!-- 1.1) 장비 대여,비대여 업데이트 -->
 	<update id="updateEquipmentStatus" parameterType="com.goodee.groupware.vo.Equipment">
 		UPDATE equipment SET equipment_status = #{equipmentStatus}
 		WHERE equipment_no = #{equipmentNo}
+	</update>
+	
+	<!-- 1.2) 장비 반납시 equipment_enddate 현재날짜로 변경 -->
+	<update id="updateEqHistoryEnddate" parameterType="com.goodee.groupware.vo.EquipmentHistory">
+		UPDATE equipment_history SET equipment_enddate = now()
+		WHERE equipment_history_no = #{equipmentHistoryNo}
 	</update>
 	
 	<!-- 2) 장비사용내역(상세보기)목록 -->
@@ -34,7 +40,7 @@
 				AND member_id LIKE '%' #{memberId} '%'
 			</if>
 		</where>
-		ORDER BY equipment_begindate DESC
+		ORDER BY eh.equipment_history_no DESC
 		LIMIT #{beginRow}, #{rowPerPage}
 	</select>
 	
@@ -61,18 +67,18 @@
 			eh.equipment_history_no equipmentHistoryNo, 
 			eh.equipment_no equipmentNo, 
 			e.equipment_name equipmentName,
-			e.equipment_status equipmentStatus, 
+			e.equipment_status equipmentStatus,
 			eh.member_id memberId,
 			eh.equipment_begindate equipmentBegindate, 
 			eh.equipment_enddate equipmentEnddate
 		FROM equipment_history eh INNER JOIN equipment e ON eh.equipment_no = e.equipment_no
-		WHERE eh.member_id = #{memberId}
 		<where>
+			eh.member_id = #{memberId}
 			<if test="equipmentName != null">
 				AND e.equipment_name LIKE '%' #{equipmentName} '%'
 			</if>
 		</where>
-		ORDER BY eh.equipment_begindate DESC
+		ORDER BY eh.equipment_history_no DESC
 		LIMIT #{beginRow}, #{rowPerPage}
 	</select>
 	
@@ -81,11 +87,12 @@
 		SELECT 
 			COUNT(*) 
 		FROM equipment_history eh INNER JOIN equipment e ON eh.equipment_no = e.equipment_no
-		WHERE eh.member_id = #{memberId}
 		<where>
+			eh.member_id = #{memberId}
 			<if test="equipmentName != null">
 				AND e.equipment_name LIKE '%' #{equipmentName} '%'
 			</if>
 		</where>
 	</select>
+	
 </mapper>

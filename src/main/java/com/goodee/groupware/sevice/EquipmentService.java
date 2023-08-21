@@ -96,13 +96,13 @@ public class EquipmentService {
 		return row;
 	}
 	
-	// 3) 장비 삭제
-	public int deleteEquipment(Equipment equipment) {
+	// 3) 장비 비활성화
+	public int updateEquipment(Equipment equipment) {
 		
-		// 삭제 매퍼 호출 
-		int row = equipmentMapper.deleteEquipment(equipment);
+		// 비활성화 매퍼 호출 
+		int row = equipmentMapper.updateEquipment(equipment);
 		
-		// 삭제된 행 개수 반환
+		// 비활성화된 행 개수 반환
 		return row;
 	}
 	

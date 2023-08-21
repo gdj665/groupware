@@ -45,11 +45,11 @@ public class EquipmentHistoryController {
 	
 	// 1.1) 장비 반납시 비대여로 업데이트
 	@GetMapping("/eqHistory/updateEquipment") 
-	public String updateEquipment(Equipment equipment) {
+	public String updateEquipment(Equipment equipment, EquipmentHistory eqHistory) {
 		int row = 0;
 		
 		if (equipment != null) {
-			row = equipmentHistoryService.updateEquipment(equipment);
+			row = equipmentHistoryService.updateEquipment(equipment, eqHistory);
 		    if (row > 0) {
 		        log.debug("EquipmentHistoryController.updateEquipment() row --->" + row + "장비 반납 성공");
 		    } else {
@@ -77,6 +77,7 @@ public class EquipmentHistoryController {
 		// Model을 사용하여 view로 값 전달
 		// 장비 사용내역 목록 값
 		model.addAttribute("eqHistoryListById", resultMap.get("eqHistoryListById"));
+		model.addAttribute("memberId", memberId);
 		// 페이징 값
 		model.addAttribute("currentPage", currentPage);
 		model.addAttribute("lastPage", resultMap.get("lastPage"));

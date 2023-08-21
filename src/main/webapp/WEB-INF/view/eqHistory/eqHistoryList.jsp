@@ -8,34 +8,38 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<h1>장비 사용내역목록</h1>
-	<button id="open">장비 추가</button>
-	<table border=1>
+	<h1>${memberId}님 장비 사용내역</h1>
+	<table>
 		<tr>
 			<th>대여 번호</th>
 			<th>장비명</th>
 			<th>장비상태</th>
 			<th>대여시작일</th>
-			<th>반납예정일</th>
-			<th>반납하기</th>
+			<th>반납일<th>
 		</tr>
-		<c:forEach var="eh" items="${eqHistoryListById}">
+		<c:forEach var="eqH" items="${eqHistoryListById}">
 			<tr>
-				<td>${eh.equipmentHistoryNo}</td>			
-				<td>${eh.equipmentName}</td>			
-				<td>${eh.equipmentStatus}</td>			
-				<td>${eh.equipmentBegindate}</td>			
-				<td>${eh.equipmentEnddate}</td>
-				<c:if test="${eh.equipmentStatus eq '대여'}">
-					<td>
-						<a href="${pageContext.request.contextPath}/eqHistory/updateEquipment?equipmentNo=${eh.equipmentNo}&equipmentStatus=비대여" onClick="return confirm('${e.equipmentName} 반납하시겠습니까?')">반납</a>
-					</td>			
-				</c:if>	
-				<c:if test="${eh.equipmentStatus ne '대여'}">
-					<td></td>
-				</c:if>		
+				<td>${eqH.equipmentHistoryNo}</td>			
+				<td>${eqH.equipmentName}</td>			
+				<td>${eqH.equipmentStatus}</td>			
+				<td>${eqH.equipmentBegindate}</td>			
+				<td>${eqH.equipmentEnddate}</td>
+				<c:if test="${eqH.equipmentStatus eq '대여' && eqH.equipmentEnddate == null}">
+		            <td>
+		                <a href="${pageContext.request.contextPath}/eqHistory/updateEquipment?equipmentNo=${eqH.equipmentNo}&equipmentStatus=비대여&equipmentHistoryNo=${eqH.equipmentHistoryNo}" onClick="return confirm('${eqH.equipmentName} 반납하시겠습니까?')">반납</a>
+		            </td>
+		        </c:if>
+		        <c:if test="${eqH.equipmentStatus ne '대여' || eqH.equipmentEnddate != null}">
+		            <td></td>
+        		</c:if>      	
 			</tr>
 		</c:forEach>
 	</table>
+	<div>
+		<form action="${pageContext.request.contextPath}/eqHistory/eqHistoryList" method="get">
+			<input type="text" name="equipmentName">
+			<button type="submit">검색</button>
+		</form>
+	</div>
 </body>
 </html>
