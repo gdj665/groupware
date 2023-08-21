@@ -25,7 +25,7 @@ public class EquipmentHistoryController {
 	private EquipmentHistoryService equipmentHistoryService;
 	
 	// 1) 장비 대여 추가 매핑
-	@PostMapping("/eqHistory/addEqHistory")
+	@GetMapping("/eqHistory/addEqHistory")
 	public String addEqHistory(EquipmentHistory eqHistory, Equipment equipment) {
 		
 		log.debug("EquipmentHistoryController.addEqHistory() eqHistory --->" + eqHistory.toString());

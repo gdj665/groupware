@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
@@ -136,38 +135,6 @@
 			$('#addEquipmentForm').submit();
 			$('.modal').fadeOut();
 		});
-		
-		// 장비 대여 모달창 
-	    $(".statusOpenModal").click(function() {
-	        var equipmentNo = $(this).data("equipmentno");
-	        var equipmentName = $(this).data("equipmentname");
-	        var loginId = $(this).data("loginid");
-	        $("#equipmentNoInput").val(equipmentNo); // 모달 내의 input 요소에 장비번호 설정
-	        $("#equipmentNameInput").val(equipmentName); // 모달 내의 input 요소에 장비이름 설정(보여주기식)
-	        $("#loginIdInput").val(loginId); // 대여자 Id값(세션에서 받아옴)
-	        
-	        $('.statusModal').fadeIn();
-	    });
-		
-	 	// 장비 대여 추가 버튼
-	 		
-	 	// 장비 대여날짜가 현재보다 이전이면 안되기 때문에 현재날짜 가져옴
-	 	var currentDateTime = new Date();
-	 	
-		$('#addEqHistroyBtn').click(function(){
-			if($('#equipmentBegindateId').val().length == 0) {
-				$('#equipmentBegindateIdMsg').text('대여시작일을 입력해주세요');
-				return;
-			} else if(new Date($('#equipmentBegindateId').val()) < currentDateTime) {
-				$('#equipmentBegindateIdMsg').text('대여시작일을 현재보다 이전으로 설정할 수 없습니다');
-				return;
-			} else {
-				$('#equipmentBegindateIdMsg').text('');
-			}
-			
-			$('#addEqHistoryForm').submit();
-			$('.statusModal').fadeOut();
-		});
 			
 		// 모달창 닫기
 	    $('.close').click(function(){
@@ -197,7 +164,7 @@
 				<td>${e.equipmentLastInspect}</td>
 				<td>
 					<!-- dateColor이라는 변수를 선언후 daysUntilNextInspect가 <0보다 작으면 점검예정일이 지났으므로 red를 넣고 <= 30 30일이내면 pink 나머지는 black으로 한다 -->
-					<c:set var="dateColor" value="${e.daysUntilNextInspect < 0 ? 'red' : e.daysUntilNextInspect <= 30 ? 'pink' : 'black'}" />
+					<c:set var="dateColor" value="${e.daysUntilNextInspect < 0 ? 'red' : e.daysUntilNextInspect <= 30 ? 'blue' : 'black'}" />
                 	<span style="color: ${dateColor};">${e.nextinspect}</span>
 				</td>
 				<td>
@@ -208,9 +175,11 @@
 					<td>${e.equipmentStatus}중</td>
 				</c:if>
 				<c:if test="${e.equipmentStatus ne '대여'}">
-					<td><a href="#" class="statusOpenModal" data-equipmentNo="${e.equipmentNo}" data-equipmentName="${e.equipmentName}" data-loginId="${loginId}">${e.equipmentStatus}</a></td>
+					<td>
+						<a href="${pageContext.request.contextPath}/eqHistory/addEqHistory?equipmentNo=${e.equipmentNo}&equipmentStatus=대여&memberId=${loginId}" onClick="return confirm('${e.equipmentName} 대여하시겠습니까?')">${e.equipmentStatus}</a>
+					</td>
 				</c:if>
-				<td><a href="/equipment/updateEquipment?equipmentNo=${e.equipmentNo}"
+				<td><a href="${pageContext.request.contextPath}/equipment/updateEquipment?equipmentNo=${e.equipmentNo}"
 					onClick="return confirm('${e.equipmentName} 삭제하시겠습니까?')">삭제</a></td>
 			</tr>
 		</c:forEach>
@@ -240,7 +209,7 @@
 					<tr>
 						<td>점검주기</td>
 						<td>
-							<input type="text" name="equipmentInspectCycle" id="equipmentInspectCycleId">개월
+							<input type="number" name="equipmentInspectCycle" id="equipmentInspectCycleId">개월
 							<span id="equipmentInspectCycleIdMsg" class="msg"></span>
 						</td>
 					</tr>
@@ -260,40 +229,6 @@
 				</table>
 			</form>
 			<button id="addEquipmentBtn" type="button">추가</button>
-			<button class="close" type="button">닫기</button>
-		</div>
-	</div>
-	
-	<!-- 장비 대여 모달 -->
-	<div class="statusModal">
-		<div class="modal_content">
-			<h3>장비 대여</h3>
-			<form id="addEqHistoryForm" action="${pageContext.request.contextPath}/eqHistory/addEqHistory" method="post">
-				<input type="hidden" name="equipmentNo" id="equipmentNoInput" value="equipmentNoInput">
-				<input type="hidden" name="equipmentStatus" value="대여">
-				<table>
-					<tr>
-						<td>장비명</td>
-						<td>
-							<input type="text" id="equipmentNameInput" value="equipmentNameInput" readonly="readonly">
-						</td>
-					</tr>
-					<tr>
-						<td>대여자ID</td>
-						<td>
-							<input type="text" name="memberId" id="loginIdInput" value="loginIdInput" readonly="readonly">
-						</td>
-					</tr>
-					<tr>
-						<td>대여시작일</td>
-						<td>
-							<input id="equipmentBegindateId" type="date" name="equipmentBegindate">
-							<span id="equipmentBegindateIdMsg" class="msg"></span>
-						</td>
-					</tr>
-				</table>
-			</form>
-			<button id="addEqHistroyBtn" type="button">추가</button>
 			<button class="close" type="button">닫기</button>
 		</div>
 	</div>

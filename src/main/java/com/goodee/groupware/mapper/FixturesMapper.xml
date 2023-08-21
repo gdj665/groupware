@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.goodee.groupware.mapper.FixturesMapper">
+	<!-- 1) 자재목록 join -->
 	<select id="getFixturesList" parameterType="java.util.Map" resultType="java.util.Map">
 		SELECT 
 			p.parts_no partsNo,
@@ -33,14 +34,14 @@
 		</where>
 	</select>
 	
-	<!-- parts추가 -->
+	<!-- 2) parts추가 -->
 	<insert id="addParts" parameterType="com.goodee.groupware.vo.Parts">
 		INSERT INTO parts 
 			(parts_category_no, parts_name, parts_cnt, parts_price, parts_content, createdate, updatedate) 
 		VALUES(#{partsCategoryNo}, #{partsName}, #{partsCnt}, #{partsPrice}, #{partsContent}, NOW(), NOW());
 	</insert>	
 	
-	<!-- parts추가시 상위 카테고리 출력 0번은 부모번호이기 때문에 빼고 하위 번호만 출력 -->
+	<!-- 3) parts추가시 상위 카테고리 출력 0번은 부모번호이기 때문에 빼고 하위 번호만 출력 -->
 	<select id="getPartsCategoryList" resultType="java.util.Map">
 		SELECT 
 		parts_category_no partsCategoryNo,

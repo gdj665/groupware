@@ -45,7 +45,7 @@
 			<tr>
 				<td>입고사유</td>
 				<td>
-					<textarea id="repair_receiving_reasonId" rows="5" cols="30" name="repair_receiving_reason"></textarea>
+					<textarea id="repair_receiving_reasonId" rows="5" cols="30" name="repairReceivingReason"></textarea>
 					<span id="repair_receiving_reasonIdMsg" class="msg"></span>
 				</td>
 			</tr>
