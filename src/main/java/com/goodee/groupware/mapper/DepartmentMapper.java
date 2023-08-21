@@ -27,4 +27,8 @@ public interface DepartmentMapper {
 	List<Map<String,Object>> getTeamDepartment(Department department);
 	
 	int updateDepartment(Member member);
+	
+	int getMaxDepartmentNo(Department department);
+	
+	List<Map<String,Object>> getDeleteOnDepartmentList();
 }

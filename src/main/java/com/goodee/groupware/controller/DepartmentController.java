@@ -1,5 +1,6 @@
 package com.goodee.groupware.controller;
 
+import java.util.List;
 import java.util.Map;
 
 
@@ -9,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.goodee.groupware.sevice.DepartmentService;
 import com.goodee.groupware.vo.Department;
@@ -32,34 +34,45 @@ public class DepartmentController {
 		// 부서 리스트
 		model.addAttribute("departmentList", resultMap.get("department"));
 		model.addAttribute("memberList", resultMap.get("memberList"));
+		model.addAttribute("getDeleteOnDepartmentList", resultMap.get("getDeleteOnDepartmentList"));
 		
 		log.debug("DepartmentCotroller.getDepartmentList()-->" + resultMap);
 		
 		return "/department/departmentList";
 	}
-	
+//	RestController를 안쓰고 Controller만 썻을때 메소드에 ResponseBody 붙이면 RestController처럼 사용가능
+//	AJAX 사용하기위해 붙인 어노테이션
+	@ResponseBody
 	// 부서추가
-		@GetMapping("/department/addDepartment")
-		public String addDepartment() {
-			return "department/addDepartment";
-		}
 		@PostMapping("/department/addDepartment")
-		public String addDepartment(Department department) {
-			//매개값으로 request객체를 받는다 <- request api를 직접 호출하기 위해서
+		public int addDepartment(Department department) {
+			int MaxDepartmentNo = departmentService.getMaxDepartmentNo(department);
+			department.setDepartmentNo(MaxDepartmentNo+1);
 			int row = departmentService.addDepartment(department);
 			System.out.println("DepartmentController Rwow " + row);
-			return "redirect:/department/departmentList";
+			return row;
 		}
 	// 부서 이동
+		@ResponseBody
 		@PostMapping("/department/updateDepartment")
-		public String updateDepartment( @RequestParam(name="littleDepartment", defaultValue="0") int departmentNo,
+		public int updateDepartment( @RequestParam(name="littleDepartment", defaultValue="0") int departmentNo,
 										@RequestParam(name="memberId") String memberId){
 			log.debug("DepartmentCotroller.@RequestParam()-->" + departmentNo + memberId);
 			Member member = new Member();
 			member.setMemberId(memberId);
 			member.setDepartmentNo(departmentNo);
 			int row = departmentService.updateDepartment(member);
-			log.debug("DepartmentCotroller.row()-->" + departmentNo + memberId);
-			return "redirect:/department/departmentList";
+			log.debug("DepartmentCotroller.row()-->" + departmentNo + memberId + row);
+			return row;
 		}
+		
+	// 부서 삭제
+		@PostMapping("/department/deleteDepartment")
+		public String deleteDepartments(@RequestParam(value = "departmentNo[]") List<Integer> departmentNoList) {
+		    int deletedCount = departmentService.deleteDepartments(departmentNoList);
+		    log.debug("DepartmentCotroller.deletedCount()-->" + deletedCount);
+		    return "redirect:/department/departmentList";
+		}
+
+		
 }
