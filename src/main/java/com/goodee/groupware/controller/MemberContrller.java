@@ -114,6 +114,7 @@ public class MemberContrller {
 		request.setAttribute("memberId", memberId);
 		return "/member/updatePw";
 	}
+	
 //	비밀번호 수정 실행 페이지 (첫 로그인 or 비번 초기화 후)
 	@PostMapping("/member/updatePw")
 	public String updatePw(@RequestParam(name = "memberId") String memberId,
@@ -130,6 +131,7 @@ public class MemberContrller {
 		}
 		return "redirct:/member/addSign";
 	}
+	
 //	비밀번호 수정 실행 페이지(마이페이지에서 수정)
 	@ResponseBody
 	@PostMapping("/updateMemberPw")
@@ -196,24 +198,14 @@ public class MemberContrller {
 	public String updateMypage(Model model, String memberId) {
 		Member member = hrmService.getOneMember(memberId);
 		model.addAttribute("member", member);
-		
 		return "/member/updateMypage";
 	}
+	
 //	마이페이지 출력
 	@PostMapping("/member/updateMypage")
-	public String updateMypage(@RequestParam(name = "memberId") String memberId,
-								@RequestParam(name = "memberName") String memberName,
-								@RequestParam(name = "memberPhone") String memberPhone,
-								@RequestParam(name = "memberEmail") String memberEmail,
-								@RequestParam(name = "memberAddress") String memberAddress) {
-		Member member = new Member();
-		member.setMemberId(memberId);
-		member.setMemberName(memberName);
-		member.setMemberPhone(memberPhone);
-		member.setMemberEmail(memberEmail);
-		member.setMemberAddress(memberAddress);
+	public String updateMypage(Member member) {
 		int row = memberService.updateOneMember(member);
-		return "redirect:/member/mypage?memberId=" + memberId;
+		return "redirect:/member/mypage?memberId=" + member.getMemberId();
 	}
 	
 }

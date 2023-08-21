@@ -77,14 +77,15 @@
 				      }
 					})
 				}
+				$("#updateBtn").click(function(){
+					$("#updateForm").submit();
+				})
 			})
 		</script>
 </head>
 <body>
 	<c:set var="m" value="${member}"></c:set>
 	<h1>mypage</h1>
-	<form action="/member/updateMypage" method="post">
-		<input type="hidden" value="${m.memberId}" name="memberId" id="memberId">
 		${m.memberId}<br>
 		
 		<!-- 비번 수정 -->
@@ -94,6 +95,8 @@
 		새 비번 확인 : <input type="password" id="checkMemberPw"><br>
 		<button type="button" id="pwBtn">수정</button><br>
 		
+	<form action="/member/updateMypage" method="post" id="updateForm">
+		<input type="hidden" value="${m.memberId}" name="memberId" id="memberId">
 		${m.departmentNo}<br>
 		<input type="text" value="${m.memberName}" name="memberName" required="required"><br>
 		${m.memberGender}<br>
