@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.goodee.groupware.sevice.ScheduleService;
 import com.goodee.groupware.vo.Schedule;
@@ -26,6 +27,8 @@ public class ScheduleController {
 // ----- 일정 목록 -----
 	@GetMapping("/schedule/scheduleList")
 	public String getScheduleList(HttpSession session, Model model,
+			
+									@RequestParam(required = false, name = "fail") String fail,		
 									@RequestParam(required = false, name = "targetYear") Integer targetYear,		
 									@RequestParam(required = false, name = "targetMonth") Integer targetMonth,
 									@RequestParam(required = false, name = "scheduleCategory") String scheduleCategory) {
@@ -47,6 +50,7 @@ public class ScheduleController {
 		
 		// Model에 담아서 View로 넘기기
 		model.addAttribute("scheduleMap", scheduleMap);
+		model.addAttribute("fail", fail);
 		return "/schedule/scheduleList";
 	}
 	
@@ -110,10 +114,14 @@ public class ScheduleController {
 		return "/schedule/addDepartmentSchedule";
 	}
 	@PostMapping("/schedule/addDepartmentSchedule")
-	public String addDepartmentSchedule(Schedule schedule) {
+	public String addDepartmentSchedule(Schedule schedule, RedirectAttributes redirectAttributes) {
 		int row = 0;
 		row = scheduleService.addDepartmentSchedule(schedule);
 		log.debug("\u001B[31m"+"ScheduleController.addDepartmentSchedule() row : "+row+"\u001B[0m");
+		
+		if(row == 0) { // 등록에 실패하면
+			redirectAttributes.addAttribute("fail","실패");
+		}
 		return "redirect:/schedule/scheduleList";
 	}
 	
@@ -128,7 +136,7 @@ public class ScheduleController {
 	
 // ----- 부서 일정 삭제(부서장만) ------
 	@GetMapping("/schedule/deleteDepartmentSchedule")
-	public String deleteDepartmentSchedule(HttpSession session, Schedule schedule) {
+	public String deleteDepartmentSchedule(HttpSession session, Schedule schedule, RedirectAttributes redirectAttributes) {
 		int row = 0;
 		
 		// 세션 아이디 값 저장
@@ -137,10 +145,14 @@ public class ScheduleController {
 		
 		row = scheduleService.deleteDepartmentSchedule(schedule);
 		log.debug("\u001B[31m"+"ScheduleController.deleteDepartmentSchedule() row : "+row+"\u001B[0m");
+		
+		if(row == 0) { // 등록에 실패하면
+			redirectAttributes.addAttribute("fail","실패");
+		}
 		return "redirect:/schedule/scheduleList";
 	}
 	
-// ----- 개인 일정 수정
+// ----- 개인 일정 수정 -----
 	@GetMapping("/schedule/updatePersonalSchedule")
 	public String updatePersonalSchedule(HttpSession session, Model model,
 													@RequestParam(required = false, name = "scheduleNo") Integer scheduleNo) {
@@ -164,7 +176,7 @@ public class ScheduleController {
 	}
 	
 	
-// ----- 부서 일정 수정(부서장만)
+// ----- 부서 일정 수정(부서장만) -----
 	@GetMapping("/schedule/updateDepartmentSchedule")
 	public String updateDepartmentSchedule(HttpSession session, Model model,
 													@RequestParam(required = false, name = "scheduleNo") Integer scheduleNo) {
@@ -180,10 +192,13 @@ public class ScheduleController {
 	}
 	
 	@PostMapping("/schedule/updateDepartmentSchedule")
-	public String updateDepartmentSchedule(Schedule schedule) {
+	public String updateDepartmentSchedule(Schedule schedule, RedirectAttributes redirectAttributes) {
 		int row = 0;
 		row = scheduleService.updateDepartmentSchedule(schedule);
 		log.debug("\u001B[31m"+"ScheduleController.updateDepartmentSchedule() row : "+row+"\u001B[0m");
+		if(row == 0) { // 등록에 실패하면
+			redirectAttributes.addAttribute("fail","실패");
+		}
 		return "redirect:/schedule/scheduleList";
 	}
 	

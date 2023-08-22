@@ -130,7 +130,7 @@ public class ScheduleService {
 		return row;
 	}
 	
-// ----- 부서 일정 추가(부서장만 추가 가능)
+// ----- 부서 일정 추가(부서장만 추가 가능) -----
 	public int addDepartmentSchedule(Schedule schedule){
 		int cnt = 0;
 		int row = 0;
@@ -140,9 +140,7 @@ public class ScheduleService {
 		log.debug("\u001B[31m"+"ScheduleService.addDepartmentSchedule() cnt : "+cnt+"\u001B[0m");
 		if(cnt > 0) { // 부서장이 맞으면
 			row = scheduleMapper.addSchedule(schedule); // 일정 추가
-		} else { // 부서장이 아니면
-			row=0;
-		}
+		} 
 		log.debug("\u001B[31m"+"ScheduleService.addDepartmentSchedule() row : "+row+"\u001B[0m");
 		return row; 
 	}
@@ -160,14 +158,11 @@ public class ScheduleService {
 		int cnt = 0;
 		int row = 0;
 		
-		
 		// 부서장 유무 조회
 		cnt = scheduleMapper.getMemberLevelCount(schedule);
 		log.debug("\u001B[31m"+"ScheduleService.deleteDepartmentSchedule() cnt : "+cnt+"\u001B[0m");
 		if(cnt > 0) { // 부서장이 맞으면
 			row = scheduleMapper.deleteSchedule(schedule);
-		} else { // 부서장이 아니면
-			row=0;
 		}
 		log.debug("\u001B[31m"+"ScheduleService.deleteDepartmentSchedule() row : "+row+"\u001B[0m");
 		return row;
@@ -192,8 +187,6 @@ public class ScheduleService {
 		log.debug("\u001B[31m"+"ScheduleService.updateDepartmentSchedule() cnt : "+cnt+"\u001B[0m");
 		if(cnt > 0) { // 부서장이 맞으면
 			row = scheduleMapper.updateSchdule(schedule);
-		} else { // 부서장이 아니면
-			row=0;
 		}
 		log.debug("\u001B[31m"+"ScheduleService.updateDepartmentSchedule() row : "+row+"\u001B[0m");
 		return row;

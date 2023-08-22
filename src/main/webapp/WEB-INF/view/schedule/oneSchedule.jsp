@@ -42,10 +42,10 @@
 			<td>${c.scheduleBegindate}</td>
 			<td>${c.scheduleEnddate}</td>
 			<c:if test="${c.scheduleCategory == '개인'}">
-				<td><a href="${pageContext.request.contextPath}/schedule/deletePersonalSchedule?scheduleNo=${c.scheduleNo}">개인일정삭제</a></td>
+				<td><a href="${pageContext.request.contextPath}/schedule/deletePersonalSchedule?scheduleNo=${c.scheduleNo}" onClick="return confirm('삭제하시겠습니까?')">개인일정삭제</a></td>
 			</c:if>
 			<c:if test="${c.scheduleCategory == '부서'}">
-				<td><a href="${pageContext.request.contextPath}/schedule/deleteDepartmentSchedule?scheduleNo=${c.scheduleNo}">부서일정삭제</a></td>
+				<td><a href="${pageContext.request.contextPath}/schedule/deleteDepartmentSchedule?scheduleNo=${c.scheduleNo}" onClick="return confirm('삭제하시겠습니까?')">부서일정삭제</a></td>
 			</c:if>
 		</tr>
 		</c:forEach>

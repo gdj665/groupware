@@ -11,6 +11,17 @@
 		width:100px; height: 50px;
 						}
 </style>
+<!-- jquery -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+<script>
+	$(document).ready(function(){
+		var fail = "${fail}";
+		if (fail === '실패') {
+			alert('권한이 없습니다.');
+		}
+		console.log(fail);
+	});
+</script>
 </head>
 <body>
 	<!-- model값 받아와서 문자로 셋팅 -->
