@@ -1,8 +1,12 @@
 package com.goodee.groupware.mapper;
 
+import java.util.List;
+import java.util.Map;
+
 import org.apache.ibatis.annotations.Mapper;
 
 import com.goodee.groupware.vo.Member;
+import com.goodee.groupware.vo.Work;
 
 @Mapper
 public interface MemberMapper {
@@ -17,5 +21,20 @@ public interface MemberMapper {
 	
 //	member sign 수정
 	int updateSign(Member member);
+	
+//	근태 출력
+	List<Work> getWorkList(Map<String, Object> paramMap);
+	
+//	출근 입력
+	int addWorkBegin(Work work);
+
+//	출근 입력
+	int addWorkEnd(Work work);
+
+//	연차 입력
+	int addWorkAnnual(Work work);
+	
+//	출근 유의성 체크
+	int checkWork(Work work);
 	
 }

@@ -24,7 +24,8 @@
 	<update id="updatePw"
 			parameterType="com.goodee.groupware.vo.Member">
 		UPDATE member
-		SET member_pw = PASSWORD(#{memberPw})
+		SET member_pw = PASSWORD(#{memberPw}),
+			updatedate = NOW()
 		WHERE member_id = #{memberId}
 	</update>
 	
@@ -35,7 +36,8 @@
 		SET member_name = #{memberName},
 			member_phone = #{memberPhone},
 			member_email = #{memberEmail},
-			member_address = #{memberAddress}
+			member_address = #{memberAddress},
+			updatedate = NOW()
 		WHERE member_id = #{memberId}
 	</update>
 	
@@ -43,8 +45,53 @@
 	<update id="updateSign"
 			parameterType="com.goodee.groupware.vo.Member">
 		UPDATE member
-		SET member_sign_file = #{memberSignFile}
+		SET member_sign_file = #{memberSignFile},
+			updatedate = NOW()
 		WHERE member_id = #{memberId}
 	</update>
 	
+	<!-- 근태 출력 -->
+	<select id="getWorkList"
+			parameterType="java.util.Map"
+			resultType="com.goodee.groupware.vo.Work">
+		SELECT work_begin workBegin, work_end workEnd, work_date workDate, work_annual workAnnual
+		FROM work
+		WHERE member_id = #{memberId}
+		AND YEAR(work_date) = #{targetYear}
+		AND MONTH(work_date) = #{targetMonth}
+	</select>
+	
+	<!-- 출근 입력 -->
+	<insert id="addWorkBegin"
+			parameterType="com.goodee.groupware.vo.Work">
+		INSERT INTO work(member_id, work_begin, work_date, createdate, updatedate)
+		VALUES(#{memberId}, #{workBegin}, #{workDate}, NOW(), NOW())
+	</insert>
+
+	<!-- 퇴근 입력 -->
+	<update id="addWorkEnd"
+			parameterType="com.goodee.groupware.vo.Work">
+		UPDATE work
+		SET work_end = #{workEnd},
+			updatedate = NOW()
+		WHERE member_id = #{memberId}
+		AND work_date = #{workDate}
+	</update>
+
+	<!-- 연차 입력 -->
+	<insert id="addWorkAnnual"
+			parameterType="com.goodee.groupware.vo.Work">
+		INSERT INTO work(work_date, work_annual createdate, updatedate)
+		VALUES(#{workDate}, #{workAnnual}, NOW(), NOW())
+	</insert>
+	
+	<!-- 출근 유의성 검사 -->
+	<select id="checkWork"
+			parameterType="com.goodee.groupware.vo.Work"
+			resultType="int">
+		SELECT COUNT(*) cnt
+		FROM work
+		WHERE member_id = #{memberId}
+		AND work_date = #{workDate}
+	</select>
 </mapper>

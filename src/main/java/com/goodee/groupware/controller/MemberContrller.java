@@ -1,5 +1,8 @@
 package com.goodee.groupware.controller;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -208,4 +211,30 @@ public class MemberContrller {
 		return "redirect:/member/mypage?memberId=" + member.getMemberId();
 	}
 	
+//	근태 출력
+	@GetMapping("/member/workResister")
+	public String getScheduleList(HttpSession session, Model model,
+									@RequestParam(required = false, name = "targetYear") Integer targetYear,		
+									@RequestParam(required = false, name = "targetMonth") Integer targetMonth) {
+		String memberId =(String)session.getAttribute("loginMember");
+		Map<String, Object> workMap = memberService.getWorkList(memberId, targetYear, targetMonth);
+		model.addAttribute("workMap", workMap);
+		targetYear = (Integer)workMap.get("targetYear");
+		targetMonth = (Integer)workMap.get("targetMonth");
+		return "/member/workResister";
+	}
+	
+//	출근 등록
+	@GetMapping("/member/workBegin")
+	public String addWorkBegin(@RequestParam(name = "memberId") String memberId) {
+		memberService.addWorkBegin(memberId);
+		return "redirect:/member/workResister";
+	}
+
+//	퇴근 등록
+	@GetMapping("/member/workEnd")
+	public String addWorkEnd(@RequestParam(name = "memberId") String memberId) {
+		memberService.addWorkEnd(memberId);
+		return "redirect:/member/workResister";
+	}
 }
