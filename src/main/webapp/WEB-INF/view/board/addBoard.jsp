@@ -10,11 +10,36 @@
 <script>
 	$(document).ready(function() {
 		$('#uploadForm').submit(function() {
+			// 첨부파일 갯수 제한
 			const fileInput = $('#fileInput')[0];
 			if (fileInput.files.length > 5) {
 				alert("최대 5개의 파일만 업로드할 수 있습니다.");
 				return false; // 폼 제출 방지
 			}
+
+            // 업로드된 파일들의 크기를 확인
+            const maxFileSize = 50 * 1024 * 1024;
+
+            let totalSize = 0;
+            for (let i = 0; i < fileInput.files.length; i++) {
+                totalSize += fileInput.files[i].size;
+            }
+
+            if (totalSize > maxFileSize) {
+                alert("최대 50MB의 파일만 업로드할 수 있습니다.");
+                return false; // 폼 제출 방지
+            }
+        });
+    });
+	// 파일 선택 시 파일명 표시
+	$(document).ready(function() {
+		$('#fileInput').change(function() {
+			const selectedFiles = [];
+			for (let i = 0; i < this.files.length; i++) {
+				selectedFiles.push(this.files[i].name);
+			}
+			// 각 파일 출력후에 <br>태그로 개행(text 타입에서 \n으로는 개행이 되지않음)
+			$('#selectedFiles').html(selectedFiles.join("<br>"));
 		});
 	});
 </script>
@@ -45,9 +70,12 @@
 			<tr>
 				<td>
 					<input type="file" name="multipartFile" id="fileInput" multiple>
-					<!-- 해당 name은 vo.Board에 선언된 이름을 사용 -->
 				</td>
 			</tr>
+			 <tr>
+                <th>선택한 파일</th>
+                <td id="selectedFiles"></td>
+            </tr>
 		</table>
 		<button type="submit">게시물 추가</button>
 	</form>
