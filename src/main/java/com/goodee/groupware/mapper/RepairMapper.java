@@ -6,6 +6,7 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.goodee.groupware.vo.Repair;
+import com.goodee.groupware.vo.RepairParts;
 
 @Mapper
 public interface RepairMapper {
@@ -21,5 +22,8 @@ public interface RepairMapper {
 	
 	// 3) repair 대기중->수리중->수리완료 수정
 	int updateRepair(Repair repair);
+	
+	// 3.1) 수리완료시 repair_parts(수리 자재사용 테이블)추가
+	int addRepairParts(RepairParts repairParts);
 	
 }

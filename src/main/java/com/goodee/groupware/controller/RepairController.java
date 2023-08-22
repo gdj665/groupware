@@ -11,9 +11,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.goodee.groupware.sevice.RepairService;
+import com.goodee.groupware.vo.Parts;
 import com.goodee.groupware.vo.Repair;
+import com.goodee.groupware.vo.RepairParts;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -69,6 +72,7 @@ public class RepairController {
 		
 		// view에 넘겨줄 리스트 값
 		model.addAttribute("repairList", resultMap.get("repairList"));
+		model.addAttribute("partsList", resultMap.get("partsList"));
 		// view에 넘겨줄 세션아이디값
 		model.addAttribute("memberId", memberId);
 		
@@ -84,35 +88,42 @@ public class RepairController {
 	
 	// 3) repair 대기중 -> 수리중 -> 수리완료 수정
 	@PostMapping("/repair/updateRepair")
-	public String updateRepair(Repair repair) {
+																		// redirect시 값을 K/V형태로 보낼 수 있게 해줌 
+	public String updateRepair(Repair repair, RepairParts repairParts, Parts parts, RedirectAttributes redirectAttributes) {
 		
 		int row =0;
 		
 		// 매개값에 따라 호출 분기시켜 디버깅코드 확인
 		if(repair.getMemberId() != null) {
-			row = repairSerivce.updateRepair(repair);
-			log.debug("RepairController.updateRepair() 대기중 -> 수리중 repair" + repair.toString());
+			// 호출
+			row = repairSerivce.updateRepair(repair, repairParts, parts);
+			log.debug("RepairController.updateRepair() 대기중 -> 수리중 Param repair" + repair.toString());
 			
 			if(row > 0) {
-				log.debug("RepairController.updateRepair row 대기중 -> 수리중 변경완료" + row);
+				log.debug("RepairController.updateRepair() row 대기중 -> 수리중 변경완료" + row);
 			} else {
-				log.debug("RepairController.updateRepair row 대기중 -> 수리중 변경실패" + row);
+				log.debug("RepairController.updateRepair() row 대기중 -> 수리중 변경실패" + row);
 			}
-			
-			return "/repair/repairList?repairStatus=수리중";
+			redirectAttributes.addAttribute("repairStatus", "수리중");
+			return "redirect:/repair/repairList";
 			
 		} else if(repair.getRepairContent() != null) {
-			row = repairSerivce.updateRepair(repair);
-			log.debug("RepairController.updateRepair() 수리중 -> 수리완료 repair" + repair.toString());
+			// 호출
+			row = repairSerivce.updateRepair(repair, repairParts, parts);
+			log.debug("RepairController.updateRepair() 수리중 -> 수리완료 Param repair" + repair.toString());
 			
 			if(row > 0) {
-				log.debug("RepairController.updateRepair row 수리중 -> 수리완료 변경완료" + row);
+				log.debug("RepairController.updateRepair() row 수리중 -> 수리완료 변경완료" + row);
 			} else {
-				log.debug("RepairController.updateRepair row 수리중 -> 수리완료 변경실패" + row);
+				log.debug("RepairController.updateRepair() row 수리중 -> 수리완료 변경실패" + row);
 			}
-			return "/repair/repairList?repairStatus=수리완료";
+			
+			redirectAttributes.addAttribute("repairStatus", "수리완료");
+			return "redirect:/repair/repairList";
 		}
 		
-		return "/repair/repairList?repairStatus=대기중";
+		// 수정 실패시 대기중 리스트로
+		redirectAttributes.addAttribute("repairStatus", "대기중");
+		return "redirect:/repair/repairList";
 	}
 }

@@ -22,6 +22,7 @@
 		LIMIT #{beginRow}, #{rowPerPage}
 	</select>
 	
+	<!-- 1.1) 자재목록 총행의 개수 -->
 	<select id="getFixturesListCount" resultType="int" parameterType="String">
 		SELECT 
 			COUNT(*)
@@ -41,18 +42,42 @@
 		VALUES(#{partsCategoryNo}, #{partsName}, #{partsCnt}, #{partsPrice}, #{partsContent}, NOW(), NOW());
 	</insert>	
 	
-	<!-- 3) parts추가시 상위 카테고리 출력 0번은 부모번호이기 때문에 빼고 하위 번호만 출력 -->
+	<!-- 2.1) parts추가시 상위 카테고리 출력 0번은 부모번호이기 때문에 빼고 하위 번호만 출력 -->
 	<select id="getPartsCategoryList" resultType="java.util.Map">
 		SELECT 
 		parts_category_no partsCategoryNo,
 		parts_category partsCategory,
+		parts_cnt partsCnt,
 		parts_parent_no partsParentNo
 		FROM parts_category
 		WHERE parts_parent_no > 0;
 	</select>
 	
+	<!-- 3) 자재 삭제 -->
 	<delete id="deleteParts" parameterType="com.goodee.groupware.vo.Parts">
 		DELETE FROM parts 
 		WHERE parts_no = #{partsNo}
 	</delete>
+	
+	<!-- repairService 2번에서 사용 수리완료시 사용자재 출력 -->
+	<select id="getPartsList" resultType="java.util.Map">
+		SELECT 
+			parts_no partsNo,
+			parts_name partsName,
+			parts_cnt partsCnt
+		FROM parts
+		<where>
+			<!-- 분기 -->
+			<if test="partsName != null">
+				parts_name = #{partsName}
+			</if>
+		</where>
+	</select>
+	
+	<!-- repareService에서 사용됨) repair_parts에 사용된 목록이 추가가 되므로 parts테이블의 해당 자재의 개수가 사용된만큼 감소 -->
+	<update id="updatePartsCnt" parameterType="com.goodee.groupware.vo.Parts">
+		UPDATE parts SET parts_cnt = parts_cnt -#{partsCnt}
+		WHERE parts_no = #{partsNo};
+	</update>
+	
 </mapper>

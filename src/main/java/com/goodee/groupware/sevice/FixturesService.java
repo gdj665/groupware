@@ -66,10 +66,8 @@ public class FixturesService {
 	
 	// 2) 자재 추가(parts 테이블 추가)
 	public int addParts(Parts parts) {
-		// 추가된 행 개수 반환값
-		int row = 0;
 		// 맵퍼에서 추가 메서드 호출
-		row = fixturesMapper.addParts(parts);
+		 int row = fixturesMapper.addParts(parts);
 		log.debug("FixturesService.addParts() row --->" + row);
 		
 		return row;
@@ -77,10 +75,29 @@ public class FixturesService {
 	
 	// 3) 자재 삭제(parts 테이블 삭제)
 	public int deleteParts(Parts parts) {
-		// 삭제 행 개수 반환
-		int row = 0;
+		// 맵퍼에서 삭제 메서드 호출
+		 int row = fixturesMapper.deleteParts(parts);
+		return row;
+	}
+	
+	public Map<String,Object> getPartsList(Parts parts) {
 		
-		row = fixturesMapper.deleteParts(parts);
+		// partsList 맵퍼 호출
+		List<Map<String,Object>> partsList = fixturesMapper.getPartsList(parts);
+		log.debug("FixturesService.getPartsList() partsList --->" + partsList.toString());
+		
+		// 결과값 반환할 resultMap
+		Map<String,Object> resultMap = new HashMap<>();
+		resultMap.put("partsList", partsList);
+		
+		return resultMap;
+	}
+	
+	// repareService에서 사용됨) repair_parts에 사용된 목록이 추가가 되므로 parts테이블의 해당 자재의 개수가 사용된만큼 감소
+	public int updatePartsCnt(Parts parts) {
+		// 맵퍼에서 Cnt갯수 감소시키는 메서드 호출
+		int row = fixturesMapper.updatePartsCnt(parts);
+		
 		return row;
 	}
 }

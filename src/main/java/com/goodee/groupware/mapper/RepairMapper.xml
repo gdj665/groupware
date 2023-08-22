@@ -72,9 +72,16 @@
 		
 		<!-- 수리중 -> 수리완료 repair_release_date, repair_price, repair_status, repair_content 업데이트 -->
 		<if test="repairContent != null">
-			UPDATE repair SET repair_release_date now(), repair_price = #{repairPrice}, repair_status = '수리완료', repair_content = #{repairContent} updatedate = now()
+			UPDATE repair SET repair_release_date = now(), repair_price = #{repairPrice}, repair_status = '수리완료', repair_content = #{repairContent}, updatedate = now()
 			WHERE repair_no = #{repairNo}
 		</if>
 	</update>
+	
+	<!-- 3.1) 수리완료시 repair_parts(수리 자재사용 테이블)추가 -->
+	<insert id="addRepairParts" parameterType="com.goodee.groupware.vo.RepairParts">
+		INSERT  INTO repair_parts
+			(repair_no, parts_no, repair_parts_cnt, createdate, updatedate)
+		VALUES(#{repairNo}, #{partsNo}. #{repairPartsCnt}, NOW(), NOW())
+	</insert>
 	
 </mapper>

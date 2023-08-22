@@ -303,7 +303,7 @@
 					<tr>
 						<td>설명</td>
 						<td>
-							<textarea id="partsContentId" rows="5" cols="30" name="partsContent"></textarea>
+							<textarea id="partsContentId" rows="5" cols="50" name="partsContent"></textarea>
 							<span id="partsContentIdMsg" class="msg"></span>
 						</td>
 					</tr>

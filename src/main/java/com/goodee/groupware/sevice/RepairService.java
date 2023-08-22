@@ -8,8 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.goodee.groupware.mapper.FixturesMapper;
 import com.goodee.groupware.mapper.RepairMapper;
+import com.goodee.groupware.vo.Parts;
 import com.goodee.groupware.vo.Repair;
+import com.goodee.groupware.vo.RepairParts;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -19,6 +22,8 @@ import lombok.extern.slf4j.Slf4j;
 public class RepairService {
 	@Autowired
 	private RepairMapper repairMapper;
+	@Autowired
+	private FixturesMapper fixturesMapper;
 	
 	// 1) as접수시 repair테이블 추가
 	public int addRepair(Repair repair) {
@@ -56,20 +61,55 @@ public class RepairService {
 		}
 		log.debug("RepairService.getRepairList() lastPage --->" + lastPage);
 		
+		// 수리완료 변경시 사용한 자재명과 개수 출력
+		Parts parts = new Parts();
+		List<Map<String,Object>> partsList = fixturesMapper.getPartsList(parts);
+		log.debug("RepairService.getRepairList() partsList --->" + partsList.toString());
+		
 		// 반환할 resultMap
 		Map<String,Object> resultMap = new HashMap<>();
 		resultMap.put("repairList", repairList);
 		resultMap.put("lastPage", lastPage);
+		resultMap.put("partsList", partsList);
 		
 		return resultMap;
 	}
 	
 	// 3) repair 대기중 -> 수리중 -> 수리완료 수정
-	public int updateRepair(Repair repair) {
+	public int updateRepair(Repair repair, RepairParts repairParts, Parts parts) {
 		
-		int row = repairMapper.updateRepair(repair);
+		log.debug("RepairService.updateRepair() Param repair --->" + repair.toString());
 		
-		return row;
+		
+		// 결과값 받을 변수
+		int repairRow = 0;
+		int repair_partsRow = 0;
+		int partsMinusCntRow = 0;
+		
+		// memberId 가 null이 아니면 대기중 -> 수리중 수정이기 때문에 repair_parts는 실행x
+		if(repair.getMemberId() != null) {
+			repairRow = repairMapper.updateRepair(repair);
+		// repairContent가 null이 아니면 수리중 -> 수리완료 수정이기 때문에 자재 사용내역 값도 repairParts vo에 함께 넘어옴 그러므로 repair_parts 테이블 추가
+			
+		} else if(repair.getRepairContent() != null) {
+			repairRow = repairMapper.updateRepair(repair);
+			
+			// repairRow가 수정된 내용이 있어야 repair_parts테이블이 추가되므로 repairRow가 0보다 클때만 실행
+			if(repairRow > 0) {
+				log.debug("RepairService.updateRepair() Param repairParts --->" + repairParts.toString());
+				repair_partsRow = repairMapper.addRepairParts(repairParts);
+				
+				if(repair_partsRow > 0) {
+					log.debug("RepairService.updateRepair() Param parts --->" + parts.toString());
+					partsMinusCntRow = fixturesMapper.updatePartsCnt(parts);
+					
+				}
+			}
+			// else if 실행시 반환값
+			return partsMinusCntRow;
+		}
+		// if 실행시 반환값
+		return repairRow;
 	}
 	
 	
