@@ -13,6 +13,9 @@ public interface ScheduleMapper {
 	// 월 별 일정
 	List<Schedule> getScheduleList(Map<String, Object> paramMap);
 	
+	// 월 별 부서일정
+	List<Schedule> getDepartmentScheduleList(Map<String, Object> paramMap);
+	
 	// 일 별 일정 상세보기
 	List<Map<String, Object>> getOneSchedule(Map<String, Object> paramMap);
 	
@@ -25,4 +28,6 @@ public interface ScheduleMapper {
 	// 일정 삭제
 	int deleteSchedule(Schedule schedule);
 	
+	// 일정 수정
+	int updateSchdule(Schedule schedule);
 }

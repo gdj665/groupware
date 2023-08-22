@@ -1,44 +1,48 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.goodee.groupware.mapper.ScheduleMapper">
-	<!-- 월 별 일정 (전체 or 개인 or 부서) -->
+	<!-- 월 별 일정 (개인 or 부서) -->
 	<select id="getScheduleList" parameterType="java.util.Map" resultType="com.goodee.groupware.vo.Schedule">
 		SELECT
-			schedule_no scheduleNo,
- 			schedule_category scheduleCategory,
-			schedule_title scheduleTitle,
-			schedule_content scheduleContent,
-			schedule_begindate scheduleBegindate,
-			schedule_enddate scheduleEnddate
-		FROM schedule
+			s.schedule_no scheduleNo,
+ 			s.schedule_category scheduleCategory,
+			s.schedule_title scheduleTitle,
+			s.schedule_content scheduleContent,
+			s.schedule_begindate scheduleBegindate,
+			s.schedule_enddate scheduleEnddate
+		FROM schedule s
+			INNER JOIN member m ON s.member_id = m.member_id
 		<where>
-            <if test="scheduleCategory != null">
-				schedule_category = #{scheduleCategory}
+            <if test="scheduleCategory == '개인'">
+            	m.member_id = #{memberId}
             </if>
-            AND member_id = #{memberId}
-            AND YEAR(schedule_begindate) = #{targetYear}
-            AND MONTH(schedule_begindate) = #{targetMonth}
+            	AND s.schedule_category = #{scheduleCategory}
+            	AND m.department_no = #{departmentNo}
+            	AND YEAR(s.schedule_begindate) = #{targetYear}
+            	AND MONTH(s.schedule_begindate) = #{targetMonth}
         </where>
 	</select>
 	
 	<!-- 일 별 일정 상세보기 (전체 or 개인 or 부서) -->
 	<select id="getOneSchedule" parameterType="java.util.Map" resultType="java.util.Map">
 		SELECT
-			schedule_no scheduleNo,
-			schedule_category scheduleCategory,
-			schedule_title scheduleTitle,
-			schedule_content scheduleContent,
-			schedule_begindate scheduleBegindate,
-			schedule_enddate scheduleEnddate
-		FROM schedule
+			s.schedule_no scheduleNo,
+			s.schedule_category scheduleCategory,
+			s.schedule_title scheduleTitle,
+			s.schedule_content scheduleContent,
+			s.schedule_begindate scheduleBegindate,
+			s.schedule_enddate scheduleEnddate
+		FROM schedule s
+			INNER JOIN member m ON s.member_id = m.member_id
 		<where>
-            <if test="scheduleCategory != null">
-				schedule_category = #{scheduleCategory}
+            <if test="scheduleCategory == '개인'">
+				AND m.member_id = #{memberId} 
             </if>
-			AND member_id = #{memberId} 
-			AND YEAR(schedule_begindate) = #{targetYear}
-            AND MONTH(schedule_begindate) = #{targetMonth} 	
-			AND DAY(schedule_begindate) = #{targetDate}
+			AND schedule_category = #{scheduleCategory}
+			AND m.department_no = #{departmentNo}
+			AND YEAR(s.schedule_begindate) = #{targetYear}
+            AND MONTH(s.schedule_begindate) = #{targetMonth} 	
+			AND DAY(s.schedule_begindate) = #{targetDate}
 		</where>	
 	</select>
 	
@@ -77,5 +81,11 @@
 	<delete id="deleteSchedule" parameterType="com.goodee.groupware.vo.Schedule">
 		DELETE FROM schedule
 		WHERE schedule_no = #{scheduleNo}
-	</delete>	
+	</delete>
+	
+	<!-- 일정 수정 -->
+	<update id="updateSchdule">
+	
+	</update>
+	
 </mapper>

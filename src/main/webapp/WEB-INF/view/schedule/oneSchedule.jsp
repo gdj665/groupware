@@ -14,16 +14,19 @@
 	<c:set var="m" value="${oneScheduleMap}"></c:set>
 	<a href="/schedule/scheduleList">뒤로가기</a>
 	
-	<h1>${m.memberId}님의 ${m.targetYear}년 ${m.targetMonth+1}월 ${m.targetDate}일 일정</h1>
+	<h1>${m.targetYear}년 ${m.targetMonth+1}월 ${m.targetDate}일 일정</h1>
 
-	<a href="${pageContext.request.contextPath}/schedule/oneSchedule?targetYear=${m.targetYear}&targetMonth=${m.targetMonth}&targetDate=${m.targetDate}">전체</a>
 	<a style="color:orange" href="${pageContext.request.contextPath}/schedule/oneSchedule?targetYear=${m.targetYear}&targetMonth=${m.targetMonth}&targetDate=${m.targetDate}&scheduleCategory=부서">부서</a>
 	<a style="color:green" href="${pageContext.request.contextPath}/schedule/oneSchedule?targetYear=${m.targetYear}&targetMonth=${m.targetMonth}&targetDate=${m.targetDate}&scheduleCategory=개인">개인</a>
+	<br>
+	<span>${m.memberId}</span>
 	<span>${memberLevel}</span>
-	<br><br><br>
+	<span>${m.departmentNo}</span>
+	<br><br>
 	<table>
 		<tr>
 			<th>카테고리</th>
+			<th>부서번호</th>
 			<th>제목</th>
 			<th>내용</th>
 			<th>시작일</th>
@@ -33,17 +36,17 @@
 		<c:forEach var="c" items="${m.oneScheduleList}">
 		<tr>
 			<td>${c.scheduleCategory}</td>
+			<td>${m.departmentNo}</td>
 			<td>${c.scheduleTitle}</td>
 			<td>${c.scheduleContent}</td>
 			<td>${c.scheduleBegindate}</td>
 			<td>${c.scheduleEnddate}</td>
 			<c:if test="${c.scheduleCategory == '개인'}">
-				<td><a href="${pageContext.request.contextPath}/schedule/deleteSchedule?scheduleNo=${c.scheduleNo}">개인일정삭제</a></td>
+				<td><a href="${pageContext.request.contextPath}/schedule/deletePersonalSchedule?scheduleNo=${c.scheduleNo}">개인일정삭제</a></td>
 			</c:if>
 			<c:if test="${c.scheduleCategory == '부서'}">
 				<td><a href="${pageContext.request.contextPath}/schedule/deleteDepartmentSchedule?scheduleNo=${c.scheduleNo}">부서일정삭제</a></td>
 			</c:if>
-			
 		</tr>
 		</c:forEach>
 	</table>

@@ -23,7 +23,7 @@ public class ScheduleService {
 	private ScheduleMapper scheduleMapper;
 	
 	// 달력 출력 + 월 별 일정 정보 조회
-	public Map<String, Object> getScheduleList(String memberId, Integer targetYear, Integer targetMonth, String scheduleCategory){
+	public Map<String, Object> getScheduleList(int departmentNo, String memberId, Integer targetYear, Integer targetMonth, String scheduleCategory){
 		
 		// 달력 API 가져오기
 		Calendar firstDate = Calendar.getInstance();
@@ -71,6 +71,7 @@ public class ScheduleService {
 		scheduleMap.put("preEndDate", preEndDate);
 		scheduleMap.put("memberId", memberId);
 		scheduleMap.put("scheduleCategory", scheduleCategory);
+		scheduleMap.put("departmentNo,", departmentNo);
 		
 		// 매개변수 값들을 Map에 담음
 		Map<String, Object> paramMap = new HashMap<String, Object>();
@@ -78,6 +79,7 @@ public class ScheduleService {
 		paramMap.put("targetMonth", targetMonth + 1); // targetMonth에 +1을 해주어야한다
 		paramMap.put("memberId", memberId);
 		paramMap.put("scheduleCategory", scheduleCategory);
+		paramMap.put("departmentNo", departmentNo);
 		
 		// 월 별 일정 정보 조회 
 		List<Schedule> scheduleList = new ArrayList<>();
@@ -90,7 +92,7 @@ public class ScheduleService {
 	}
 	
 	// 일 별 전체 일정 상세보기 조회
-	public Map<String, Object> getOneSchedule(String memberId, Integer targetYear, Integer targetMonth, Integer targetDate, String scheduleCategory){
+	public Map<String, Object> getOneSchedule(int departmentNo, String memberId, Integer targetYear, Integer targetMonth, Integer targetDate, String scheduleCategory){
 	
 		// Map에 담아서 Conntroller로 넘기기
 		Map<String, Object> oneScheduleMap = new HashMap<String, Object>();
@@ -99,6 +101,7 @@ public class ScheduleService {
 		oneScheduleMap.put("targetDate", targetDate);
 		oneScheduleMap.put("memberId", memberId);
 		oneScheduleMap.put("scheduleCategory", scheduleCategory);
+		oneScheduleMap.put("departmentNo", departmentNo);
 		
 		// 매개변수 값들을 Map에 담음
 		Map<String, Object> paramMap = new HashMap<String, Object>();
@@ -107,6 +110,7 @@ public class ScheduleService {
 		paramMap.put("targetDate", targetDate);
 		paramMap.put("memberId", memberId);
 		paramMap.put("scheduleCategory", scheduleCategory);
+		paramMap.put("departmentNo", departmentNo);
 		
 		// 일 별 전체 일정 상세보기
 		List<Map<String, Object>> oneScheduleList = new ArrayList<>();
@@ -149,6 +153,14 @@ public class ScheduleService {
 		return row; 
 	}
 	
+	// 개인 일정 삭제
+	public int deletePersonalSchedule(Schedule schedule) {
+		int row = 0;
+		row = scheduleMapper.deleteSchedule(schedule);
+		log.debug("\u001B[31m"+"ScheduleService.deletePersonalSchedule() row : "+row+"\u001B[0m");
+		return row;
+	}
+	
 	// 부서 일정 삭제
 	public int deleteDepartmentSchedule(Schedule schedule) {
 		int cnt = 0;
@@ -171,5 +183,6 @@ public class ScheduleService {
 		log.debug("\u001B[31m"+"ScheduleService.deleteDepartmentSchedule() row : "+row+"\u001B[0m");
 		return row;
 	}
+	
 	
 }

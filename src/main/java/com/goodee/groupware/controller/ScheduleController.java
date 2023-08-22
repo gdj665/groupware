@@ -36,10 +36,13 @@ public class ScheduleController {
 		
 		// 세션 아이디 값 저장
 		String memberId =(String)session.getAttribute("loginMember");
+		
+		// 세션 부서 번호 저장
+		int departmentNo = (Integer) session.getAttribute("departmentNo");
 
 		// 요청한 매개값을 담아 서비스를 호출
 		Map<String, Object> scheduleMap = new HashMap<>();
-		scheduleMap = scheduleService.getScheduleList(memberId, targetYear, targetMonth, scheduleCategory);
+		scheduleMap = scheduleService.getScheduleList(departmentNo, memberId, targetYear, targetMonth, scheduleCategory);
 		log.debug("\u001B[31m"+"ScheduleController.getScheduleList() scheduleMap : "+ scheduleMap.toString()+"\u001B[0m");
 		
 		// Model에 담아서 View로 넘기기
@@ -61,12 +64,16 @@ public class ScheduleController {
 		
 		// 세션 아이디 값 저장
 		String memberId =(String)session.getAttribute("loginMember");
+		
+		// 세션 부서 번호 저장
+		int departmentNo = (Integer) session.getAttribute("departmentNo");
+		
 		// 세션 부서 레벨 저장
 		String memberLevel =(String)session.getAttribute("memberLevel");
 		
 		// 요청한 매개값을 담아 서비스를 호출
 		Map<String, Object> oneScheduleMap = new HashMap<>();
-		oneScheduleMap = scheduleService.getOneSchedule(memberId, targetYear, targetMonth, targetDate, scheduleCategory);
+		oneScheduleMap = scheduleService.getOneSchedule(departmentNo, memberId, targetYear, targetMonth, targetDate, scheduleCategory);
 		log.debug("\u001B[31m"+"ScheduleController.getOneSchedule() oneScheduleMap : "+ oneScheduleMap.toString()+"\u001B[0m");
 		
 		// Model에 담아서 View로 넘기기
@@ -110,6 +117,15 @@ public class ScheduleController {
 		return "redirect:/schedule/scheduleList"; 
 	}
 	
+	// ----- 개인 일정 삭제 ------
+	@GetMapping("/schedule/deletePersonalSchedule")
+	public String deletePersonalSchedule(Schedule schedule) {
+		int row = 0;
+		row = scheduleService.deletePersonalSchedule(schedule);
+		log.debug("\u001B[31m"+"ScheduleController.deletePersonalSchedule() row : "+row+"\u001B[0m");
+		return "redirect:/schedule/scheduleList";
+	}
+	
 	// ----- 부서 일정 삭제(부서장만) ------
 	@GetMapping("/schedule/deleteDepartmentSchedule")
 	public String deleteDepartmentSchedule(HttpSession session, Schedule schedule) {
@@ -122,5 +138,6 @@ public class ScheduleController {
 		log.debug("\u001B[31m"+"ScheduleController.deleteDepartmentSchedule() row : "+row+"\u001B[0m");
 		return "redirect:/schedule/scheduleList";
 	}
+	
 	
 }
