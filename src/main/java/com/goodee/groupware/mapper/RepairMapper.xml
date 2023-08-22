@@ -61,4 +61,20 @@
 			</if>
 		</where>
 	</select>
+	
+	<!-- 3) repair 대기중 -> 수리중 -> 수리완료 수정 -->
+	<update id="updateRepair" parameterType="com.goodee.groupware.vo.Repair">
+		<!-- 대기중 -> 수리중 member_id, repair_date 업데이트 -->
+		<if test="memberId != null">
+			UPDATE repair SET member_id = #{memberId}, repair_date = now(), repair_status = '수리중', updatedate = now()
+			WHERE repair_no = #{repairNo}
+		</if>
+		
+		<!-- 수리중 -> 수리완료 repair_release_date, repair_price, repair_status, repair_content 업데이트 -->
+		<if test="repairContent != null">
+			UPDATE repair SET repair_release_date now(), repair_price = #{repairPrice}, repair_status = '수리완료', repair_content = #{repairContent} updatedate = now()
+			WHERE repair_no = #{repairNo}
+		</if>
+	</update>
+	
 </mapper>

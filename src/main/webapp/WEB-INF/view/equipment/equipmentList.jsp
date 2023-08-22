@@ -15,17 +15,6 @@
         height: 100%;
         background-color: rgba(0, 0, 0, 0.4);
     }
-	
-    .statusModal {
-        display: none;
-        position: fixed;
-        z-index: 1;
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, 0.4);
-    }
 
     /* 모달 내용 스타일 */
     .modal_content {
@@ -192,6 +181,14 @@
 			<button type="submit">검색</button>
 		</form>
 	</div>
+	<c:if test="${currentPage > 1}">
+		<a
+			href="${pageContext.request.contextPath}/equipment/equipmentList?currentPage=${currentPage-1}&equipmentName=${param.equipmentName}">이전</a>
+	</c:if>
+	<c:if test="${currentPage < lastPage}">
+		<a
+			href="${pageContext.request.contextPath}/equipment/equipmentList?currentPage=${currentPage+1}&equipmentName=${param.equipmentName}">다음</a>
+	</c:if>
 	
 	<!-- 장비추가 모달 -->
 	<div class="modal">

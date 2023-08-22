@@ -34,30 +34,27 @@ public class RepairService {
 		// 페이징 작업
 		int currentPage = (int) map.get("currentPage");
 		int rowPerPage = (int) map.get("rowPerPage");
-		String repairStatus = (String)map.get("repairStatus");
-		String repairProductCategory = (String)map.get("repairProductCategory");
 		
 		int beginRow = (currentPage-1) * rowPerPage;
+		map.put("beginRow", beginRow);
 		
 		// 페이징 맵
-		Map<String,Object> pageMap = new HashMap<>();
-		pageMap.put("rowPerPage", rowPerPage);
-		pageMap.put("beginRow", beginRow);
-		pageMap.put("repairStatus", repairStatus);
-		pageMap.put("repairProductCategory", repairProductCategory);
-		log.debug("RepairService.getRepairList() pageMap --->" + pageMap.toString());
+		// Map<String,Object> pageMap = new HashMap<>();
+		//pageMap.put("rowPerPage", rowPerPage);
+		//pageMap.put("beginRow", beginRow);
+		//log.debug("RepairService.getRepairList() pageMap --->" + pageMap.toString());
 		
-		List<Map<String,Object>> repairList = repairMapper.getRepairList(pageMap);
+		List<Map<String,Object>> repairList = repairMapper.getRepairList(map);
 		log.debug("RepairService.getRepairList() repairList --->" + repairList.toString());
 		
-		int repairListCnt = repairMapper.getRepairListCnt(pageMap);
+		int repairListCnt = repairMapper.getRepairListCnt(map);
 		
 		// 마지막 페이지 구하기
 		int lastPage = repairListCnt / rowPerPage;
 		if(repairListCnt % rowPerPage != 0) {
 			lastPage += 1;
 		}
-		log.debug("EquipmentHistoryService.getEqHistoryList() lastPage --->" + lastPage);
+		log.debug("RepairService.getRepairList() lastPage --->" + lastPage);
 		
 		// 반환할 resultMap
 		Map<String,Object> resultMap = new HashMap<>();
@@ -66,5 +63,14 @@ public class RepairService {
 		
 		return resultMap;
 	}
+	
+	// 3) repair 대기중 -> 수리중 -> 수리완료 수정
+	public int updateRepair(Repair repair) {
+		
+		int row = repairMapper.updateRepair(repair);
+		
+		return row;
+	}
+	
 	
 }
