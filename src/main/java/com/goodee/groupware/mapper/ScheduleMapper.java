@@ -23,7 +23,7 @@ public interface ScheduleMapper {
 	int addSchedule(Schedule schedule);
 	
 	// 부서장 유무 확인
-	int getMemberLevelCount(Map<String, Object> paramMap);
+	int getMemberLevelCount(Schedule schedule);
 	
 	// 일정 삭제
 	int deleteSchedule(Schedule schedule);

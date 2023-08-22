@@ -49,7 +49,7 @@
 					<c:when test="${d > 0 && d <= m.lastDate}">
 						<td>
 							<div style="text-align: left;">
-								<a style="color: black;" href="${pageContext.request.contextPath}/schedule/oneSchedule?targetYear=${m.targetYear}&targetMonth=${m.targetMonth}&targetDate=${d}">
+								<a style="color: black;" href="${pageContext.request.contextPath}/schedule/oneSchedule?targetYear=${m.targetYear}&targetMonth=${m.targetMonth}&targetDate=${d}&scheduleCategory=${m.scheduleCategory}">
 									<c:choose>
 										<c:when test="${i % 7 == 0}">
 											<span style="color: red;">${d}</span>
@@ -68,10 +68,14 @@
 								<c:if test="${d == (fn:substring(c.scheduleBegindate,8,10))}">
 								<div>
 									<c:if test="${c.scheduleCategory == '개인'}">
+										<a href="${pageContext.request.contextPath}/schedule/updatePersonalSchedule?scheduleNo=${c.scheduleNo}">
 											<span style="color:green">${c.scheduleCategory} ${c.scheduleTitle}(시작일)</span>
+										</a>
 									</c:if>
 									<c:if test="${c.scheduleCategory == '부서'}">
+										<a href="${pageContext.request.contextPath}/schedule/updateDepartmentSchedule?scheduleNo=${c.scheduleNo}">
 											<span style="color:orange">${c.scheduleCategory} ${c.scheduleTitle}(시작일)</span>
+										</a>	
 									</c:if>
 								</div>
 								</c:if>

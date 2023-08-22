@@ -23,7 +23,7 @@ public class ScheduleController {
 	@Autowired
 	ScheduleService scheduleService;
 	
-	// ----- 일정 목록 -----
+// ----- 일정 목록 -----
 	@GetMapping("/schedule/scheduleList")
 	public String getScheduleList(HttpSession session, Model model,
 									@RequestParam(required = false, name = "targetYear") Integer targetYear,		
@@ -50,7 +50,7 @@ public class ScheduleController {
 		return "/schedule/scheduleList";
 	}
 	
-	// ----- 일 별 일정 상세보기 -----
+// ----- 일 별 일정 상세보기 -----
 	@GetMapping("/schedule/oneSchedule")
 	public String getOneSchedule(HttpSession session, Model model,
 											@RequestParam(required = false, name = "targetYear") Integer targetYear,		
@@ -82,7 +82,7 @@ public class ScheduleController {
 		return "/schedule/oneSchedule";
 	}
 	
-	// ----- 개인 일정 등록 -----
+// ----- 개인 일정 등록 -----
 	@GetMapping("/schedule/addPersonalSchedule")
 	public String addPersonalSchedule(HttpSession session, Model model) {
 		// 세션 아이디 값 저장
@@ -100,7 +100,7 @@ public class ScheduleController {
 		return "redirect:/schedule/scheduleList";
 	}
 	
-	// ----- 부서 일정 등록 -----
+// ----- 부서 일정 등록 -----
 	@GetMapping("/schedule/addDepartmentSchedule")
 	public String addDepartmentSchedule(HttpSession session, Model model) {
 		// 세션 아이디 값 저장
@@ -114,10 +114,10 @@ public class ScheduleController {
 		int row = 0;
 		row = scheduleService.addDepartmentSchedule(schedule);
 		log.debug("\u001B[31m"+"ScheduleController.addDepartmentSchedule() row : "+row+"\u001B[0m");
-		return "redirect:/schedule/scheduleList"; 
+		return "redirect:/schedule/scheduleList";
 	}
 	
-	// ----- 개인 일정 삭제 ------
+// ----- 개인 일정 삭제 ------
 	@GetMapping("/schedule/deletePersonalSchedule")
 	public String deletePersonalSchedule(Schedule schedule) {
 		int row = 0;
@@ -126,18 +126,65 @@ public class ScheduleController {
 		return "redirect:/schedule/scheduleList";
 	}
 	
-	// ----- 부서 일정 삭제(부서장만) ------
+// ----- 부서 일정 삭제(부서장만) ------
 	@GetMapping("/schedule/deleteDepartmentSchedule")
 	public String deleteDepartmentSchedule(HttpSession session, Schedule schedule) {
+		int row = 0;
+		
 		// 세션 아이디 값 저장
 		String memberId =(String)session.getAttribute("loginMember");
 		schedule.setMemberId(memberId);
 		
-		int row = 0;
 		row = scheduleService.deleteDepartmentSchedule(schedule);
 		log.debug("\u001B[31m"+"ScheduleController.deleteDepartmentSchedule() row : "+row+"\u001B[0m");
 		return "redirect:/schedule/scheduleList";
 	}
 	
+// ----- 개인 일정 수정
+	@GetMapping("/schedule/updatePersonalSchedule")
+	public String updatePersonalSchedule(HttpSession session, Model model,
+													@RequestParam(required = false, name = "scheduleNo") Integer scheduleNo) {
+		log.debug("\u001B[31m"+"scheduleNo : "+ scheduleNo+"\u001B[0m");
+		
+		// 세션 아이디 값 저장
+		String memberId =(String)session.getAttribute("loginMember");
+		
+		// Model에 담아서 View로 넘기기
+		model.addAttribute("memberId", memberId);
+		model.addAttribute("scheduleNo", scheduleNo);
+		return "/schedule/updatePersonalSchedule";
+	}
+	
+	@PostMapping("/schedule/updatePersonalSchedule")
+	public String updatePersonalSchedule(Schedule schedule) {
+		int row = 0;
+		row = scheduleService.updatePersonalSchedule(schedule);
+		log.debug("\u001B[31m"+"ScheduleController.updatePersonalSchedule() row : "+row+"\u001B[0m");
+		return "redirect:/schedule/scheduleList"; 
+	}
+	
+	
+// ----- 부서 일정 수정(부서장만)
+	@GetMapping("/schedule/updateDepartmentSchedule")
+	public String updateDepartmentSchedule(HttpSession session, Model model,
+													@RequestParam(required = false, name = "scheduleNo") Integer scheduleNo) {
+		log.debug("\u001B[31m"+"scheduleNo : "+ scheduleNo+"\u001B[0m");
+		
+		// 세션 아이디 값 저장
+		String memberId =(String)session.getAttribute("loginMember");
+		
+		// Model에 담아서 View로 넘기기
+		model.addAttribute("memberId", memberId);
+		model.addAttribute("scheduleNo", scheduleNo);
+		return "/schedule/updateDepartmentSchedule";
+	}
+	
+	@PostMapping("/schedule/updateDepartmentSchedule")
+	public String updateDepartmentSchedule(Schedule schedule) {
+		int row = 0;
+		row = scheduleService.updateDepartmentSchedule(schedule);
+		log.debug("\u001B[31m"+"ScheduleController.updateDepartmentSchedule() row : "+row+"\u001B[0m");
+		return "redirect:/schedule/scheduleList";
+	}
 	
 }

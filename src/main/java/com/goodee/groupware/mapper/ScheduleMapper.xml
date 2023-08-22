@@ -70,11 +70,11 @@
 	</insert>
 	
 	<!-- 부서장 유무 조회 -->
-	<select id="getMemberLevelCount" parameterType="java.util.Map" resultType="int">
+	<select id="getMemberLevelCount" parameterType="com.goodee.groupware.vo.Schedule" resultType="int">
 		SELECT COUNT(*)
 		FROM member
 		WHERE member_id = #{memberId} 
-			AND member_level = #{memberLevel}
+			AND member_level = '3부서장'
 	</select>
 	
 	<!-- 일정 삭제 -->
@@ -84,8 +84,15 @@
 	</delete>
 	
 	<!-- 일정 수정 -->
-	<update id="updateSchdule">
-	
+	<update id="updateSchdule" parameterType="com.goodee.groupware.vo.Schedule">
+		UPDATE schedule
+		SET schedule_title = #{scheduleTitle},
+			schedule_content = #{scheduleContent},
+			schedule_begindate = #{scheduleBegindate},
+			schedule_enddate = #{scheduleEnddate},
+			updatedate = NOW()
+		WHERE schedule_no = #{scheduleNo}
+			AND member_id = #{memberId}	
 	</update>
 	
 </mapper>

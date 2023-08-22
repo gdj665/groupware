@@ -22,7 +22,7 @@ public class ScheduleService {
 	@Autowired
 	private ScheduleMapper scheduleMapper;
 	
-	// 달력 출력 + 월 별 일정 정보 조회
+// ----- 달력 출력 + 월 별 일정 정보 조회 -----
 	public Map<String, Object> getScheduleList(int departmentNo, String memberId, Integer targetYear, Integer targetMonth, String scheduleCategory){
 		
 		// 달력 API 가져오기
@@ -91,7 +91,7 @@ public class ScheduleService {
 		return scheduleMap;
 	}
 	
-	// 일 별 전체 일정 상세보기 조회
+// ----- 일 별 전체 일정 상세보기 조회 -----
 	public Map<String, Object> getOneSchedule(int departmentNo, String memberId, Integer targetYear, Integer targetMonth, Integer targetDate, String scheduleCategory){
 	
 		// Map에 담아서 Conntroller로 넘기기
@@ -122,7 +122,7 @@ public class ScheduleService {
 		return oneScheduleMap;
 	}
 	
-	// 개인 일정 추가
+// ----- 개인 일정 추가 -----
 	public int addPersonalSchedule(Schedule schedule) {
 		int row = 0;
 		row = scheduleMapper.addSchedule(schedule);
@@ -130,19 +130,13 @@ public class ScheduleService {
 		return row;
 	}
 	
-	// 부서 일정 추가(부서장만 추가 가능)
+// ----- 부서 일정 추가(부서장만 추가 가능)
 	public int addDepartmentSchedule(Schedule schedule){
 		int cnt = 0;
 		int row = 0;
-		String memberLevel = "3부서장";
-		
-		// 매개변수 값들을 Map에 담음
-		Map<String, Object> paramMap = new HashMap<String, Object>();
-		paramMap.put("memberLevel", memberLevel);
-		paramMap.put("memberId", schedule.getMemberId());
 		
 		// 부서장 유무 조회
-		cnt = scheduleMapper.getMemberLevelCount(paramMap);
+		cnt = scheduleMapper.getMemberLevelCount(schedule);
 		log.debug("\u001B[31m"+"ScheduleService.addDepartmentSchedule() cnt : "+cnt+"\u001B[0m");
 		if(cnt > 0) { // 부서장이 맞으면
 			row = scheduleMapper.addSchedule(schedule); // 일정 추가
@@ -152,8 +146,8 @@ public class ScheduleService {
 		log.debug("\u001B[31m"+"ScheduleService.addDepartmentSchedule() row : "+row+"\u001B[0m");
 		return row; 
 	}
-	
-	// 개인 일정 삭제
+
+//  ----- 개인 일정 삭제 -----
 	public int deletePersonalSchedule(Schedule schedule) {
 		int row = 0;
 		row = scheduleMapper.deleteSchedule(schedule);
@@ -161,22 +155,17 @@ public class ScheduleService {
 		return row;
 	}
 	
-	// 부서 일정 삭제
+// ----- 부서 일정 삭제 -----
 	public int deleteDepartmentSchedule(Schedule schedule) {
 		int cnt = 0;
 		int row = 0;
-		String memberLevel = "3부서장";
 		
-		// 매개변수 값들을 Map에 담음
-		Map<String, Object> paramMap = new HashMap<String, Object>();
-		paramMap.put("memberLevel", memberLevel);
-		paramMap.put("memberId", schedule.getMemberId());
 		
 		// 부서장 유무 조회
-		cnt = scheduleMapper.getMemberLevelCount(paramMap);
+		cnt = scheduleMapper.getMemberLevelCount(schedule);
 		log.debug("\u001B[31m"+"ScheduleService.deleteDepartmentSchedule() cnt : "+cnt+"\u001B[0m");
 		if(cnt > 0) { // 부서장이 맞으면
-		row = scheduleMapper.deleteSchedule(schedule);
+			row = scheduleMapper.deleteSchedule(schedule);
 		} else { // 부서장이 아니면
 			row=0;
 		}
@@ -184,5 +173,29 @@ public class ScheduleService {
 		return row;
 	}
 	
+// ----- 개인 일정 수정 -----
+	public int updatePersonalSchedule(Schedule schedule) {
+		int row = 0;
+		row = scheduleMapper.updateSchdule(schedule);
+		log.debug("\u001B[31m"+"ScheduleService.updatePersonalSchedule() row : "+row+"\u001B[0m");
+		return row;
+	}
 	
+	
+// ----- 부서 일정 수정 -----
+	public int updateDepartmentSchedule(Schedule schedule) {
+		int row = 0;
+		int cnt = 0;
+		
+		// 부서장 유무 조회
+		cnt = scheduleMapper.getMemberLevelCount(schedule);
+		log.debug("\u001B[31m"+"ScheduleService.updateDepartmentSchedule() cnt : "+cnt+"\u001B[0m");
+		if(cnt > 0) { // 부서장이 맞으면
+			row = scheduleMapper.updateSchdule(schedule);
+		} else { // 부서장이 아니면
+			row=0;
+		}
+		log.debug("\u001B[31m"+"ScheduleService.updateDepartmentSchedule() row : "+row+"\u001B[0m");
+		return row;
+	}
 }
