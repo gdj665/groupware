@@ -13,7 +13,9 @@ org.springframework.web.bind.annotation.GetMapping; import
 org.springframework.web.bind.annotation.PostMapping; import
 org.springframework.web.bind.annotation.RequestParam;
  
-import com.goodee.groupware.sevice.ApprovalService; import
+import com.goodee.groupware.sevice.ApprovalService;
+import com.goodee.groupware.sevice.DepartmentService;
+import
 com.goodee.groupware.vo.Approval; import com.goodee.groupware.vo.Board;
   
 import lombok.extern.slf4j.Slf4j;
@@ -23,6 +25,8 @@ import lombok.extern.slf4j.Slf4j;
 public class ApprovalController {
 	@Autowired 
 	private ApprovalService approvalService;
+	@Autowired
+	private DepartmentService departmentService;
 	  
 	@GetMapping("/approval/approvalList")
 	public String getBoardList(Model model,
@@ -41,6 +45,7 @@ public class ApprovalController {
 		// 페이징 변수 값 model.addAttribute("currentPage", currentPage);
 		model.addAttribute("lastPage", resultMap.get("lastPage"));
 		model.addAttribute("SessionLoginId", resultMap.get("SessionLoginId")); 
+		
 		return "/approval/approvalList"; 
 	}
   
@@ -48,7 +53,13 @@ public class ApprovalController {
 // 게시물 추가하기
   
 	@GetMapping("/approval/addApproval")
-	public String addApproval() { 
+	public String addApproval(Model model) { 
+		Map<String,Object> resultMap = departmentService.getDepartmentList();
+		
+		// Model에 addAttribute를 사용하여 view에 값을 보낸다.
+		// 부서 리스트
+		model.addAttribute("departmentList", resultMap.get("department"));
+		model.addAttribute("memberList", resultMap.get("memberList"));
 		return "/approval/addApproval";
 	}
 	  
@@ -61,6 +72,9 @@ public class ApprovalController {
 		String path = request.getServletContext().getRealPath("/boardFile/"); 
 		int row = approvalService.addApproval(approval,path);
 		System.out.println("ApprovalControllerAddRow --> "+row); 
+		
+		
+		
 		return "redirect:/approval/approvalList"; 
 	}
   
