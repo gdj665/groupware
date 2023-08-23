@@ -72,6 +72,9 @@ public class ApprovalService {
 	// 게시물 추가되면서 첨부파일 있으면 폴더 저장+ DB에 저장
 	public int addApproval(Approval approval, String path) {
 		// addBoard가 insert된 후의 boardNo를 가져와서 파일 업로드 실행
+		log.debug(approval.getApprovalFirstId());
+		log.debug(approval.getApprovalSecondId());
+		log.debug(approval.getApprovalThirdId());
 		int row = approvalMapper.addApproval(approval);
 		
 		// 첨부파일 있는지 확인

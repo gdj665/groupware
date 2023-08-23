@@ -75,7 +75,7 @@
 	
 	<!-- 결재 추가 -->
 	<insert id ="addApproval" parameterType="com.goodee.groupware.vo.Approval">
-		INSERT 작업 이후에 실행되며 Board vo에 boardNo로 선언되어 있는 값을 가져온다
+		<!-- INSERT 작업 이후에 실행되며 Board vo에 boardNo로 선언되어 있는 값을 가져온다 -->
 		<selectKey order="AFTER" keyProperty="approvalNo" resultType="int">
 			SELECT last_insert_id()
 		</selectKey>
