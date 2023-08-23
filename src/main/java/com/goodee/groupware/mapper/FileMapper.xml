@@ -67,6 +67,7 @@
 		WHERE approval_file_no = #{approvalFileNo}
 	</select>
 	
+	
 	<insert id = "addApprovalFile" parameterType="com.goodee.groupware.vo.ApprovalFile">
 		INSERT INTO approval_file (
 			approval_no,

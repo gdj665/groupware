@@ -23,7 +23,7 @@
 			<th>결재여부</th>
 		</tr>
 		<c:forEach var="a" items="${approvalList}">
-			<tr onClick="location.href='/board/boardOne?boardNo=${b.boardNo}'" style="cursor:pointer;">
+			<tr onClick="location.href='/approval/oneApproval?approvalNo=${a.approvalNo}'" style="cursor:pointer;">
 				<td>${a.approvalNo}</td>
 				<td>${a.approvalTitle}</td>
 				<td>${a.approvalContent}</td>
@@ -40,7 +40,7 @@
 			<button type="submit">검색</button>
 		</form>
 	</div> --%>
- 	<c:if test="${currentPage>1 }">
+ 	<c:if test="${currentPage>1}">
 		<a href="/approval/approvalList?currentPage=${currentPage-1}">이전</a>
 	</c:if>
 	<c:if test="${currentPage<lastPage}">

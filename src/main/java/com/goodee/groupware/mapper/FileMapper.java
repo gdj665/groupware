@@ -31,7 +31,7 @@ public interface FileMapper {
 	int deleteApprovalFile(ApprovalFile approvalFile);
 	
 	// 결재 첨부파일 리스트 출력
-	List<BoardFile> getApprovalFileList(ApprovalFile approvalFile);
+	List<ApprovalFile> getApprovalFileList(ApprovalFile approvalFile);
 	
 	// 결재 첨부파일 상세 출력
 	ApprovalFile getOneApprovalFile(int approvalFileNo);

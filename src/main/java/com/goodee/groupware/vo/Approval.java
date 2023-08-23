@@ -25,6 +25,8 @@ public class Approval {
 	private String createdate;
 	private String updatedate;
 	
+	private ApprovalFile approvalFile;
+	
 	private List<MultipartFile> multipartFile;
 	// jsp에서 multipartFile을 input name으로 잡아서 실행
 }

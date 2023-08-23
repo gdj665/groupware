@@ -24,9 +24,7 @@ import com.goodee.groupware.vo.BoardFile;
 import lombok.extern.slf4j.Slf4j;
 
 @Service
-
 @Transactional
-
 @Slf4j
 public class ApprovalService {
 	@Autowired
@@ -55,6 +53,7 @@ public class ApprovalService {
 		Map<String,Object> approvalMapCount = new HashMap<String,Object>();
 		approvalMapCount.put("approvalLastStatus",approvalLastStatus);
 		approvalMapCount.put("approvalNowStatus",approvalNowStatus);
+		approvalMapCount.put("memberId",memberId);
 		  
 		int approvalCount = approvalMapper.getApprovalListCount(approvalMapCount);
 		int lastPage = approvalCount / rowPerPage; 
@@ -76,7 +75,7 @@ public class ApprovalService {
 		log.debug(approval.getApprovalSecondId());
 		log.debug(approval.getApprovalThirdId());
 		int row = approvalMapper.addApproval(approval);
-		
+		log.debug("ApprovalService addApproval row-->"+row);
 		// 첨부파일 있는지 확인
 		// board vo에 선언 해둔 MultipartFile의 사이즈 확인
 		List<MultipartFile> approvalFileList = approval.getMultipartFile();
@@ -92,11 +91,12 @@ public class ApprovalService {
 			System.out.println("validApprovalFileList.size()-->"+validApprovalFileList.size());
 			if (!validApprovalFileList.isEmpty()) {
 				int approvalNo = approval.getApprovalNo();
+				System.out.println("ApprovalService approvalNo-->"+approvalNo);
 				
 				// 첨부파일의 갯수만큼 반복
 				for(MultipartFile mf : approvalFileList) {
 					ApprovalFile af = new ApprovalFile();
-					af.setApprovalFileNo(approvalNo);
+					af.setApprovalNo(approvalNo);
 					af.setApprovalFileOri(mf.getOriginalFilename());
 					af.setApprovalFileSize(mf.getSize());
 					af.setApprovalFileType(mf.getContentType());
@@ -122,4 +122,20 @@ public class ApprovalService {
 		return row;
 	}
 	
+	// 결재 상세보기 출력
+	public Map<String,Object> getOneApproval(Approval approval, ApprovalFile approvalFile) {
+		Approval approvalOne = approvalMapper.getOneApproval(approval);
+		List<ApprovalFile> approvalFileList = fileMapper.getApprovalFileList(approvalFile);
+		
+		Map<String,Object> approvalOneMap = new HashMap<String,Object>();
+		approvalOneMap.put("approvalOne",approvalOne);
+		approvalOneMap.put("approvalFileList",approvalFileList);
+		return approvalOneMap;
+	}
+	
+	// 결재 회수하기
+	public int updateApprovalRecall(Approval approval) {
+		int updateApprovalRecallRow = approvalMapper.updateApprovalRecall(approval);
+		return updateApprovalRecallRow;
+	}
 }

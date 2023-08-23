@@ -31,6 +31,7 @@
 				AND approval_now_status = #{approvalNowStatus}
 			</if>
 		</where>
+		ORDER BY createdate DESC
 		LIMIT #{beginRow},#{rowPerPage}
 	</select>
 	
@@ -40,7 +41,7 @@
 			approval_no approvalNo,
 			member_id memberId,
 			approval_title approvalTitle,
-			approval_content aprrovalContent,
+			approval_content approvalContent,
 			approval_form approvalForm,
 			approval_now_status approvalNowStatus,
 			approval_first_id approvalFirstId,
@@ -75,7 +76,7 @@
 	
 	<!-- 결재 추가 -->
 	<insert id ="addApproval" parameterType="com.goodee.groupware.vo.Approval">
-		<!-- INSERT 작업 이후에 실행되며 Board vo에 boardNo로 선언되어 있는 값을 가져온다 -->
+		<!-- INSERT 작업 이후에 실행되며 Approval vo에 approvalNo로 선언되어 있는 값을 가져온다 -->
 		<selectKey order="AFTER" keyProperty="approvalNo" resultType="int">
 			SELECT last_insert_id()
 		</selectKey>
@@ -109,7 +110,7 @@
 	<!-- 결재 회수 -->
 	<update id="updateApprovalRecall" parameterType="com.goodee.groupware.vo.Approval">
 		UPDATE approval 
-		SET aproval_last_status = '4회수'
+		SET approval_last_status = '4회수'
 		WHERE approval_no = #{approvalNo}
 	</update>
 </mapper>

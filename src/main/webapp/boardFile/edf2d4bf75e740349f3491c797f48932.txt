@@ -1,0 +1,83 @@
+# 부서게시판 출력
+# department_no값으로 회사, 부서명 별 출력 가능
+SELECT board_no boardNo, 
+		member_id memberId,
+		board_title boardTitle,
+		board_content boardContent,
+		createdate
+FROM board
+WHERE department_no = ?
+ORDER BY board_status,
+ORDER BY createdate DESC;
+
+# 부서 게시판 상세 출력
+SELECT b.board_no boardNo,
+		b.member_id memberId,
+		b.board_title boardTitle,
+		b.board_content boardContent,
+		b.department_no departmentNo,
+		b.createdate createdate,
+		#board_no에 맞는 board_file 출력
+		bf.board_file_ori boardFileOri,
+		bf.board_file_type boardFileType
+FROM board b INNER JOIN board_file bf ON b.board_no=bf.board_no
+WHERE b.board_no = ?
+
+# 부서 첨부파일 출력
+SELECT board_file_no boardFileNo,
+		board_file_ori boardFileOri,
+		board_file_save boardFileSave,
+		board_file_type boardFileType,
+		board_file_size boardFileSize,
+		createdate
+FROM board_file
+WHERE board_no = ?
+
+# 부서게시글 등록
+INSERT INTO	
+board(
+	member_id,
+	board_title,
+	board_content,
+	department_no,
+	board_status,
+	createdate,
+	updatedate)
+VALUES (?,?,?,?,?,NOW(),NOW())
+
+# 부서게시글 첨부파일 등록
+INSERT INTO
+board_file(
+	board_no,
+	board_file_ori,
+	board_file_save,
+	board_file_type,
+	board_file_size,
+	createdate,
+	updatedate)
+VALUES (?,?,?,?,?,NOW(),NOW());
+
+# 부서받아오기 (눌러서 해당게시판이동 원중이꺼 사용 가능성 높음)
+SELECT department_no departmentNo,
+		department_id departmentId
+FROM department
+
+#본인 결재파일 중 미결재한 파일이 있는 지 확인
+# 개수가1개 이상일 경우 상단에 붉은점 으로 표시
+SELECT COUNT(*)
+FROM approval
+WHERE (approval_first_id = ? AND approval_first_comment IS NULL)
+OR (approval_second_id = ? AND approval_second_comment IS NULL)
+OR (approval_third_id = ? AND approval_third_comment IS NULL)
+		
+# 전자결재 조회
+SELECT approval_no approvalNo,
+		member_id memberId,
+		approval_title approvalTitle,
+		approval_content approvalContent,
+		approval_form approvalForm,
+		approval_last_status approvalLastStatus
+FROM approval
+WHERE member_id = ?;
+
+# 전자결재 승인

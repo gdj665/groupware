@@ -16,8 +16,11 @@ org.springframework.web.bind.annotation.RequestParam;
 import com.goodee.groupware.sevice.ApprovalService;
 import com.goodee.groupware.sevice.DepartmentService;
 import
-com.goodee.groupware.vo.Approval; import com.goodee.groupware.vo.Board;
-  
+com.goodee.groupware.vo.Approval;
+import com.goodee.groupware.vo.ApprovalFile;
+import com.goodee.groupware.vo.Board;
+import com.goodee.groupware.vo.BoardFile;
+
 import lombok.extern.slf4j.Slf4j;
   
 @Controller
@@ -36,15 +39,15 @@ public class ApprovalController {
 		@RequestParam(name = "approvalLastStatus", required = false) String approvalLastStatus,
 		@RequestParam(name = "approvalNowStatus", required = false) String approvalNowStatus) {
   
-		String SessionLoginId = (String) session.getAttribute("loginMember");
-		Map<String,Object> resultMap = approvalService.getApprovalList(currentPage,
-		rowPerPage, approvalLastStatus, approvalNowStatus, SessionLoginId);
+		String memberId = (String) session.getAttribute("loginMember");
+		Map<String,Object> resultMap = approvalService.getApprovalList(currentPage,rowPerPage, approvalLastStatus, approvalNowStatus, memberId);
 		  
 		model.addAttribute("approvalList",resultMap.get("approvalList"));
 		  
-		// 페이징 변수 값 model.addAttribute("currentPage", currentPage);
+		// 페이징 변수 값 
+		model.addAttribute("currentPage", currentPage);
 		model.addAttribute("lastPage", resultMap.get("lastPage"));
-		model.addAttribute("SessionLoginId", resultMap.get("SessionLoginId")); 
+		model.addAttribute("memberId", resultMap.get("memberId")); 
 		
 		return "/approval/approvalList"; 
 	}
@@ -66,7 +69,7 @@ public class ApprovalController {
 	@PostMapping("/approval/addApproval")
 	public String addBoard(HttpServletRequest request,Approval approval, HttpSession session) {
 	//매개값으로 request객체를 받는다 <- request api를 직접 호출하기 위해서 // 파일 이 저장될 경로 설정 
-		String SessionLoginId = (String) session.getAttribute("loginMember");
+		String memberId = (String) session.getAttribute("loginMember");
 		if(!approval.getApprovalThirdId().equals("")) {
 			log.debug("총 결재자 3명입니다");
 			approval.setApprovalLastNumber(3);
@@ -81,13 +84,33 @@ public class ApprovalController {
 			approval.setApprovalLastNumber(2);
 			approval.setApprovalThirdId(null);
 		}
-		approval.setMemberId(SessionLoginId);
-		String path = request.getServletContext().getRealPath("/boardFile/"); 
+		approval.setMemberId(memberId);
+		String path = request.getServletContext().getRealPath("/approvalFile/"); 
 		int row = approvalService.addApproval(approval,path);
 		log.debug("ApprovalControllerAddRow --> "+row); 
 		
 		return "redirect:/approval/approvalList"; 
 	}
-  
+	
+	// 게시물 상세출력
+	@GetMapping("/approval/oneApproval")
+	public String getOneBoard(Model model,Approval approval,ApprovalFile approvalFile, HttpSession session) {
+		
+		String loginMemberId = (String) session.getAttribute("loginMember");
+		Map<String, Object> oneApprovalMap = approvalService.getOneApproval(approval, approvalFile);
+		
+		model.addAttribute("approvalOne",oneApprovalMap.get("approvalOne"));
+		model.addAttribute("approvalFileList",oneApprovalMap.get("approvalFileList"));
+		model.addAttribute("loginMemberId",loginMemberId);
+		return "/approval/oneApproval";
+	}
+	
+	// 게시물 삭제하기
+	@PostMapping("/approval/updateApprovalRecall")
+	public String updateApprovalRecall(Approval approval) {
+		int row = approvalService.updateApprovalRecall(approval);
+		log.debug("ApprovalController.updateApprovalRecall.Row-->"+row);
+		return "redirect:/approval/approvalList";
+	}
 }
  
