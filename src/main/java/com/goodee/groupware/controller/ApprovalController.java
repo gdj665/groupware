@@ -67,13 +67,24 @@ public class ApprovalController {
 	public String addBoard(HttpServletRequest request,Approval approval, HttpSession session) {
 	//매개값으로 request객체를 받는다 <- request api를 직접 호출하기 위해서 // 파일 이 저장될 경로 설정 
 		String SessionLoginId = (String) session.getAttribute("loginMember");
+		if(!approval.getApprovalThirdId().equals("")) {
+			log.debug("총 결재자 3명입니다");
+			approval.setApprovalLastNumber(3);
+		} else if (approval.getApprovalSecondId().equals("")
+				&& !approval.getApprovalFirstId().equals("")) {
+			log.debug("총 결재자 1명입니다");
+			approval.setApprovalLastNumber(1);
+			approval.setApprovalSecondId(null);
+			approval.setApprovalThirdId(null);
+		} else {
+			log.debug("총 결재자 2명입니다");
+			approval.setApprovalLastNumber(2);
+			approval.setApprovalThirdId(null);
+		}
 		approval.setMemberId(SessionLoginId);
-	 
 		String path = request.getServletContext().getRealPath("/boardFile/"); 
 		int row = approvalService.addApproval(approval,path);
-		System.out.println("ApprovalControllerAddRow --> "+row); 
-		
-		
+		log.debug("ApprovalControllerAddRow --> "+row); 
 		
 		return "redirect:/approval/approvalList"; 
 	}
