@@ -5,6 +5,7 @@ import lombok.Data;
 @Data
 public class Work {
 	private int workNo;
+	private int departmentNo;
 	private String memberId;
 	private String workBegin;
 	private String workEnd;

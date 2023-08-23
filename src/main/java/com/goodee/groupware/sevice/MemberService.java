@@ -178,7 +178,7 @@ public class MemberService {
 	}
 	
 //	개인 근태 출력
-	public Map<String, Object> getWorkCheckList(String memberId, Integer targetYear, Integer targetMonth) {
+	public Map<String, Object> getWorkCheckList(int departmentNo, Integer targetYear, Integer targetMonth) {
 		
 		// 달력 API 가져오기
 		Calendar firstDate = Calendar.getInstance();
@@ -200,14 +200,15 @@ public class MemberService {
 		Map<String, Object> workMap = new HashMap<String, Object>();
 		workMap.put("targetYear", targetYear);
 		workMap.put("targetMonth", targetMonth);
-		workMap.put("memberId", memberId);
 		
 		Map<String, Object> paramMap = new HashMap<>();
-		paramMap.put("memberId", memberId);
+		paramMap.put("departmentNo", departmentNo);
 		paramMap.put("targetYear", targetYear);
 		paramMap.put("targetMonth", targetMonth + 1);
-		ArrayList<Work> workList = (ArrayList)memberMapper.getWorkList(paramMap);
-		workMap.put("workList", workList);
+		ArrayList<Work> workCheckList = (ArrayList)memberMapper.getWorkCheckList(paramMap);
+		log.debug("memberService workCheckList workBegin : " + workCheckList.size());
+		log.debug("memberService workCheckList workBegin : " + workCheckList.get(0).getWorkBegin());
+		workMap.put("workCheckList", workCheckList);
 		return workMap;
 	}
 

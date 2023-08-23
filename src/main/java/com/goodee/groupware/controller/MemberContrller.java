@@ -219,8 +219,6 @@ public class MemberContrller {
 		String memberId =(String)session.getAttribute("loginMember");
 		Map<String, Object> workMap = memberService.getWorkList(memberId, targetYear, targetMonth);
 		model.addAttribute("workMap", workMap);
-		targetYear = (Integer)workMap.get("targetYear");
-		targetMonth = (Integer)workMap.get("targetMonth");
 		return "/member/workResister";
 	}
 	
@@ -244,10 +242,9 @@ public class MemberContrller {
 									@RequestParam(required = false, name = "targetYear") Integer targetYear,		
 									@RequestParam(required = false, name = "targetMonth") Integer targetMonth) {
 		String memberId =(String)session.getAttribute("loginMember");
-		Map<String, Object> workMap = memberService.getWorkList(memberId, targetYear, targetMonth);
+		int departmentNo =(int)session.getAttribute("departmentNo");
+		Map<String, Object> workMap = memberService.getWorkCheckList(departmentNo, targetYear, targetMonth);
 		model.addAttribute("workMap", workMap);
-		targetYear = (Integer)workMap.get("targetYear");
-		targetMonth = (Integer)workMap.get("targetMonth");
 		return "/member/workCheck";
 	}
 }
