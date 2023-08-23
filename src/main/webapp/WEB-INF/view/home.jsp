@@ -9,6 +9,8 @@
 <body>
 	<h1>home</h1>
 	<h5>${memberId}</h5>
+	<a href="${pageContext.request.contextPath}/member/workResister">근태</a><br>
+	<a href="${pageContext.request.contextPath}/member/workCheck">근태 관리</a><br>
 	<a href="${pageContext.request.contextPath}/schedule/scheduleList">일정</a><br>
 	<a href="${pageContext.request.contextPath}/board/boardList">게시판</a><br>
 	<a href="${pageContext.request.contextPath}/approval/approvalList">결재</a><br>

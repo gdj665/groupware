@@ -37,4 +37,6 @@ public interface MemberMapper {
 //	출근 유의성 체크
 	int checkWork(Work work);
 	
+//	근태 관리 출력
+	List<Map<String, Object>> getWorkCheckList(Map<String, Object> paramMap);
 }

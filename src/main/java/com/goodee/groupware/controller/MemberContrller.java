@@ -213,7 +213,7 @@ public class MemberContrller {
 	
 //	근태 출력
 	@GetMapping("/member/workResister")
-	public String getScheduleList(HttpSession session, Model model,
+	public String getWorkList(HttpSession session, Model model,
 									@RequestParam(required = false, name = "targetYear") Integer targetYear,		
 									@RequestParam(required = false, name = "targetMonth") Integer targetMonth) {
 		String memberId =(String)session.getAttribute("loginMember");
@@ -236,5 +236,18 @@ public class MemberContrller {
 	public String addWorkEnd(@RequestParam(name = "memberId") String memberId) {
 		memberService.addWorkEnd(memberId);
 		return "redirect:/member/workResister";
+	}
+	
+//	부서 근태 출력
+	@GetMapping("/member/workCheck")
+	public String getWorkCheckList(HttpSession session, Model model,
+									@RequestParam(required = false, name = "targetYear") Integer targetYear,		
+									@RequestParam(required = false, name = "targetMonth") Integer targetMonth) {
+		String memberId =(String)session.getAttribute("loginMember");
+		Map<String, Object> workMap = memberService.getWorkList(memberId, targetYear, targetMonth);
+		model.addAttribute("workMap", workMap);
+		targetYear = (Integer)workMap.get("targetYear");
+		targetMonth = (Integer)workMap.get("targetMonth");
+		return "/member/workCheck";
 	}
 }

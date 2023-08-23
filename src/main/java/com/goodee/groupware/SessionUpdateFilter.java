@@ -44,6 +44,12 @@ public class SessionUpdateFilter extends HttpFilter implements Filter {
 			session.setAttribute("memberLevel", session.getAttribute("memberLevel"));
 			session.setMaxInactiveInterval(2 * 60 * 60); // 시간 * 분 * 초
 			log.debug("세션초기화");
+		} 
+		
+//		로그인 상태에 따른 기본 위치 지정
+		if (session.getAttribute("loginMember") != null && uri.equals("/login")) {
+			httpResponse.sendRedirect("/home");
+			return;
 		} else if (session.getAttribute("loginMember") == null && !uri.equals("/login") && !uri.equals("/checkMember")) {
 			httpResponse.sendRedirect("/login");
 			return;

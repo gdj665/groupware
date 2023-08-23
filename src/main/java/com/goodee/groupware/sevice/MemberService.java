@@ -176,4 +176,39 @@ public class MemberService {
 	public int addWorkAnnual(Work work) {
 		return memberMapper.addWorkAnnual(work);
 	}
+	
+//	개인 근태 출력
+	public Map<String, Object> getWorkCheckList(String memberId, Integer targetYear, Integer targetMonth) {
+		
+		// 달력 API 가져오기
+		Calendar firstDate = Calendar.getInstance();
+		
+		// 오늘 날짜를 1일로 셋팅
+		firstDate.set(Calendar.DATE, 1); 
+		
+		if(targetYear != null && targetMonth != null) { // 매개값으로 날짜가 넘어오면
+			firstDate.set(Calendar.YEAR, targetYear);
+			firstDate.set(Calendar.MONTH, targetMonth);
+			// API에서 Month 값으로 12가 들어오면 내년으로 바뀌고, -1이 들어오면 작년으로 바뀜
+		}
+		// 다시 세팅된 값이 존재 할 수 있으므로 값을 다시 저장
+		targetYear = firstDate.get(Calendar.YEAR);
+		targetMonth = firstDate.get(Calendar.MONTH);
+		
+		
+		// Map에 담아서 Controller로 넘기기
+		Map<String, Object> workMap = new HashMap<String, Object>();
+		workMap.put("targetYear", targetYear);
+		workMap.put("targetMonth", targetMonth);
+		workMap.put("memberId", memberId);
+		
+		Map<String, Object> paramMap = new HashMap<>();
+		paramMap.put("memberId", memberId);
+		paramMap.put("targetYear", targetYear);
+		paramMap.put("targetMonth", targetMonth + 1);
+		ArrayList<Work> workList = (ArrayList)memberMapper.getWorkList(paramMap);
+		workMap.put("workList", workList);
+		return workMap;
+	}
+
 }

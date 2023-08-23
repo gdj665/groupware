@@ -94,4 +94,20 @@
 		WHERE member_id = #{memberId}
 		AND work_date = #{workDate}
 	</select>
+	
+	<!-- 근태 관리 출력 -->
+	<select id="getWorkCheckList"
+			parameterType="java.util.Map"
+			resultType="java.util.Map">
+		SELECT d.department_no departmentNo, w.member_id memberId, w.work_begin workBegin, w.work_end workEnd, w.work_date workDate, w.work_annual workAnnual
+		FROM work w INNER JOIN member m
+		ON w.member_id = m.member_id
+		INNER JOIN department d
+		ON m.department_no = d.department_no
+		WHERE d.department_no = #{departmentNo}
+		OR d.department_parent_no = #{departmentNo}
+		AND YEAR(work_date) = #{targetYear}
+		AND MONTH(work_date) = #{targetMonth}
+		ORDER BY d.department_no AND m.member_rank DESC
+	</select>
 </mapper>
