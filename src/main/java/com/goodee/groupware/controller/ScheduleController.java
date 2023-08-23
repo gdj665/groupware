@@ -27,7 +27,6 @@ public class ScheduleController {
 // ----- 일정 목록 -----
 	@GetMapping("/schedule/scheduleList")
 	public String getScheduleList(HttpSession session, Model model,
-			
 									@RequestParam(required = false, name = "fail") String fail,		
 									@RequestParam(required = false, name = "targetYear") Integer targetYear,		
 									@RequestParam(required = false, name = "targetMonth") Integer targetMonth,
