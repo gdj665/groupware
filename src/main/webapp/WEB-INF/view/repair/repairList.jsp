@@ -1,96 +1,100 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
 <style>
-    /* 모달 컨테이너 스타일 */
-	.modal {
+     /* 모달 스타일 */
+    .modal {
         display: none;
         position: fixed;
-        z-index: 1;
-        left: 0;
+        z-index: 1000;
         top: 0;
+        left: 0;
         width: 100%;
         height: 100%;
-        background-color: rgba(0, 0, 0, 0.4);
+        background-color: rgba(0, 0, 0, 0.5);
     }
-
-    /* 모달 내용 스타일 */
-    .modal_content {
-        background-color: white;
-        margin: 5% auto;
+    .modal-content {
+        background-color: #fff;
+        margin: auto;
         padding: 20px;
-        border: 1px solid #888;
-        width: 40%;
-        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+        max-width: 80%; /* 적절한 값으로 조정 */
+        max-height: 80vh; /* 적절한 값으로 조정 */
         border-radius: 5px;
+        overflow-y: auto;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
     }
-
-    /* 제목 스타일 */
-    .modal_content h3 {
-        margin-top: 0;
-    }
-
-    /* 폼 스타일 */
-    .modal_content form {
-        margin-top: 20px;
+    /* 섹션 간 마진 조정 */
+    .row {
+        margin: 10px 0;
     }
 
     /* 테이블 스타일 */
-    .modal_content table {
-        width: 100%;
-        border-collapse: collapse;
-    }
-
-    /* 테이블 셀 스타일 */
-    .modal_content td {
-        padding: 8px;
-        border-bottom: 1px solid #ddd;
-    }
-
-    /* 입력 필드 스타일 */
-    .modal_content input[type="text"],
-    .modal_content input[type="date"] {
+    .modalTable {
         width: 50%;
-        padding: 8px;
-        border: 1px solid #ccc;
-        border-radius: 3px;
+        border-collapse: collapse;
+        border: 1px solid #ddd;
     }
 
-    /* 메시지 스타일 */
-    .modal_content .msg {
-        color: red;
-        font-size: 12px;
+    .modelTable th, .modelTable td {
+        padding: 8px;
+        border: 1px solid #ddd;
+        text-align: center;
     }
 
     /* 버튼 스타일 */
-    .modal_content button {
-        margin-top: 10px;
-        padding: 8px 15px;
-        border: none;
-        background-color: #007bff;
+    button {
+        background-color: #4CAF50;
         color: white;
+        border: none;
+        padding: 8px 16px;
         cursor: pointer;
-        border-radius: 3px;
     }
 
-    .modal_content button.close {
-        background-color: #ccc;
+    button.close {
+        background-color: #f44336;
     }
 
-    .modal_content button:hover {
-        background-color: #0056b3;
+    /* 자재 목록 스타일 */
+    ul {
+        list-style-type: none;
+        padding: 0;
+    }
+
+    li {
+        padding: 4px 0;
+    }
+
+    /* 화살표 버튼 스타일 */
+    .arrow-buttons button {
+        margin: 5px;
     }
     
+    .parts-list {
+	    max-height: 300px; /* 적절한 값으로 조정 */
+	    overflow-y: auto;
+	    border: 1px solid #ccc; /* 스크롤바를 보여줄 테두리 설정 (선택사항) */
+	    border-radius: 5px;
+	    padding: 10px;
+	}
 </style>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<!-- Latest compiled and minified CSS -->
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css"
+	rel="stylesheet">
+
+<!-- Latest compiled JavaScript -->
+<script
+	src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
 <!-- jquery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
 <script>
 	$(document).ready(function(){
-		
 		// 현재 날짜 구하기 
 		var today = new Date();
 
@@ -99,27 +103,6 @@
 		var day = ('0' + today.getDate()).slice(-2);
 		
 		var preDate = year + '-' + month  + '-' + day;
-// ---------------------------------------------------------------- 대기중 -> 수리중 수정 시작 ----------------------------------------------------------
-		// 대기중 -> 수리중 모달창 오픈
-		$('.underRepairModalOpen').click(function(){
-			var underRepairNo = $(this).data("underrepairno");
-	        var underRepairProductName = $(this).data("underrepairproductname");
-	        var underMemberId = $(this).data("undermemberid");
-	        $("#underRepairNoInput").val(underRepairNo); // 모달 내의 input 요소에 수리번호 설정
-	        $("#underRepairProductNameInput").val(underRepairProductName); // 모달 내의 input 요소에 수리제품이름 설정
-	        $("#underMemberIdInput").val(underMemberId); // 대여자 Id값(세션에서 받아옴)
-	        $("#underRepairReleaseDate").val(preDate); // 현재날짜
-			$('#underRepairModal').fadeIn();
-		});
-		
-		// 대기중 -> 수리중 수정 버튼
-		$('#updateUnderRepairBtn').click(function(){
-			
-			$('#updateUnderRepair').submit();
-			$('#underRepairModal').fadeOut();
-		});
-// ---------------------------------------------------------------- 대기중 -> 수리중 수정 끝 ----------------------------------------------------------
-
 // ---------------------------------------------------------------- 수리중 -> 수리완료 수정 시작 ----------------------------------------------------------
 		// 수리중 -> 수리완료 모달창 오픈
 		$('.comRepairModalOpen').click(function(){
@@ -136,6 +119,7 @@
 			$('#completedRepairModal').fadeIn();
 		});
 		
+		
 		// 수리중 -> 수리완료 수정 버튼
 		$('#updateCompletedRepairBtn').click(function(){
 			
@@ -144,13 +128,25 @@
 		});
 // ---------------------------------------------------------------- 수리중 -> 수리완료 수정 끝 ----------------------------------------------------------		
 
-		// 모달창 닫기 (공통)
+		// 모달창 닫기
 	    $('.close').click(function(){
-			$('#underRepairModal').fadeOut();
 			$('#completedRepairModal').fadeOut();
 		});
 
-		// ajax 비동기로 자재 개수 가져오기
+		$('#partsListBtn').click(function(){
+			
+			$.ajax({
+				async: false,
+		    	url: '/parts/getPartsCntList',
+		    	type: 'get',
+		    	success: function(data) {
+		    		const selectPartsList = data.partsList;
+		    	}
+			});
+		});
+
+
+		// ajax 비동기로 자재별 개수 가져오기
 	    $('#partsNameId').on('change', function() {
             const selectedPartsName = $(this).val();
 		    $.ajax({
@@ -158,243 +154,237 @@
 		    	url: '/parts/getPartsCntList?partsName='+selectedPartsName,
 		    	type: 'get',
 		    	success: function(data) {
-		    		const partsCntSelect = data.partsCnt;
-		    		
-		    		// 여기서부터 다시하기 
+		    		$('#partsCntId').empty();
+		    		 
+		    		const partsCnt = parseInt(data.partsList[0].partsCnt); // Convert partsCnt to integer
+		            
+		            for (let i = 1; i <= partsCnt; i++) {
+		                const option = $('<option></option>');
+		                option.attr('value', i);
+		                option.text(i);
+		                $('#partsCntId').append(option);
+		            }
+		    	}
 	    	});
+	    });
+		
+		// 가격설정
+		// partsCntId가 변경될 때 실행
+	    $('#partsCntId').on('change', function() {
+            const selectedPartsCnt = $(this).val();
+            const selectedPartsName = $('#partsNameId').val();
+		    $.ajax({
+		    	async: false,
+		    	url: '/parts/getPartsCntList?partsName='+selectedPartsName,
+		    	type: 'get',
+		    	success: function(data) {
+		    		// 선택된 파츠에 맞는 가격 가져옴
+		            const selectedParts = data.partsList.find(part => part.partsName === selectedPartsName);
+		    		// 선택된 파츠에 맞는 가격 가져옴
+		    		const selectedPartsPrice = parseInt(selectedParts.partsPrice); 
+		    		// 총 가격 선택된 partsCnt 와 가져온 가격 + 공임비 20000 해서 총 가격 생성
+		            const totalPrice = 20000 + (selectedPartsCnt * selectedPartsPrice);
+		    		// 총 가격 출력
+		            $('#totalPriceId').val(totalPrice);
+		    	}
+	    	});
+	    });
+		
+		// 자재목록 가져오기
+	    $('.comRepairModalOpen').click(function(){
+	        $.ajax({
+	            url: '/parts/getPartsCntList',
+	            type: 'get',
+	            data: {},
+	            success: function(data) {
+	                const selectPartsList = data.partsList;
+	               
+	             	// 기존 내용 제거
+	                $('#availablePartsList').empty();
+
+	                // 자재목록 출력
+	                selectPartsList.forEach(function(part) {
+	                    const listItem = $('<li><input type="checkbox" name="availablePart" class="partsNameCheckbox" value="' + part.partsName + part.partsCnt + '">' + part.partsName + '</li>');
+	                    $('#availablePartsList').append(listItem);
+	                });
+	            }
+	        });
+	    });
+
+	 	// 클라이언트 측 변수 추가
+	    const selectedParts = [];  // 선택한 자재들을 담을 배열
+
+	 	// 오른쪽 화살표 클릭 이벤트
+	    $('#rightArrowButton').click(function() {
+	        // 선택된 체크박스 가져오기
+	        const checkedCheckboxes = $('.partsNameCheckbox:checked');
+
+	        // 선택한 항목들을 배열에 추가하고, 옮겨진 목록에 출력
+	        checkedCheckboxes.each(function() {
+	            const partsName = $(this).val();
+	            selectedParts.push(partsName);
+	            const listItem = $('<li>' + (partsName) 재고량: + '</li>');
+	            $('#selectedPartsList').append(listItem);
+	        });
+
+	        // 선택한 항목들의 체크 해제
+	        checkedCheckboxes.prop('checked', false);
 	    });
 	    
 	});
 </script>
 </head>
 <body>
-	<!-- 대기중 리스트 -->
-	<c:if test="${repairStatus eq '대기중'}">
-	<h1>AS대기리스트</h1>
-		<table>
-			<tr>
-				<th>번호</th>
-				<th>제품분류</th>
-				<th>제품명</th>
-				<th>입고날짜</th>
-				<th>수리상태</th>
-				<th>입고사유</th>
-				<th>수리</th>
-			</tr>
-			<c:forEach var="r" items="${repairList}">
-				<tr>
-					<td>${r.repairNo}</td>
-					<td>${r.repairProductCategory}</td>
-					<td>${r.repairProductName}</td>
-					<td>${r.receivingDate}</td>
-					<td>${r.repairStatus}</td>
-					<td>${r.repairReceivingReason}</td>
-					<td>
-						<a href ="#" class="underRepairModalOpen" data-underRepairNo="${r.repairNo}" data-underMemberId="${memberId}" data-underRepairProductName="${r.repairProductName}">수리시작</a>
-					</td>
-				</tr>
-			</c:forEach>
-		</table>
-		<!-- 검색및 페이징 -->
-		<div>
-			<form action="${pageContext.request.contextPath}/repair/repairList" method="get">
-				<input type="text" name="repairProductCategory">
-				<input type="hidden" name="repairStatus" value="대기중">
-				<button type="submit">검색</button>
-			</form>
-		</div>
-		<c:if test="${currentPage > 1}">
-			<a href="${pageContext.request.contextPath}/repair/repairList?currentPage=${currentPage-1}&repairProductCategory=${param.repairProductCategory}&repairStatus=대기중">이전</a>
-		</c:if>
-		<c:if test="${currentPage < lastPage}">
-			<a href="${pageContext.request.contextPath}/repair/repairList?currentPage=${currentPage+1}&repairProductCategory=${param.repairProductCategory}&repairStatus=대기중">다음</a>
-		</c:if>
-	</c:if>
-	<!-- 대기중 -> 수리중 업데이트 모달 -->
-	<div id="underRepairModal" class="modal">
-		<div class="modal_content">
-			<h3>수리중 수정</h3>
-			<form id="updateUnderRepair" action="${pageContext.request.contextPath}/repair/updateRepair" method="post">
-				<input type="hidden" name="repairNo" id="underRepairNoInput" value="underRepairNoInput">
-				<table>
-					<tr>
-						<td>제품명</td>
-						<td>
-							<input type="text" id="underRepairProductNameInput" value="underRepairProductNameInput" readonly="readonly">
-						</td>
-					</tr>
-					<tr>
-						<td>수리담당자</td>
-						<td>
-							<input type="text" name="memberId" id="underMemberIdInput" value="underMemberIdInput">
-							<span id="equipmentInspectCycleIdMsg" class="msg"></span>
-						</td>
-					</tr>
-					<tr>
-						<td>수리시작일</td>
-						<td>
-							<input type="text" id="underRepairReleaseDate" value="underRepairReleaseDate" readonly="readonly">
-						</td>
-					</tr>
-					<tr>
-						<td>수리상태</td>
-						<td>
-							<input type="text" name="repairStatus" value="수리중" readonly="readonly">대기중 -> 수리중
-						</td>
-					</tr>
-				</table>
-			</form>
-			<button id="updateUnderRepairBtn" type="button">추가</button>
-			<button class="close" type="button">닫기</button>
-		</div>
-	</div>
-	
 	<!-- 수리중 리스트 -->
-	<c:if test="${repairStatus eq '수리중'}">
-	<h1>AS수리리스트</h1>
-		<table>
+	<h1>AS수리중리스트</h1>
+	<table>
+		<tr>
+			<th>번호</th>
+			<th>수리담당자</th>
+			<th>제품분류</th>
+			<th>제품명</th>
+			<th>입고날짜</th>
+			<th>수리날짜</th>
+			<th>수리상태</th>
+			<th>입고사유</th>
+			<th>수리</th>
+		</tr>
+		<c:forEach var="r" items="${repairList}">
 			<tr>
-				<th>번호</th>
-				<th>수리담당자</th>
-				<th>제품분류</th>
-				<th>제품명</th>
-				<th>입고날짜</th>
-				<th>수리날짜</th>
-				<th>수리상태</th>
-				<th>입고사유</th>
-				<th>수리</th>
+				<td>${r.repairNo}</td>
+				<td>${r.memberId}</td>
+				<td>${r.repairProductCategory}</td>
+				<td>${r.repairProductName}</td>
+				<td>${r.receivingDate}</td>
+				<td>${r.repairDate}</td>
+				<td>${r.repairStatus}</td>
+				<td>${r.repairReceivingReason}</td>
+				<td><a href="#" class="comRepairModalOpen"
+					data-comRepairNo="${r.repairNo}" data-comMemberId="${memberId}"
+					data-comRepairProductName="${r.repairProductName}"
+					data-comRepairReceivingReason="${r.repairReceivingReason}">수리완료</a>
+				</td>
 			</tr>
-			<c:forEach var="r" items="${repairList}">
-				<tr>
-					<td>${r.repairNo}</td>
-					<td>${r.memberId}</td>
-					<td>${r.repairProductCategory}</td>
-					<td>${r.repairProductName}</td>
-					<td>${r.receivingDate}</td>
-					<td>${r.repairDate}</td>
-					<td>${r.repairStatus}</td>
-					<td>${r.repairReceivingReason}</td>
-					<td>
-						<a href ="#" class="comRepairModalOpen" data-comRepairNo="${r.repairNo}" data-comMemberId="${memberId}" data-comRepairProductName="${r.repairProductName}" data-comRepairReceivingReason="${r.repairReceivingReason}">수리완료</a>
-					</td>
-				</tr>
-			</c:forEach>
-		</table>
-		<!-- 검색및 페이징 -->
-		<div>
-			<form action="${pageContext.request.contextPath}/repair/repairList" method="get">
-				<input type="text" name="repairProductCategory">
-				<input type="hidden" name="repairStatus" value="수리중">
-				<button type="submit">검색</button>
-			</form>
-		</div>
-		<c:if test="${currentPage > 1}">
-			<a href="${pageContext.request.contextPath}/repair/repairList?currentPage=${currentPage-1}&repairProductCategory=${param.repairProductCategory}&repairStatus=수리중">이전</a>
-		</c:if>
-		<c:if test="${currentPage < lastPage}">
-			<a href="${pageContext.request.contextPath}/repair/repairList?currentPage=${currentPage+1}&repairProductCategory=${param.repairProductCategory}&repairStatus=수리중">다음</a>
-		</c:if>
+		</c:forEach>
+	</table>
+	<!-- 검색및 페이징 -->
+	<div>
+		<form action="${pageContext.request.contextPath}/repair/repairList"
+			method="get">
+			<input type="text" name="repairProductCategory"> <input
+				type="hidden" name="repairStatus" value="수리중">
+			<button type="submit">검색</button>
+		</form>
+	</div>
+	<c:if test="${currentPage > 1}">
+		<a
+			href="${pageContext.request.contextPath}/repair/repairList?currentPage=${currentPage-1}&repairProductCategory=${param.repairProductCategory}&repairStatus=수리중">이전</a>
 	</c:if>
-	
+	<c:if test="${currentPage < lastPage}">
+		<a
+			href="${pageContext.request.contextPath}/repair/repairList?currentPage=${currentPage+1}&repairProductCategory=${param.repairProductCategory}&repairStatus=수리중">다음</a>
+	</c:if>
+
 	<!-- 수리중 -> 수리완료 업데이트 모달 -->
 	<div id="completedRepairModal" class="modal">
-		<div class="modal_content">
-			<h3>수리완료 수정</h3>
-			<form id="updateCompletedRepair" action="${pageContext.request.contextPath}/repair/updateRepair" method="post">
-				<input type="hidden" name="repairNo" id="comRepairNoInput" value="comRepairNoInput">
-				<table>
-					<tr>
-						<td>제품명</td>
-						<td>
-							<input type="text" id="comRepairProductNameInput" value="comRepairProductNameInput" readonly="readonly">
-						</td>
-					</tr>
-					<tr>
-						<td>수리담당자</td>
-						<td>
-							<input type="text"  id="comMemberIdInput" value="comMemberIdInput" readonly="readonly">
-						</td>
-					</tr>
-					<tr>
-						<td>수리완료일</td>
-						<td>
-							<input type="text" id="comRepairReleaseDate" value="comRepairReleaseDate" readonly="readonly">
-						</td>
-					</tr>
-					<tr>
-						<td>수리비</td>
-						<td>
-							<input id="repairPriceId" type="number" name="repairPrice">원
-							<span id="repairPriceIdMsg" class="msg"></span>
-						</td>
-					</tr>
-					<tr>
-						<td>수리현황</td>
-						<td>
-							<input type="text" name="repairStatus" value="수리완료" readonly="readonly"> 수리중 -> 수리완료
-						</td>
-					</tr>
-					<tr>
-						<td>입고사유</td>
-						<td>
-							<textarea id="repairReceivingReasonId" value="repairReceivingReasonId" rows="5" cols="50" readonly="readonly"></textarea>
-						</td>
-					</tr>
-					<tr>
-						<td>수리내용</td>
-						<td>
-							<textarea id="repairContentId" rows="5" cols="50" name="repairContent"></textarea>
-							<span id="repairContentIdMsg" class="msg"></span>
-						</td>
-					</tr>
-					<tr>
-						<td>사용 자재</td>
-					    <td>
-					        <select id="partsNameId">
-					            <c:forEach var="p" items="${partsList}">
-					                <option value="${p.partsName}">
-					                    ${p.partsName}
-					                </option>
-					            </c:forEach>
-					        </select>
-					        <select>
-					            <option id="partsCntId"></option>
-					        </select>
-					    </td>
-					</tr>
-				</table>
+		<div class="modal-content">
+			<form id="updateCompletedRepair"
+				action="${pageContext.request.contextPath}/repair/updateRepair"
+				method="post">
+				<div class="row">
+					<div class="col-lg-12">
+						<h3>수리완료 수정</h3>
+						<input type="hidden" name="repairNo" id="comRepairNoInput"
+							value="comRepairNoInput">
+						<table class="modalTable">
+							<tr>
+								<td>제품명</td>
+								<td><input type="text" id="comRepairProductNameInput"
+									value="comRepairProductNameInput" readonly="readonly"></td>
+							</tr>
+							<tr>
+								<td>수리담당자</td>
+								<td><input type="text" id="comMemberIdInput"
+									value="comMemberIdInput" readonly="readonly"></td>
+							</tr>
+							<tr>
+								<td>수리완료일</td>
+								<td><input type="text" id="comRepairReleaseDate"
+									value="comRepairReleaseDate" readonly="readonly"></td>
+							</tr>
+							<tr>
+								<td>수리비</td>
+								<td><input id="totalPriceId" type="text"
+									value="${totalPrice}">원 <span id="repairPriceIdMsg"
+									class="msg"></span></td>
+							</tr>
+							<tr>
+								<td>수리현황</td>
+								<td><input type="text" name="repairStatus" value="수리완료"
+									readonly="readonly"> 수리중 -> 수리완료</td>
+							</tr>
+							<tr>
+								<td>입고사유</td>
+								<td><textarea id="repairReceivingReasonId"
+										value="repairReceivingReasonId" rows="5" cols="50"
+										readonly="readonly"></textarea></td>
+							</tr>
+							<tr>
+								<td>수리내용</td>
+								<td><textarea id="repairContentId" rows="5" cols="50"
+										name="repairContent"></textarea> <span id="repairContentIdMsg"
+									class="msg"></span></td>
+							</tr>
+						</table>
+					</div>
+				</div>
+
+				<!--  row 2 -->
+				<div class="row">
+					<div class="col-lg-5">
+						<!-- 조회 클릭시 자재목록 출력 -->
+						<div class="parts-list">
+						<h4>자재 목록</h4>
+							<table class="modalTable">
+								<tr>
+									<td>
+										<ul id="availablePartsList">
+											<!-- 조회 결과 자재 목록이 여기에 추가됨 -->
+										</ul>
+									</td>
+	
+								</tr>
+							</table>
+						</div>
+					</div>
+					<div class="col-lg-2">
+						<div class="arrow-buttons">
+							<!-- 이동시킬버튼 -->
+							<button id="leftArrowButton" type="button">&larr;</button>
+							<button id="rightArrowButton" type="button">&rarr;</button>
+						</div>
+					</div>
+					<div class="col-lg-5">
+						<h4>선택한 자재</h4>
+						<table class="modalTable">
+							<tr>
+								<td>
+									<!-- 옮겨진 자재들 -->
+									<ul id="selectedPartsList">
+						                <!-- 조회 결과 자재 목록이 여기에 추가됨 -->
+						            </ul>
+								</td>
+							</tr>
+						</table>
+					</div>
+				</div>
+				<button id="updateCompletedRepairBtn" type="button">수정</button>
+				<button class="close" type="button">닫기</button>
+
 			</form>
-			<button id="updateCompletedRepairBtn" type="button">수정</button>
-			<button class="close" type="button">닫기</button>
 		</div>
+		<!-- modal content -->
 	</div>
-	<!-- 수리완료 리스트 -->
-	<c:if test="${repairStatus eq '수리완료'}">
-	<h1>AS완료리스트</h1>
-		<table>
-			<tr>
-				<th>번호</th>
-				<th>수리담당자</th>
-				<th>제품분류</th>
-				<th>제품명</th>
-				<th>입고날짜</th>
-				<th>수리날짜</th>
-				<th>출고날짜</th>
-				<th>수리상태</th>
-			</tr>
-			<c:forEach var="r" items="${repairList}">
-				<tr>
-					<td>${r.repairNo}</td>
-					<td>${r.memberId}</td>
-					<td>${r.repairProductCategory}</td>
-					<td>${r.repairProductName}</td>
-					<td>${r.receivingDate}</td>
-					<td>${r.repairDate}</td>
-					<td>${r.repairReleaseDate}</td>
-					<td>${r.repairStatus}</td>
-				</tr>
-			</c:forEach>
-		</table>
-	</c:if>
+	<!-- modal -->
 </body>
 </html>

@@ -64,7 +64,8 @@
 		SELECT 
 			parts_no partsNo,
 			parts_name partsName,
-			parts_cnt partsCnt
+			parts_cnt partsCnt,
+			parts_price partsPrice
 		FROM parts
 		<where>
 			<!-- 분기 -->

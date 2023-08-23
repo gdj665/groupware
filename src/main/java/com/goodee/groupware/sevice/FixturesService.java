@@ -80,6 +80,7 @@ public class FixturesService {
 		return row;
 	}
 	
+	// 수리완료시 사용자재 출력 // 분기해서 partsName 들어올 경우 개수 반환 
 	public Map<String,Object> getPartsList(Parts parts) {
 		
 		// partsList 맵퍼 호출

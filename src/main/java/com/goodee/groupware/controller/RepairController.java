@@ -77,14 +77,20 @@ public class RepairController {
 		model.addAttribute("memberId", memberId);
 		
 		// 페이징 값
-		
-		// 대기중 수리중 수리완료 세단계로 jsp페이지가 분기된다
-		model.addAttribute("repairStatus", repair.getRepairStatus());
 		model.addAttribute("currentPage", currentPage);
 		model.addAttribute("lastPage", resultMap.get("lastPage"));
 		
-		return "/repair/repairList";
+		if(repair.getRepairStatus().equals("대기중")) {
+			return "/repair/watingRepairList";
+		} else if(repair.getRepairStatus().equals("수리중")) {
+			return "/repair/repairList";
+		} else if(repair.getRepairStatus().equals("수리완료")) {
+			return "/repair/completedList";
+		}
+		
+		return "/repair/watingRepairList";
 	}
+	
 	
 	// 3) repair 대기중 -> 수리중 -> 수리완료 수정
 	@PostMapping("/repair/updateRepair")

@@ -36,18 +36,16 @@ public class ExcelRest {
 	
 	// parts 비동기 처리
 	@GetMapping("/parts/getPartsCntList")
-	public Map<String,Object> partsCntLIst(@RequestParam String partsName) {
-		Map<String, Object> resultMap = new HashMap<>();
+	public Map<String,Object> partsCntLIst(@RequestParam(required = false) String partsName) {
 		
 		log.debug("ExcelRest.partsCntLIst() Param partsName --->" + partsName);
-		
+			
 		Parts parts = new Parts();
 		parts.setPartsName(partsName);
 		
 		// 서비스 호출
-		Map<String, Object> partsInfo = fixturesService.getPartsList(parts); // fixturesService에서 parts 정보 가져오기
+		Map<String, Object> resultMap = fixturesService.getPartsList(parts); // fixturesService에서 parts 정보 가져오기
 	    
-	    resultMap.put("partsCnt", partsInfo.get("partsCnt"));
 		
 		return resultMap;
 	}
