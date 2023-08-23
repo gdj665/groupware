@@ -137,7 +137,6 @@
 			$('#addPersonalScheduleForm').submit();
 			$('#addPersonalScheduleModal').fadeOut();
 		});
-		
 // --------------------------------------------------------------------------------		
 		// 부서일정 등록 모달창 오픈
 		$('#addDepartmentScheduleModalOpen').click(function(){
@@ -179,8 +178,8 @@
 // --------------------------------------------------------------------------------
 		// 개인일정 수정 모달창 오픈
 		$('.updatePersonalScheduleModalOpen').click(function(){
-			var updateScheduleNo = $(this).data("updatescheduleno");
-			$("#updateScheduleNoInput").val(updateScheduleNo);
+			var updatePersonalScheduleNo = $(this).data("updatepersonalscheduleno");
+			$("#updatePersonalScheduleNoInput").val(updatePersonalScheduleNo);
 			$('#updatePersonalScheduleModal').fadeIn();
 		});
 		// 개인일정 수정 버튼
@@ -216,21 +215,61 @@
 			$('#updatePersonalScheduleForm').submit();
 			$('#updatePersonalScheduleModal').fadeOut();
 		});
-
+// --------------------------------------------------------------------------------
+		// 개인일정 수정 모달창 오픈
+		$('.updateDepartmentScheduleModalOpen').click(function(){
+			var updateDepartmentScheduleNo = $(this).data("updatedepartmentscheduleno");
+			$("#updateDepartmentScheduleNoInput").val(updateDepartmentScheduleNo);
+			$('#updateDepartmentScheduleModal').fadeIn();
+		});
+		// 개인일정 수정 버튼
+		$('#updateDepartmentScheduleBtn').click(function(){
+			// 입력값 유효성 검사
+			if($('#updateDepartmentScheduleTitleId').val().length == 0) {
+				$('#updateDepartmentScheduleTitleIdMsg').text('일정 제목을 입력해주세요');
+				return;
+			} else {
+				$('#updateDepartmentScheduleTitleIdMsg').text('');
+			}
+			
+			if($('#updateDepartmentScheduleContentId').val().length == 0) {
+				$('#updateDepartmentScheduleContentIdMsg').text('일정 내용을 입력해주세요');
+				return;
+			} else {
+				$('#updateDepartmentScheduleContentIdMsg').text('');
+			}
+			
+			if($('#updateDepartmentScheduleBegindateId').val().length == 0) {
+				$('#updateDepartmentScheduleBegindateIdMsg').text('시작일을 선택해주세요');
+				return;
+			} else {
+				$('#updateDepartmentScheduleBegindateIdMsg').text('');
+			}
+			
+			if($('#updateDepartmentScheduleEnddateId').val().length == 0) {
+				$('#updateDepartmentScheduleEnddateIdMsg').text('종료일을 선택해주세요');
+				return;
+			} else {
+				$('#updateDepartmentScheduleEnddateIdMsg').text('');
+			}
+			$('#updateDepartmentScheduleForm').submit();
+			$('#updateDepartmentScheduleModal').fadeOut();
+		});
+// --------------------------------------------------------------------------------
 		// 모달창 닫기(공통)
 	    $('.close').click(function(){
 			$('#addPersonalScheduleModal').fadeOut();
 			$('#addDepartmentScheduleModal').fadeOut();
 			$('#updatePersonalScheduleModal').fadeOut();
-			
+			$('#updateDepartmentScheduleModal').fadeOut();
 		});
 		
 		// 부서장 권한 검사
-		// var fail = "${fail}";
-		// if (fail === '실패') {
-		// 	alert('권한이 없습니다.');
-		// }
-		// console.log(fail);
+		var fail = "${fail}";
+		if (fail === '실패') {
+			alert('권한이 없습니다.');
+		}
+		console.log(fail);
 	});
 </script>
 </head>
@@ -289,12 +328,12 @@
 								<c:if test="${d == (fn:substring(c.scheduleBegindate,8,10))}">
 								<div>
 									<c:if test="${c.scheduleCategory == '개인'}">
-										<a href="#" class="updatePersonalScheduleModalOpen" data-updateScheduleNo="${c.scheduleNo}">
+										<a href="#" class="updatePersonalScheduleModalOpen" data-updatePersonalScheduleNo="${c.scheduleNo}">
 											<span style="color:green">${c.scheduleCategory} ${c.scheduleTitle}(시작일)</span>
 										</a>
 									</c:if>
 									<c:if test="${c.scheduleCategory == '부서'}">
-										<a href="${pageContext.request.contextPath}/schedule/updateDepartmentSchedule?scheduleNo=${c.scheduleNo}">
+										<a href="#" class="updateDepartmentScheduleModalOpen" data-updateDepartmentScheduleNo="${c.scheduleNo}">
 											<span style="color:orange">${c.scheduleCategory} ${c.scheduleTitle}(시작일)</span>
 										</a>	
 									</c:if>
@@ -415,7 +454,7 @@
 		<div class="modal_content">
 			<h3>개인일정 수정</h3>
 			<form id="updatePersonalScheduleForm" method="post" action="${pageContext.request.contextPath}/schedule/updatePersonalSchedule">
-				<input type="hidden" name="scheduleNo" id="updateScheduleNoInput" value="updateScheduleNoInput">
+				<input type="hidden" name="scheduleNo" id="updatePersonalScheduleNoInput" value="updatePersonalScheduleNoInput">
 				<input type="hidden" name="memberId" value="${m.memberId}">
 				<table>
 					<tr>
@@ -454,6 +493,46 @@
 	</div>
 	
 	<!-- 부서일정 수정 모달 -->
-	
+	<div id="updateDepartmentScheduleModal" class="modal">
+		<div class="modal_content">
+		<h3>부서 일정 수정</h3>
+			<form id="updateDepartmentScheduleForm" method="post" action="${pageContext.request.contextPath}/schedule/updateDepartmentSchedule">
+				<input type="hidden" name="scheduleNo" id="updateDepartmentScheduleNoInput" value="updateDepartmentScheduleNoInput">
+				<input type="hidden" name="memberId" value="${m.memberId}">
+				<table>
+					<tr>
+						<th>일정 제목</th>
+						<td>
+							<input type="text" name="scheduleTitle" id="updateDepartmentScheduleTitleId">
+							<span id="updateDepartmentScheduleTitleIdMsg" class="msg"></span>
+						</td>	
+					</tr>
+					<tr>
+						<th>일정 상세 내용</th>
+						<td>
+							<input type="text" name="scheduleContent" id="updateDepartmentScheduleContentId">
+							<span id="updateDepartmentScheduleContentIdMsg" class="msg"></span>
+						</td>	
+					</tr>
+					<tr>	
+						<th>일정 시작일</th>
+						<td>
+							<input type="date" name=scheduleBegindate id="updateDepartmentScheduleBegindateId">
+							<span id="updateDepartmentScheduleBegindateIdMsg" class="msg"></span>
+						</td>	
+					</tr>	
+					<tr>
+						<th>일정 종료일</th>
+						<td>
+							<input type="date" name=scheduleEnddate id="updateDepartmentScheduleEnddateId">
+							<span id="updateDepartmentScheduleEnddateIdMsg" class="msg"></span>
+						</td>	
+					</tr>
+				</table>
+			</form>
+			<button id="updateDepartmentScheduleBtn" type="button">수정</button>
+			<button class="close" type="button">닫기</button>
+		</div>
+	</div>
 </body>
 </html>
