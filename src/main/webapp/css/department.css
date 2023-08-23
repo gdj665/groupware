@@ -22,20 +22,19 @@ body {
 
 .container {
     width: calc(33.33% - 20px);
-    margin: 0 10px; /* 컨테이너 사이의 간격을 늘림 */
+    margin: 0 10px;
     background-color: #f9f9f9;
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     overflow: hidden;
+    
+    border: 2px solid black; /* 검정색 태두리 추가 */
 }
-
-
-
 /* 첫 번째, 두 번째, 세 번째 컨테이너 공통 스타일 */
 .container:nth-child(1),
 .container:nth-child(2),
 .container:nth-child(3) {
-    height: 350px; /* 세로 고정값 */
+    height: 400px; /* 세로 고정값 */
     overflow-y: scroll; /* 내용이 넘칠 경우 스크롤 생성 */
 }
 
@@ -108,6 +107,7 @@ form {
     background-color: #f5f5f5;
     margin: 20px;
 }
+
 
 select, input[type="text"] {
     width: 100%;
@@ -232,7 +232,7 @@ button[type="submit"]:hover {
     /* 모달 내용 스타일 */
     .modal_content {
         background-color: white;
-        margin: 15% auto;
+        margin: 5% auto;
         padding: 20px;
         border: 1px solid #888;
         width: 50%;
@@ -298,13 +298,13 @@ button[type="submit"]:hover {
     /* 모달2 내용 스타일 */
 .modal_content2 {
     background-color: white;
-    margin: 15% auto;
+    margin: 5% auto;
     padding: 20px;
     border: 1px solid #888;
     width: 50%;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
     border-radius: 5px;
-    overflow-y: auto; /* 스크롤 생성 */
+    max-height: 500px;
 }
 
 /* 제목 스타일 */
@@ -315,6 +315,9 @@ button[type="submit"]:hover {
 /* 폼 스타일 */
 .modal_content2 form {
     margin-top: 20px;
+    overflow-y: auto; /* 스크롤 생성 */
+    max-height: 300px;
+    
 }
 
 /* 테이블 스타일 */
@@ -362,3 +365,21 @@ button[type="submit"]:hover {
 .modal_content2 button:hover {
     background-color: #0056b3;
 }
+h5 {
+    font-size: 1.5rem; /* 원하는 폰트 크기로 조절 */
+    font-weight: bold;
+    color: #333; /* 원하는 색상으로 조절 */
+    margin-bottom: 10px; /* 아래 여백 추가 */
+    text-align: center; /* 가운데 정렬 */
+   margin-top: 10px;
+}
+
+h5::after {
+    content: ""; /* 가상 요소를 이용한 라인 추가 */
+    display: block;
+    width: 40px; /* 라인의 너비 */
+    height: 2px; /* 라인의 높이 */
+    background-color: #007bff; /* 라인의 색상 */
+    margin: 10px auto; /* 가운데 정렬 */
+}
+

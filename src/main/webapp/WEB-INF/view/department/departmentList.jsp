@@ -16,7 +16,6 @@
 </head>
 <script>
 $(document).ready(function () {
-	
     // 부서 선택시 ajax 비동기 팀 리스트 출력  ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     $('#bigDepartment').change(function () {
         if ($('#bigDepartment').val() == '') {
@@ -88,6 +87,12 @@ $(document).ready(function () {
 	$('#addDepartmentLink').click(function(){
 		$('.modal').fadeIn();
 	}) 
+	$('.modal').click(function() {
+			$('.modal').fadeOut();
+		});
+		$('.modal_content').click(function(event) {
+			event.stopPropagation(); // 이벤트 전파 중단
+		});
 	$('#addDepartmentBtn').click(function(){
 		//입력값 유효성 검사
 		// 부서 선택
@@ -104,31 +109,7 @@ $(document).ready(function () {
     	}else{
     		$('#addDepartmentIdMsg').text('');
     	}
-            // 폼 데이터 가져오기
-            var formData = $("#addDepartmentForm").serialize();
-
-            // Ajax 요청 설정
-            $.ajax({
-                type: "POST",
-                url: "${pageContext.request.contextPath}/department/addDepartment", // 요청을 보낼 URL
-                data: formData, // 폼 데이터
-                success: function(response) {
-                    // 성공 시 동작
-                    console.log("요청 성공");
-                    console.log(response); // 서버로부터의 응답 데이터 출력
-                    if(response == 1){
-                    	alert("부서 추가 완료되었습니다.");
-                    } else {
-                    	alert("부서 추가에 실패했습니다..");
-                    }
-                },
-                error: function(xhr, status, error) {
-                    // 실패 시 동작
-                    console.error("요청 실패: " + status + ", " + error);
-                    alert("부서 추가에 실패했습니다..");
-                }
-            });
-        
+		$('#addDepartmentForm').submit();
     	$('.modal').fadeOut();
 	});
 	
@@ -137,58 +118,52 @@ $(document).ready(function () {
 	});
 	
 	
-	// 부서 이동 ajax 비동기 -- ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-	$("#updateForm").submit(function(event) {
-        event.preventDefault(); // 기본 폼 제출 방지
-
-        // 폼 데이터 가져오기
-        var formData = $(this).serialize();
-
-        // Ajax 요청 설정
-        $.ajax({
-            type: "POST",
-            url: "/department/updateDepartment", // 요청을 보낼 URL
-            data: formData, // 폼 데이터
-            success: function(response) {
-                // 성공 시 동작
-                console.log("요청 성공");
-                console.log(response); // 서버로부터의 응답 데이터 출력
-                if(response == 1){
-                	alert("부서 이동 완료되었습니다.");
-                } else {
-                	alert("부서 이동에 실패했습니다..");
-                }
-            },
-            error: function(xhr, status, error) {
-                // 실패 시 동작
-                console.error("요청 실패: " + status + ", " + error);
-                alert("부서 이동에 실패했습니다..");
-            }
-        });
-    });
 	
-	 // 모달창2 이벤트 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	// 모달창2 이벤트
 	$('#deleteDepartmentLink').click(function(){
-		$('.modal2').fadeIn();
-	}) 
-	  // 부서 삭제 버튼 클릭 시의 동작 설정
-    $("#deleteDepartmentBtn").click(function() {
-        // 선택된 체크박스의 값을 배열로 가져오기
-        var selectedDepartments = $("input[name='departmentNo']:checked").map(function() {
-            return $(this).val();
-        }).get();
+	    $('.modal2').fadeIn();
+	});
 
-        // 선택된 부서가 없으면 중단
-        if (selectedDepartments.length === 0) {
-            alert("삭제할 부서를 선택해주세요.");
-            return;
-        }
-        $('#addPartsForm').submit();
-		$('.modal2').fadeOut();
-    });
 	$('#close2').click(function(){
+	    $('.modal2').fadeOut();
+	});
+	$('.modal2').click(function() {
 		$('.modal2').fadeOut();
 	});
+	$('.modal_content2').click(function(event) {
+		event.stopPropagation(); // 이벤트 전파 중단
+	});
+
+	// 부서 삭제 버튼 클릭 시의 동작 설정
+	$("#deleteDepartmentBtn").click(function() {
+	    var selectedCheckboxes = $("input[type='checkbox']:checked");
+	    
+	    // 선택된 부서가 없으면 중단
+	    if (selectedCheckboxes.length === 0) {
+	        alert("삭제할 부서를 선택해주세요.");
+	        return;
+	    }
+	    
+	    // 선택된 체크박스가 하나인지 확인
+	    if (selectedCheckboxes.length === 1) {
+	        $('#deleteDepartmentForm').submit();
+	        $('.modal2').fadeOut();
+	    } else {
+	        alert("하나의 부서만 선택해주세요.");
+	        // 모든 체크박스 해제
+	        $("input[type='checkbox']").prop("checked", false);
+	        // 클릭한 체크박스만 다시 체크
+	        $(this).prop("checked", true);
+	    }
+	});
+
+	// 다른 체크박스를 클릭할 때 기존에 선택된 체크박스 해제
+	$("input[type='checkbox']").click(function() {
+	    $("input[type='checkbox']").not(this).prop("checked", false);
+	});
+
+
+
 });
 </script>
 <body>
@@ -202,8 +177,8 @@ $(document).ready(function () {
 </div>
 <div class="container-wrapper">
     <div class="container">
+  		<h5>이동할 사원 선택</h5>
         <div>
-        	<h3>이동할 사원 선택</h3>
             <ul class="main-list">
                 <li>
                     <!-- 최상위 회사 --> <a href="#" class="toggle-link">회사</a>
@@ -247,7 +222,7 @@ $(document).ready(function () {
     </div>
     <div class="container">
         <!-- 세 번째 컨테이너 내용 -->
-        <h3>이동할 부서 선택</h3>
+        <h5>이동할 부서 선택</h5>
         <form id="updateForm" action="/department/updateDepartment" method="post">
             <table>
                 <tr>

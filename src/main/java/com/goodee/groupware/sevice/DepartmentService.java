@@ -70,18 +70,9 @@ public class DepartmentService {
 	}
 	
 	// 부서 삭제시 체크된 부서 for문으로 삭제
-	public int deleteDepartments(List<Integer> departmentNoList) {
+	public int deleteDepartments(Department department) {
 		// 선택된 부서들을 삭제하는 로직 구현
-		int deletedCount = 0;
-		log.debug("DepartmentService.deleteDepartments()--> " + departmentNoList);
-		for(Integer departmentNo : departmentNoList) {
-			Department department = new Department();
-			department.setDepartmentNo(departmentNo);
-			int result = departmentMapper.deleteDepartment(department);
-			if(result > 0) {
-				deletedCount++;
-			}
-		}
+		int deletedCount = departmentMapper.deleteDepartment(department);
 		return deletedCount;
 	}
 }

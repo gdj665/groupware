@@ -11,5 +11,51 @@
 	WHERE member_id = #{memberId}
 	</select>
 	
-
+	<!-- 사원 리스트 출력 -->
+	<select id="getMemberList"
+			resultType="java.util.Map">
+		SELECT m.member_id memberId, m.department_no departmentNo, m.member_name memberName, m.member_level memberLevel, d.department_parent_no departmentParentNo, d.department_id departmentId
+		FROM member m INNER JOIN department d ON m.department_no = d.department_no
+		ORDER BY departmentNo ASC, memberLevel DESC
+	</select>
+	
+	<!-- 사원 추가 -->
+	<insert id="addMember" parameterType="com.goodee.groupware.vo.Member">
+		INSERT INTO member(
+			member_id,
+			department_no,
+			member_pw,
+			member_name,
+			member_address,
+			member_email,
+			member_birth,
+			member_gender,
+			member_phone,
+			member_rank,
+			member_level,
+			member_hiredate,
+			createdate,
+			updatedate
+		) VALUES(
+			#{memberId},
+			#{departmentNo},
+			#{memberPw},
+			#{memberName},
+			#{memberAddress},
+			#{memberEmail},
+			#{memberBirth},
+			#{memberGender},
+			#{memberPhone},
+			#{memberRank},
+			#{memberLevel},
+			#{memberHiredate},
+			NOW(),
+			NOW()
+		)
+	</insert>
+	
+	<!-- 입사날짜 사원 아이디 생성시 마지막번호 출력 -->
+	<select id="getLastMemberId" parameterType="com.goodee.groupware.vo.Member" resultType="int">
+		SELECT COUNT(*) FROM member WHERE member_id LIKE '%' #{memberId} '%';
+	</select>
 </mapper>

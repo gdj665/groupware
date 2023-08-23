@@ -12,7 +12,7 @@ public class Member {
 	String memberName;
 	String memberAddress;
 	String memberEmail;
-	String memberBrith;
+	String memberBirth;
 	String memberGender;
 	String memberPhone;
 	String memberSignFile;
