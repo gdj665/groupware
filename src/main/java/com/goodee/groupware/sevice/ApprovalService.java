@@ -145,12 +145,15 @@ public class ApprovalService {
 	// 결재 코멘트 적기
 	public int updateApprovalComment(Approval approval) {
 		int updateApprovalCommentRow = approvalMapper.updateApprovalComment(approval);
+		int updateApprovalStatusRow = approvalMapper.updateApprovalStatus(approval);
+		int updateRow = updateApprovalCommentRow + updateApprovalStatusRow;
+		
+		// 디버깅
 		log.debug("approval.getApprovalFirstComment()-->"+approval.getApprovalFirstComment());
 		log.debug("approval.getApprovalSecondComment()-->"+approval.getApprovalSecondComment());
 		log.debug("approval.getApprovalThirdComment()-->"+approval.getApprovalThirdComment());
 		log.debug("approval.getApprovalNo()-->"+approval.getApprovalNo());
-		log.debug("ApprovalService.updateApprovalCommentRow-->"+updateApprovalCommentRow);
-		return updateApprovalCommentRow;
+		log.debug("ApprovalService.updateRow-->"+updateRow);
+		return updateRow;
 	}
-	
 }

@@ -116,33 +116,70 @@ public class ApprovalController {
 	// 결재 상태 업데이트 및 댓글 작성
 	@PostMapping("/approval/updateApprovalComment")
 	public String updateApprovalComment(Approval approval,
-			@RequestParam(name = "approvalNowStatus", required = false) String approvalNowStatus,
+			@RequestParam(name = "approvalNowStatus", defaultValue = "결재중") String approvalNowStatus,
 			@RequestParam(name = "approvalLastStatus", required = false) String approvalLastStatus,
 			@RequestParam(name = "approvalComment", required = false) String approvalComment) {
-		
-		log.debug("approval.getApprovalFirstComment-->"+approval.getApprovalFirstComment());
-		log.debug("approval.getApprovalFirstComment()-->"+approval.getApprovalSecondComment());
+		log.debug("approval.getApprovalFirstComment()-->"+approval.getApprovalFirstComment());
+		log.debug("approval.getApprovalSecondComment()-->"+approval.getApprovalSecondComment());
 		log.debug("approval.getApprovalThirdComment()-->"+approval.getApprovalThirdComment());
-		
-		
 		
 		if(approval.getApprovalFirstComment()==null || approval.getApprovalFirstComment().equals("")) {
 			approval.setApprovalFirstComment(approvalComment);
-			log.debug("approval.getApprovalFirstComment-->"+approval.getApprovalFirstComment());
+			approval.setApprovalNowStatus(approvalNowStatus);
+			// 코멘트 디버깅
+			log.debug("approval.getApprovalFirstComment()-->"+approval.getApprovalFirstComment());
+			
+			if(approvalLastStatus != null && (approvalLastStatus.equals("반려") || approvalLastStatus.equals("취소"))) {
+				approvalNowStatus="결재완료";
+				approval.setApprovalLastStatus(approvalLastStatus);
+				approval.setApprovalNowStatus(approvalNowStatus);
+			} else if(approval.getApprovalSecondId() == null || approval.getApprovalSecondId().equals("")) {
+				approvalLastStatus = "승인";
+				approvalNowStatus="결재완료";
+				approval.setApprovalLastStatus(approvalLastStatus);
+				approval.setApprovalNowStatus(approvalNowStatus);
+			}
+			
 		} else if(!approval.getApprovalSecondComment().equals("") 
 				&& approval.getApprovalSecondComment() == null
 				&& approval.getApprovalFirstComment().equals("")
 				&& approval.getApprovalFirstComment() != null) {
+			
 			approval.setApprovalSecondComment(approvalComment);
+			approval.setApprovalNowStatus(approvalNowStatus);
+			
+			//코멘트 디버깅
 			log.debug("approval.getApprovalFirstComment()-->"+approval.getApprovalSecondComment());
+			if(approvalLastStatus != null && approvalLastStatus.equals("반려") || approvalLastStatus.equals("취소")) {
+				approvalNowStatus="결재완료";
+				approval.setApprovalLastStatus(approvalLastStatus);
+				approval.setApprovalNowStatus(approvalNowStatus);
+			} else if(approval.getApprovalThirdId() == null || approval.getApprovalThirdId().equals("")) {
+				approvalLastStatus = "승인";
+				approvalNowStatus="결재완료";
+				approval.setApprovalLastStatus(approvalLastStatus);
+				approval.setApprovalNowStatus(approvalNowStatus);
+			}
 		} else {
 			approval.setApprovalThirdComment(approvalComment);
+			approval.setApprovalNowStatus(approvalNowStatus);
+			// 코멘트 디버깅
 			log.debug("approval.getApprovalThirdComment()-->"+approval.getApprovalThirdComment());
+			if(approvalLastStatus != null && approvalLastStatus.equals("반려") || approvalLastStatus.equals("취소")) {
+				approvalNowStatus="결재완료";
+				approval.setApprovalLastStatus(approvalLastStatus);
+				approval.setApprovalNowStatus(approvalNowStatus);
+			} else {
+				approvalLastStatus = "승인";
+				approvalNowStatus="결재완료";
+				approval.setApprovalLastStatus(approvalLastStatus);
+				approval.setApprovalNowStatus(approvalNowStatus);
+			}
 		}
 		
 		int row = approvalService.updateApprovalComment(approval);
-		
 		log.debug("ApprovalController.updateApprovalComment.Row-->"+row);
+		
 		return "redirect:/approval/approvalList";
 	}
 }

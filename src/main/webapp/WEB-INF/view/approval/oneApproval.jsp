@@ -94,7 +94,7 @@
 		</c:forEach>
 	</table>
 	<!-- 작성자만 지울수 있도록 수정 -->
-	<c:if test="${approvalOne.memberId == loginMemberId && empty(approvalOne.approvalLastStatus)}">
+	<c:if test="${approvalOne.memberId == loginMemberId && approvalOne.approvalLastStatus eq '결재전'}">
 		<form action="/approval/updateApprovalRecall" method="post">
 			<input type="hidden" name="approvalNo" value="${approvalOne.approvalNo}">
 			<button type="submit" onClick="return confirm('회수하시겠습니까?')">회수하기</button>
@@ -104,13 +104,19 @@
 				|| (approvalOne.approvalSecondId == loginMemberId && approvalOne.approvalSecondComment == null && approvalOne.approvalFirstComment != null)
 				|| (approvalOne.approvalThirdId == loginMemberId && approvalOne.approvalThirdComment == null && approvalOne.approvalSecondComment != null && approvalOne.approvalFirstComment != null)}">
 		<form action="/approval/updateApprovalComment" method="post">
+			<!-- 확인이 필요한 값 -->
 			<input type="hidden" name="approvalNo" value="${approvalOne.approvalNo}">
-			<input type="hidden" name="approvalFirstComment" value="${approvalOne.approvalFirstComment}">
+	 		<input type="hidden" name="approvalFirstComment" value="${approvalOne.approvalFirstComment}">
 			<input type="hidden" name="approvalSecondComment" value="${approvalOne.approvalSecondComment}">
-			<input type="text" name="approvalComment">
-			<button type="submit" name="approvalNowStatus" value="1결재중" onClick="return confirm('결재하시겠습니까?')">결재하기</button>
-			<button type="submit" name="approvalLastStatus" value="2반려" onClick="return confirm('반려하시겠습니까?')">반려하기</button>
-			<button type="submit" name="approvalLastStatus" value="3취소" onClick="return confirm('취소하시겠습니까?')">취소하기</button>
+			<input type="hidden" name="approvalFirstId" value="${approvalOne.approvalFirstId}">
+			<input type="hidden" name="approvalSecondId" value="${approvalOne.approvalSecondId}">
+			<input type="hidden" name="approvalThirdId" value="${approvalOne.approvalThirdId}">
+			<!-- 코멘트 -->
+			<input type="text" name="approvalComment" required="required">
+			<!-- 버튼으로 분기 -->
+			<button type="submit" onClick="return confirm('결재하시겠습니까?')">결재하기</button>
+			<button type="submit" name="approvalLastStatus" value="반려" onClick="return confirm('반려하시겠습니까?')">반려하기</button>
+			<button type="submit" name="approvalLastStatus" value="취소" onClick="return confirm('취소하시겠습니까?')">취소하기</button>
 		</form>
 	</c:if>
 </body>

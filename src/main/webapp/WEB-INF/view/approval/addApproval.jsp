@@ -166,9 +166,9 @@
 				<td>
 					<select name="approvalForm" id="approvalForm" required="required">
 						<option value="">===선택해주세요===</option>
-						<option value="1기안서">기안서</option>
-						<option value="2지출결의서">지출결의서</option>
-						<option value="3휴가계획서">휴가계획서</option>
+						<option value="기안서">기안서</option>
+						<option value="지출결의서">지출결의서</option>
+						<option value="휴가계획서">휴가계획서</option>
 					</select>
 				</td>
 			</tr>

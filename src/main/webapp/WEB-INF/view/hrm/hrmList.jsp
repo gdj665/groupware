@@ -211,7 +211,7 @@ window.onload = function(){
 	        //카카오 지도 발생
 	        new daum.Postcode({
 	            oncomplete: function(data) { //선택시 입력값 세팅
-	                $('#address_kakao').val(data.address) // 주소 넣기
+	                $('#addMemberAddress').val(data.address) // 주소 넣기
 	            }
 	        }).open();
 	    });

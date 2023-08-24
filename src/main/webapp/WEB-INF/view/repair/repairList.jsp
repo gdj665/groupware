@@ -119,76 +119,7 @@
 			$('#completedRepairModal').fadeIn();
 		});
 		
-		
-		// 수리중 -> 수리완료 수정 버튼
-		$('#updateCompletedRepairBtn').click(function(){
-			
-			$('#updateCompletedRepair').submit();
-			$('#completedRepairModal').fadeOut();
-		});
 // ---------------------------------------------------------------- 수리중 -> 수리완료 수정 끝 ----------------------------------------------------------		
-
-		// 모달창 닫기
-	    $('.close').click(function(){
-			$('#completedRepairModal').fadeOut();
-		});
-
-		$('#partsListBtn').click(function(){
-			
-			$.ajax({
-				async: false,
-		    	url: '/parts/getPartsCntList',
-		    	type: 'get',
-		    	success: function(data) {
-		    		const selectPartsList = data.partsList;
-		    	}
-			});
-		});
-
-
-		// ajax 비동기로 자재별 개수 가져오기
-	    $('#partsNameId').on('change', function() {
-            const selectedPartsName = $(this).val();
-		    $.ajax({
-		    	async: false,
-		    	url: '/parts/getPartsCntList?partsName='+selectedPartsName,
-		    	type: 'get',
-		    	success: function(data) {
-		    		$('#partsCntId').empty();
-		    		 
-		    		const partsCnt = parseInt(data.partsList[0].partsCnt); // Convert partsCnt to integer
-		            
-		            for (let i = 1; i <= partsCnt; i++) {
-		                const option = $('<option></option>');
-		                option.attr('value', i);
-		                option.text(i);
-		                $('#partsCntId').append(option);
-		            }
-		    	}
-	    	});
-	    });
-		
-		// 가격설정
-		// partsCntId가 변경될 때 실행
-	    $('#partsCntId').on('change', function() {
-            const selectedPartsCnt = $(this).val();
-            const selectedPartsName = $('#partsNameId').val();
-		    $.ajax({
-		    	async: false,
-		    	url: '/parts/getPartsCntList?partsName='+selectedPartsName,
-		    	type: 'get',
-		    	success: function(data) {
-		    		// 선택된 파츠에 맞는 가격 가져옴
-		            const selectedParts = data.partsList.find(part => part.partsName === selectedPartsName);
-		    		// 선택된 파츠에 맞는 가격 가져옴
-		    		const selectedPartsPrice = parseInt(selectedParts.partsPrice); 
-		    		// 총 가격 선택된 partsCnt 와 가져온 가격 + 공임비 20000 해서 총 가격 생성
-		            const totalPrice = 20000 + (selectedPartsCnt * selectedPartsPrice);
-		    		// 총 가격 출력
-		            $('#totalPriceId').val(totalPrice);
-		    	}
-	    	});
-	    });
 		
 		// 자재목록 가져오기
 	    $('.comRepairModalOpen').click(function(){
@@ -198,39 +129,135 @@
 	            data: {},
 	            success: function(data) {
 	                const selectPartsList = data.partsList;
-	               
+	            	console.log(selectPartsList);
+	                
 	             	// 기존 내용 제거
 	                $('#availablePartsList').empty();
 
 	                // 자재목록 출력
 	                selectPartsList.forEach(function(part) {
-	                    const listItem = $('<li><input type="checkbox" name="availablePart" class="partsNameCheckbox" value="' + part.partsName + part.partsCnt + '">' + part.partsName + '</li>');
+	                	const listItem = $('<li><input type="checkbox" class="partsNameCheckbox" data-partsCnt= "'+part.partsCnt+'" data-partsPrice="'+part.partsPrice+'" data-partsNo="'+part.partsNo+'">' + part.partsName + '</li>');
 	                    $('#availablePartsList').append(listItem);
 	                });
 	            }
 	        });
 	    });
-
-	 	// 클라이언트 측 변수 추가
-	    const selectedParts = [];  // 선택한 자재들을 담을 배열
-
-	 	// 오른쪽 화살표 클릭 이벤트
-	    $('#rightArrowButton').click(function() {
-	        // 선택된 체크박스 가져오기
-	        const checkedCheckboxes = $('.partsNameCheckbox:checked');
-
-	        // 선택한 항목들을 배열에 추가하고, 옮겨진 목록에 출력
-	        checkedCheckboxes.each(function() {
-	            const partsName = $(this).val();
-	            selectedParts.push(partsName);
-	            const listItem = $('<li>' + (partsName) 재고량: + '</li>');
-	            $('#selectedPartsList').append(listItem);
-	        });
-
-	        // 선택한 항목들의 체크 해제
-	        checkedCheckboxes.prop('checked', false);
+	 	
+	 	// 오른쪽 화살표클릭시 자재목록에서 체크된 항목 오른쪽에서 출력
+	    $('#rightArrowButton').click(function(){
+	    	// 체크된 항목 변수
+	    	const checkedPartsName = $('.partsNameCheckbox:checked');
+	    	// 반복문 돌려 하나씩 출력시키기
+	    	checkedPartsName.each(function(){
+	    		
+	    		// 체크된 박스에 총 개수 가져오기
+	    		const checkPartsCnt = $(this).data('partscnt');
+	    		const checkPartsPrice = $(this).data('partsprice');
+	    		const checkPartsNo = $(this).data('partsno');
+		    	const checkPartsName = $(this).parent().text();
+	            
+            	// 체크된 박스에 text값 가져오기
+    			const selectedListItem = $('<span class="selectedPartsCnt"><li><input type="checkbox" class="removeChecked">'+checkPartsName+" 재고량 :"+checkPartsCnt+'<br>사용자재 수: <input type="text" class="partsCntClass" name="partsCnt" data-selectedPrice="'+checkPartsPrice+'" style="width:30px;height:30px;"><input type="hidden" name="partsNo" value="'+checkPartsNo+'"></li></span>'); 
+    			$('#selectedPartsList').append(selectedListItem);
+	            
+    			// 모든 체크박스 비체크로 초기화
+    		    $('.partsNameCheckbox:checked').prop('checked', false);
+	    	});
 	    });
-	    
+	 	
+	 	// 왼쪽 화살표 클릭시 선택한 자재에서 checked된 항목 빼버리기
+	    $('#leftArrowButton').click(function(){
+	    	// 체크된 자재 변수
+	    	const checkedParts = $('.selectedPartsCnt');
+	    	
+	    	// 선택된 항목을 제거
+	        checkedParts.each(function() {
+	            if ($(this).find('input[class="removeChecked"]').prop('checked')) {
+	            	
+	            	// 사용자재 수 입력란에 입력된 값 가져와서 해당값을 뒤에 10을 사용해 10진수로 변경
+	            	const inputCnt = parseInt($(this).find('.partsCntClass').val(), 10);
+	            	// 입력란에 해당 자재의 가격을 찾아와 Float로 변환
+	                const selectedPrice = parseFloat($(this).find('.partsCntClass').data('selectedprice'));
+	            	// 가격과 입력된 수량을 곱함
+	                const totalPrice = inputCnt * selectedPrice;
+
+	                // 제거된 항목의 가격을 현재 총 가격에서 빼기
+	                // 수리비에 현재 val()값을 가져옴
+	                const currentTotalPrice = parseFloat($('#totalPriceId').val());
+	                // 현재 가격에서 위에서 나온 제거시킨 항목의 값을 뺌
+	                const updatedTotalPrice = currentTotalPrice - totalPrice;
+	                // 뺀 값으로 출력
+	                $('#totalPriceId').val(updatedTotalPrice);
+	            	// 선택한 자재 항목에서 삭제
+	            	$(this).remove();
+	            }
+	        });
+	    });
+	 	
+	 	
+	 	// 선택한 자재 부분에 사용자재 수를 입력할시 총비용 나오게하기
+	    $(document).on('change', '.partsCntClass', function(){
+	    	
+	    	let totalPrice = 0;
+	    	
+	    	// 반복문을 통해 각 선택된 자재의 총 가격 계산
+	    	$('.selectedPartsCnt').each(function() {
+	    		// 변경된 항목에 자재 가격 가져옴
+				const selectedPrice = $(this).find('.partsCntClass').data('selectedprice');
+	    		// 변경된 항목에 변경값 가져옴
+				const inputCnt = parseInt($(this).find('.partsCntClass').val());
+				
+				if (!isNaN(inputCnt)) {
+		            totalPrice += inputCnt * selectedPrice;
+		        }
+	    	});
+	    	// 공임비 20000원 추가
+	    	totalPrice += 20000;
+	    	// 계산된 총 가격을 화면에 출력
+	        $('#totalPriceId').val(totalPrice);
+	    });
+	 	
+	 	// 입력한 자재 개수와 자재번호를 배열로 만들어서 controller로 전송
+	 	$('#updateCompletedRepairBtn').click(function(){
+	 		const selectedPartsData = [];
+	 		
+	 		// selectedPartsCnt클래스를 순회하며 partsNo와 입력한 partsCnt 값을 찾아 배열에 순차적으로 집어넣음
+	 		$('.selectedPartsCnt').each(function(){
+	 			const partsNo = $(this).find('[name="partsNo"]').val();
+	 			const partsCnt = $(this).find('.partsCntClass').val();
+	 			selectedPartsData.push({ partsNo: partsNo, partsCnt: partsCnt });
+	 		});
+	 		
+	 		// selectedPartsData 배열을 순회하며 length만큼 인덱스를 폼 데이터로 추가
+	 	    const formData = new FormData();
+	 	    for (let i = 0; i < selectedPartsData.length; i++) {
+	 	        formData.append('partsNo[]', selectedPartsData[i].partsNo);
+	 	        formData.append('partsCnt[]', selectedPartsData[i].partsCnt);
+	 	    }
+	 	    
+	 		// formData를 컨트롤러로 전송 (예를 들어, AJAX를 사용하여 전송)
+	 	    $.ajax({
+	 	        url: '/repair/updateRepair',
+	 	        type: 'post',
+	 	        data: formData,
+	 	        processData: false,
+	 	        contentType: false,
+	 	        success: function(response) {
+	 	            // 성공적으로 처리된 경우의 동작
+	 	            // 모달창 닫기
+	 	        	$('#completedRepairModal').fadeOut();
+	 	        },
+	 	        error: function(error) {
+	 	            // 오류 발생 시의 동작
+	 	        }
+	 	    });
+	 	});
+		
+	 	// 모달창 닫기
+	    $('.close').click(function(){
+			$('#completedRepairModal').fadeOut();
+		});
+		
 	});
 </script>
 </head>
@@ -314,8 +341,8 @@
 							</tr>
 							<tr>
 								<td>수리비</td>
-								<td><input id="totalPriceId" type="text"
-									value="${totalPrice}">원 <span id="repairPriceIdMsg"
+								<td><input id="totalPriceId" type="text" name="repairPrice">원 
+								<span id="repairPriceIdMsg"
 									class="msg"></span></td>
 							</tr>
 							<tr>
@@ -352,7 +379,6 @@
 											<!-- 조회 결과 자재 목록이 여기에 추가됨 -->
 										</ul>
 									</td>
-	
 								</tr>
 							</table>
 						</div>
