@@ -21,7 +21,11 @@ public class HrmService {
 	public Member getOneMember(String memberId) {
 		return hrmMapper.getOneMember(memberId);
 	}
-	
+	// 사원상세보기 (권원중)
+		public List<Map<String,Object>> getOneMember2(String memberId){
+			List<Map<String,Object>> getOneMember = hrmMapper.getOneMember2(memberId);
+			return getOneMember;
+		}
 	
 	// 사원 리스트
 	public List<Map<String,Object>> getMemberList(){
@@ -57,5 +61,12 @@ public class HrmService {
 		member.setMemberPw(memberPw);
 		row = hrmMapper.addMember(member);
 		return row;
+	}
+	// 사원 수정
+	public int updateMember(Member member) {
+		int row = 0;
+		row = hrmMapper.updateMember(member);
+		return row;
+		
 	}
 }

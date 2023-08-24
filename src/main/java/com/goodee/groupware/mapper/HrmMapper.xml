@@ -58,4 +58,19 @@
 	<select id="getLastMemberId" parameterType="com.goodee.groupware.vo.Member" resultType="int">
 		SELECT COUNT(*) FROM member WHERE member_id LIKE '%' #{memberId} '%';
 	</select>
+	
+	<!-- 사원상세보기 -->
+	<select id="getOneMember2" parameterType="String" resultType="java.util.Map">
+	SELECT m.member_id memberId, d.department_Id departmentId, d.department_parent_no departmentParentNo, m.member_name memberName, m.member_address memberAddress, m.member_email memberEmail, m.member_birth memberBirth, m.member_gender memberGender, m.member_phone memberPhone, m.member_rank memberRank, m.member_level memberLevel, m.member_hiredate memberHiredate 
+	FROM member m INNER JOIN department d ON m.department_no = d.department_no 
+	WHERE m.member_id = #{memberId}
+	</select>
+	
+	<!-- 사원 직급 레벨 수정 -->
+	<update id="updateMember" parameterType="com.goodee.groupware.vo.Member">
+	 	UPDATE member 
+	 	SET member_rank = #{memberRank}, member_level = #{memberLevel}
+	 	WHERE member_id = #{memberId}
+	</update>
+	
 </mapper>

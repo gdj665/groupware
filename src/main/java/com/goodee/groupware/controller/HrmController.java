@@ -39,4 +39,11 @@ public class HrmController {
 		log.debug("hrmController.addMemberRow-->" + addMemberRow);
 		return "redirect:/hrm/hrmList";
 	}
+	// 사원 수정
+	@PostMapping("/hrm/updateMember")
+	public String updateMember(Member member) {
+		int updateRow = hrmService.updateMember(member);
+		log.debug("hrmController.updateRow-->" + updateRow);
+		return "redirect:/hrm/hrmList";
+	}
 }

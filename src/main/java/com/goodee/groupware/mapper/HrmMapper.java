@@ -16,4 +16,8 @@ public interface HrmMapper {
 	int addMember(Member member);
 	// 사원 입사날 아이디 갯수
 	int getLastMemberId(Member member);
+	// 사원 상세보기
+	List<Map<String,Object>> getOneMember2(String memberId);
+	// 사원 수정
+	int updateMember(Member member);
 }
