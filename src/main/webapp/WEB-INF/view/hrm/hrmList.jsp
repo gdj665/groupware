@@ -5,203 +5,11 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
 
-<style>
-    .container {
-        border: 1px solid #ccc;
-        padding: 20px;
-        margin-bottom: 20px;
-        height: 400px;
-        overflow-y: scroll; /* 내용이 넘칠 경우 스크롤 생성 */
-    }
-
-    table {
-        width: 100%;
-        border-collapse: collapse;
-    }
-
-    th, td {
-        border: 1px solid #ccc;
-        padding: 8px;
-        text-align: left;
-    }
-
-    th {
-        background-color: #f2f2f2;
-    }
-
-    ul {
-        margin: 0;
-        padding-left: 20px;
-    }
-
-    li {
-        list-style-type: none;
-        margin: 5px 0;
-    }
-    .modal {
-        display: none;
-        position: fixed;
-        z-index: 1;
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, 0.4);
-    }
-	.modal2 {
-	        display: none;
-	        position: fixed;
-	        z-index: 1;
-	        left: 0;
-	        top: 0;
-	        width: 100%;
-	        height: 100%;
-	        background-color: rgba(0, 0, 0, 0.4);
-	    }    
-	
-	    /* 모달 내용 스타일 */
-	    .modal_content {
-	        background-color: white;
-	        margin: 5% auto;
-	        padding: 20px;
-	        border: 1px solid #888;
-	        width: 50%;
-	        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
-	        border-radius: 5px;
-	    }
-	
-	    /* 제목 스타일 */
-	    .modal_content h3 {
-	        margin-top: 0;
-	    }
-	
-	    /* 폼 스타일 */
-	    .modal_content form {
-	        margin-top: 20px;
-	    }
-	
-	    /* 테이블 스타일 */
-	    .modal_content table {
-	        width: 100%;
-	        border-collapse: collapse;
-	    }
-	
-	    /* 테이블 셀 스타일 */
-	    .modal_content td {
-	        padding: 8px;
-	        border-bottom: 1px solid #ddd;
-	    }
-	
-	    /* 입력 필드 스타일 */
-	    .modal_content input[type="text"],
-	    .modal_content input[type="date"] {
-	        width: 100%;
-	        padding: 8px;
-	        border: 1px solid #ccc;
-	        border-radius: 3px;
-	    }
-	
-	    /* 메시지 스타일 */
-	    .modal_content .msg {
-	        color: red;
-	        font-size: 12px;
-	    }
-	
-	    /* 버튼 스타일 */
-	    .modal_content button {
-	        margin-top: 10px;
-	        padding: 8px 15px;
-	        border: none;
-	        background-color: #007bff;
-	        color: white;
-	        cursor: pointer;
-	        border-radius: 3px;
-	    }
-	
-	    .modal_content button.close {
-	        background-color: #ccc;
-	    }
-	
-	    .modal_content button:hover {
-	        background-color: #0056b3;
-	    }
-	    /* 모달2 내용 스타일 */
-	.modal_content2 {
-	    background-color: white;
-	    margin: 5% auto;
-	    padding: 20px;
-	    border: 1px solid #888;
-	    width: 50%;
-	    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
-	    border-radius: 5px;
-	    max-height: 500px;
-	}
-	
-	/* 제목 스타일 */
-	.modal_content2 h3 {
-	    margin-top: 0;
-	}
-	
-	/* 폼 스타일 */
-	.modal_content2 form {
-	    margin-top: 20px;
-	    overflow-y: auto; /* 스크롤 생성 */
-	    max-height: 300px;
-	    
-	}
-	
-	/* 테이블 스타일 */
-	.modal_content2 table {
-	    width: 100%;
-	    border-collapse: collapse;
-	}
-	
-	/* 테이블 셀 스타일 */
-	.modal_content2 td {
-	    padding: 8px;
-	    border-bottom: 1px solid #ddd;
-	}
-	
-	/* 입력 필드 스타일 */
-	.modal_content2 input[type="text"],
-	.modal_content2 input[type="date"] {
-	    width: 100%;
-	    padding: 8px;
-	    border: 1px solid #ccc;
-	    border-radius: 3px;
-	}
-	
-	/* 메시지 스타일 */
-	.modal_content2 .msg {
-	    color: red;
-	    font-size: 12px;
-	}
-	
-	/* 버튼 스타일 */
-	.modal_content2 button {
-	    margin-top: 10px;
-	    padding: 8px 15px;
-	    border: none;
-	    background-color: #007bff;
-	    color: white;
-	    cursor: pointer;
-	    border-radius: 3px;
-	}
-	
-	.modal_content2 button.close {
-	    background-color: #ccc;
-	}
-	
-	.modal_content2 button:hover {
-	    background-color: #0056b3;
-	}
-</style>
+<!-- 개인 css -->
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/hrm.css">
 
 <!-- 카카오API -->
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
@@ -246,6 +54,7 @@ $(document).ready(function () {
 	$('#addHrmLink').click(function(){
 		$('.modal').fadeIn();
 	}) 
+	
 	$('.modal').click(function() {
 			$('.modal').fadeOut();
 		});
@@ -395,8 +204,6 @@ $(document).ready(function() {
 		<div class="container">
 			<!-- "부서추가" 버튼 -->
 			<button id="addHrmLink" class="btn btn-primary">사원 추가</button>
-			<!-- "부서삭제" 버튼 -->
-			<button id="deleteDepartmentLink" class="btn btn-primary">사원 수정</button>
 		 	<hr>
 	    <table>
 	        <tr>
