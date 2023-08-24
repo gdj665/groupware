@@ -81,7 +81,7 @@
 	<insert id="addRepairParts" parameterType="com.goodee.groupware.vo.RepairParts">
 		INSERT  INTO repair_parts
 			(repair_no, parts_no, repair_parts_cnt, createdate, updatedate)
-		VALUES(#{repairNo}, #{partsNo}. #{repairPartsCnt}, NOW(), NOW())
+		VALUES(#{repairNo}, #{partsNo}, #{repairPartsCnt}, NOW(), NOW())
 	</insert>
 	
 </mapper>

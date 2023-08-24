@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.goodee.groupware.sevice.RepairService;
@@ -81,10 +82,13 @@ public class RepairController {
 		model.addAttribute("lastPage", resultMap.get("lastPage"));
 		
 		if(repair.getRepairStatus().equals("대기중")) {
+			System.out.println("대기중 리스트로!");
 			return "/repair/watingRepairList";
 		} else if(repair.getRepairStatus().equals("수리중")) {
+			System.out.println("수리중 리스트로!");
 			return "/repair/repairList";
 		} else if(repair.getRepairStatus().equals("수리완료")) {
+			System.out.println("수리완료 리스트로!");
 			return "/repair/completedList";
 		}
 		
@@ -94,9 +98,15 @@ public class RepairController {
 	
 	// 3) repair 대기중 -> 수리중 -> 수리완료 수정
 	@PostMapping("/repair/updateRepair")
-																		// redirect시 값을 K/V형태로 보낼 수 있게 해줌 
-	public String updateRepair(Repair repair, RepairParts repairParts, Parts parts, RedirectAttributes redirectAttributes) {
-		
+	public String updateRepair(@RequestParam(name = "partsNo[]") int[] partsNoArray,
+		    					@RequestParam(name = "partsCnt[]") int[] partsCntArray,
+								Repair repair, RepairParts repairParts, Parts parts, RedirectAttributes redirectAttributes) {
+		log.debug("RepairController.updateRepair() 수리중 -> 수리완료 Param partsNoArray" + partsNoArray.length);
+		log.debug("RepairController.updateRepair() 수리중 -> 수리완료 Param partsCntArray" + partsCntArray.length);
+		//log.debug("RepairController.updateRepair() 수리중 -> 수리완료 Param repairNo" + repairNo);
+		//log.debug("RepairController.updateRepair() 수리중 -> 수리완료 Param repairPrice" + repairPrice);
+		//log.debug("RepairController.updateRepair() 수리중 -> 수리완료 Param repairStatus" + repairStatus);
+		//log.debug("RepairController.updateRepair() 수리중 -> 수리완료 Param repairContent" + repairContent);
 		int row =0;
 		
 		// 매개값에 따라 호출 분기시켜 디버깅코드 확인
@@ -110,13 +120,19 @@ public class RepairController {
 			} else {
 				log.debug("RepairController.updateRepair() row 대기중 -> 수리중 변경실패" + row);
 			}
+			System.out.println("updateRepair() 수리중 실행!");
 			redirectAttributes.addAttribute("repairStatus", "수리중");
 			return "redirect:/repair/repairList";
 			
 		} else if(repair.getRepairContent() != null) {
 			// 호출
 			row = repairSerivce.updateRepair(repair, repairParts, parts);
+			log.debug("RepairController.updateRepair() 수리중 -> 수리완료 Param partsNoArray" + partsNoArray.toString());
+			log.debug("RepairController.updateRepair() 수리중 -> 수리완료 Param partsCntArray" + partsCntArray.toString());
+			
 			log.debug("RepairController.updateRepair() 수리중 -> 수리완료 Param repair" + repair.toString());
+			log.debug("RepairController.updateRepair() 수리중 -> 수리완료 Param parts" + parts.toString());
+			log.debug("RepairController.updateRepair() 수리중 -> 수리완료 Param repairParts" + repairParts.toString());
 			
 			if(row > 0) {
 				log.debug("RepairController.updateRepair() row 수리중 -> 수리완료 변경완료" + row);
@@ -124,10 +140,12 @@ public class RepairController {
 				log.debug("RepairController.updateRepair() row 수리중 -> 수리완료 변경실패" + row);
 			}
 			
+			System.out.println("updateRepair() 수리완료 실행!");
 			redirectAttributes.addAttribute("repairStatus", "수리완료");
 			return "redirect:/repair/repairList";
 		}
 		
+		System.out.println("updateRepair() 대기중 실행!");
 		// 수정 실패시 대기중 리스트로
 		redirectAttributes.addAttribute("repairStatus", "대기중");
 		return "redirect:/repair/repairList";
