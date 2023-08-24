@@ -24,7 +24,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Controller
-public class MemberContrller {
+public class MemberController {
 	@Autowired
 	private MemberService memberService;
 	
@@ -240,11 +240,17 @@ public class MemberContrller {
 	@GetMapping("/member/workCheck")
 	public String getWorkCheckList(HttpSession session, Model model,
 									@RequestParam(required = false, name = "targetYear") Integer targetYear,		
-									@RequestParam(required = false, name = "targetMonth") Integer targetMonth) {
+									@RequestParam(required = false, name = "targetMonth") Integer targetMonth,
+									@RequestParam(required = false, name = "targetDate") Integer targetDate) {
 		String memberId =(String)session.getAttribute("loginMember");
 		int departmentNo =(int)session.getAttribute("departmentNo");
-		Map<String, Object> workMap = memberService.getWorkCheckList(departmentNo, targetYear, targetMonth);
-		model.addAttribute("workMap", workMap);
+//		memberId는 입력값 받아서 출력
+		Map<String, Object> workInfoMap = memberService.getWorkCheckInfoList(departmentNo, targetYear, targetMonth, targetDate);
+//		Map<String, Object> workCheckMap = memberService.getWorkCheckList(departmentNo, targetYear, targetMonth);
+		model.addAttribute("workInfoMap", workInfoMap);
+//		model.addAttribute("workCheckMap", workCheckMap);
+		model.addAttribute("targetYear", targetYear);
+		model.addAttribute("targetMonth", targetMonth);
 		return "/member/workCheck";
 	}
 }

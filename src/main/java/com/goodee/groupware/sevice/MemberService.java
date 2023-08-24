@@ -178,6 +178,35 @@ public class MemberService {
 	}
 	
 //	개인 근태 출력
+	public Map<String, Object> getWorkCheckInfoList(int departmentNo, Integer targetYear, Integer targetMonth, Integer targetDate) {
+		
+		// 달력 API 가져오기
+		Calendar firstDate = Calendar.getInstance();
+		
+		targetYear = firstDate.get(Calendar.YEAR);
+		targetMonth = firstDate.get(Calendar.MONTH);
+		targetDate = firstDate.get(Calendar.DATE);
+		log.debug("MemberService getWorkCheckInfoList 날짜: " + targetYear + "," + targetMonth + "," + targetDate);
+		
+		
+		// Map에 담아서 Controller로 넘기기
+		Map<String, Object> workMap = new HashMap<String, Object>();
+		workMap.put("targetYear", targetYear);
+		workMap.put("targetMonth", targetMonth);
+		workMap.put("targetDate", targetDate);
+		
+		Map<String, Object> paramMap = new HashMap<>();
+		paramMap.put("departmentNo", departmentNo);
+		paramMap.put("targetYear", targetYear);
+		paramMap.put("targetMonth", targetMonth + 1);
+		paramMap.put("targetDate", targetDate);
+		ArrayList<Work> workCheckInfoList = (ArrayList)memberMapper.getWorkCheckInfoList(paramMap);
+		log.debug("memberService workCheckList workBegin : " + workCheckInfoList.size());
+		workMap.put("workCheckInfoList", workCheckInfoList);
+		return workMap;
+	}
+
+//	지각 조퇴 연차 횟수 출력
 	public Map<String, Object> getWorkCheckList(int departmentNo, Integer targetYear, Integer targetMonth) {
 		
 		// 달력 API 가져오기
@@ -205,9 +234,8 @@ public class MemberService {
 		paramMap.put("departmentNo", departmentNo);
 		paramMap.put("targetYear", targetYear);
 		paramMap.put("targetMonth", targetMonth + 1);
-		ArrayList<Work> workCheckList = (ArrayList)memberMapper.getWorkCheckList(paramMap);
+		ArrayList<Map<String, Object>> workCheckList = (ArrayList)memberMapper.getWorkCheckList(paramMap);
 		log.debug("memberService workCheckList workBegin : " + workCheckList.size());
-		log.debug("memberService workCheckList workBegin : " + workCheckList.get(0).getWorkBegin());
 		workMap.put("workCheckList", workCheckList);
 		return workMap;
 	}

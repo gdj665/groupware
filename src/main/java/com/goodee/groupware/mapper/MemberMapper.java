@@ -38,5 +38,8 @@ public interface MemberMapper {
 	int checkWork(Work work);
 	
 //	근태 관리 출력
-	List<Work> getWorkCheckList(Map<String, Object> paramMap);
+	List<Work> getWorkCheckInfoList(Map<String, Object> paramMap);
+
+//	근태 근태 지각, 조퇴, 연차 출력
+	List<Map<String, Object>> getWorkCheckList(Map<String, Object> paramMap);
 }

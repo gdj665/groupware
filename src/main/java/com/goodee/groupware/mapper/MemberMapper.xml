@@ -95,8 +95,25 @@
 		AND work_date = #{workDate}
 	</select>
 	
-	<!-- 근태 관리 출력 -->
+	<!-- 근태 지각, 조퇴, 연차 출력 -->
 	<select id="getWorkCheckList"
+			parameterType="java.util.Map"
+			resultType="java.util.Map">
+		SELECT w.member_id memberId,  COUNT(case when HOUR(w.work_begin) &gt;= 9 then 1 END) workBeginLate, COUNT(case when HOUR(w.work_end) &lt; 18 then 1 END) workEndFast, COUNT(case when w.work_annual = 'Y' then 1 END) useAnnual
+		FROM work w INNER JOIN member m
+		ON w.member_id = m.member_id
+		INNER JOIN department d
+		ON m.department_no = d.department_no
+		WHERE d.department_no = #{departmentNo}
+		OR d.department_parent_no = #{departmentNo}
+		AND YEAR(w.work_date) = #{targetYear}
+		AND MONTH(w.work_date) = #{targetMonth}
+		GROUP BY m.member_id
+		ORDER BY d.department_no DESC, m.member_rank DESC
+	</select>
+	
+	<!-- 근태 관리 출력 -->
+	<select id="getWorkCheckInfoList"
 			parameterType="java.util.Map"
 			resultType="com.goodee.groupware.vo.Work">
 		SELECT d.department_no departmentNo, w.member_id memberId, w.work_begin workBegin, w.work_end workEnd, w.work_date workDate, w.work_annual workAnnual
@@ -106,8 +123,10 @@
 		ON m.department_no = d.department_no
 		WHERE d.department_no = #{departmentNo}
 		OR d.department_parent_no = #{departmentNo}
-		AND YEAR(work_date) = #{targetYear}
-		AND MONTH(work_date) = #{targetMonth}
-		ORDER BY d.department_no AND m.member_rank DESC
+		AND YEAR(w.work_date) = #{targetYear}
+		AND MONTH(w.work_date) = #{targetMonth}
+		AND DAY(w.work_Date) = #{targetDate}
+		ORDER BY d.department_no, m.member_rank DESC
 	</select>
+	
 </mapper>
