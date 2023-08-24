@@ -100,7 +100,7 @@
 			#{approvalTitle},
 			#{approvalContent},
 			#{approvalForm},
-			'0결재전',
+			'결재전',
 			#{approvalFirstId},
 			#{approvalSecondId},
 			#{approvalThirdId},
@@ -113,11 +113,12 @@
 	<!-- 결재 회수 -->
 	<update id="updateApprovalRecall" parameterType="com.goodee.groupware.vo.Approval">
 		UPDATE approval 
-		SET approval_last_status = '4회수'
+		SET approval_last_status = '회수',
+		approval_now_status = '결재취소'
 		WHERE approval_no = #{approvalNo}
 	</update>
 	
-	<!-- 결재 진행 -->
+	<!-- 결재 진행 코멘트 -->
 	<update id="updateApprovalComment" parameterType="com.goodee.groupware.vo.Approval">
 		UPDATE approval
 		SET	approval_first_comment = #{approvalFirstComment},
@@ -126,14 +127,11 @@
 		WHERE approval_no = #{approvalNo}
 	</update>
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	<!-- 결재 진행 스텟 변경 -->
+	<update id="updateApprovalStatus" parameterType="com.goodee.groupware.vo.Approval">
+		UPDATE approval
+		SET	approval_now_status = #{approvalNowStatus},
+			approval_last_status = #{approvalLastStatus}
+		WHERE approval_no = #{approvalNo}
+	</update>
 </mapper>

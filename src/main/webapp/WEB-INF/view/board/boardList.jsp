@@ -17,6 +17,8 @@
 
 	<h1>게시판</h1>
 	<div>
+		<a href="${pageContext.request.contextPath}/home">홈으로</a><br>
+		<a href="${pageContext.request.contextPath}/logout">로그아웃</a><br>
 		<a href="/board/addBoard">게시물 추가</a>
 	</div>
 	<button type="button" onclick="changeDepartment(-1)">부서 게시판</button>

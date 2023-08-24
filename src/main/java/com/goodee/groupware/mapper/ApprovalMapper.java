@@ -22,5 +22,6 @@ public interface ApprovalMapper {
 	
 	int updateApprovalComment(Approval approval);
 	
+	int updateApprovalStatus(Approval approval);
 }
  
