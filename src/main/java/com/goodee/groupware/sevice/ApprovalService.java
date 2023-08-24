@@ -39,14 +39,16 @@ public class ApprovalService {
 		int beginRow = (currentPage-1)*rowPerPage;
 	  
 		// 페이징을 위한 변수 boardMap에 선언 
-		Map<String,Object> approvalMap = new HashMap<String,Object>(); approvalMap.put("beginRow",beginRow);
+		Map<String,Object> approvalMap = new HashMap<String,Object>(); 
+		approvalMap.put("beginRow",beginRow);
 		approvalMap.put("rowPerPage",rowPerPage);
 		approvalMap.put("approvalLastStatus",approvalLastStatus);
 		approvalMap.put("approvalNowStatus",approvalNowStatus);
-		approvalMap.put("memberId",memberId); 
+		approvalMap.put("memberId",memberId);
+		
 		// approvalMap 디버깅
 		log.debug("ApprovalService.getApprovalList() approvalMap --->" + approvalMap.toString());
-		  
+		
 		List<Map<String,Object>> approvalList = approvalMapper.getApprovalList(approvalMap);
 		 
 		// 페이징 
@@ -67,6 +69,7 @@ public class ApprovalService {
 		  
 		return resultMap; 
 	}
+	
 	// 게시물 추가
 	// 게시물 추가되면서 첨부파일 있으면 폴더 저장+ DB에 저장
 	public int addApproval(Approval approval, String path) {
@@ -138,4 +141,16 @@ public class ApprovalService {
 		int updateApprovalRecallRow = approvalMapper.updateApprovalRecall(approval);
 		return updateApprovalRecallRow;
 	}
+	
+	// 결재 코멘트 적기
+	public int updateApprovalComment(Approval approval) {
+		int updateApprovalCommentRow = approvalMapper.updateApprovalComment(approval);
+		log.debug("approval.getApprovalFirstComment()-->"+approval.getApprovalFirstComment());
+		log.debug("approval.getApprovalSecondComment()-->"+approval.getApprovalSecondComment());
+		log.debug("approval.getApprovalThirdComment()-->"+approval.getApprovalThirdComment());
+		log.debug("approval.getApprovalNo()-->"+approval.getApprovalNo());
+		log.debug("ApprovalService.updateApprovalCommentRow-->"+updateApprovalCommentRow);
+		return updateApprovalCommentRow;
+	}
+	
 }

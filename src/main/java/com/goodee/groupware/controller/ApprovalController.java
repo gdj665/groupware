@@ -112,5 +112,38 @@ public class ApprovalController {
 		log.debug("ApprovalController.updateApprovalRecall.Row-->"+row);
 		return "redirect:/approval/approvalList";
 	}
+	
+	// 결재 상태 업데이트 및 댓글 작성
+	@PostMapping("/approval/updateApprovalComment")
+	public String updateApprovalComment(Approval approval,
+			@RequestParam(name = "approvalNowStatus", required = false) String approvalNowStatus,
+			@RequestParam(name = "approvalLastStatus", required = false) String approvalLastStatus,
+			@RequestParam(name = "approvalComment", required = false) String approvalComment) {
+		
+		log.debug("approval.getApprovalFirstComment-->"+approval.getApprovalFirstComment());
+		log.debug("approval.getApprovalFirstComment()-->"+approval.getApprovalSecondComment());
+		log.debug("approval.getApprovalThirdComment()-->"+approval.getApprovalThirdComment());
+		
+		
+		
+		if(approval.getApprovalFirstComment()==null || approval.getApprovalFirstComment().equals("")) {
+			approval.setApprovalFirstComment(approvalComment);
+			log.debug("approval.getApprovalFirstComment-->"+approval.getApprovalFirstComment());
+		} else if(!approval.getApprovalSecondComment().equals("") 
+				&& approval.getApprovalSecondComment() == null
+				&& approval.getApprovalFirstComment().equals("")
+				&& approval.getApprovalFirstComment() != null) {
+			approval.setApprovalSecondComment(approvalComment);
+			log.debug("approval.getApprovalFirstComment()-->"+approval.getApprovalSecondComment());
+		} else {
+			approval.setApprovalThirdComment(approvalComment);
+			log.debug("approval.getApprovalThirdComment()-->"+approval.getApprovalThirdComment());
+		}
+		
+		int row = approvalService.updateApprovalComment(approval);
+		
+		log.debug("ApprovalController.updateApprovalComment.Row-->"+row);
+		return "redirect:/approval/approvalList";
+	}
 }
  

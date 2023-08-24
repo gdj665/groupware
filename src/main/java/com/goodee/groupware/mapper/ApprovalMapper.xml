@@ -24,6 +24,9 @@
 		FROM approval
 		<where>
 			member_id = #{memberId}
+			OR (approval_first_id = #{memberId})
+			OR (approval_second_id = #{memberId})
+			OR (approval_third_id = #{memberId})
 			<if test="approvalLastStatus != null">
 				AND approval_last_status = #{approvalLastStatus}
 			</if>
@@ -113,4 +116,24 @@
 		SET approval_last_status = '4회수'
 		WHERE approval_no = #{approvalNo}
 	</update>
+	
+	<!-- 결재 진행 -->
+	<update id="updateApprovalComment" parameterType="com.goodee.groupware.vo.Approval">
+		UPDATE approval
+		SET	approval_first_comment = #{approvalFirstComment},
+			approval_second_comment = #{approvalSecondComment},
+			approval_third_comment = #{approvalThirdComment}
+		WHERE approval_no = #{approvalNo}
+	</update>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 </mapper>

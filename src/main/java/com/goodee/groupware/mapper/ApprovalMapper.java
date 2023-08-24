@@ -18,6 +18,9 @@ public interface ApprovalMapper {
 	  
 	int addApproval(Approval approval);
 	  
-	int updateApprovalRecall(Approval approval); 
+	int updateApprovalRecall(Approval approval);
+	
+	int updateApprovalComment(Approval approval);
+	
 }
  
