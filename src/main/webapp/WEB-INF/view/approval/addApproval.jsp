@@ -16,33 +16,48 @@
 <script>
 	$(document).ready(function() {
 		$('#uploadForm').submit(function() {
-			const firstApprovalName = $('.memberNameInputFirst').val();
-	        const secondApprovalName = $('.memberNameInputSecond').val();
-	        const thirdApprovalName = $('.memberNameInputThird').val();
-	        if (!firstApprovalName) {
+			const firstApprovalId = $('.memberIdInputFirst').val();
+	        const secondApprovalId= $('.memberIdInputSecond').val();
+	        const thirdApprovalId = $('.memberIdInputThird').val();
+	        const memberId = '${sessionScope.loginMember}';
+	        
+	        console.log("firstApprovalId:", firstApprovalId);
+	        console.log("memberId:", memberId);
+	        
+	        if (!firstApprovalId) {
 	            alert("첫 번째 결재자를 선택해주세요.");
 	            return false; // 폼 제출 방지
 	        }
 
 	        // 두 번째 결재자 입력 확인
-	        if (secondApprovalName && !firstApprovalName && !thirdApprovalName) {
+	        if (secondApprovalId && !firstApprovalId && !thirdApprovalId) {
 	            alert("두 번째 결재자를 선택하려면 첫 번째 결재자를 먼저 선택해야 합니다.");
 	            return false; // 폼 제출 방지
 	        }
 
 	        // 세 번째 결재자 입력 확인
-	        if (thirdApprovalName && (!secondApprovalName || !firstApprovalName)) {
+	        if (thirdApprovalId && (!thirdApprovalId || !firstApprovalId)) {
 	            alert("세 번째 결재자를 선택하려면 첫 번째와 두 번째 결재자를 먼저 선택해야 합니다.");
 	            return false; // 폼 제출 방지
 	        }
+	        
 	        // 결재자 중복확인
-	        if (!firstApprovalName
-	        		&& (thirdApprovalName === secondApprovalName) 
-	        		|| (secondApprovalName === firstApprovalName)
-	        		|| (thirdApprovalName === firstApprovalName)) {
-	            alert("결재자가 중복되었습니다. 수정바랍니다");
+	        if (!firstApprovalId
+	        		&& (thirdApprovalId === secondApprovalId) 
+	        		|| (secondApprovalId === firstApprovalId)
+	        		|| (thirdApprovalId === firstApprovalId)) {
+	            alert("결재자가 중복 또는 누락되었습니다. 수정바랍니다");
 	            return false; // 폼 제출 방지
 	        }
+	        
+	   		// 결재자란에 작성자가 들어가면 오류
+	        if ((firstApprovalId === memberId)
+	        		|| (thirdApprovalId === memberId) 
+	        		|| (secondApprovalId === memberId)) {
+	            alert("자기 자신은 결재자로 선택할수 없습니다. 수정바랍니다");
+	            return false; // 폼 제출 방지
+	        }
+	   		
 			// 첨부파일 갯수 제한
 			const fileInput = $('#fileInput')[0];
 			if (fileInput.files.length > 5) {
@@ -278,36 +293,39 @@
 				<!-- 세 번째 컨테이너 내용 -->
 				<div class="col-lg-5">
 					<h3>선택된 결재자</h3>
-					<table>
-						<tr>
-							<td>첫 번째 결재자</td>
-						</tr>
-						<tr>
-							<td>
-								<input type="hidden" value="" name="memberId" class="memberIdInputFirst">
-								<input type="text" value="" name="memberName" class="memberNameInputFirst" readonly>
-							</td>
-						</tr>
-						<tr>
-							<td>두 번째 결재자</td>
-						</tr>
-						<tr>
-							<td>
-								<input type="hidden" value="" name="memberId" class="memberIdInputSecond">
-								<input type="text" value="" name="memberName" class="memberNameInputSecond" readonly>
-							</td>
-						</tr>
-						<tr>
-							<td>세 번째 결재자</td>
-						</tr>
-						<tr>
-							<td>
-								<input type="hidden" value="" name="memberId" class="memberIdInputThird">
-								<input type="text" value="" name="memberName" class="memberNameInputThird" readonly>
-							</td>
-						</tr>
-					</table>
-					<button id="close" type="button">선택완료</button>
+					<form>
+						<table>
+							<tr>
+								<td>첫 번째 결재자</td>
+							</tr>
+							<tr>
+								<td>
+									<input type="hidden" value="" name="memberId" class="memberIdInputFirst">
+									<input type="text" value="" name="memberName" class="memberNameInputFirst" readonly>
+								</td>
+							</tr>
+							<tr>
+								<td>두 번째 결재자</td>
+							</tr>
+							<tr>
+								<td>
+									<input type="hidden" value="" name="memberId" class="memberIdInputSecond">
+									<input type="text" value="" name="memberName" class="memberNameInputSecond" readonly>
+								</td>
+							</tr>
+							<tr>
+								<td>세 번째 결재자</td>
+							</tr>
+							<tr>
+								<td>
+									<input type="hidden" value="" name="memberId" class="memberIdInputThird">
+									<input type="text" value="" name="memberName" class="memberNameInputThird" readonly>
+								</td>
+							</tr>
+						</table>
+						<button id="close" type="button">선택완료</button>
+						<button type="reset">초기화</button>
+					</form>
 				</div><!-- 모달창 결재자 선택 3번째 -->
 			</div><!-- row -->
 		</div><!-- modal_content -->

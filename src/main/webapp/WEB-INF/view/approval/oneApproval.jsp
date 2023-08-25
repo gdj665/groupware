@@ -17,9 +17,13 @@
 					<c:when test="${not empty approvalOne.approvalFirstComment}">
 						<img src="/signFile/${approvalOne.approvalFirstId}.png">
 					</c:when>
+				</c:choose>
+				<c:choose>
 					<c:when test="${not empty approvalOne.approvalSecondComment}">
 						<img src="/signFile/${approvalOne.approvalSecondId}.png">
 					</c:when>
+				</c:choose>
+				<c:choose>
 					<c:when test="${not empty approvalOne.approvalThirdComment}">
 						<img src="/signFile/${approvalOne.approvalThirdId}.png">
 					</c:when>

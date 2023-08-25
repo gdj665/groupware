@@ -117,18 +117,22 @@ public class ApprovalController {
 	@PostMapping("/approval/updateApprovalComment")
 	public String updateApprovalComment(Approval approval,
 			@RequestParam(name = "approvalNowStatus", defaultValue = "결재중") String approvalNowStatus,
-			@RequestParam(name = "approvalLastStatus", required = false) String approvalLastStatus,
+			@RequestParam(name = "approvalLastStatus", required = false, defaultValue="") String approvalLastStatus,
 			@RequestParam(name = "approvalComment", required = false) String approvalComment) {
+		
 		log.debug("approval.getApprovalFirstComment()-->"+approval.getApprovalFirstComment());
 		log.debug("approval.getApprovalSecondComment()-->"+approval.getApprovalSecondComment());
 		log.debug("approval.getApprovalThirdComment()-->"+approval.getApprovalThirdComment());
 		
 		if(approval.getApprovalFirstComment()==null || approval.getApprovalFirstComment().equals("")) {
 			approval.setApprovalFirstComment(approvalComment);
+			// 2차 코멘드 넘어오는 것때문에 다시 null값으로 변경
+			approval.setApprovalSecondComment(null);
 			approval.setApprovalNowStatus(approvalNowStatus);
+			log.debug("1차 댓글 입력");
 			// 코멘트 디버깅
 			log.debug("approval.getApprovalFirstComment()-->"+approval.getApprovalFirstComment());
-			
+					
 			if(approvalLastStatus != null && (approvalLastStatus.equals("반려") || approvalLastStatus.equals("취소"))) {
 				approvalNowStatus="결재완료";
 				approval.setApprovalLastStatus(approvalLastStatus);
@@ -140,11 +144,12 @@ public class ApprovalController {
 				approval.setApprovalNowStatus(approvalNowStatus);
 			}
 			
-		} else if(!approval.getApprovalSecondComment().equals("") 
-				&& approval.getApprovalSecondComment() == null
-				&& approval.getApprovalFirstComment().equals("")
-				&& approval.getApprovalFirstComment() != null) {
+		} else if(approval.getApprovalSecondComment() == null
+				|| approval.getApprovalSecondComment().equals("")
+				&& approval.getApprovalFirstComment() != null
+				&& !approval.getApprovalFirstComment().equals("")) {
 			
+			log.debug("2차 댓글 입력");
 			approval.setApprovalSecondComment(approvalComment);
 			approval.setApprovalNowStatus(approvalNowStatus);
 			
@@ -161,6 +166,7 @@ public class ApprovalController {
 				approval.setApprovalNowStatus(approvalNowStatus);
 			}
 		} else {
+			log.debug("3차 댓글 입력");
 			approval.setApprovalThirdComment(approvalComment);
 			approval.setApprovalNowStatus(approvalNowStatus);
 			// 코멘트 디버깅
