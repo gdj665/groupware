@@ -116,17 +116,20 @@
 	<select id="getWorkCheckInfoList"
 			parameterType="java.util.Map"
 			resultType="com.goodee.groupware.vo.Work">
-		SELECT d.department_no departmentNo, w.member_id memberId, w.work_begin workBegin, w.work_end workEnd, w.work_date workDate, w.work_annual workAnnual
-		FROM work w INNER JOIN member m
-		ON w.member_id = m.member_id
-		INNER JOIN department d
-		ON m.department_no = d.department_no
-		WHERE d.department_no = #{departmentNo}
-		OR d.department_parent_no = #{departmentNo}
-		AND YEAR(w.work_date) = #{targetYear}
-		AND MONTH(w.work_date) = #{targetMonth}
-		AND DAY(w.work_Date) = #{targetDate}
-		ORDER BY d.department_no, m.member_rank DESC
+		SELECT a.department_no departmentNo, a.member_id memberId, a.member_rank memberRank, b.work_begin workBegin, b.work_end workEnd, b.work_date workDate, b.work_annual workAnnual
+		FROM (
+			SELECT d.department_no, m.member_id, m.member_rank
+			FROM member m INNER JOIN department d
+			ON m.department_no = d.department_no
+			WHERE d.department_no = #{departmentNo}
+			OR d.department_parent_no = #{departmentNo}) a
+		LEFT outer JOIN (
+			SELECT member_id, work_begin, work_end, work_date, work_annual
+			from work
+			WHERE YEAR(work_date) = #{targetYear}
+			AND MONTH(work_date) = #{targetMonth}
+			AND DAY(work_date) = #{targetDate}) b
+		ON b.member_id = a.member_id
 	</select>
 	
 </mapper>

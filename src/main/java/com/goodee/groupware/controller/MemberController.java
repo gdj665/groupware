@@ -251,6 +251,7 @@ public class MemberController {
 //		model.addAttribute("workCheckMap", workCheckMap);
 		model.addAttribute("targetYear", targetYear);
 		model.addAttribute("targetMonth", targetMonth);
+		model.addAttribute("targetDate", targetDate);
 		return "/member/workCheck";
 	}
 }

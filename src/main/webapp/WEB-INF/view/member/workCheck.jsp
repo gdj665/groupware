@@ -80,11 +80,21 @@
 	<h1>근태 체크</h1>
 	<table>
 		<tr>
+			<th>미출근</th>
 			<th>출근</th>
 			<th>퇴근</th>
 			<th>연차</th>
 		</tr>
 		<tr>
+		<!-- 미출근 -->
+			<td>
+				<c:forEach var="wil" items="${im.workCheckInfoList}">
+					<c:if test="${empty wil.workBegin && empty wil.workAnnual}">
+						${wil.memberId}<br>
+					</c:if>
+				</c:forEach>
+			</td>
+		<!-- 출근 -->
 			<td>
 				<c:forEach var="wil" items="${im.workCheckInfoList}">
 					<c:if test="${not empty wil.workBegin && empty wil.workEnd}">
@@ -92,6 +102,7 @@
 					</c:if>
 				</c:forEach>
 			</td>
+		<!-- 퇴근 -->
 			<td>
 				<c:forEach var="wil" items="${im.workCheckInfoList}">
 					<c:if test="${not empty wil.workEnd}">
@@ -99,6 +110,7 @@
 					</c:if>
 				</c:forEach>
 			</td>
+		<!-- 연차 -->
 			<td>
 				<c:forEach var="wil" items="${im.workCheckInfoList}">
 					<c:if test="${wil.workAnnual eq 'Y'}">
