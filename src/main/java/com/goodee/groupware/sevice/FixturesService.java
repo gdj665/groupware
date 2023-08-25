@@ -94,11 +94,11 @@ public class FixturesService {
 		return resultMap;
 	}
 	
-	// repareService에서 사용됨) repair_parts에 사용된 목록이 추가가 되므로 parts테이블의 해당 자재의 개수가 사용된만큼 감소
-	public int updatePartsCnt(Parts parts) {
-		// 맵퍼에서 Cnt갯수 감소시키는 메서드 호출
-		int row = fixturesMapper.updatePartsCnt(parts);
-		
-		return row;
-	}
+	/*
+	 * // repareService에서 사용됨) repair_parts에 사용된 목록이 추가가 되므로 parts테이블의 해당 자재의 개수가
+	 * 사용된만큼 감소 public int updatePartsCnt(Parts parts) { // 맵퍼에서 Cnt갯수 감소시키는 메서드 호출
+	 * int row = fixturesMapper.updatePartsCnt(parts);
+	 * 
+	 * return row; }
+	 */
 }

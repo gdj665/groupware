@@ -78,7 +78,7 @@
 	</update>
 	
 	<!-- 3.1) 수리완료시 repair_parts(수리 자재사용 테이블)추가 -->
-	<insert id="addRepairParts" parameterType="com.goodee.groupware.vo.RepairParts">
+	<insert id="addRepairParts" parameterType="java.util.Map">
 		INSERT  INTO repair_parts
 			(repair_no, parts_no, repair_parts_cnt, createdate, updatedate)
 		VALUES(#{repairNo}, #{partsNo}, #{repairPartsCnt}, NOW(), NOW())

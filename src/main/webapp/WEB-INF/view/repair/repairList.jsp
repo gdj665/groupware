@@ -157,7 +157,7 @@
 		    	const checkPartsName = $(this).parent().text();
 	            
             	// 체크된 박스에 text값 가져오기
-    			const selectedListItem = $('<span class="selectedPartsCnt"><li><input type="checkbox" class="removeChecked">'+checkPartsName+" 재고량 :"+checkPartsCnt+'<br>사용자재 수: <input type="text" class="partsCntClass" name="partsCnt" data-selectedPrice="'+checkPartsPrice+'" style="width:30px;height:30px;"><input type="hidden" name="partsNo" value="'+checkPartsNo+'"></li></span>'); 
+    			const selectedListItem = $('<span class="selectedPartsCnt"><li><input type="checkbox" class="removeChecked">'+checkPartsName+" 재고량 :"+checkPartsCnt+'<br>사용자재 수: <input type="text" class="partsCntClass" name="partsCnt[]" data-selectedPrice="'+checkPartsPrice+'" style="width:30px;height:30px;"><input type="hidden" name="partsNo[]" value="'+checkPartsNo+'"></li></span>'); 
     			$('#selectedPartsList').append(selectedListItem);
 	            
     			// 모든 체크박스 비체크로 초기화
@@ -216,25 +216,22 @@
 	    	// 계산된 총 가격을 화면에 출력
 	        $('#totalPriceId').val(totalPrice);
 	    });
-	 	
-	 	// 입력한 자재 개수와 자재번호를 배열로 만들어서 controller로 전송
-	 	$('#updateCompletedRepairBtn').click(function(){
-	 		const selectedPartsData = [];
+	 		/* const partsArr = [];
 	 		
 	 		// selectedPartsCnt클래스를 순회하며 partsNo와 입력한 partsCnt 값을 찾아 배열에 순차적으로 집어넣음
 	 		$('.selectedPartsCnt').each(function(){
 	 			const partsNo = $(this).find('[name="partsNo"]').val();
 	 			const partsCnt = $(this).find('.partsCntClass').val();
-	 			selectedPartsData.push({ partsNo: partsNo, partsCnt: partsCnt });
-	 		});
+	 			partsArr.push({ partsNo: partsNo, partsCnt: partsCnt });
+	 		}); */
+	 	
+	 	// 입력한 자재 개수와 자재번호를 배열로 만들어서 controller로 전송
+	 	$('#updateCompletedRepairBtn').click(function(){
 	 		
-	 		// selectedPartsData 배열을 순회하며 length만큼 인덱스를 폼 데이터로 추가
-	 	    const formData = new FormData();
-	 	    for (let i = 0; i < selectedPartsData.length; i++) {
-	 	        formData.append('partsNo[]', selectedPartsData[i].partsNo);
-	 	        formData.append('partsCnt[]', selectedPartsData[i].partsCnt);
-	 	    }
-	 	    
+
+	 		const formData = new FormData($("#updateCompletedRepair"));
+	 		console.log("111");
+	 		
 	 		// formData를 컨트롤러로 전송 (예를 들어, AJAX를 사용하여 전송)
 	 	    $.ajax({
 	 	        url: '/repair/updateRepair',
@@ -404,9 +401,8 @@
 						</table>
 					</div>
 				</div>
-				<button id="updateCompletedRepairBtn" type="button">수정</button>
+				<button id="updateCompletedRepairBtn" type="submit">수정</button>
 				<button class="close" type="button">닫기</button>
-
 			</form>
 		</div>
 		<!-- modal content -->

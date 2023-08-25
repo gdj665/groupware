@@ -1,5 +1,6 @@
 package com.goodee.groupware.sevice;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -76,10 +77,9 @@ public class RepairService {
 	}
 	
 	// 3) repair 대기중 -> 수리중 -> 수리완료 수정
-	public int updateRepair(Repair repair, RepairParts repairParts, Parts parts) {
+	public int updateRepair(Repair repair, RepairParts repairParts, int[] partsNoArr, int[] partsCntArr) {
 		
 		log.debug("RepairService.updateRepair() Param repair --->" + repair.toString());
-		
 		
 		// 결과값 받을 변수
 		int repairRow = 0;
@@ -97,11 +97,41 @@ public class RepairService {
 			// repairRow가 수정된 내용이 있어야 repair_parts테이블이 추가되므로 repairRow가 0보다 클때만 실행
 			if(repairRow > 0) {
 				log.debug("RepairService.updateRepair() Param repairParts --->" + repairParts.toString());
-				repair_partsRow = repairMapper.addRepairParts(repairParts);
 				
+				// ArrayList배열을 만들어서 partsNoArr, partsCntArr을 넣는다.
+				List<Map<String,Object>> repairPartsList = new ArrayList<>();
+				
+				// for문돌리기 사용한 자재수만큼 테이블의 각행 추가
+				for(int i=0;  i < partsNoArr.length; i++) {
+					
+					// ArrayList에다가 값을 집어넣음
+					Map<String, Object> repairPartsMap = new HashMap<>();
+		            repairPartsMap.put("repairNo", repair.getRepairNo());
+		            repairPartsMap.put("partsNo", partsNoArr[i]);
+		            repairPartsMap.put("repairPartsCnt", partsCntArr[i]);
+		            repairPartsList.add(repairPartsMap);
+		            
+		            log.debug("RepairService.updateRepair() 수리중 -> 수리완료 repairPartsList 시작 --->" + repairPartsList.toString());
+		            // 집어넣은 값을 순차적으로 돌며 repair_parts테이블 추가
+					repair_partsRow = repairMapper.addRepairParts(repairPartsList);
+					log.debug("RepairService.updateRepair() 수리중 -> 수리완료 repairPartsList 끝 --->");
+				}
+				
+				// repair_parts테이블이 추가가됬다면 실행
+				// 사용한 자재의 수만큼 감소시키기 자재가 여러개일 수 있으니 for문사용
 				if(repair_partsRow > 0) {
-					log.debug("RepairService.updateRepair() Param parts --->" + parts.toString());
-					partsMinusCntRow = fixturesMapper.updatePartsCnt(parts);
+					for(int i=0; i < partsNoArr.length; i++) {
+						// ArrayList에다가 값을 집어넣고 위와 같이
+						Map<String, Object> repairPartsMap = new HashMap<>();
+			            repairPartsMap.put("partsNo", partsNoArr[i]);
+			            repairPartsMap.put("repairPartsCnt", partsCntArr[i]);
+			            repairPartsList.add(repairPartsMap);
+
+			            log.debug("RepairService.updateRepair() 수리중 -> 수리완료 repairPartsList2222 --->" + repairPartsList.toString());
+			            
+			            // repairNo는 필요없으니 이것만 넣고 돌림
+						partsMinusCntRow = fixturesMapper.updatePartsCnt(repairPartsList);
+					}
 					
 				}
 			}

@@ -99,20 +99,19 @@ public class RepairController {
 	// 3) repair 대기중 -> 수리중 -> 수리완료 수정
 	@PostMapping("/repair/updateRepair")
 	public String updateRepair(@RequestParam(name = "partsNo[]") int[] partsNoArray,
-		    					@RequestParam(name = "partsCnt[]") int[] partsCntArray,
-								Repair repair, RepairParts repairParts, Parts parts, RedirectAttributes redirectAttributes) {
+            					@RequestParam(name = "partsCnt[]") int[] partsCntArray,
+								Repair repair, RepairParts repairParts, RedirectAttributes redirectAttributes) {
+		
 		log.debug("RepairController.updateRepair() 수리중 -> 수리완료 Param partsNoArray" + partsNoArray.length);
 		log.debug("RepairController.updateRepair() 수리중 -> 수리완료 Param partsCntArray" + partsCntArray.length);
-		//log.debug("RepairController.updateRepair() 수리중 -> 수리완료 Param repairNo" + repairNo);
-		//log.debug("RepairController.updateRepair() 수리중 -> 수리완료 Param repairPrice" + repairPrice);
-		//log.debug("RepairController.updateRepair() 수리중 -> 수리완료 Param repairStatus" + repairStatus);
-		//log.debug("RepairController.updateRepair() 수리중 -> 수리완료 Param repairContent" + repairContent);
+		
+		
 		int row =0;
 		
 		// 매개값에 따라 호출 분기시켜 디버깅코드 확인
 		if(repair.getMemberId() != null) {
 			// 호출
-			row = repairSerivce.updateRepair(repair, repairParts, parts);
+			row = repairSerivce.updateRepair(repair, repairParts, partsNoArray, partsCntArray);
 			log.debug("RepairController.updateRepair() 대기중 -> 수리중 Param repair" + repair.toString());
 			
 			if(row > 0) {
@@ -126,13 +125,12 @@ public class RepairController {
 			
 		} else if(repair.getRepairContent() != null) {
 			// 호출
-			row = repairSerivce.updateRepair(repair, repairParts, parts);
-			log.debug("RepairController.updateRepair() 수리중 -> 수리완료 Param partsNoArray" + partsNoArray.toString());
-			log.debug("RepairController.updateRepair() 수리중 -> 수리완료 Param partsCntArray" + partsCntArray.toString());
+			row = repairSerivce.updateRepair(repair, repairParts, partsNoArray, partsCntArray);
+			//log.debug("RepairController.updateRepair() 수리중 -> 수리완료 Param partsNoArray" + partsNoArray.toString());
+			//log.debug("RepairController.updateRepair() 수리중 -> 수리완료 Param partsCntArray" + partsCntArray.toString());
 			
-			log.debug("RepairController.updateRepair() 수리중 -> 수리완료 Param repair" + repair.toString());
-			log.debug("RepairController.updateRepair() 수리중 -> 수리완료 Param parts" + parts.toString());
-			log.debug("RepairController.updateRepair() 수리중 -> 수리완료 Param repairParts" + repairParts.toString());
+			log.debug("RepairController.updateRepair() 수리중 -> 수리완료 Param repair--->" + repair.toString());
+			log.debug("RepairController.updateRepair() 수리중 -> 수리완료 Param repairParts--->" + repairParts.toString());
 			
 			if(row > 0) {
 				log.debug("RepairController.updateRepair() row 수리중 -> 수리완료 변경완료" + row);

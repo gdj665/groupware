@@ -47,7 +47,6 @@
 		SELECT 
 		parts_category_no partsCategoryNo,
 		parts_category partsCategory,
-		parts_cnt partsCnt,
 		parts_parent_no partsParentNo
 		FROM parts_category
 		WHERE parts_parent_no > 0;
@@ -76,7 +75,7 @@
 	</select>
 	
 	<!-- repareService에서 사용됨) repair_parts에 사용된 목록이 추가가 되므로 parts테이블의 해당 자재의 개수가 사용된만큼 감소 -->
-	<update id="updatePartsCnt" parameterType="com.goodee.groupware.vo.Parts">
+	<update id="updatePartsCnt" parameterType="java.util.Map">
 		UPDATE parts SET parts_cnt = parts_cnt -#{partsCnt}
 		WHERE parts_no = #{partsNo};
 	</update>
