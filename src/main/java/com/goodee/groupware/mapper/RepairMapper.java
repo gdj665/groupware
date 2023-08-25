@@ -24,6 +24,6 @@ public interface RepairMapper {
 	int updateRepair(Repair repair);
 	
 	// 3.1) 수리완료시 repair_parts(수리 자재사용 테이블)추가
-	int addRepairParts(List<Map<String,Object>> repairPartsList);
+	int addRepairParts(Map<String,Object> repairPartsMap);
 	
 }

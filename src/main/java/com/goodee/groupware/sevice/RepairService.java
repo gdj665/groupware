@@ -98,8 +98,6 @@ public class RepairService {
 			if(repairRow > 0) {
 				log.debug("RepairService.updateRepair() Param repairParts --->" + repairParts.toString());
 				
-				// ArrayList배열을 만들어서 partsNoArr, partsCntArr을 넣는다.
-				List<Map<String,Object>> repairPartsList = new ArrayList<>();
 				
 				// for문돌리기 사용한 자재수만큼 테이블의 각행 추가
 				for(int i=0;  i < partsNoArr.length; i++) {
@@ -109,12 +107,11 @@ public class RepairService {
 		            repairPartsMap.put("repairNo", repair.getRepairNo());
 		            repairPartsMap.put("partsNo", partsNoArr[i]);
 		            repairPartsMap.put("repairPartsCnt", partsCntArr[i]);
-		            repairPartsList.add(repairPartsMap);
 		            
-		            log.debug("RepairService.updateRepair() 수리중 -> 수리완료 repairPartsList 시작 --->" + repairPartsList.toString());
+		            log.debug("RepairService.updateRepair() 수리중 -> 수리완료 repairPartsMap 시작 --->" + repairPartsMap.toString());
 		            // 집어넣은 값을 순차적으로 돌며 repair_parts테이블 추가
-					repair_partsRow = repairMapper.addRepairParts(repairPartsList);
-					log.debug("RepairService.updateRepair() 수리중 -> 수리완료 repairPartsList 끝 --->");
+					repair_partsRow = repairMapper.addRepairParts(repairPartsMap);
+					log.debug("RepairService.updateRepair() 수리중 -> 수리완료 repairPartsMap 끝 --->");
 				}
 				
 				// repair_parts테이블이 추가가됬다면 실행
@@ -122,15 +119,14 @@ public class RepairService {
 				if(repair_partsRow > 0) {
 					for(int i=0; i < partsNoArr.length; i++) {
 						// ArrayList에다가 값을 집어넣고 위와 같이
-						Map<String, Object> repairPartsMap = new HashMap<>();
-			            repairPartsMap.put("partsNo", partsNoArr[i]);
-			            repairPartsMap.put("repairPartsCnt", partsCntArr[i]);
-			            repairPartsList.add(repairPartsMap);
+						Map<String, Object> minusPartsMap = new HashMap<>();
+						minusPartsMap.put("partsNo", partsNoArr[i]);
+						minusPartsMap.put("partsCnt", partsCntArr[i]);
 
-			            log.debug("RepairService.updateRepair() 수리중 -> 수리완료 repairPartsList2222 --->" + repairPartsList.toString());
+			            log.debug("RepairService.updateRepair() 수리중 -> 수리완료 minusPartsMap22222 --->" + minusPartsMap.toString());
 			            
 			            // repairNo는 필요없으니 이것만 넣고 돌림
-						partsMinusCntRow = fixturesMapper.updatePartsCnt(repairPartsList);
+						partsMinusCntRow = fixturesMapper.updatePartsCnt(minusPartsMap);
 					}
 					
 				}

@@ -27,5 +27,5 @@ public interface FixturesMapper {
 	List<Map<String,Object>> getPartsList(Parts parts);
 	
 	// repareService에서 사용됨) repair_parts에 사용된 목록이 추가가 되므로 parts테이블의 해당 자재의 개수가 사용된만큼 감소
-	int updatePartsCnt(List<Map<String,Object>> minusPartsList);
+	int updatePartsCnt(Map<String,Object> minusPartsMap);
 }
