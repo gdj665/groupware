@@ -12,6 +12,7 @@
 	<table class="table">
 		<tr>
 			<td>
+				<!-- 싸인 이미지 출력 (결재자 -->
 				<img src="/signFile/${approvalOne.memberId}.png">
 				<c:choose>
 					<c:when test="${not empty approvalOne.approvalFirstComment}">

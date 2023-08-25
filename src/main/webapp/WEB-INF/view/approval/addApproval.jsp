@@ -21,12 +21,10 @@
 	        const thirdApprovalId = $('.memberIdInputThird').val();
 	        const memberId = '${sessionScope.loginMember}';
 	        
-	        console.log("firstApprovalId:", firstApprovalId);
-	        console.log("memberId:", memberId);
 	        
 	        if (!firstApprovalId) {
 	            alert("첫 번째 결재자를 선택해주세요.");
-	            return false; // 폼 제출 방지
+	            return false;
 	        }
 
 	        // 두 번째 결재자 입력 확인
