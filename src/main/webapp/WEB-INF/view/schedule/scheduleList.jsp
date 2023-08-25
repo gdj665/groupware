@@ -263,20 +263,37 @@
 			$('#updatePersonalScheduleModal').fadeOut();
 			$('#updateDepartmentScheduleModal').fadeOut();
 		});
-		
+// --------------------------------------------------------------------------------		
 		// 부서장 권한 검사
 		var fail = "${fail}";
 		if (fail === '실패') {
 			alert('권한이 없습니다.');
 		}
 		console.log(fail);
+     
 	});
 </script>
 </head>
 <body>
 	<!-- model값 받아와서 문자로 셋팅 -->
 	<c:set var="m" value="${scheduleMap}"></c:set>
-	
+	<script>
+		// rest 호출
+	    $.ajax({
+		    url: "/rest/openAPItest_v1",
+		    type: "GET",
+		    data: {
+		        targetYear: "${m.targetYear}",
+		        targetMonth: "${m.targetMonth+1}"
+		    },
+		    success: function(response) {
+		        $("#result").html(response);
+		    },
+		    error: function(error) {
+		        console.log("Error:", error);
+		    }
+		});
+	</script>
 	<a href="${pageContext.request.contextPath}/schedule/scheduleList?targetYear=${m.targetYear}&targetMonth=${m.targetMonth-1}&scheduleCategory=${m.scheduleCategory}">이전달</a>
 	<span>${m.memberId}님의 ${m.targetYear}년 ${m.targetMonth+1}월 달력</span>
 	<a href="${pageContext.request.contextPath}/schedule/scheduleList?targetYear=${m.targetYear}&targetMonth=${m.targetMonth+1}&scheduleCategory=${m.scheduleCategory}">다음달</a>
