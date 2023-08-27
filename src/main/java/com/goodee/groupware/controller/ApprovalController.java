@@ -30,7 +30,9 @@ public class ApprovalController {
 	private ApprovalService approvalService;
 	@Autowired
 	private DepartmentService departmentService;
-	  
+	 
+	
+	// 결재 리스트 출력------------------------------------------------------------------------------------------------
 	@GetMapping("/approval/approvalList")
 	public String getBoardList(Model model,
 		HttpSession session,
@@ -40,8 +42,9 @@ public class ApprovalController {
 		@RequestParam(name = "approvalNowStatus", required = false) String approvalNowStatus) {
   
 		String memberId = (String) session.getAttribute("loginMember");
-		Map<String,Object> resultMap = approvalService.getApprovalList(currentPage,rowPerPage, approvalLastStatus, approvalNowStatus, memberId);
 		  
+		// 리스트 출력
+		Map<String,Object> resultMap = approvalService.getApprovalList(currentPage,rowPerPage, approvalLastStatus, approvalNowStatus, memberId);
 		model.addAttribute("approvalList",resultMap.get("approvalList"));
 		  
 		// 페이징 변수 값 
@@ -53,8 +56,7 @@ public class ApprovalController {
 	}
   
   
-// 게시물 추가하기
-  
+	// 결재 추가하기------------------------------------------------------------------------------------------------
 	@GetMapping("/approval/addApproval")
 	public String addApproval(Model model) { 
 		Map<String,Object> resultMap = departmentService.getDepartmentList();
@@ -70,6 +72,8 @@ public class ApprovalController {
 	public String addBoard(HttpServletRequest request,Approval approval, HttpSession session) {
 	//매개값으로 request객체를 받는다 <- request api를 직접 호출하기 위해서 // 파일 이 저장될 경로 설정 
 		String memberId = (String) session.getAttribute("loginMember");
+		
+		// 총 결재자 수 확인
 		if(!approval.getApprovalThirdId().equals("")) {
 			log.debug("총 결재자 3명입니다");
 			approval.setApprovalLastNumber(3);
@@ -84,36 +88,42 @@ public class ApprovalController {
 			approval.setApprovalLastNumber(2);
 			approval.setApprovalThirdId(null);
 		}
+		
 		approval.setMemberId(memberId);
+		// 첨부파일이 저장될 경로
 		String path = request.getServletContext().getRealPath("/approvalFile/"); 
+		
+		// 결재 추가 진행
 		int row = approvalService.addApproval(approval,path);
 		log.debug("ApprovalControllerAddRow --> "+row); 
 		
 		return "redirect:/approval/approvalList"; 
 	}
 	
-	// 게시물 상세출력
+	// 결재 상세출력------------------------------------------------------------------------------------------------
 	@GetMapping("/approval/oneApproval")
 	public String getOneBoard(Model model,Approval approval,ApprovalFile approvalFile, HttpSession session) {
 		
 		String loginMemberId = (String) session.getAttribute("loginMember");
 		Map<String, Object> oneApprovalMap = approvalService.getOneApproval(approval, approvalFile);
 		
+		// 상세출력에 필요한 세션 값과 결재 파일 상세 정보, 첨부파일 리스트를 가져오기
 		model.addAttribute("approvalOne",oneApprovalMap.get("approvalOne"));
 		model.addAttribute("approvalFileList",oneApprovalMap.get("approvalFileList"));
 		model.addAttribute("loginMemberId",loginMemberId);
 		return "/approval/oneApproval";
 	}
 	
-	// 게시물 삭제하기
+	// 결재 회수하기------------------------------------------------------------------------------------------------
 	@PostMapping("/approval/updateApprovalRecall")
 	public String updateApprovalRecall(Approval approval) {
+		// 회수 하기 진행
 		int row = approvalService.updateApprovalRecall(approval);
 		log.debug("ApprovalController.updateApprovalRecall.Row-->"+row);
 		return "redirect:/approval/approvalList";
 	}
 	
-	// 결재 상태 업데이트 및 댓글 작성
+	// 결재 상태 업데이트 및 댓글 작성------------------------------------------------------------------------------------------------
 	@PostMapping("/approval/updateApprovalComment")
 	public String updateApprovalComment(Approval approval,
 			@RequestParam(name = "approvalNowStatus", defaultValue = "결재중") String approvalNowStatus,
@@ -124,6 +134,7 @@ public class ApprovalController {
 		log.debug("approval.getApprovalSecondComment()-->"+approval.getApprovalSecondComment());
 		log.debug("approval.getApprovalThirdComment()-->"+approval.getApprovalThirdComment());
 		
+		// 받아온 코멘트값 분기로 넘기기
 		if(approval.getApprovalFirstComment()==null || approval.getApprovalFirstComment().equals("")) {
 			approval.setApprovalFirstComment(approvalComment);
 			// 2차 코멘드 넘어오는 것때문에 다시 null값으로 변경

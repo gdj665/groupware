@@ -15,28 +15,24 @@
 
 <script>
 	$(document).ready(function() {
+		// 결재버튼 눌렀을때 진행
 		$('#uploadForm').submit(function() {
+			// 결재 코멘트와 세션 로그인 정보 변수선언
 			const firstApprovalId = $('.memberIdInputFirst').val();
 	        const secondApprovalId= $('.memberIdInputSecond').val();
 	        const thirdApprovalId = $('.memberIdInputThird').val();
 	        const memberId = '${sessionScope.loginMember}';
 	        
-	        
-	        if (!firstApprovalId) {
-	            alert("첫 번째 결재자를 선택해주세요.");
-	            return false;
-	        }
-
 	        // 두 번째 결재자 입력 확인
 	        if (secondApprovalId && !firstApprovalId && !thirdApprovalId) {
 	            alert("두 번째 결재자를 선택하려면 첫 번째 결재자를 먼저 선택해야 합니다.");
-	            return false; // 폼 제출 방지
+	            return false;
 	        }
 
 	        // 세 번째 결재자 입력 확인
 	        if (thirdApprovalId && (!thirdApprovalId || !firstApprovalId)) {
 	            alert("세 번째 결재자를 선택하려면 첫 번째와 두 번째 결재자를 먼저 선택해야 합니다.");
-	            return false; // 폼 제출 방지
+	            return false;
 	        }
 	        
 	        // 결재자 중복확인
@@ -45,7 +41,7 @@
 	        		|| (secondApprovalId === firstApprovalId)
 	        		|| (thirdApprovalId === firstApprovalId)) {
 	            alert("결재자가 중복 또는 누락되었습니다. 수정바랍니다");
-	            return false; // 폼 제출 방지
+	            return false;
 	        }
 	        
 	   		// 결재자란에 작성자가 들어가면 오류
@@ -53,17 +49,18 @@
 	        		|| (thirdApprovalId === memberId) 
 	        		|| (secondApprovalId === memberId)) {
 	            alert("자기 자신은 결재자로 선택할수 없습니다. 수정바랍니다");
-	            return false; // 폼 제출 방지
+	            return false;
 	        }
 	   		
-			// 첨부파일 갯수 제한
+			// 첨부파일 갯수 5개 까지만으로 제한
 			const fileInput = $('#fileInput')[0];
 			if (fileInput.files.length > 5) {
 				alert("최대 5개의 파일만 업로드할 수 있습니다.");
-				return false; // 폼 제출 방지
+				return false;
 			}
 
 			// 업로드된 파일들의 크기를 확인
+			// 파일들의 합 최대 50MB로 제한
 			const maxFileSize = 50 * 1024 * 1024;
 
 			let totalSize = 0;
@@ -73,9 +70,10 @@
 
 			if (totalSize > maxFileSize) {
 				alert("최대 50MB의 파일만 업로드할 수 있습니다.");
-				return false; // 폼 제출 방지
+				return false;
 			}
 		});
+		
 		// 파일 선택 시 파일명 표시
 		$('#fileInput').change(function() {
 			const selectedFiles = [];
@@ -134,7 +132,8 @@
 
 			selectedCheckbox = this; // 선택된 체크박스 저장
 		});
-		// 오른쪽 화살표 버튼 동작 구현
+		
+		// 오른쪽 화살표 첫번째 버튼 동작 구현
 		$('#rightArrowButtonFirst').click(function() {
 			if (selectedCheckbox !== null) {
 				const memberIdInputFirst = $('.memberIdInputFirst');
@@ -145,7 +144,8 @@
 				memberNameInputFirst.val(memberName);
 			}
 		});
-		// 오른쪽 화살표 버튼 동작 구현
+		
+		// 오른쪽 화살표 두번째 버튼 동작 구현
 		$('#rightArrowButtonSecond').click(function() {
 			if (selectedCheckbox !== null) {
 				const memberIdInputSecond = $('.memberIdInputSecond');
@@ -156,7 +156,8 @@
 				memberNameInputSecond.val(memberName);
 			}
 		});
-		// 오른쪽 화살표 버튼 동작 구현
+		
+		// 오른쪽 화살표 세번째 버튼 동작 구현
 		$('#rightArrowButtonThird').click(function() {
 			if (selectedCheckbox !== null) {
 				const memberIdInputThird = $('.memberIdInputThird');
