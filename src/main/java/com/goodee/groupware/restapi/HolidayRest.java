@@ -7,15 +7,15 @@ import java.net.URLEncoder;
 import java.io.BufferedReader;
 import java.io.IOException;
 
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class HolidayRest {
 	    @ResponseBody 
-	    @RequestMapping("/rest/openAPItest_v1")
-	    public String openAPItest_v1(String targetYear, String targetMonth) throws IOException{
+	    @GetMapping("/rest/holidayList")
+	    public String getHolidayList(String targetYear, String targetMonth) throws IOException{
 	    	StringBuilder urlBuilder = new StringBuilder("http://apis.data.go.kr/B090041/openapi/service/SpcdeInfoService/getRestDeInfo"); /*URL*/
 	    	urlBuilder.append("?" + URLEncoder.encode("serviceKey","UTF-8") + "="+ "tFL7GJrOcvvUeZMI0YoBejWUp9kDhMLlOj2HBxVDYOC%2FHjewkU%2BRXTxk4O5%2FiEFpSEqYPW1nT2j9IGDNoGMc9A%3D%3D"); /*Service Key*/
 	        urlBuilder.append("&" + URLEncoder.encode("_type","UTF-8") + "=" + URLEncoder.encode("json", "UTF-8")); /*타입*/
@@ -33,7 +33,6 @@ public class HolidayRest {
 	        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 	        conn.setRequestMethod("GET");
 	        conn.setRequestProperty("Content-type", "application/json");
-	        System.out.println("Response code: " + conn.getResponseCode());
 	        
 	        BufferedReader rd;
 	    	if(conn.getResponseCode() >= 200 && conn.getResponseCode() <= 300) { //http status code check
@@ -49,8 +48,8 @@ public class HolidayRest {
 	        }
 	        rd.close();
 	        conn.disconnect();
-	        System.out.println(sb.toString());
-
+	        // System.out.println(sb.toString());
+	        
 	        return sb.toString();
 	    }
 }

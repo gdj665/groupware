@@ -278,29 +278,61 @@
 	<!-- model값 받아와서 문자로 셋팅 -->
 	<c:set var="m" value="${scheduleMap}"></c:set>
 	<script>
-		// rest 호출
+		// 공휴일 restAPI를 ajax로 호출
 	    $.ajax({
-		    url: "/rest/openAPItest_v1",
-		    type: "GET",
+		    url: "/rest/holidayList",
+		    type: "get",
 		    data: {
 		        targetYear: "${m.targetYear}",
 		        targetMonth: "${m.targetMonth+1}"
 		    },
 		    success: function(response) {
-		        $("#result").html(response);
-		    },
-		    error: function(error) {
-		        console.log("Error:", error);
-		    }
+	            // JSON 데이터 파싱
+	            var responseData = JSON.parse(response);
+
+	        	// JSON 데이터에서 필요한 값을 추출
+	            var items = responseData.response.body.items.item;
+	            var totalCount = responseData.response.body.totalCount;
+
+	         	// 여러 개의 항목이 있는 경우 배열인지 확인하고 처리
+	            if (Array.isArray(items)) {
+	                for (var i = 0; i < items.length; i++) {
+	                    var dateName = items[i].dateName;
+	                    var isHoliday = items[i].isHoliday;
+	                    var locdate = items[i].locdate;
+
+	                    // 추출한 값을 활용하여 필요한 작업 수행
+	                    console.log("dateName:", dateName);
+	                    console.log("isHoliday:", isHoliday);
+	                    console.log("locdate:", locdate);
+	                }
+	            } else {
+	                // 항목이 하나인 경우 처리
+	                var dateName = items.dateName;
+	                var isHoliday = items.isHoliday;
+	                var locdate = items.locdate;
+
+	                // 추출한 값을 활용하여 필요한 작업 수행
+	                console.log("dateName:", dateName);
+	                console.log("isHoliday:", isHoliday);
+	                console.log("locdate:", locdate);
+	            }
+	            
+	         	// totalCount 출력
+	            console.log("totalCount:", totalCount);
+	        },
+	        error: function(error) {
+	            console.log("Error:", error);
+	        }
 		});
 	</script>
+	
 	<a href="${pageContext.request.contextPath}/schedule/scheduleList?targetYear=${m.targetYear}&targetMonth=${m.targetMonth-1}&scheduleCategory=${m.scheduleCategory}">이전달</a>
 	<span>${m.memberId}님의 ${m.targetYear}년 ${m.targetMonth+1}월 달력</span>
 	<a href="${pageContext.request.contextPath}/schedule/scheduleList?targetYear=${m.targetYear}&targetMonth=${m.targetMonth+1}&scheduleCategory=${m.scheduleCategory}">다음달</a>
 	<br><br><br>
 	<button id="addPersonalScheduleModalOpen">개인일정 등록</button>
 	<button id="addDepartmentScheduleModalOpen">부서일정 등록</button>
-	
 	<br><br><br>
 	<a style="color:orange" href="${pageContext.request.contextPath}/schedule/scheduleList?targetYear=${m.targetYear}&targetMonth=${m.targetMonth}&scheduleCategory=부서">부서</a>
 	<a style="color:green" href="${pageContext.request.contextPath}/schedule/scheduleList?targetYear=${m.targetYear}&targetMonth=${m.targetMonth}&scheduleCategory=개인">개인</a>
@@ -326,6 +358,7 @@
 				<c:choose>
 					<c:when test="${d > 0 && d <= m.lastDate}">
 						<td class="table_cell">
+							<!-- 토요일은 파란색, 일요일은 빨간색, 나머지는 검은색 -->
 							<div style="text-align: left;">
 								<a style="color: black;" href="${pageContext.request.contextPath}/schedule/oneSchedule?targetYear=${m.targetYear}&targetMonth=${m.targetMonth}&targetDate=${d}&scheduleCategory=${m.scheduleCategory}">
 									<c:choose>
@@ -341,32 +374,29 @@
 									</c:choose>
 								</a>
 							</div>
-							<c:forEach var="c" items="${m.scheduleList}">
-								<c:if test="${d == (fn:substring(c.scheduleBegindate,8,10))}">
-								<div>
-									<c:if test="${c.scheduleCategory == '개인'}">
-										<a href="#" class="updatePersonalScheduleModalOpen" data-updatePersonalScheduleNo="${c.scheduleNo}">
-											<span style="color:green">${c.scheduleCategory} ${c.scheduleTitle}(시작일)</span>
-										</a>
+							<!-- 개인이면 초록색, 부서면 오렌지색 -->
+							<div>
+								<c:forEach var="c" items="${m.scheduleList}">
+									<c:if test="${d == (fn:substring(c.scheduleBegindate,8,10))}">
+										<c:if test="${c.scheduleCategory == '개인'}">
+											<a href="#" class="updatePersonalScheduleModalOpen" data-updatePersonalScheduleNo="${c.scheduleNo}">
+												<span style="color:green">${c.scheduleCategory} ${c.scheduleTitle}(시작)</span>
+											</a>
+										</c:if>
+										<c:if test="${c.scheduleCategory == '부서'}">
+											<a href="#" class="updateDepartmentScheduleModalOpen" data-updateDepartmentScheduleNo="${c.scheduleNo}">
+												<span style="color:orange">${c.scheduleCategory} ${c.scheduleTitle}(시작)</span>
+											</a>	
+										</c:if>
 									</c:if>
-									<c:if test="${c.scheduleCategory == '부서'}">
-										<a href="#" class="updateDepartmentScheduleModalOpen" data-updateDepartmentScheduleNo="${c.scheduleNo}">
-											<span style="color:orange">${c.scheduleCategory} ${c.scheduleTitle}(시작일)</span>
-										</a>	
-									</c:if>
-								</div>
+								</c:forEach>
+							</div>
+							<!-- 공휴일이면 빨간색 -->
+							<div>
+								<c:if test="${d == (fn:substring(locdate, 6, 8))}">
+								    <span style="color:red;">${dateName}</span>
 								</c:if>
-								<c:if test="${d == (fn:substring(c.scheduleEnddate,8,10))}">
-								<div>
-									<c:if test="${c.scheduleCategory == '개인'}">
-											<span style="color:green">${c.scheduleCategory} ${c.scheduleTitle}(종료일)</span>
-									</c:if>
-									<c:if test="${c.scheduleCategory == '부서'}">
-											<span style="color:orange">${c.scheduleCategory} ${c.scheduleTitle}(종료일)</span>
-									</c:if>
-								</div>
-								</c:if>
-							</c:forEach>
+							</div>
 						</td>
 					</c:when>
 					<c:when test="${d < 1}">
@@ -551,5 +581,7 @@
 			<button class="close" type="button">닫기</button>
 		</div>
 	</div>
+	
+	
 </body>
 </html>
