@@ -46,4 +46,11 @@ public class HrmController {
 		log.debug("hrmController.updateRow-->" + updateRow);
 		return "redirect:/hrm/hrmList";
 	}
+	// 사원 퇴사
+		@PostMapping("/hrm/deleteMember")
+		public String deleteMember(Member member) {
+			int deleteRow = hrmService.deleteMember(member);
+			log.debug("hrmController.deleteRow-->" + deleteRow);
+			return "redirect:/hrm/hrmList";
+		}
 }

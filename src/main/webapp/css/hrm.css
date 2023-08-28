@@ -211,3 +211,9 @@ a {
 a:hover {
 	color: #0056b3;
 }
+
+.button-container {
+    display: flex; /* Flexbox를 사용하여 아이템을 한 줄에 나열합니다. */
+    gap: 10px; /* 버튼 사이의 간격을 조정합니다. */
+    
+}

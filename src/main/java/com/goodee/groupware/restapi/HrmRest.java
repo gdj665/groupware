@@ -26,5 +26,12 @@ public class HrmRest {
 	    log.debug("getOneMember2.getOneMember() -->" + getOneMember);
 	    return getOneMember;
 	}
+	@GetMapping("/rest/getMemberList")
+	public List<Map<String,Object>> getMemberListExcel() {
+		List<Map<String,Object>> getMemberListExcel = hrmService.getMemberList();
+		return getMemberListExcel;
+		
+	}
+	
 
 }

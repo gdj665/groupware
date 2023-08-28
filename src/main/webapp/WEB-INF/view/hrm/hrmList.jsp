@@ -13,6 +13,10 @@
 
 <!-- 카카오API -->
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<!-- excel api : sheetjs -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.15.5/xlsx.full.min.js"></script>
+<!-- file download api : FileServer saveAs -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/1.3.8/FileSaver.min.js"></script>
 <script>
 window.onload = function(){
 	  $("#address_kakao").click(function(){ //주소입력칸을 클릭하면
@@ -194,6 +198,42 @@ $(document).ready(function() {
         // 폼을 제출합니다
         $("#updateMember").submit();
     });
+ 
+ 
+ 	// 사원리스트 엑셀 다운로드
+    // 엑셀 다운로드 버튼을 클릭했을 때 실행되는 함수
+    $('#excelBtn').click(function() {
+       // 서버로 AJAX 요청을 보냄
+       $.ajax({
+          url: '/rest/getMemberList', // 서버의 '/excel' URL로 요청을 보냄
+          type: 'get', // GET 요청 방식
+          dataType: 'json', // 서버에서 반환하는 데이터 형식을 JSON으로 설정
+          success: function(data) { // AJAX 요청이 성공했을 때 실행되는 콜백 함수
+             let arr = [];
+             // 서버에서 받아온 JSON 데이터를 가공하여 arr 배열에 추가
+             data.forEach(function(item) {
+                arr.push([item.memberId, item.departmentId, item.memberLevel, item.memberName]); // 사원아이디 부서이름 직급 이름을 하나의 배열로 묶어서 arr 배열에 추가
+             });
+
+             // 엑셀 파일 생성
+             let book = XLSX.utils.book_new(); // 빈 엑셀 파일 생성
+             book.SheetNames.push('사원목록'); // 시트 이름 '사원목록' 추가
+
+             // 데이터가 들어있는 2차원 배열로부터 시트 생성
+             let sheet = XLSX.utils.aoa_to_sheet([['사원아이디', '부서이름','직급','이름']].concat(arr));
+             // 위에서 만든 시트를 엑셀 파일에 추가
+             book.Sheets['사원목록'] = sheet;
+
+             // 엑셀 파일을 바이너리 형태로 변환하여 버퍼에 저장
+             let buf = XLSX.write(book, { bookType: 'xlsx', type: 'array' });
+
+             // 엑셀 파일을 Blob 형태로 변환하여 다운로드
+             let blob = new Blob([buf], { type: 'application/octet-stream' });
+             // 다운로드할 파일의 이름을 'test.xlsx'로 설정하여 다운로드
+             saveAs(blob, '사원목록.xlsx');
+          }
+       });
+    });
 });
 </script>
 
@@ -204,6 +244,8 @@ $(document).ready(function() {
 		<div class="container">
 			<!-- "부서추가" 버튼 -->
 			<button id="addHrmLink" class="btn btn-primary">사원 추가</button>
+			<!-- 엑셀 다운로드 버튼 -->
+   			<button id="excelBtn" class="btn btn-primary">엑셀 다운로드</button>
 		 	<hr>
 	    <table>
 	        <tr>
@@ -349,12 +391,12 @@ $(document).ready(function() {
 	
 	<div class="modal2">
 		<div class="modal_content2">
-			<h3>사원 상세보기</h3>
+			<h3>사원 상세보기 </h3>
 			<form id="updateMember" action="${pageContext.request.contextPath}/hrm/updateMember" method="post">
 				
 				<table>
 					<tr>
-						<td>직원 아이디</td>
+						<td>직원 아이디 </td>
 						<td>
 							<input type="text" name="memberId" id="memberId"  readonly="readonly">
 						</td>
@@ -436,8 +478,14 @@ $(document).ready(function() {
 	                </tr>
 				</table>
 			</form>
-				<button id="updateMemberBtn" type="button">수정</button>
-				<button id="close2" type="button">닫기</button>
+				<div class="button-container">
+				    <button id="updateMemberBtn" type="button">수정</button>
+				    <button id="close2" type="button">닫기</button>
+				    <form action="${pageContext.request.contextPath}/hrm/deleteMember" method="post">
+				        <input type="hidden" id="departmentId" readonly="readonly">
+				        <button type="submit">퇴사</button>
+				    </form>
+				</div>
 		</div>
 	</div>
 </body>

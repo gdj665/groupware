@@ -73,4 +73,11 @@
 	 	WHERE member_id = #{memberId}
 	</update>
 	
+	<!-- 퇴사하기 -->
+	<update id="deleteMember" parameterType="com.goodee.groupware.vo.Member">
+		UPDATE member 
+		SET department_no = #{deparmentNo}, member_level = #{memberLevel}
+		WHERE member_id = #{memberId}
+	</update>
+	
 </mapper>

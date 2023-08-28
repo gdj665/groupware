@@ -20,4 +20,6 @@ public interface HrmMapper {
 	List<Map<String,Object>> getOneMember2(String memberId);
 	// 사원 수정
 	int updateMember(Member member);
+	// 퇴사
+	int deleteMember(Member member);
 }
