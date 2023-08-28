@@ -2,6 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.goodee.groupware.mapper.FileMapper">
 <!-- BOARD(게시판 테이블) 파일 CRUD --> 
+	
+	<!-- 1.) Board 테이블 게시물에 대한 첨부파일 리스트 출력 -->
 	<select id = "getBoardFileList" parameterType="com.goodee.groupware.vo.BoardFile" resultType="com.goodee.groupware.vo.BoardFile">
 		SELECT 
 			board_file_no boardFileNo,
@@ -12,6 +14,7 @@
 		WHERE board_no = #{boardNo}
 	</select>
 	
+	<!-- 2.) Board 테이블 첨부파일에 대한 상세 정보 출력 -->
 	<select id = "getOneBoardFile" parameterType="int" resultType="com.goodee.groupware.vo.BoardFile">
 		SELECT 
 			board_file_ori boardFileOri,
@@ -21,6 +24,7 @@
 		WHERE board_file_no = #{boardFileNo}
 	</select>
 	
+	<!-- 3.) Board 테이블 첨부파일 추가 -->
 	<insert id = "addBoardFile" parameterType="com.goodee.groupware.vo.BoardFile">
 		INSERT INTO board_file (
 			board_no,
@@ -41,13 +45,16 @@
 		)
 	</insert>
 	
+	<!-- 4.) Board 테이블 첨부파일 삭제 -->
 	<delete id="deleteBoardFile" parameterType="com.goodee.groupware.vo.BoardFile">
 		DELETE FROM board_file
 		WHERE board_no = #{boardNo}
 	</delete>
 	
+	
 <!-- APPROVAL(결재 테이블) 파일 CRUD --> 
 	
+	<!-- 5.) Approval 테이블 게시물에 대한 첨부파일 리스트 출력 -->
 	<select id = "getApprovalFileList" parameterType="com.goodee.groupware.vo.ApprovalFile" resultType="com.goodee.groupware.vo.ApprovalFile">
 		SELECT 
 			approval_file_no approvalFileNo,
@@ -58,6 +65,7 @@
 		WHERE approval_no = #{approvalNo}
 	</select>
 	
+	<!-- 6.) Approval 테이블 첨부파일에 대한 상세 정보 출력 -->
 	<select id = "getOneApprovalFile" parameterType="int" resultType="com.goodee.groupware.vo.ApprovalFile">
 		SELECT 
 			approval_file_ori approvalFileOri,
@@ -67,7 +75,7 @@
 		WHERE approval_file_no = #{approvalFileNo}
 	</select>
 	
-	
+	<!-- 7.) Approval 테이블 첨부파일 추가 -->
 	<insert id = "addApprovalFile" parameterType="com.goodee.groupware.vo.ApprovalFile">
 		INSERT INTO approval_file (
 			approval_no,
@@ -88,6 +96,7 @@
 		)
 	</insert>
 	
+	<!-- 8.) Approval 테이블 첨부파일 삭제 -->
 	<delete id="deleteApprovalFile" parameterType="com.goodee.groupware.vo.ApprovalFile">
 		DELETE FROM approval_file
 		WHERE approval_no = #{approvalNo}

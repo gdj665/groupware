@@ -32,6 +32,7 @@ public class FileController {
 	@GetMapping("/board/boardDownload")
 	// boardFileNo 값 받아오기(name을 통해 넘겨진상태)
 	public ResponseEntity<Resource> boardDownload (@RequestParam("boardFileNo") int boardFileNo, HttpServletRequest request) {
+		
 		// 실제 파일이 저장된 경로(saveFileName 앞까지)
 		String path = request.getServletContext().getRealPath("/boardFile/");
 
@@ -40,21 +41,25 @@ public class FileController {
 			BoardFile boardFile = fileMapper.getOneBoardFile(boardFileNo);
 
 			if (boardFile != null) {
+				
 				// 파일 경로 생성(저장되어 있는 파일을 폴더 안에 들어가서 경로 확인)
 				Path filePath = Paths.get(path + boardFile.getBoardFileSave());
 				// 파일의 입력 스트림으로부터 리소스 생성(InputStreamResoure란 파일데이터를 읽을 수 있는 입력스트림을 가지고있는 리소스)
 				Resource resource = new InputStreamResource(Files.newInputStream(filePath));
-				
 				// 파일 다운로드를 위한 헤더 생성
 				HttpHeaders headers = new HttpHeaders();
 				log.debug("boardFile.getBoardFileType-->"+boardFile.getBoardFileType());
+				
 				String boardFileOriName = boardFile.getBoardFileOri();
 				// 파일 명을 ISO-8859-1 타입으로 바꾸어서 인코딩 오류 해결 (PDF이름 정상 출력)
 				String encodedFileName = new String(boardFileOriName.getBytes("UTF-8"), "ISO-8859-1");
 				headers.setContentDisposition(ContentDisposition.builder("attachment").filename(encodedFileName).build());
-				System.out.println("FileDownloadRest-->게시판 파일 다운로드 성공");
+				// 디버깅
+				log.debug("FileDownloadRest-->게시판 파일 다운로드 성공");
+				
 				// 성공적으로 다운로드되면 F12를 누르고 네트워크탭에서 Status확인을 통해 세부사항 확인가능 (Status 200이면 성공!)
 				return new ResponseEntity<Resource>(resource, headers, HttpStatus.OK);
+				
 			} else {
 				// 파일 정보를 찾을 수 없을 때는 HttpStatus.NOT_FOUND를 반환
 				return new ResponseEntity<Resource>(HttpStatus.NOT_FOUND);
@@ -67,17 +72,20 @@ public class FileController {
 	
 	
 	// approval File 다운로드------------------------------------------------------------------------------------------------------------
+	
 	@GetMapping("/approval/approvalDownload")
-	// boardFileNo 값 받아오기(name을 통해 넘겨진상태)
+	// approvalFileNo 값 받아오기(name을 통해 넘겨진상태)
 	public ResponseEntity<Resource> approvalDownload (@RequestParam("approvalFileNo") int approvalFileNo, HttpServletRequest request) {
+		
 		// 실제 파일이 저장된 경로(saveFileName 앞까지)
 		String path = request.getServletContext().getRealPath("/approvalFile/");
 		
 		try {
-			// boardFileNo를 사용하여 실제 파일 정보를 가져옴
+			// approvalFileNo를 사용하여 실제 파일 정보를 가져옴
 			ApprovalFile approvalFile = fileMapper.getOneApprovalFile(approvalFileNo);
 			
 			if (approvalFile != null) {
+				
 				// 파일 경로 생성(저장되어 있는 파일을 폴더 안에 들어가서 경로 확인)
 				Path filePath = Paths.get(path + approvalFile.getApprovalFileSave());
 				// 파일의 입력 스트림으로부터 리소스 생성(InputStreamResoure란 파일데이터를 읽을 수 있는 입력스트림을 가지고있는 리소스)
@@ -85,14 +93,18 @@ public class FileController {
 				
 				// 파일 다운로드를 위한 헤더 생성
 				HttpHeaders headers = new HttpHeaders();
+				// 디버깅
 				log.debug("boardFile.getApprovalFileType-->"+approvalFile.getApprovalFileType());
+				
 				String approvalFileOriName = approvalFile.getApprovalFileOri();
 				// 파일 명을 ISO-8859-1 타입으로 바꾸어서 인코딩 오류 해결 (PDF이름 정상 출력)
 				String encodedFileName = new String(approvalFileOriName.getBytes("UTF-8"), "ISO-8859-1");
 				headers.setContentDisposition(ContentDisposition.builder("attachment").filename(encodedFileName).build());
-				System.out.println("FileDownloadRest-->게시판 파일 다운로드 성공");
+				log.debug("FileDownloadRest-->게시판 파일 다운로드 성공");
+				
 				// 성공적으로 다운로드되면 F12를 누르고 네트워크탭에서 Status확인을 통해 세부사항 확인가능 (Status 200이면 성공!)
 				return new ResponseEntity<Resource>(resource, headers, HttpStatus.OK);
+				
 			} else {
 				// 파일 정보를 찾을 수 없을 때는 HttpStatus.NOT_FOUND를 반환
 				return new ResponseEntity<Resource>(HttpStatus.NOT_FOUND);

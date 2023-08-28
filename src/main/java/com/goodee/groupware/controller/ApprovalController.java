@@ -32,45 +32,47 @@ public class ApprovalController {
 	private DepartmentService departmentService;
 	 
 	
-	// 결재 리스트 출력------------------------------------------------------------------------------------------------
+	// 1.) 결재 리스트출력
 	@GetMapping("/approval/approvalList")
 	public String getBoardList(Model model,
 		HttpSession session,
 		@RequestParam(name = "currentPage", defaultValue = "1") int currentPage,
 		@RequestParam(name = "rowPerPage", defaultValue = "3") int rowPerPage,
-		@RequestParam(name = "approvalLastStatus", required = false) String approvalLastStatus,
+		@RequestParam(name = "searchWord", required = false) String searchWord,
 		@RequestParam(name = "approvalNowStatus", required = false) String approvalNowStatus) {
   
 		String memberId = (String) session.getAttribute("loginMember");
-		  
+
 		// 리스트 출력
-		Map<String,Object> resultMap = approvalService.getApprovalList(currentPage,rowPerPage, approvalLastStatus, approvalNowStatus, memberId);
+		Map<String,Object> resultMap = approvalService.getApprovalList(currentPage,rowPerPage, searchWord, approvalNowStatus, memberId);
 		model.addAttribute("approvalList",resultMap.get("approvalList"));
-		  
-		// 페이징 변수 값 
 		model.addAttribute("currentPage", currentPage);
 		model.addAttribute("lastPage", resultMap.get("lastPage"));
 		model.addAttribute("memberId", resultMap.get("memberId")); 
+		
+		log.debug("ApprovalController.resultMap-->"+resultMap);
 		
 		return "/approval/approvalList"; 
 	}
   
   
-	// 결재 추가하기------------------------------------------------------------------------------------------------
+	// 4.) 결재 추가
 	@GetMapping("/approval/addApproval")
 	public String addApproval(Model model) { 
+		
+		// 결재자 선택을 위해 리스트를 불러온다
 		Map<String,Object> resultMap = departmentService.getDepartmentList();
 		
-		// Model에 addAttribute를 사용하여 view에 값을 보낸다.
 		// 부서 리스트
 		model.addAttribute("departmentList", resultMap.get("department"));
 		model.addAttribute("memberList", resultMap.get("memberList"));
+		
 		return "/approval/addApproval";
 	}
-	  
+	
 	@PostMapping("/approval/addApproval")
 	public String addBoard(HttpServletRequest request,Approval approval, HttpSession session) {
-	//매개값으로 request객체를 받는다 <- request api를 직접 호출하기 위해서 // 파일 이 저장될 경로 설정 
+		
 		String memberId = (String) session.getAttribute("loginMember");
 		
 		// 총 결재자 수 확인
@@ -90,6 +92,7 @@ public class ApprovalController {
 		}
 		
 		approval.setMemberId(memberId);
+		
 		// 첨부파일이 저장될 경로
 		String path = request.getServletContext().getRealPath("/approvalFile/"); 
 		
@@ -100,7 +103,7 @@ public class ApprovalController {
 		return "redirect:/approval/approvalList"; 
 	}
 	
-	// 결재 상세출력------------------------------------------------------------------------------------------------
+	// 3.) 결재 상세보기 출력
 	@GetMapping("/approval/oneApproval")
 	public String getOneBoard(Model model,Approval approval,ApprovalFile approvalFile, HttpSession session) {
 		
@@ -111,19 +114,22 @@ public class ApprovalController {
 		model.addAttribute("approvalOne",oneApprovalMap.get("approvalOne"));
 		model.addAttribute("approvalFileList",oneApprovalMap.get("approvalFileList"));
 		model.addAttribute("loginMemberId",loginMemberId);
+		
 		return "/approval/oneApproval";
 	}
 	
-	// 결재 회수하기------------------------------------------------------------------------------------------------
+	// 5.) 결재 회수
 	@PostMapping("/approval/updateApprovalRecall")
 	public String updateApprovalRecall(Approval approval) {
-		// 회수 하기 진행
+		
+		// 5.) 결재 회수
 		int row = approvalService.updateApprovalRecall(approval);
 		log.debug("ApprovalController.updateApprovalRecall.Row-->"+row);
+		
 		return "redirect:/approval/approvalList";
 	}
 	
-	// 결재 상태 업데이트 및 댓글 작성------------------------------------------------------------------------------------------------
+	// 6.) 결재 진행 코멘트 업데이트 + 7.) 결재 진행 상태 변경
 	@PostMapping("/approval/updateApprovalComment")
 	public String updateApprovalComment(Approval approval,
 			@RequestParam(name = "approvalNowStatus", defaultValue = "결재중") String approvalNowStatus,
@@ -135,6 +141,9 @@ public class ApprovalController {
 		log.debug("approval.getApprovalThirdComment()-->"+approval.getApprovalThirdComment());
 		
 		// 받아온 코멘트값 분기로 넘기기
+		// 1차 분기 = ID유무와 코멘트 유무확인
+		// 2차 분기 = approvalLastStatus에서 승인,반려,취소 확인
+		// 3차 분기 = 승인일 경우 더 이상 결재자 없으면 approvalLastStatus 변경
 		if(approval.getApprovalFirstComment()==null || approval.getApprovalFirstComment().equals("")) {
 			approval.setApprovalFirstComment(approvalComment);
 			// 2차 코멘드 넘어오는 것때문에 다시 null값으로 변경

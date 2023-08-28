@@ -19,9 +19,12 @@ public class FileService {
 	@Autowired
 	private FileMapper fileMapper;
 	
+	// 2.) Board 게시판 첨부파일 상세 출력
 	public BoardFile getOneBoardFile(int boardFileNo) {
 		return fileMapper.getOneBoardFile(boardFileNo);
 	}
+	
+	// 6.) Approval 결재 첨부파일 상세 출력
 	public ApprovalFile getOneApprovalFile(int approvalFileNo) {
 		return fileMapper.getOneApprovalFile(approvalFileNo);
 	}

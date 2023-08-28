@@ -8,7 +8,6 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-
 	<h1>게시판</h1>
 	<div>
 		<a href="${pageContext.request.contextPath}/home">홈으로</a><br>
@@ -35,18 +34,23 @@
 			</tr>
 		</c:forEach>
 	</table>
-<%-- 	<div>
-		<form action="${pageContext.request.contextPath}/board/boardList" method="get">
-			<input type="text" name="departmentNo" value="${departmentNo}">
-			<input type="text" name="searchWord" value="${param.searchWord}">
+	<div>
+		<form action="${pageContext.request.contextPath}/approval/approvalList" method="get">
+			<select name="approvalNowStatus">
+				<option value="">===선택해주세요===</option>
+				<option value="결재전">결재전</option>
+				<option value="결재중">결재중</option>
+				<option value="결재완료">결재완료</option>
+			</select>
+			<input type="text" name="searchWord">
 			<button type="submit">검색</button>
 		</form>
-	</div> --%>
+	</div>
  	<c:if test="${currentPage>1}">
-		<a href="/approval/approvalList?currentPage=${currentPage-1}">이전</a>
+		<a href="/approval/approvalList?currentPage=${currentPage-1}&approvalNowStatus=${param.approvalNowStatus}&searchWord=${param.searchWord}">이전</a>
 	</c:if>
 	<c:if test="${currentPage<lastPage}">
-		<a href="/approval/approvalList?currentPage=${currentPage+1}">다음</a>
+		<a href="/approval/approvalList?currentPage=${currentPage+1}&approvalNowStatus=${param.approvalNowStatus}&searchWord=${param.searchWord}">다음</a>
 	</c:if>
 </body>
 </html>

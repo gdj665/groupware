@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.goodee.groupware.mapper.ApprovalMapper">
 
-	<!-- 결재 리스트출력 -->
+	<!-- 1.) 결재 리스트출력 -->
 	<select id = "getApprovalList" parameterType="java.util.Map" resultType="java.util.Map">
 		SELECT 
 			approval_no approvalNo,
@@ -23,14 +23,16 @@
 			updatedate
 		FROM approval
 		<where>
-			member_id = #{memberId}
+			(member_id = #{memberId}
 			OR (approval_first_id = #{memberId})
 			OR (approval_second_id = #{memberId})
-			OR (approval_third_id = #{memberId})
-			<if test="approvalLastStatus != null">
-				AND approval_last_status = #{approvalLastStatus}
+			OR (approval_third_id = #{memberId}))
+			<!-- 제목 검색 -->
+			<if test="searchWord != null and searchWord != ''">
+				AND approval_title LIKE '%' #{searchWord} '%'
 			</if>
-			<if test="approvalNowStatus != null">
+			<!-- 현재 상태에 따른 리스트 출력 -->
+			<if test="approvalNowStatus != null and approvalNowStatus != ''">
 				AND approval_now_status = #{approvalNowStatus}
 			</if>
 		</where>
@@ -38,7 +40,26 @@
 		LIMIT #{beginRow},#{rowPerPage}
 	</select>
 	
-	<!-- 결제 상세출력 -->
+	<!-- 2.) 결재 리스트 분기값에 따른 결재리스트 행 개수 -->
+	<select id="getApprovalListCount" parameterType="java.util.Map" resultType="int">
+		SELECT
+			COUNT(*)
+		FROM approval
+		<where>
+			(member_id = #{memberId}
+			OR (approval_first_id = #{memberId})
+			OR (approval_second_id = #{memberId})
+			OR (approval_third_id = #{memberId}))
+			<if test="searchWord != null and searchWord != ''">
+				AND approval_title LIKE '%' #{searchWord} '%'
+			</if>
+			<if test="approvalNowStatus != null and approvalNowStatus != ''">
+				AND approval_now_status = #{approvalNowStatus}
+			</if>
+		</where>
+	</select>
+	
+	<!-- 3.) 결제 상세출력 -->
 	<select id = "getOneApproval" parameterType="com.goodee.groupware.vo.Approval" resultType="com.goodee.groupware.vo.Approval">
 		SELECT 
 			approval_no approvalNo,
@@ -61,26 +82,8 @@
 		WHERE approval_no = #{approvalNo}
 	</select>
 	
-	<!-- 결재 분기값에 따른 결재행 개수 -->
-	<select id="getApprovalListCount" parameterType="java.util.Map" resultType="int">
-		SELECT
-			COUNT(*)
-		FROM approval
-		<where>
-			member_id = #{memberId}
-			OR (approval_first_id = #{memberId})
-			OR (approval_second_id = #{memberId})
-			OR (approval_third_id = #{memberId})
-			<if test="approvalLastStatus != null">
-				AND approval_last_status = #{approvalLastStatus}
-			</if>
-			<if test="approvalNowStatus != null">
-				AND approval_now_status = #{approvalNowStatus}
-			</if>
-		</where>
-	</select>
 	
-	<!-- 결재 추가 -->
+	<!-- 4.) 결재 추가 -->
 	<insert id ="addApproval" parameterType="com.goodee.groupware.vo.Approval">
 		<!-- INSERT 작업 이후에 실행되며 Approval vo에 approvalNo로 선언되어 있는 값을 가져온다 -->
 		<selectKey order="AFTER" keyProperty="approvalNo" resultType="int">
@@ -113,7 +116,7 @@
 		)
 	</insert>
 	
-	<!-- 결재 회수 -->
+	<!-- 5.) 결재 회수 -->
 	<update id="updateApprovalRecall" parameterType="com.goodee.groupware.vo.Approval">
 		UPDATE approval 
 		SET approval_last_status = '회수',
@@ -121,7 +124,7 @@
 		WHERE approval_no = #{approvalNo}
 	</update>
 	
-	<!-- 결재 진행 코멘트 -->
+	<!-- 6.) 결재 진행 코멘트 업데이트 -->
 	<update id="updateApprovalComment" parameterType="com.goodee.groupware.vo.Approval">
 		UPDATE approval
 		SET	approval_first_comment = #{approvalFirstComment},
@@ -130,7 +133,7 @@
 		WHERE approval_no = #{approvalNo}
 	</update>
 	
-	<!-- 결재 진행 스텟 변경 -->
+	<!-- 7.) 결재 진행 상태 변경 -->
 	<update id="updateApprovalStatus" parameterType="com.goodee.groupware.vo.Approval">
 		UPDATE approval
 		SET	approval_now_status = #{approvalNowStatus},

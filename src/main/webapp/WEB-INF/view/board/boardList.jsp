@@ -41,13 +41,6 @@
 			</tr>
 		</c:forEach>
 	</table>
-<%-- 	<div>
-		<form action="${pageContext.request.contextPath}/board/boardList" method="get">
-			<input type="text" name="departmentNo" value="${departmentNo}">
-			<input type="text" name="searchWord" value="${param.searchWord}">
-			<button type="submit">검색</button>
-		</form>
-	</div> --%>
 	<c:if test="${currentPage>1 }">
 		<a href="/board/boardList?currentPage=${currentPage-1}&departmentNo=${param.departmentNo}">이전</a>
 	</c:if>

@@ -199,6 +199,12 @@
 				<td><textarea name="approvalContent" rows="3" cols="50"></textarea></td>
 			</tr>
 			<tr>
+				<th colspan="2">
+					<!-- 모달창 열기 버튼 -->
+					<button id="open">모달창 열기</button>
+				</th>
+			</tr>
+			<tr>
 				<th>1차 결재자</th>
 				<td>
 					<input type="hidden" value="" name="approvalFirstId" class="memberIdInputFirst">
@@ -231,8 +237,7 @@
 		<button type="submit">결재 진행</button>
 	</form>
 
-	<!-- 모달창 열기 버튼 -->
-	<button id="open">모달창 열기</button>
+	<!-- modal창 화면 -->
 	<div class="modal">
 		<div class="modal_content">
 			<div class="row">

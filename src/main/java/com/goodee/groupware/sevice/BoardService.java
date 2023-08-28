@@ -29,32 +29,38 @@ public class BoardService {
 	@Autowired
 	private FileMapper fileMapper;
 	
-	// 게시판 리스트 출력
+	// 1.) 부서별 게시물 리스트 출력
 	public Map<String,Object> getBoardList(int currentPage, int rowPerPage, int departmentNo) {
 		
-		// 페이징 첫 번째 줄
+		// 페이징 첫 번째 줄 변수 선언
 		int beginRow = (currentPage-1)*rowPerPage;
 		
-		// 페이징을 위한 변수 boardMap에 선언
+		// 부서별 게시물 리스트 출력을 위한 변수 Map 생성
 		Map<String,Object> boardMap = new HashMap<String,Object>();
 		boardMap.put("beginRow",beginRow);
 		boardMap.put("rowPerPage",rowPerPage);
 		boardMap.put("departmentNo",departmentNo);
-		// boardMap 디버깅
-		log.debug("BoardService.getBoardList() boardMap --->" + boardMap.toString());
-		
+		// 1.) 부서별 게시물 리스트 출력
 		List<Map<String,Object>> boardList = boardMapper.getBoardList(boardMap);
+		// 디버깅
+		log.debug("BoardService.getBoardList().boardMap --->" + boardMap.toString());
+		log.debug("BoardService.getBoardList().boardList --->" + boardList.toString());
 		
-		// 페이징
+		
+		// 부서별 게시물 리스트 행 출력을 위한 변수 Map 생성
 		Map<String,Object> boardMapCount = new HashMap<String,Object>();
 		boardMapCount.put("departmentNo",departmentNo);
-		
+		// 1.1) 게시판 리스트 행 수량 출력
 		int boardCount = boardMapper.getBoardListCount(boardMapCount);
+		// 디버깅
+		log.debug("BoardService.getBoardList().boardMapCount --->" + boardCount);
+		
 		int lastPage = boardCount / rowPerPage;
 		if((boardCount%rowPerPage) != 0) {
 			lastPage++;
 		}
 		
+		// 부서별 게시물 리스트와 마지막 페이지 값 resultMap 선언 후 삽입
 		Map<String,Object> resultMap = new HashMap<String,Object>();
 		resultMap.put("boardList",boardList);
 		resultMap.put("lastPage",lastPage);
@@ -62,69 +68,26 @@ public class BoardService {
 		return resultMap;
 	}
 	
-	// 게시물 상세보기 출력
+	// 2.) 게시물 상세 출력
 	public Map<String,Object> getOneBoard(Board board, BoardFile boardFile) {
-		Board boardOne = boardMapper.getOneBoard(board);
-		List<BoardFile> boardFileList = fileMapper.getBoardFileList(boardFile);
 		
+		// 2.) 게시물 상세 출력
+		Board boardOne = boardMapper.getOneBoard(board);
+		// 1.) 게시물 첨부파일 리스트 출력
+		List<BoardFile> boardFileList = fileMapper.getBoardFileList(boardFile);
+		// 디버깅
+		log.debug("BoardService.getOneBoard().boardOne --->" + boardOne);
+		log.debug("BoardService.getOneBoard().boardFileList --->" + boardFileList);
+		
+		// 게시물 상세 출력정보와 게시물 번호에 해당하는 첨부파일 리스트 boardOneMap에 담기
 		Map<String,Object> boardOneMap = new HashMap<String,Object>();
 		boardOneMap.put("boardOne",boardOne);
 		boardOneMap.put("boardFileList",boardFileList);
+		
 		return boardOneMap;
 	}
 	
-	// 게시물 추가
-	// 게시물 추가되면서 첨부파일 있으면 폴더 저장+ DB에 저장
-	public int addBoard(Board board, String path) {
-		// addBoard가 insert된 후의 boardNo를 가져와서 파일 업로드 실행
-		int row = boardMapper.addBoard(board);
-		
-		// 첨부파일 있는지 확인
-		// board vo에 선언 해둔 MultipartFile의 사이즈 확인
-		List<MultipartFile> boardFileList = board.getMultipartFile();
-		if(row==1) {
-			// Stream Api사용 및 선언
-			// 스트림 api 사용하지 않을시에boardFileList가 계속 사이즈가 1로 출력
-			List<MultipartFile> validBoardFileList = boardFileList.stream()
-					// 파일들 중 사이즈가 0초과거나 null이 아닌것 필터링
-	                .filter(file -> file != null && file.getSize() > 0)
-	                // 필터링한 파일리스트를 다시 새로운 리스트로 만들어서 validBoardFileList에 선언
-	                .collect(Collectors.toList());
-			System.out.println("validBoardFileList-->"+validBoardFileList);
-			System.out.println("validBoardFileListsize-->"+validBoardFileList.size());
-			if (!validBoardFileList.isEmpty()) {
-				int boardNo = board.getBoardNo();
-				
-				// 첨부파일의 갯수만큼 반복
-				for(MultipartFile mf : boardFileList) {
-					BoardFile bf = new BoardFile();
-					bf.setBoardNo(boardNo);
-					bf.setBoardFileOri(mf.getOriginalFilename());
-					bf.setBoardFileSize(mf.getSize());
-					bf.setBoardFileType(mf.getContentType());
-					
-					String ext = mf.getOriginalFilename().substring(mf.getOriginalFilename().lastIndexOf("."));
-					// UUID 랜덤부여후 미들 바를 공백으로 바꾸고나서 파일 타입추가
-					bf.setBoardFileSave(UUID.randomUUID().toString().replace("-","")+ext);
-					
-					fileMapper.addBoardFile(bf);
-					
-					File f = new File(path+bf.getBoardFileSave());
-					
-					try {
-						mf.transferTo(f);
-					} catch (IllegalStateException | IOException e) {
-						// 어떤 예외가 발생하더라도 런타임 예외를 던진다
-						e.printStackTrace();
-						throw new RuntimeException();
-					}
-				}
-			}
-		}
-		return row;
-	}
-	
-	// 게시물 삭제
+	// 3.) 게시물 삭제
 	public int deleteBoard(String path, BoardFile boardFile, Board board) {
 		List<BoardFile> boardFileList = fileMapper.getBoardFileList(boardFile);
 		
@@ -140,4 +103,65 @@ public class BoardService {
 		int deleteBoardRow = boardMapper.deleteBoard(board);
 		return deleteBoardRow;
 	}
+	
+	// 4.) 게시물 추가
+	public int addBoard(Board board, String path) {
+		
+		// 4.) 게시물 추가
+		int row = boardMapper.addBoard(board);
+		
+		// 게시물 추가되면서 첨부파일 있으면 폴더 저장+ DB에 저장
+		// board vo에 선언 해둔 MultipartFile의 사이즈 확인
+		List<MultipartFile> boardFileList = board.getMultipartFile();
+		if(row==1) {
+			
+			// Stream Api사용 및 선언
+			// 스트림 api 사용하지 않을시에boardFileList가 계속 사이즈가 1로 출력
+			List<MultipartFile> validBoardFileList = boardFileList.stream()
+					// 파일들 중 사이즈가 0초과거나 null이 아닌것 필터링
+	                .filter(file -> file != null && file.getSize() > 0)
+	                // 필터링한 파일리스트를 다시 새로운 리스트로 만들어서 validBoardFileList에 선언
+	                .collect(Collectors.toList());
+					// 디버깅
+					log.debug("validBoardFileList-->"+validBoardFileList);
+					log.debug("validBoardFileListsize-->"+validBoardFileList.size());
+			
+			if (!validBoardFileList.isEmpty()) {
+				
+				// addBoard가 insert된 후의 boardNo를 가져와서 파일 업로드 실행
+				int boardNo = board.getBoardNo();
+				log.debug("BoardService.addBoard().boardNo-->"+boardNo);
+				
+				// 첨부파일의 갯수만큼 반복
+				for(MultipartFile mf : boardFileList) {
+					BoardFile bf = new BoardFile();
+					bf.setBoardNo(boardNo);
+					bf.setBoardFileOri(mf.getOriginalFilename());
+					bf.setBoardFileSize(mf.getSize());
+					bf.setBoardFileType(mf.getContentType());
+					
+					// 파일 타입 추출
+					String ext = mf.getOriginalFilename().substring(mf.getOriginalFilename().lastIndexOf("."));
+					// UUID 랜덤부여후 미들 바를 공백으로 바꾸고나서 파일 타입추가
+					bf.setBoardFileSave(UUID.randomUUID().toString().replace("-","")+ext);
+					
+					// 3.) 게시물 첨부파일 추가
+					fileMapper.addBoardFile(bf);
+					
+					// 파일 경로 받아와서 파일 추가
+					File f = new File(path+bf.getBoardFileSave());
+					
+					try {
+						mf.transferTo(f);
+					} catch (IllegalStateException | IOException e) {
+						// 어떤 예외가 발생하더라도 런타임 예외를 던진다
+						e.printStackTrace();
+						throw new RuntimeException();
+					}// catch문
+				}// for문
+			}// if문
+		}// if문
+		return row;
+	}
+	
 }
