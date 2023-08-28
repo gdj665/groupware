@@ -5,6 +5,8 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+<script	src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.0/dist/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/signature_pad/1.5.3/signature_pad.min.js"></script>
 	<script>
@@ -66,6 +68,10 @@
 				        // 중복 여부에 따라 처리
 				        if (response == 1) {
 				          alert("비밀번호가 변경되었습니다.");
+				          $('#memberPw').val('')
+				          $('#newMemberPw').val('')
+				          $('#checkMemberPw').val('')
+				          $('#updatePwModal').modal('hide')
 				        } else {
 					      alert("비밀번호 변경에 실패했습니다.");
 				        }
@@ -87,13 +93,33 @@
 	<c:set var="m" value="${member}"></c:set>
 	<h1>mypage</h1>
 		${m.memberId}<br>
+	<!-- Button trigger modal -->
+	<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#updatePwModal">
+	  비밀번호 수정
+	</button>
+	
+	<!-- Modal -->
+	<div class="modal fade" id="updatePwModal" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+	  <div class="modal-dialog">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <h1 class="modal-title fs-5" id="modalLabel">비밀번호 수정</h1>
+	        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+	      </div>
+	      <div class="modal-body">
+			<!-- 비번 수정 -->
+			기존 비번 : <input type="password" id="memberPw"><br>
+			새 비번 입력 : <input type="password" id="newMemberPw"><br>
+			새 비번 확인 : <input type="password" id="checkMemberPw"><br>
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+	        <button type="button" id="pwBtn" class="btn btn-primary">수정</button>
+	      </div>
+	    </div>
+	  </div>
+	</div>
 		
-		<!-- 비번 수정 -->
-		비밀번호 수정(모달 aJax 비동기)<br>
-		기존 비번 : <input type="password" id="memberPw"><br>
-		새 비번 입력 : <input type="password" id="newMemberPw"><br>
-		새 비번 확인 : <input type="password" id="checkMemberPw"><br>
-		<button type="button" id="pwBtn">수정</button><br>
 		
 	<form action="/member/updateMypage" method="post" id="updateForm">
 		<input type="hidden" value="${m.memberId}" name="memberId" id="memberId">
