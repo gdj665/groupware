@@ -20,10 +20,18 @@ public interface RepairMapper {
 	// 2.1) repair리스트의 총 행 개수
 	int getRepairListCnt(Map<String, Object> pageMap);
 	
+	// 2.2) repair리스트 엑셀 출력
+	List<Map<String,Object>> getRepairExcelList(Repair repair);
+	
 	// 3) repair 대기중->수리중->수리완료 수정
 	int updateRepair(Repair repair);
 	
 	// 3.1) 수리완료시 repair_parts(수리 자재사용 테이블)추가
 	int addRepairParts(Map<String,Object> repairPartsMap);
 	
+	// 3.2) 수리완료 상세보기
+	Map<String,Object> getCompletedOne(Repair repair);
+	
+	// 3.3) 수리완료 상세보기 사용자재 출력
+	List<Map<String,Object>> getCompletedOneFixturesList(Repair repair);
 }

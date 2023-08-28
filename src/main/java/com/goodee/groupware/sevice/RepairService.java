@@ -76,6 +76,16 @@ public class RepairService {
 		return resultMap;
 	}
 	
+	// 2.1) repair목록 엑셀 출력
+	public List<Map<String,Object>> getRepairExcelLIst(Repair repair) {
+		log.debug("RepairService.getRepairExcelLIst() Param repair --->" + repair.toString());
+		
+		List<Map<String,Object>> repairExcelList = repairMapper.getRepairExcelList(repair);
+		log.debug("RepairService.getRepairExcelLIst() repairExcelList --->" + repairExcelList.toString());
+		
+		return repairExcelList;
+	}
+	
 	// 3) repair 대기중 -> 수리중 -> 수리완료 수정
 	public int updateRepair(Repair repair, RepairParts repairParts, int[] partsNoArr, int[] partsCntArr) {
 		
@@ -138,5 +148,23 @@ public class RepairService {
 		return repairRow;
 	}
 	
+	// 3.1) 수리완료 상세보기
+	public Map<String,Object> getCompletedOne(Repair repair) {
+		
+		// 매개변수로 repairNo를 받아서 맵퍼 호출
+		// repair테이블 출력
+		Map<String,Object> completedOne = repairMapper.getCompletedOne(repair);
+		log.debug("RepairService.getCompletedOne() completedOne--->" + completedOne.toString());
+		// repair테이블에 사용한 자재 목록 출력
+		List<Map<String,Object>> completedOneFixturesList = repairMapper.getCompletedOneFixturesList(repair);
+		log.debug("RepairService.getCompletedOne() completedOneFixturesList--->" + completedOneFixturesList.toString());
+		
+		// 반환할 맵에 불러온 데이터 담는다
+		Map<String,Object> resultMap = new HashMap<>();
+		resultMap.put("completedOne", completedOne);
+		resultMap.put("completedOneFixturesList", completedOneFixturesList);
+		
+		return resultMap;
+	}
 	
 }

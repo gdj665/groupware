@@ -14,6 +14,8 @@ public interface EquipmentMapper {
 	List<Map<String, Object>> getEquipmentList(Map<String,Object> equipmentMap);
 	// 1.1) 장비 목록 페이징위한 전체 행개수
 	int getEquipmentListCnt(String equipmentName);
+	// 1.2) 장비 목록 엑셀 출력
+	List<Map<String,Object>> getEquipmentExcelList();
 	
 	// 2) 장비 추가
 	int addEquipment(Equipment equipment);

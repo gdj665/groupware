@@ -62,6 +62,26 @@
 		</where>
 	</select>
 	
+	<!-- 2.2) as목록 엑셀 출력  -->
+	<select id="getRepairExcelList" parameterType="com.goodee.groupware.vo.Repair" resultType="java.util.Map">
+		SELECT 
+			repair_no repairNo,
+			member_id memberId,
+			repair_product_category repairProductCategory,
+			repair_product_name repairProductName,
+			receiving_date receivingDate,
+			repair_date repairDate,
+			repair_release_date repairReleaseDate,
+			repair_price repairPrice,
+			repair_status repairStatus,
+			repair_receiving_reason repairReceivingReason,
+			repair_content repairContent,
+			createdate createdate,
+			updatedate updatedate
+		FROM repair
+		WHERE repair_status = #{repairStatus}
+	</select>
+	
 	<!-- 3) repair 대기중 -> 수리중 -> 수리완료 수정 -->
 	<update id="updateRepair" parameterType="com.goodee.groupware.vo.Repair">
 		<!-- 대기중 -> 수리중 member_id, repair_date 업데이트 -->
@@ -83,5 +103,33 @@
 			(repair_no, parts_no, repair_parts_cnt, createdate, updatedate)
 		VALUES(#{repairNo}, #{partsNo}, #{repairPartsCnt}, NOW(), NOW())
 	</insert>
+	
+	<!-- 3.2) 수리완료 상세보기 -->
+	<select id="getCompletedOne" parameterType="com.goodee.groupware.vo.Repair" resultType="java.util.Map">
+		SELECT
+			repair_no repairNo,
+			member_id memberId,
+			repair_product_category repairProductCategory,
+			repair_product_name repairProductName,
+			receiving_date receivingDate,
+			repair_date repairDate,
+			repair_release_date repairReleaseDate,
+			repair_price repairPrice,
+			repair_status repairStatus,
+			repair_receiving_reason repairReceivingReason,
+			repair_content repairContent
+		FROM repair 
+		WHERE repair_no = #{repairNo}
+	</select>
+	<!-- 3.3) 수리완료 상세보기 사용한 자재출력 -->
+	<select id="getCompletedOneFixturesList" parameterType="com.goodee.groupware.vo.Repair" resultType="java.util.Map">
+		SELECT 
+			rp.repair_parts_no repairPartsNo,
+			rp.repair_parts_cnt repairPartsCnt,
+			p.parts_name partsName,
+			p.parts_price partsPrice
+		FROM repair_parts rp INNER JOIN parts p ON rp.parts_no = p.parts_no
+		WHERE rp.repair_no = #{repairNo}
+	</select>
 	
 </mapper>

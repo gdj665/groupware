@@ -5,96 +5,137 @@
 <html>
 <head>
 <style>
-     /* 모달 스타일 */
-    .modal {
+	.modal {
         display: none;
         position: fixed;
-        z-index: 1000;
-        top: 0;
+        z-index: 1;
         left: 0;
+        top: 0;
         width: 100%;
         height: 100%;
-        background-color: rgba(0, 0, 0, 0.5);
+        background-color: rgba(0, 0, 0, 0.4);
     }
-    .modal-content {
-        background-color: #fff;
-        margin: auto;
+
+    /* 모달 내용 스타일 */
+    .modal_content {
+        background-color: white;
+        margin: 15% auto;
         padding: 20px;
-        max-width: 80%; /* 적절한 값으로 조정 */
-        max-height: 80vh; /* 적절한 값으로 조정 */
+        border: 1px solid #888;
+        width: 50%;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
         border-radius: 5px;
-        overflow-y: auto;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
     }
-    /* 섹션 간 마진 조정 */
-    .row {
-        margin: 10px 0;
+
+    /* 제목 스타일 */
+    .modal_content h3 {
+        margin-top: 0;
+    }
+
+    /* 폼 스타일 */
+    .modal_content form {
+        margin-top: 20px;
     }
 
     /* 테이블 스타일 */
-    .modalTable {
-        width: 50%;
+    .modal_content table {
+        width: 100%;
         border-collapse: collapse;
-        border: 1px solid #ddd;
     }
 
-    .modelTable th, .modelTable td {
+    /* 테이블 셀 스타일 */
+    .modal_content td {
         padding: 8px;
-        border: 1px solid #ddd;
-        text-align: center;
+        border-bottom: 1px solid #ddd;
+    }
+
+    /* 입력 필드 스타일 */
+    .modal_content input[type="text"],
+    .modal_content input[type="date"] {
+        width: 100%;
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 3px;
+    }
+
+    /* 메시지 스타일 */
+    .modal_content .msg {
+        color: red;
+        font-size: 12px;
     }
 
     /* 버튼 스타일 */
-    button {
-        background-color: #4CAF50;
-        color: white;
+    .modal_content button {
+        margin-top: 10px;
+        padding: 8px 15px;
         border: none;
-        padding: 8px 16px;
+        background-color: #007bff;
+        color: white;
         cursor: pointer;
+        border-radius: 3px;
     }
 
-    button.close {
-        background-color: #f44336;
+    .modal_content button.close {
+        background-color: #ccc;
     }
 
-    /* 자재 목록 스타일 */
-    ul {
-        list-style-type: none;
-        padding: 0;
+    .modal_content button:hover {
+        background-color: #0056b3;
     }
-
-    li {
-        padding: 4px 0;
-    }
-
-    /* 화살표 버튼 스타일 */
-    .arrow-buttons button {
-        margin: 5px;
-    }
-    
-    .parts-list {
-	    max-height: 300px; /* 적절한 값으로 조정 */
-	    overflow-y: auto;
-	    border: 1px solid #ccc; /* 스크롤바를 보여줄 테두리 설정 (선택사항) */
-	    border-radius: 5px;
-	    padding: 10px;
-	}
 </style>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<!-- excel api : sheetjs-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.15.5/xlsx.full.min.js"></script>
+<!-- file download api : FileServer saveAs-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/1.3.8/FileSaver.min.js"></script>
 <!-- Latest compiled and minified CSS -->
-<link
-	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css"
-	rel="stylesheet">
-
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
 <!-- Latest compiled JavaScript -->
-<script
-	src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
 <!-- jquery -->
-<script
-	src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+
 <script>
 	$(document).ready(function(){
+		
+// --------------------------------------- 엑셀다운 ---------------------------------------
+		$('#excelBtn').click(function() {
+		 	// 서버로 AJAX 요청을 보냄
+	   		$.ajax({
+	        	url: '/repair/repairExcel?repairStatus=수리중', // 서버의 restController인 '/repair/repairExcel' URL로 요청을 보냄
+	            type: 'get', // GET 요청 방식
+	            dataType: 'json', // 서버에서 반환하는 데이터 형식을 JSON으로 설정
+	            success: function(data) { // AJAX 요청이 성공했을 때 실행되는 콜백 함수
+	            	let arr = [];
+	         	    console.log(data);
+	                // 서버에서 받아온 JSON 데이터를 가공하여 arr 배열에 추가
+	                data.forEach(function(item) {
+	                	 // 장비 정보를 하나의 배열로 묶어서 arr 배열에 추가
+	                	arr.push([item.repairNo, item.memberId, item.repairProductCategory, item.repairProductName, item.receivingDate, item.repairDate, item.repairStatus, item.repairReceivingReason]);
+	                });
+
+	             	// 엑셀 파일 생성
+	             	let book = XLSX.utils.book_new(); // 빈 엑셀 파일 생성
+	             	book.SheetNames.push('AS(수리중)'); // 시트 이름 추가
+
+	             	// 데이터가 들어있는 2차원 배열로부터 시트 생성
+	            	let sheet = XLSX.utils.aoa_to_sheet([['수리번호', '수리담당자', '제품분류', '제품명', '입고날짜', '수리날짜', '수리상태', '입고사유']].concat(arr));
+	             	// 위에서 만든 시트를 엑셀 파일에 추가
+	             	book.Sheets['AS(수리중)'] = sheet;
+
+	             	// 엑셀 파일을 바이너리 형태로 변환하여 버퍼에 저장
+	             	let buf = XLSX.write(book, { bookType: 'xlsx', type: 'array' });
+
+	            	 // 엑셀 파일을 Blob 형태로 변환하여 다운로드
+	             	let blob = new Blob([buf], { type: 'application/octet-stream' });
+	             	// 다운로드할 파일의 이름을 설정하여 다운로드
+	             	saveAs(blob, 'AS(수리중)목록.xlsx');
+	        	}
+	    	});
+		});
+		
+// ---------------------------------------------------------------- 수리중 -> 수리완료 수정 시작 ----------------------------------------------------------
 		// 현재 날짜 구하기 
 		var today = new Date();
 
@@ -103,7 +144,7 @@
 		var day = ('0' + today.getDate()).slice(-2);
 		
 		var preDate = year + '-' + month  + '-' + day;
-// ---------------------------------------------------------------- 수리중 -> 수리완료 수정 시작 ----------------------------------------------------------
+		
 		// 수리중 -> 수리완료 모달창 오픈
 		$('.comRepairModalOpen').click(function(){
 			var comRepairNo = $(this).data("comrepairno");
@@ -227,9 +268,22 @@
 	 	// 수정 버튼 클릭시 폼 전송
 	 	$('#updateCompletedRepairBtn').click(function(){
 	 		
-	 		const formData = new FormData($("#updateCompletedRepair"));
-	 		console.log("111");
+	 		if($('#totalPriceId').val() <= 0) {
+	 			$('#totalPriceIdMsg').text("가격을 입력하세요")
+	 			return;
+	 		} else {
+	 			$('#totalPriceIdMsg').text("")
+	 		}
 	 		
+	 		if($('#repairContentId').val().length == 0) {
+	 			$('#repairContentIdMsg').text("수리내용을 입력하세요")
+	 			return;
+	 		} else {
+	 			$('#repairContentIdMsg').text("")
+	 		}
+	 		
+	 		/* const formData = new FormData($("#updateCompletedRepair"));
+	 		console.log("111");
 	 		// formData를 컨트롤러로 전송 (예를 들어, AJAX를 사용하여 전송)
 	 	    $.ajax({
 	 	        url: '/repair/updateRepair',
@@ -244,8 +298,13 @@
 	 	        },
 	 	        error: function(error) {
 	 	            // 오류 발생 시의 동작
+	 	            alert('에러가 발생했습니다.');
 	 	        }
-	 	    });
+	 	    }); */
+	 	    
+	 	    $('#updateCompletedRepair').submit();
+	 	    
+	 	    
 	 	});
 		
 	 	// 모달창 닫기
@@ -255,6 +314,7 @@
 		
 	});
 </script>
+
 </head>
 <body>
 	<!-- 수리중 리스트 -->
@@ -284,7 +344,7 @@
 				<td><a href="#" class="comRepairModalOpen"
 					data-comRepairNo="${r.repairNo}" data-comMemberId="${memberId}"
 					data-comRepairProductName="${r.repairProductName}"
-					data-comRepairReceivingReason="${r.repairReceivingReason}">수리완료</a>
+					data-comRepairReceivingReason="${r.repairReceivingReason}">수리END</a>
 				</td>
 			</tr>
 		</c:forEach>
@@ -306,10 +366,14 @@
 		<a
 			href="${pageContext.request.contextPath}/repair/repairList?currentPage=${currentPage+1}&repairProductCategory=${param.repairProductCategory}&repairStatus=수리중">다음</a>
 	</c:if>
-
+	
+	<div>
+		<button id="excelBtn">엑셀 다운</button>
+	</div>	
+	
 	<!-- 수리중 -> 수리완료 업데이트 모달 -->
 	<div id="completedRepairModal" class="modal">
-		<div class="modal-content">
+		<div class="modal_content">
 			<form id="updateCompletedRepair"
 				action="${pageContext.request.contextPath}/repair/updateRepair"
 				method="post">
@@ -336,9 +400,8 @@
 							</tr>
 							<tr>
 								<td>수리비</td>
-								<td><input id="totalPriceId" type="text" name="repairPrice" required="required">원 
-								<span id="repairPriceIdMsg"
-									class="msg"></span></td>
+								<td><input id="totalPriceId" type="number" name="repairPrice" value="20000" required="required" readonly="readonly">원 
+								<span id="totalPriceIdMsg"></span>
 							</tr>
 							<tr>
 								<td>수리현황</td>
@@ -354,13 +417,12 @@
 							<tr>
 								<td>수리내용</td>
 								<td><textarea id="repairContentId" rows="5" cols="50"
-										name="repairContent"></textarea> <span id="repairContentIdMsg"
-									class="msg"></span></td>
+										name="repairContent" required="required"></textarea>
+								<span id="repairContentIdMsg"></span>		
 							</tr>
 						</table>
 					</div>
 				</div>
-
 				<!--  row 2 -->
 				<div class="row">
 					<div class="col-lg-5">
@@ -399,7 +461,7 @@
 						</table>
 					</div>
 				</div>
-				<button id="updateCompletedRepairBtn" type="submit">수정</button>
+				<button id="updateCompletedRepairBtn" type="button">수정</button>
 				<button class="close" type="button">닫기</button>
 			</form>
 		</div>

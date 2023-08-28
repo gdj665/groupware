@@ -15,7 +15,7 @@
 			equipment_alive = 'Y'
 			<!-- 검색분기 -->
 			<if test="equipmentName != null">
-				equipment_name LIKE '%' #{equipmentName} '%'
+				AND equipment_name LIKE '%' #{equipmentName} '%'
 			</if>
 		</where>
 		ORDER BY createdate DESC
@@ -30,9 +30,20 @@
 			equipment_alive = 'Y'
 			<!-- 검색분기 -->
 			<if test="equipmentName != null">
-				equipment_name LIKE '%'#{equipmentName}'%'
+				AND equipment_name LIKE '%'#{equipmentName}'%'
 			</if>
 		</where>
+	</select>
+	<!-- 1.2) 장비 목록 엑셀 출력 -->
+	<select id="getEquipmentExcelList" resultType="java.util.Map">
+		SELECT 
+			equipment_no equipmentNo, 
+			equipment_name equipmentName, 
+			equipment_last_inspect equipmentLastInspect, 
+			DATE_ADD(equipment_last_inspect, INTERVAL equipment_inspect_cycle MONTH) nextinspect,
+			equipment_status equipmentStatus, 
+			equipment_content equipmentContent
+		FROM equipment
 	</select>
 	
 	<!-- 2) 장비 추가 -->

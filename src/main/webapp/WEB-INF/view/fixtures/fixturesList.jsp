@@ -102,68 +102,42 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
 
 <script>
-
-	// 엑셀다운 ---------------------------------------
-	
-	//엑셀다운할 배열 변수
 	$(document).ready(function() {
 		
-		let fixturesArr = [];
-		
-	    $('#excelBtn').click(function() {
-	        $.ajax({
-	            async: false,
-	            url: '/fixtures/fixturesExcel',
-	            type: 'get',
-	            success: function(data) {
-	                console.log(data);
-	                $(data).each(function(index, item) {
-	                    fixturesArr.push(item.partsNo);
-	                    fixturesArr.push(item.partsCategory);
-	                    fixturesArr.push(item.partsName);
-	                    fixturesArr.push(item.partsCnt);
-	                    fixturesArr.push(item.partsPrice);
-	                    fixturesArr.push(item.partsContent);
+		// 엑셀다운 ---------------------------------------
+		$('#excelBtn').click(function() {
+		 	// 서버로 AJAX 요청을 보냄
+	   		$.ajax({
+	        	url: '/fixtures/fixturesExcel', // 서버의 '/excel' URL로 요청을 보냄
+	            type: 'get', // GET 요청 방식
+	            dataType: 'json', // 서버에서 반환하는 데이터 형식을 JSON으로 설정
+	            success: function(data) { // AJAX 요청이 성공했을 때 실행되는 콜백 함수
+	            	let arr = [];
+	         	    console.log(data);
+	                // 서버에서 받아온 JSON 데이터를 가공하여 arr 배열에 추가
+	                data.forEach(function(item) {
+	                	arr.push([item.partsNo, item.partsCategoryNo, item.partsName, item.partsCnt, item.partsPrice, item.partsContent]); // 이름과 나이를 하나의 배열로 묶어서 arr 배열에 추가
 	                });
 
-	                console.log(fixturesArr); // 데이터가 제대로 채워진 것을 확인
-	                
-	                // 엑셀 생성 및 다운로드 로직
-	                let book = XLSX.utils.book_new();
-	                // ... (이하 생략)
-	                
-	             	// 2) 빈 워크북에 시트이름을 one으로 추가
-					book.SheetNames.push('one');
-		
-					// 3) 배열에 데이터를 이용하여 시트 데이터를 생성
-					let sheet = XLSX.utils.aoa_to_sheet(fixturesArr);
-		
-					// 2)와 3)을 연결
-					book.Sheets['one'] = sheet;
-		
-					// 4) 엑셀 워크북을 -> 바이너리 형태로 변환
-					let source = XLSX.write(book, {
-						bookType : 'xlsx',
-						type : 'binary'
-					});
-		
-					// 다운로드
-					// 1) source 변수 크기에 맞는 빈 ArrayBuffer을 생성 엑셀 데이터를 저장하는데 사용함
-					let buf = new ArrayBuffer(source.length);
-					// 2) 8비트(1Byte) 배열로 버프 랩핑 -> 1byte씩 옮길려고....
-					let buf2 = new Uint8Array(buf);
-					// 변수의 문자열 데이터를 8비트로 변환하여 하나씩 읽어와 buf2에 추가		
-					for (let i = 0; i < source.length; i++) {
-						buf2[i] = source.charCodeAt(i) & 0xFF;
-					}
-		
-					let b = new Blob([ buf2 ], {
-						type : "application/octet-stream"
-					});
-					saveAs(b, "fixtures.xlsx");
-	            }
-	        });
-	    });
+	             	// 엑셀 파일 생성
+	             	let book = XLSX.utils.book_new(); // 빈 엑셀 파일 생성
+	             	book.SheetNames.push('자재'); // 시트 이름 '자재' 추가
+
+	             	// 데이터가 들어있는 2차원 배열로부터 시트 생성
+	            	let sheet = XLSX.utils.aoa_to_sheet([['자재번호', '분류명', '부품명', '부품수량', '가격', '상세내용']].concat(arr));
+	             	// 위에서 만든 시트를 엑셀 파일에 추가
+	             	book.Sheets['자재'] = sheet;
+
+	             	// 엑셀 파일을 바이너리 형태로 변환하여 버퍼에 저장
+	             	let buf = XLSX.write(book, { bookType: 'xlsx', type: 'array' });
+
+	            	 // 엑셀 파일을 Blob 형태로 변환하여 다운로드
+	             	let blob = new Blob([buf], { type: 'application/octet-stream' });
+	             	// 다운로드할 파일의 이름을 설정하여 다운로드
+	             	saveAs(blob, '자재목록.xlsx');
+	        	}
+	    	});
+		});
 		
 		// 모달창 이벤트 -------------------------------------
 		$('#open').click(function(){

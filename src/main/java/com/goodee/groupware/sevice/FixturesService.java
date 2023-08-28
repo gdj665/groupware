@@ -64,6 +64,13 @@ public class FixturesService {
 		return resultMap;
 	}
 	
+	// 1.1) 자재리스트 엑셀 restController에서 호출
+	public List<Map<String, Object>> getFixturesExcelList() {
+		List<Map<String,Object>> partsExcelList = fixturesMapper.getFixturesExcelList();
+		log.debug("FixturesService.getFixturesList() partsExcelList --->" + partsExcelList.toString());
+		return partsExcelList;
+	}
+	
 	// 2) 자재 추가(parts 테이블 추가)
 	public int addParts(Parts parts) {
 		// 맵퍼에서 추가 메서드 호출

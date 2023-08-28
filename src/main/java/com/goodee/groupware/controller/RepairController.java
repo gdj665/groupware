@@ -30,7 +30,7 @@ public class RepairController {
 	
 	// 1) repair추가
 	@PostMapping("/repair/addRepair")
-	public String addRepair(Repair repair) {
+	public String addRepair(Repair repair, RedirectAttributes redirectAttributes) {
 		
 		// repair 추가 서비스 호출
 		int row = repairSerivce.addRepair(repair);
@@ -40,7 +40,9 @@ public class RepairController {
 		} else {
 			log.debug("RepairController.addRepair() row --->" + row + "AS 추가 실패");
 		}
-		return "/repair/repairList";
+		
+		redirectAttributes.addAttribute("repairStatus", "대기중");
+		return "redirect:/repair/repairList";
 	}
 	
 	// 1.1) addRepair 폼으로
@@ -56,6 +58,10 @@ public class RepairController {
 	public String repairList(Model model, Repair repair, HttpSession session,
 							@RequestParam(name ="currentPage", defaultValue = "1") int currentPage,
 							@RequestParam(name ="rowPerPage", defaultValue = "3") int rowPerPage) {
+		if(repair.getRepairStatus().equals("null") || repair.getRepairStatus().equals("")) {
+			System.out.println("null값이라 대기중 추가");
+			repair.setRepairStatus("대기중");
+		}
 		
 		log.debug("RepairController.repairList() repair ---> " + repair.toString());
 		String memberId = (String) session.getAttribute("loginMember");
@@ -90,7 +96,7 @@ public class RepairController {
 		} else if(repair.getRepairStatus().equals("수리완료")) {
 			System.out.println("수리완료 리스트로!");
 			return "/repair/completedList";
-		}
+		} 
 		
 		return "/repair/watingRepairList";
 	}
@@ -98,13 +104,9 @@ public class RepairController {
 	
 	// 3) repair 대기중 -> 수리중 -> 수리완료 수정
 	@PostMapping("/repair/updateRepair")
-	public String updateRepair(@RequestParam(name = "partsNo[]") int[] partsNoArray,
-            					@RequestParam(name = "partsCnt[]") int[] partsCntArray,
+	public String updateRepair(@RequestParam(name = "partsNo[]", required = false) int[] partsNoArray,
+            					@RequestParam(name = "partsCnt[]", required = false) int[] partsCntArray,
 								Repair repair, RepairParts repairParts, RedirectAttributes redirectAttributes) {
-		
-		log.debug("RepairController.updateRepair() 수리중 -> 수리완료 Param partsNoArray" + partsNoArray.length);
-		log.debug("RepairController.updateRepair() 수리중 -> 수리완료 Param partsCntArray" + partsCntArray.length);
-		
 		
 		int row =0;
 		
@@ -126,9 +128,8 @@ public class RepairController {
 		} else if(repair.getRepairContent() != null) {
 			// 호출
 			row = repairSerivce.updateRepair(repair, repairParts, partsNoArray, partsCntArray);
-			//log.debug("RepairController.updateRepair() 수리중 -> 수리완료 Param partsNoArray" + partsNoArray.toString());
-			//log.debug("RepairController.updateRepair() 수리중 -> 수리완료 Param partsCntArray" + partsCntArray.toString());
-			
+			log.debug("RepairController.updateRepair() 수리중 -> 수리완료 Param partsNoArray" + partsNoArray.length);
+			log.debug("RepairController.updateRepair() 수리중 -> 수리완료 Param partsCntArray" + partsCntArray.length);
 			log.debug("RepairController.updateRepair() 수리중 -> 수리완료 Param repair--->" + repair.toString());
 			log.debug("RepairController.updateRepair() 수리중 -> 수리완료 Param repairParts--->" + repairParts.toString());
 			
@@ -148,4 +149,5 @@ public class RepairController {
 		redirectAttributes.addAttribute("repairStatus", "대기중");
 		return "redirect:/repair/repairList";
 	}
+	
 }

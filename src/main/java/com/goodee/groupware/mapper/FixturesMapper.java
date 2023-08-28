@@ -13,6 +13,8 @@ public interface FixturesMapper {
 	List<Map<String, Object>> getFixturesList(Map<String,Object> fixturesMap);
 	// 1.1) 자재리스트 전체 행의 수
 	int getFixturesListCount(String partsName);
+	// 1.2) 자재 엑셀 리스트
+	List<Map<String,Object>> getFixturesExcelList();
 	
 	// 2) 자재 추가(parts 테이블 추가)
 	int addParts(Parts parts);

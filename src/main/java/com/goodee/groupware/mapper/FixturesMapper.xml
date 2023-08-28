@@ -35,6 +35,18 @@
 		</where>
 	</select>
 	
+	<!-- 1.2) 자재목록 엑셀 리스트 -->
+	<select id="getFixturesExcelList" resultType="java.util.Map">
+		SELECT 
+			p.parts_no partsNo,
+			pc.parts_category_no partsCategoryNo,
+			pc.parts_category partsCategory,
+			p.parts_name partsName,
+			p.parts_cnt partsCnt,
+			p.parts_price partsPrice,
+			p.parts_content partsContent	
+		FROM parts p INNER JOIN parts_category pc ON p.parts_category_no = pc.parts_category_no
+	</select>
 	<!-- 2) parts추가 -->
 	<insert id="addParts" parameterType="com.goodee.groupware.vo.Parts">
 		INSERT INTO parts 

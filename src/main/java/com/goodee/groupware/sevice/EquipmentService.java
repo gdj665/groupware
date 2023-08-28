@@ -87,6 +87,16 @@ public class EquipmentService {
 		return resultMap;
 	}
 	
+	// 1.1) 장비 목록 엑셀 출력
+	public List<Map<String,Object>> getEquipmentExcelList() {
+		
+		// 엑셀 맵퍼 호출
+		List<Map<String,Object>> equipmentExcelLIst = equipmentMapper.getEquipmentExcelList();
+		log.debug("EquipmentService.getEquipmentExcelList() equipmentExcelLIst --->" + equipmentExcelLIst.toString());
+
+		return equipmentExcelLIst;
+	}
+	
 	// 2) 장비 추가
 	public int addEquipment(Equipment equipment) {
 		

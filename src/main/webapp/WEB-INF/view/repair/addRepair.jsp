@@ -13,7 +13,7 @@
 			<tr>
 				<td>제품분류</td>
 				<td>
-					<select id="repairProductCategoryId" name="repairProductCategory">
+					<select id="repairProductCategoryId" name="repairProductCategory" required="required">
 						<option>=선택하기=</option>
 						<option value="노트북">노트북</option>
 						<option value="데스크탑">데스크탑</option>
@@ -25,27 +25,27 @@
 			<tr>
 				<td>제품명</td>
 				<td>
-					<input id="repairProductNameId" type="text" name="repairProductName">
+					<input id="repairProductNameId" type="text" name="repairProductName" required="required">
 					<span id="repairProductNameIdMsg" class="msg"></span>
 				</td>
 			</tr>
 			<tr>
 				<td>입고날짜</td>
 				<td>
-					<input id="receivingDateId" type="date" name="receivingDate">
+					<input id="receivingDateId" type="date" name="receivingDate" required="required">
 					<span id="receivingDateIdMsg" class="msg"></span>
 				</td>
 			</tr>
 			<tr>
 				<td>수리상태</td>
 				<td>
-					<input type="text" value="대기중" readonly="readonly">
+					<input type="text" value="대기중" readonly="readonly" required="required">
 				</td>
 			</tr>
 			<tr>
 				<td>입고사유</td>
 				<td>
-					<textarea id="repair_receiving_reasonId" rows="5" cols="30" name="repairReceivingReason"></textarea>
+					<textarea id="repair_receiving_reasonId" rows="5" cols="30" name="repairReceivingReason" required="required"></textarea>
 					<span id="repair_receiving_reasonIdMsg" class="msg"></span>
 				</td>
 			</tr>

@@ -90,8 +90,48 @@
 <title>Insert title here</title>
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+<!-- excel api : sheetjs-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.15.5/xlsx.full.min.js"></script>
+<!-- file download api : FileServer saveAs-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/1.3.8/FileSaver.min.js"></script>
 <script>
 	$(document).ready(function(){
+		
+		// 엑셀다운 ---------------------------------------
+		$('#excelBtn').click(function() {
+		 	// 서버로 AJAX 요청을 보냄
+	   		$.ajax({
+	        	url: '/repair/repairExcel?repairStatus=대기중', // 서버의 restController인 '/repair/repairExcel' URL로 요청을 보냄
+	            type: 'get', // GET 요청 방식
+	            dataType: 'json', // 서버에서 반환하는 데이터 형식을 JSON으로 설정
+	            success: function(data) { // AJAX 요청이 성공했을 때 실행되는 콜백 함수
+	            	let arr = [];
+	         	    console.log(data);
+	                // 서버에서 받아온 JSON 데이터를 가공하여 arr 배열에 추가
+	                data.forEach(function(item) {
+	                	 // 장비 정보를 하나의 배열로 묶어서 arr 배열에 추가
+	                	arr.push([item.repairNo, item.repairProductCategory, item.repairProductName, item.receivingDate, item.repairReceivingReason]);
+	                });
+
+	             	// 엑셀 파일 생성
+	             	let book = XLSX.utils.book_new(); // 빈 엑셀 파일 생성
+	             	book.SheetNames.push('AS(대기중)'); // 시트 이름 추가
+
+	             	// 데이터가 들어있는 2차원 배열로부터 시트 생성
+	            	let sheet = XLSX.utils.aoa_to_sheet([['수리번호', '제품분류', '제품명', '입고날짜', '수리상태', '입고사유']].concat(arr));
+	             	// 위에서 만든 시트를 엑셀 파일에 추가
+	             	book.Sheets['AS(대기중)'] = sheet;
+
+	             	// 엑셀 파일을 바이너리 형태로 변환하여 버퍼에 저장
+	             	let buf = XLSX.write(book, { bookType: 'xlsx', type: 'array' });
+
+	            	 // 엑셀 파일을 Blob 형태로 변환하여 다운로드
+	             	let blob = new Blob([buf], { type: 'application/octet-stream' });
+	             	// 다운로드할 파일의 이름을 설정하여 다운로드
+	             	saveAs(blob, 'AS(대기중)목록.xlsx');
+	        	}
+	    	});
+		});
 		
 		// 현재 날짜 구하기 
 		var today = new Date();
@@ -170,7 +210,11 @@
 	<c:if test="${currentPage < lastPage}">
 		<a href="${pageContext.request.contextPath}/repair/repairList?currentPage=${currentPage+1}&repairProductCategory=${param.repairProductCategory}&repairStatus=대기중">다음</a>
 	</c:if>
-		
+	
+	<div>
+		<button id="excelBtn">엑셀 다운</button>
+	</div>	
+	
 	<!-- 대기중 -> 수리중 업데이트 모달 -->
 	<div id="underRepairModal" class="modal">
 		<div class="modal_content">
@@ -187,7 +231,7 @@
 					<tr>
 						<td>수리담당자</td>
 						<td>
-							<input type="text" name="memberId" id="underMemberIdInput" value="underMemberIdInput">
+							<input type="text" name="memberId" id="underMemberIdInput" value="underMemberIdInput" required="required" readonly="readonly">
 							<span id="equipmentInspectCycleIdMsg" class="msg"></span>
 						</td>
 					</tr>
