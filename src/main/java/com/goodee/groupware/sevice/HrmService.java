@@ -72,7 +72,7 @@ public class HrmService {
 	// 사원 퇴사
 		public int deleteMember(Member member) {
 			int row = 0;
-			int department = -2;
+			int department = -3;
 			String level = "0퇴사자";
 			member.setDepartmentNo(department);
 			member.setMemberLevel(level);

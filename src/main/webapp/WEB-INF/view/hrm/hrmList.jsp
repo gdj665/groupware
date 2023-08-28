@@ -165,6 +165,7 @@ $(document).ready(function() {
                 $("#memberRank2").text(memberData.memberRank.substring(1)); // 첫 번째 글자(숫자) 제외한 나머지
                 $("#memberLevel2").text(memberData.memberLevel.substring(1)); 
                 $("#memberHiredate").val(memberData.memberHiredate);
+                $("#memberId2").val(memberData.memberId);
 
                 $(".modal2").show(); // 모달 창 보이기
             },
@@ -405,7 +406,7 @@ $(document).ready(function() {
 	                <tr>
 	                    <td>팀</td>
 	                    <td>
-							<input type="text" id="departmentId"  readonly="readonly">
+							<input type="text" id="departmentId" readonly="readonly">
 	                    </td>
 	                </tr>
 	               <tr>
@@ -480,9 +481,16 @@ $(document).ready(function() {
 			</form>
 				<div class="button-container">
 				    <button id="updateMemberBtn" type="button">수정</button>
-				    <button id="close2" type="button">닫기</button>
+				    <button id="close2" type="button"
+				    
+				    
+				    
+				    
+				    
+				    
+				    >닫기</button>
 				    <form action="${pageContext.request.contextPath}/hrm/deleteMember" method="post">
-				        <input type="hidden" id="departmentId" readonly="readonly">
+				        <input type="hidden" id="memberId2"  name="memberId">
 				        <button type="submit">퇴사</button>
 				    </form>
 				</div>
