@@ -148,39 +148,44 @@
 		$('#partsAddBtn').click(function(){
 			// 입력값 유효성 검사
 			if($('#partsCategoryId').val().length == 0) {
-				$('#partsCategoryIdMsg').text('장비분류를 선택해주세요');
+				$('#partsCategoryIdMsg').text('자재분류를 선택해주세요');
 				return;
 			} else {
 				$('#partsCategoryIdMsg').text('');
 			}
 			
 			if($('#partsNameId').val().length == 0) {
-				$('#partsNameIdMsg').text('장비명을 입력해주세요');
+				$('#partsNameIdMsg').text('자재명을 작성해주세요');
 				return;
 			} else {
 				$('#partsNameIdMsg').text('');
 			}
 			
 			if($('#partsCntId').val().length == 0 || isNaN($('#partsCntId').val()) == true) {
-				$('#partsCntIdMsg').text('개수를 숫자로 입력해주세요');
+				$('#partsCntIdMsg').text('개수를 숫자로 작성해주세요');
 				return;
 			} else {
 				$('#partsCntIdMsg').text('');
 			}
 			
 			if($('#partsPriceId').val().length == 0 || isNaN($('#partsPriceId').val()) == true) {
-				$('#partsPriceIdMsg').text('가격을 입력해주세요');
+				$('#partsPriceIdMsg').text('가격을 작성해주세요');
 				return;
 			} else {
 				$('#partsPriceIdMsg').text('');
 			}
 			
 			if($('#partsContentId').val().length == 0) {
-				$('#partsContentIdMsg').text('설명을 입력해주세요');
+				$('#partsContentIdMsg').text('설명을 작성해주세요');
 				return;
 			} else {
 				$('#partsContentIdMsg').text('');
 			}
+			
+			// 예 아니오 확인하기
+	 		if(!confirm($('#partsNameId').val()+'자재를 추가하시겠습니까?')) {
+	 			return false;
+	 		}
 			
 			$('#addPartsForm').submit();
 			$('.modal').fadeOut();
@@ -232,7 +237,7 @@
 			<th>수량</th>
 			<th>가격</th>
 			<th>상세내용</th>
-			<th>삭제</th>
+			<th>비활성</th>
 		</tr>
 		<c:forEach var="f" items="${fixturesList}">
 			<tr>
@@ -242,7 +247,7 @@
 				<td>${f.partsCnt}</td>
 				<td>${f.partsPrice}원</td>
 				<td>${f.partsContent}</td>
-				<td><a href="/fixtures/deleteParts?partsNo=${f.partsNo}" onClick="return confirm('삭제하시겠습니까?')">삭제</a></td>
+				<td><a href="/fixtures/updatePartsAlive?partsNo=${f.partsNo}" onClick="return confirm('${f.partsName} 비활성화 하시겠습니까?')">비활성</a></td>
 			</tr>
 		</c:forEach>
 	</table>

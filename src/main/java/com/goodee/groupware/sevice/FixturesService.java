@@ -96,9 +96,9 @@ public class FixturesService {
 	}
 	
 	// 3) 자재 삭제(parts 테이블 삭제)
-	public int deleteParts(Parts parts) {
+	public int updatePartsAlive(Parts parts) {
 		// 맵퍼에서 삭제 메서드 호출
-		 int row = fixturesMapper.deleteParts(parts);
+		 int row = fixturesMapper.updateParatsAlive(parts);
 		return row;
 	}
 	

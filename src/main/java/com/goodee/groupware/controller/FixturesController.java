@@ -58,17 +58,17 @@ public class FixturesController {
 		return "redirect:/fixtures/fixturesList";
 	}
 	
-	// 3) parts 삭제
-	@GetMapping("/fixtures/deleteParts")
-	public String deleteParts(Parts parts) {
-		// 삭제 서비스 호출
-		int row = fixturesService.deleteParts(parts);
+	// 3) parts 비활성화
+	@GetMapping("/fixtures/updatePartsAlive")
+	public String updatePartsAlive(Parts parts) {
+		// 비활성화 서비스 호출
+		int row = fixturesService.updatePartsAlive(parts);
 		
-		log.debug("FixturesController.addParts parts --->" + parts.toString());
+		log.debug("FixturesController.updatePartsAlive Param parts --->" + parts.toString());
 		if(row > 0) {
-			log.debug("FixturesController.deleteParts() row --->" + row + "삭제성공"); 
+			log.debug("FixturesController.updatePartsAlive() row --->" + row + "삭제성공"); 
 		} else {
-			log.debug("FixturesController.deleteParts() row --->" + row + "삭제실패"); 
+			log.debug("FixturesController.updatePartsAlive() row --->" + row + "삭제실패"); 
 		}
 		return "redirect:/fixtures/fixturesList";
 	}
