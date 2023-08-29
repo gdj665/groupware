@@ -23,19 +23,89 @@ public class AddressService {
 	public Map<String, Object> getAddressList(int currentPage, int rowPerPage, String searchName, String colpol){
 		//페이징 작업 
 		int beginRow = (currentPage -1) * rowPerPage;
+		String startCol = "";
+		String endCol = "";
+		if(colpol != null) {
+			if(colpol.equals("ㄱ")) {
+				colpol = colpol+"%";
+				startCol = "가";
+				endCol = "나";
+			} else if(colpol.equals("ㄴ")) {
+				colpol = colpol+"%";
+				startCol = "나";
+				endCol = "다";
+			} else if(colpol.equals("ㄷ")) {
+				colpol = colpol+"%";
+				startCol = "다";
+				endCol = "라";
+			} else if(colpol.equals("ㄹ")) {
+				colpol = colpol+"%";
+				startCol = "라";
+				endCol = "마";
+			} else if(colpol.equals("ㅁ")) {
+				colpol = colpol+"%";
+				startCol = "마";
+				endCol = "바";
+			} else if(colpol.equals("ㅂ")) {
+				colpol = colpol+"%";
+				startCol = "바";
+				endCol = "사";
+			} else if(colpol.equals("ㅅ")) {
+				colpol = colpol+"%";
+				startCol = "사";
+				endCol = "아";
+			} else if(colpol.equals("ㅇ")) {
+				colpol = colpol+"%";
+				startCol = "아";
+				endCol = "자";
+			} else if(colpol.equals("ㅈ")) {
+				colpol = colpol+"%";
+				startCol = "자";
+				endCol = "차";
+			} else if(colpol.equals("ㅊ")) {
+				colpol = colpol+"%";
+				startCol = "차";
+				endCol = "카";
+			} else if(colpol.equals("ㅋ")) {
+				colpol = colpol+"%";
+				startCol = "카";
+				endCol = "타";
+			} else if(colpol.equals("ㅌ")) {
+				colpol = colpol+"%";
+				startCol = "타";
+				endCol = "파";
+			} else if(colpol.equals("ㅍ")) {
+				colpol = colpol+"%";
+				startCol = "파";
+				endCol = "하";
+			} else if(colpol.equals("ㅎ")) {
+				colpol = colpol+"%";
+				startCol = "하";
+				endCol = null;
+			} else {
+				colpol = null;
+				startCol = null;
+				endCol = null;
+			}
+		}
+		if("".equals(searchName)) {
+			searchName = null;
+		}
 		
 		// 페이징 && 검색을 위한 변수를 맵에 담아 사용한다.
 		Map<String,Object> pageMap = new HashMap<>();
 		pageMap.put("beginRow", beginRow);
 		pageMap.put("rowPerPage", rowPerPage);
+		pageMap.put("colpol", colpol); // colpol 파라미터를 Map에 추가
 		pageMap.put("searchName", searchName);
-		pageMap.put("colpol", colpol);
+		pageMap.put("startCol", startCol);
+		pageMap.put("endCol", endCol);
 		
-		// 장비리스트메서드 호출 페이징을 위해 만든 pageMap을 매개변수로 한다.
+		log.debug("AddressService.getAddressList() pageMap --->" + pageMap.toString());
+		
 		List<Map<String,Object>> getAddressList = addressMapper.getAddressList(pageMap);
 		log.debug("AddressService.getAddressList() getAddressList --->" + getAddressList.toString());
 		
-		// 장비리스트에 전체행의 개수를 구하는 메서드 호출
 		int addressListCount = addressMapper.getAddressListCnt(pageMap);
 		log.debug("AddressService.getAddressList() addressListCount --->" + addressListCount);
 		
@@ -51,6 +121,4 @@ public class AddressService {
 		resultMap.put("lastPage", lastPage);	
 		return resultMap;
 	}
-	
-	
 }

@@ -8,57 +8,21 @@
 			d.department_id departmentId, 
 			m.member_level memberLevel, 
 			m.member_phone memberPhone, 
-			m.member_email memberEmail 
+			m.member_email memberEmail,
+			m.member_hiredate memberHiredate 
 		FROM member m INNER JOIN department d 
 		ON m.department_no = d.department_no
 		<where>
-		 <if test="colpol != null">
-			<if test="colpol.equals('ㄱ')">
-			    member_name rlike '^(ㄱ)' or (member_name &gt;= '가' and member_name &lt; '나')
-			</if>
-			<if test="colpol.equals('ㄴ')">
-			    member_name rlike '^(ㄴ)' or (member_name &gt;= '나' and member_name &lt; '다')
-			</if>
-			<if test="colpol.equals('ㄷ')">
-			    member_name rlike '^(ㄷ)' or (member_name &gt;= '다' and member_name &lt; '라')
-			</if>
-			<if test="colpol.equals('ㄹ')">
-			    member_name rlike '^(ㄹ)' or (member_name &gt;= '라' and member_name &lt; '마')
-			</if>
-			<if test="colpol.equals('ㅁ')">
-			    member_name rlike '^(ㅁ)' or (member_name &gt;= '마' and member_name &lt; '바')
-			</if>
-			<if test="colpol.equals('ㅂ')">
-			    member_name rlike '^(ㅂ)' or (member_name &gt;= '바' and member_name &lt; '사')
-			</if>
-			<if test="colpol.equals('ㅅ')">
-			    member_name rlike '^(ㅅ)' or (member_name &gt;= '사' and member_name &lt; '아')
-			</if>
-			<if test="colpol.equals('ㅇ')">
-			    member_name rlike '^(ㅇ)' or (member_name &gt;= '아' and member_name &lt; '자')
-			</if>
-			<if test="colpol.equals('ㅈ')">
-			    member_name rlike '^(ㅈ)' or (member_name &gt;= '자' and member_name &lt; '차')
-			</if>
-			<if test="colpol.equals('ㅊ')">
-			    member_name rlike '^(ㅊ)' or (member_name &gt;= '차' and member_name &lt; '카')
-			</if>
-			<if test="colpol.equals('ㅋ')">
-			    member_name rlike '^(ㅋ)' or (member_name &gt;= '카' and member_name &lt; '타')
-			</if>
-			<if test="colpol.equals('ㅌ')">
-			    member_name rlike '^(ㅌ)' or (member_name &gt;= '타' and member_name &lt; '파')
-			</if>
-			<if test="colpol.equals('ㅍ')">
-			    member_name rlike '^(ㅍ)' or (member_name &gt;= '파' and member_name &lt; '하')
-			</if>
-			<if test="colpol.equals('ㅎ')">
-			    member_name rlike '^(ㅎ)' or (member_name &gt;= '하')
-			</if>
+		 <if test="colpol != null and startCol != null and endCol != null">
+                        (m.member_name LIKE #{colpol} OR (m.member_name BETWEEN #{startCol} AND #{endCol}))
 		 </if>
-		 <if test="searchName != ">
-				member_name LIKE '%'#{searchName}'%'
+		 <if test="colpol != null and startCol != null and endCol == null">
+						 (m.member_name LIKE #{colpol} OR (m.member_name >= #{startCol}))
 		 </if>
+		 <if test="searchName != null">
+				m.member_name LIKE '%' #{searchName} '%'
+		 </if>
+		 
 		</where>
 		ORDER BY m.member_name 
 		LIMIT #{beginRow}, #{rowPerPage};
@@ -70,53 +34,16 @@
 		FROM member m INNER JOIN department d 
 		ON m.department_no = d.department_no
 		<where>
-		 <if test="colpol != null">
-			<if test="colpol.equals('ㄱ')">
-			    member_name rlike '^(ㄱ)' or (member_name &gt;= '가' and member_name &lt; '나')
-			</if>
-			<if test="colpol.equals('ㄴ')">
-			    member_name rlike '^(ㄴ)' or (member_name &gt;= '나' and member_name &lt; '다')
-			</if>
-			<if test="colpol.equals('ㄷ')">
-			    member_name rlike '^(ㄷ)' or (member_name &gt;= '다' and member_name &lt; '라')
-			</if>
-			<if test="colpol.equals('ㄹ')">
-			    member_name rlike '^(ㄹ)' or (member_name &gt;= '라' and member_name &lt; '마')
-			</if>
-			<if test="colpol.equals('ㅁ')">
-			    member_name rlike '^(ㅁ)' or (member_name &gt;= '마' and member_name &lt; '바')
-			</if>
-			<if test="colpol.equals('ㅂ')">
-			    member_name rlike '^(ㅂ)' or (member_name &gt;= '바' and member_name &lt; '사')
-			</if>
-			<if test="colpol.equals('ㅅ')">
-			    member_name rlike '^(ㅅ)' or (member_name &gt;= '사' and member_name &lt; '아')
-			</if>
-			<if test="colpol.equals('ㅇ')">
-			    member_name rlike '^(ㅇ)' or (member_name &gt;= '아' and member_name &lt; '자')
-			</if>
-			<if test="colpol.equals('ㅈ')">
-			    member_name rlike '^(ㅈ)' or (member_name &gt;= '자' and member_name &lt; '차')
-			</if>
-			<if test="colpol.equals('ㅊ')">
-			    member_name rlike '^(ㅊ)' or (member_name &gt;= '차' and member_name &lt; '카')
-			</if>
-			<if test="colpol.equals('ㅋ')">
-			    member_name rlike '^(ㅋ)' or (member_name &gt;= '카' and member_name &lt; '타')
-			</if>
-			<if test="colpol.equals('ㅌ')">
-			    member_name rlike '^(ㅌ)' or (member_name &gt;= '타' and member_name &lt; '파')
-			</if>
-			<if test="colpol.equals('ㅍ')">
-			    member_name rlike '^(ㅍ)' or (member_name &gt;= '파' and member_name &lt; '하')
-			</if>
-			<if test="colpol.equals('ㅎ')">
-			    member_name rlike '^(ㅎ)' or (member_name &gt;= '하')
-			</if>
+		<if test="colpol != null and startCol != null and endCol != null">
+                        (m.member_name LIKE #{colpol} OR (m.member_name BETWEEN #{startCol} AND #{endCol}))
 		 </if>
-		 <if test="searchName != ">
-				member_name LIKE '%'#{searchName}'%'
+		 <if test="colpol != null and startCol != null and endCol == null">
+						 (m.member_name LIKE #{colpol} OR (m.member_name >= #{startCol}))
 		 </if>
+		 <if test="searchName != null">
+                m.member_name LIKE '%' #{searchName} '%'
+            </if>
+           
 		</where>
 		ORDER BY m.member_name 
 	</select>

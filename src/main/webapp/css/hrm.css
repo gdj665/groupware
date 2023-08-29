@@ -7,7 +7,7 @@
 	border: 1px solid #ccc;
 	padding: 20px;
 	margin-bottom: 20px;
-	height: 400px;
+	height: 600px;
 	overflow-y: scroll;
 	/* 내용이 넘칠 경우 스크롤 생성 */
 }

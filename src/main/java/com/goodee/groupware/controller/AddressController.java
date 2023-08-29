@@ -26,6 +26,7 @@ public class AddressController {
 								@RequestParam(name ="searchName", required = false) String searchName,
 								@RequestParam(name ="colpol", required = false) String colpol){
 		log.debug("AddressController.getAddressList() 요청값 디버깅 --->" + currentPage, rowPerPage, searchName, colpol);
+		log.debug("AddressController.getAddressList() 요청값 디버깅 colpol--->" +  colpol);
 		//  주소록 리스트 서비스 호출
 		Map<String, Object> getAddressList = addressService.getAddressList(currentPage, rowPerPage, searchName, colpol);
 		
@@ -34,8 +35,4 @@ public class AddressController {
 		model.addAttribute("lastPage", getAddressList.get("lastPage"));
 		return "/address/addressList";
 	}
-	
-	
-	
-	
 }
