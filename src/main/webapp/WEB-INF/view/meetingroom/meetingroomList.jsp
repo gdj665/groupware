@@ -136,13 +136,12 @@
 	<br><br>
 	<button id="addMeetingroomModalOpen">회의실 추가</button>
 	<br><br>
-	<table style="width: 800px;">
+	<table style="width: 80%;">
 		<tr>
 			<th class="table_cell">회의실 이름</th>
 			<th class="table_cell">회의실 상세내용</th>
 			<th class="table_cell">회의실 생성일</th>
 			<th class="table_cell">회의실 수정일</th>
-			<th class="table_cell">수정하기</th>
 			<th class="table_cell">삭제하기</th>
 		</tr>
 		<c:forEach var="r" items="${m.meetingroomList}">
@@ -151,11 +150,20 @@
 			<td class="table_cell">${r.meetingroomContent}</td>		
 			<td class="table_cell">${r.createdate}</td>		
 			<td class="table_cell">${r.updatedate}</td>
-			<td class="table_cell">&nbsp;</td>
-			<td class="table_cell">&nbsp;</td>
+			<td class="table_cell">
+				<a href="${pageContext.request.contextPath}/meetingroom/deleteMeetingroom?meetingroomNo=${r.meetingroomNo}">삭제</a>
+			</td>
 		</tr>
 		</c:forEach>
 	</table>
+	<c:if test="${currentPage > 1}">
+		<a
+			href="${pageContext.request.contextPath}/meetingroom/meetingroomList?currentPage=${currentPage-1}">이전</a>
+	</c:if>
+	<c:if test="${currentPage < lastPage}">
+		<a
+			href="${pageContext.request.contextPath}/meetingroom/meetingroomList?currentPage=${currentPage+1}">다음</a>
+	</c:if>
 	
 	<!-- 회의실 추가 모달 -->
 	<div id="addMeetingroomModal" class="modal">
@@ -183,6 +191,5 @@
 			<button class="close" type="button">닫기</button>
 		</div>
 	</div>
-	
 </body>
 </html>
