@@ -1,6 +1,8 @@
 package com.goodee.groupware.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
@@ -47,9 +49,14 @@ public class ScheduleController {
 		scheduleMap = scheduleService.getScheduleList(departmentNo, memberId, targetYear, targetMonth, scheduleCategory);
 		log.debug("\u001B[31m"+"ScheduleController.getScheduleList() scheduleMap : "+ scheduleMap.toString()+"\u001B[0m");
 		
+		// 요청한 매개값을 담아 서비스를 호출
+		List<Map<String, String>> getHolidayList = new ArrayList<>();
+		getHolidayList = scheduleService.getHolidayList(targetYear, targetMonth);
+		
 		// Model에 담아서 View로 넘기기
 		model.addAttribute("scheduleMap", scheduleMap);
 		model.addAttribute("fail", fail);
+		model.addAttribute("getHolidayList", getHolidayList);
 		return "/schedule/scheduleList";
 	}
 	

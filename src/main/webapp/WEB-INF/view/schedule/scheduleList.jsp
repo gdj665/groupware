@@ -277,7 +277,10 @@
 <body>
 	<!-- model값 받아와서 문자로 셋팅 -->
 	<c:set var="m" value="${scheduleMap}"></c:set>
-	
+    <c:forEach items="${getHolidayList}" var="holiday">
+        <span>${holiday.locdate}</span>
+    </c:forEach>
+	<br><br>	
 	<a href="${pageContext.request.contextPath}/schedule/scheduleList?targetYear=${m.targetYear}&targetMonth=${m.targetMonth-1}&scheduleCategory=${m.scheduleCategory}">이전달</a>
 	<span>${m.memberId}님의 ${m.targetYear}년 ${m.targetMonth+1}월 달력</span>
 	<a href="${pageContext.request.contextPath}/schedule/scheduleList?targetYear=${m.targetYear}&targetMonth=${m.targetMonth+1}&scheduleCategory=${m.scheduleCategory}">다음달</a>
@@ -305,22 +308,22 @@
 					</tr><tr>
 				</c:if>
 				<!-- 값을 변수로 셋팅 -->
-				<c:set var="d" value="${i - m.beginBlank + 1}"></c:set>
+				<c:set var="day" value="${i - m.beginBlank + 1}"></c:set>
 				<c:choose>
-					<c:when test="${d > 0 && d <= m.lastDate}">
+					<c:when test="${day > 0 && day <= m.lastDate}">
 						<td class="table_cell">
 							<!-- 토요일은 파란색, 일요일은 빨간색, 나머지는 검은색 -->
 							<div style="text-align: left;">
-								<a style="color: black;" href="${pageContext.request.contextPath}/schedule/oneSchedule?targetYear=${m.targetYear}&targetMonth=${m.targetMonth}&targetDate=${d}&scheduleCategory=${m.scheduleCategory}">
+								<a style="color: black;" href="${pageContext.request.contextPath}/schedule/oneSchedule?targetYear=${m.targetYear}&targetMonth=${m.targetMonth}&targetDate=${day}&scheduleCategory=${m.scheduleCategory}">
 									<c:choose>
 										<c:when test="${i % 7 == 0}">
-											<span style="color: red;">${d}</span>
+											<span style="color: red;">${day}</span>
 										</c:when>
 										<c:when test="${i % 7 == 6}">
-											<span style="color: blue;">${d}</span>
+											<span style="color: blue;">${day}</span>
 										</c:when>
 										<c:otherwise>
-											<span>${d}</span>
+											<span>${day}</span>
 										</c:otherwise>
 									</c:choose>
 								</a>
@@ -328,7 +331,7 @@
 							<!-- 개인이면 초록색, 부서면 오렌지색 -->
 							<div>
 								<c:forEach var="c" items="${m.scheduleList}">
-									<c:if test="${d == (fn:substring(c.scheduleBegindate,8,10))}">
+									<c:if test="${day == (fn:substring(c.scheduleBegindate,8,10))}">
 										<c:if test="${c.scheduleCategory == '개인'}">
 											<a href="#" class="updatePersonalScheduleModalOpen" data-updatePersonalScheduleNo="${c.scheduleNo}">
 												<span style="color:green">${c.scheduleCategory} ${c.scheduleTitle}(시작)</span>
@@ -344,17 +347,17 @@
 							</div>
 							<!-- 공휴일이면 빨간색 -->
 							<div>
-								<c:if test="${d == (fn:substring(locdate, 6, 8))}">
+								<c:if test="${day == (fn:substring(locdate, 6, 8))}">
 								    <span style="color:red;">${dateName}</span>
 								</c:if>
 							</div>
 						</td>
 					</c:when>
-					<c:when test="${d < 1}">
-						<td class="table_cell" style="color:gray">${m.preEndDate + d}</td>
+					<c:when test="${day < 1}">
+						<td class="table_cell" style="color:gray">${m.preEndDate + day}</td>
 					</c:when>
 					<c:otherwise>
-						<td class="table_cell" style="color:gray">${d - m.lastDate}</td>
+						<td class="table_cell" style="color:gray">${day - m.lastDate}</td>
 					</c:otherwise>
 				</c:choose>
 			</c:forEach>

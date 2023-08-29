@@ -1,5 +1,10 @@
 package com.goodee.groupware.sevice;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -10,6 +15,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.goodee.groupware.mapper.ScheduleMapper;
 import com.goodee.groupware.vo.Schedule;
 
@@ -21,10 +28,10 @@ import lombok.extern.slf4j.Slf4j;
 public class ScheduleService {
 	@Autowired
 	private ScheduleMapper scheduleMapper;
-	
-// ----- 달력 출력 + 월 별 일정 정보 조회 -----
+
+	// ----- 달력 출력 + 월 별 일정 정보 조회 -----
 	public Map<String, Object> getScheduleList(int departmentNo, String memberId, Integer targetYear, Integer targetMonth, String scheduleCategory){
-		
+			
 		// 달력 API 가져오기
 		Calendar firstDate = Calendar.getInstance();
 		
@@ -89,7 +96,77 @@ public class ScheduleService {
 		log.debug("\u001B[31m"+"ScheduleService.getScheduleList() scheduleMap : "+ scheduleMap.toString()+"\u001B[0m");
 
 		return scheduleMap;
+	}	
+	
+// ----- 공공데이터 특일정보 API 조회 -----
+	public List<Map<String, String>> getHolidayList(Integer targetYear, Integer targetMonth) {
+	    try {
+	        StringBuilder urlBuilder = new StringBuilder("http://apis.data.go.kr/B090041/openapi/service/SpcdeInfoService/getRestDeInfo");
+	        urlBuilder.append("?" + URLEncoder.encode("serviceKey", "UTF-8") + "=" + "tFL7GJrOcvvUeZMI0YoBejWUp9kDhMLlOj2HBxVDYOC%2FHjewkU%2BRXTxk4O5%2FiEFpSEqYPW1nT2j9IGDNoGMc9A%3D%3D");
+	        urlBuilder.append("&" + URLEncoder.encode("_type", "UTF-8") + "=" + URLEncoder.encode("json", "UTF-8"));
+	        urlBuilder.append("&" + URLEncoder.encode("solYear", "UTF-8") + "=" + URLEncoder.encode(targetYear.toString(), "UTF-8"));
+	        String formattedMonth = (targetMonth + 1) < 10 ? "0" + (targetMonth + 1) : String.valueOf((targetMonth + 1));
+	        urlBuilder.append("&" + URLEncoder.encode("solMonth", "UTF-8") + "=" + URLEncoder.encode(formattedMonth, "UTF-8"));
+	        urlBuilder.append("&" + URLEncoder.encode("numOfRows", "UTF-8") + "=" + URLEncoder.encode("365", "UTF-8"));
+
+	        // API 요청 및 응답 처리
+	        URL url = new URL(urlBuilder.toString());
+	        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+	        conn.setRequestMethod("GET");
+	        conn.setRequestProperty("Content-type", "application/json");
+
+	        BufferedReader rd;
+	        if (conn.getResponseCode() >= 200 && conn.getResponseCode() <= 300) {
+	            rd = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
+	        } else {
+	            rd = new BufferedReader(new InputStreamReader(conn.getErrorStream(), "UTF-8"));
+	        }
+
+	        StringBuilder sb = new StringBuilder();
+	        String line;
+	        while ((line = rd.readLine()) != null) {
+	            sb.append(line);
+	        }
+	        rd.close();
+	        conn.disconnect();
+
+	        // 응답 데이터 파싱
+	        ObjectMapper objectMapper = new ObjectMapper();
+	        JsonNode responseNode = objectMapper.readTree(sb.toString());
+	        JsonNode itemsNode = responseNode.path("response").path("body").path("items").path("item");
+
+	        List<Map<String, String>> holidayList = new ArrayList<>();
+	        if (itemsNode.isArray()) {
+	            for (JsonNode itemNode : itemsNode) {
+	                String locdate = itemNode.path("locdate").asText();
+
+	                Map<String, String> holidayMap = new HashMap<>();
+	                holidayMap.put("locdate", locdate);
+	                holidayList.add(holidayMap);
+	            }
+
+	            // 휴일이 없는 경우 빈 데이터 추가
+	            if (holidayList.isEmpty()) {
+	                Map<String, String> emptyHolidayMap = new HashMap<>();
+	                emptyHolidayMap.put("locdate", "");
+	                holidayList.add(emptyHolidayMap);
+	            }
+	        } else {
+	            // itemsNode가 단일 객체인 경우 처리
+	            String locdate = itemsNode.path("locdate").asText();
+	            Map<String, String> holidayMap = new HashMap<>();
+	            holidayMap.put("locdate", locdate);
+	            holidayList.add(holidayMap);
+	        }
+
+	        return holidayList;
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        return null;
+	    }
 	}
+	
+
 	
 // ----- 일 별 전체 일정 상세보기 조회 -----
 	public Map<String, Object> getOneSchedule(int departmentNo, String memberId, Integer targetYear, Integer targetMonth, Integer targetDate, String scheduleCategory){
