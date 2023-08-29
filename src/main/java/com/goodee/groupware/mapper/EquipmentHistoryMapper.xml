@@ -6,8 +6,8 @@
 	<!-- 1) 장비 사용내역 추가 -->
 	<insert id="addEqHistory" parameterType="com.goodee.groupware.vo.EquipmentHistory">
 		INSERT INTO equipment_history 
-			(equipment_no, member_id, equipment_begindate)
-		VALUES(#{equipmentNo}, #{memberId}, now())
+			(equipment_no, member_id, equipment_begindate, equipment_reason)
+		VALUES(#{equipmentNo}, #{memberId}, now(), #{equipmentReason})
 	</insert>
 	<!-- 1.1) 장비 대여,비대여 업데이트 -->
 	<update id="updateEquipmentStatus" parameterType="com.goodee.groupware.vo.Equipment">
@@ -29,7 +29,8 @@
 			e.equipment_name equipmentName,
 			eh.member_id memberId, 
 			eh.equipment_begindate equipmentBegindate, 
-			eh.equipment_enddate equipmentEnddate
+			eh.equipment_enddate equipmentEnddate,
+			eh.equipment_reason equipmentReason
 		FROM equipment_history eh INNER JOIN equipment e ON eh.equipment_no = e.equipment_no
 		<where>
 			<if test="equipmentNo != null">
@@ -70,7 +71,8 @@
 			e.equipment_status equipmentStatus,
 			eh.member_id memberId,
 			eh.equipment_begindate equipmentBegindate, 
-			eh.equipment_enddate equipmentEnddate
+			eh.equipment_enddate equipmentEnddate,
+			eh.equipment_reason equipmentReason
 		FROM equipment_history eh INNER JOIN equipment e ON eh.equipment_no = e.equipment_no
 		<where>
 			eh.member_id = #{memberId}

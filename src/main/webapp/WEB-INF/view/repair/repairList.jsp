@@ -19,7 +19,7 @@
     /* 모달 내용 스타일 */
     .modal_content {
         background-color: white;
-        margin: 15% auto;
+        margin: 0% auto;
         padding: 20px;
         border: 1px solid #888;
         width: 50%;
@@ -60,8 +60,9 @@
 
     /* 메시지 스타일 */
     .modal_content .msg {
+   		font-weight: bold;
         color: red;
-        font-size: 12px;
+        font-size: 14px;
     }
 
     /* 버튼 스타일 */
@@ -82,6 +83,8 @@
     .modal_content button:hover {
         background-color: #0056b3;
     }
+    
+    
 </style>
 <meta charset="UTF-8">
 <title>Insert title here</title>
@@ -189,12 +192,6 @@
 	    	// 체크된 항목 변수
 	    	const checkedPartsName = $('.partsNameCheckbox:checked');
 	    	
-	    	const selectedPartsNumbers = [];
-	    	// 이미 선택된 항목들의 번호를 배열에 저장
-	        $('.selectedPartsCnt').each(function() {
-	            selectedPartsNumbers.push($('.partsNoClass').val());
-	        });
-	    	
 	    	// 반복문 돌려 하나씩 출력시키기
 	    	checkedPartsName.each(function(){
 	    		// 체크된 박스에 총 개수 가져오기
@@ -203,12 +200,14 @@
 	    		const checkPartsNo = $(this).data('partsno');
 		    	const checkPartsName = $(this).parent().text();
 		    	
-		    	// 이미 선택된 항목들의 번호와 비교하여 중복 여부 체크
-	            const selectedListItem = $('<span class="selectedPartsCnt"><li><input type="checkbox" class="removeChecked">'+checkPartsName+" 재고량 :"+checkPartsCnt+'<br>사용자재 수: <input type="text" class="partsCntClass" name="partsCnt[]" required="required" data-selectedPrice="'+checkPartsPrice+'" style="width:30px;height:30px;"><input type="hidden" class="partsNoClass" name="partsNo[]" required="required" value="'+checkPartsNo+'"></li></span>'); 
-	            $('#selectedPartsList').append(selectedListItem);
-	            
-	            // 이미 선택된 항목들의 번호 배열에 추가
-	            selectedPartsNumbers.push(checkPartsNo);
+		    	// 이미 추가되어 있는지 확인 1개이상 있으면 true로 설정
+		        const isAlreadyAdded = $('#selectedPartsList').find('.partsNoClass[value="' + checkPartsNo + '"]').length > 0;
+		    	
+		        // true면 추가 안되고 false면 추가 진행됩니다
+		        if (!isAlreadyAdded) {
+		            const selectedListItem = $('<span class="selectedPartsCnt"><li><input type="checkbox" class="removeChecked">'+checkPartsName+" 재고량 :"+checkPartsCnt+'<br>사용자재 수: <input type="text" class="partsCntClass" name="partsCnt[]" required="required" data-selectedPrice="'+checkPartsPrice+'" style="width:30px;height:30px;"><input type="hidden" class="partsNoClass" name="partsNo[]" required="required" value="'+checkPartsNo+'"></li></span>'); 
+		            $('#selectedPartsList').append(selectedListItem);
+		        }
 	            
     			// 모든 체크박스 비체크로 초기화
     		    $('.partsNameCheckbox:checked').prop('checked', false);
@@ -268,8 +267,8 @@
 	 	// 수정 버튼 클릭시 폼 전송
 	 	$('#updateCompletedRepairBtn').click(function(){
 	 		
-	 		if($('#totalPriceId').val() <= 0) {
-	 			$('#totalPriceIdMsg').text("가격을 입력하세요")
+	 		if($('#totalPriceId').val() <= 20000) {
+	 			$('#totalPriceIdMsg').text("사용 자재를 추가해주세요")
 	 			return;
 	 		} else {
 	 			$('#totalPriceIdMsg').text("")
@@ -282,30 +281,27 @@
 	 			$('#repairContentIdMsg').text("")
 	 		}
 	 		
-	 		/* const formData = new FormData($("#updateCompletedRepair"));
-	 		console.log("111");
-	 		// formData를 컨트롤러로 전송 (예를 들어, AJAX를 사용하여 전송)
-	 	    $.ajax({
-	 	        url: '/repair/updateRepair',
-	 	        type: 'post',
-	 	        data: formData,
-	 	        processData: false,
-	 	        contentType: false,
-	 	        success: function(response) {
-	 	            // 성공적으로 처리된 경우의 동작
-	 	            // 모달창 닫기
-	 	        	$('#completedRepairModal').fadeOut();
-	 	        },
-	 	        error: function(error) {
-	 	            // 오류 발생 시의 동작
-	 	            alert('에러가 발생했습니다.');
-	 	        }
-	 	    }); */
-	 	    
+	 		// 예 아니오 확인하기
+	 		if(!confirm($('#comRepairProductNameInput').val()+'제품의 AS를 완료 처리 하시겠습니까?')) {
+	 			return false;
+	 		}
+	 		
 	 	    $('#updateCompletedRepair').submit();
 	 	    
-	 	    
 	 	});
+	 	
+	 	// 오류 메시지를 초기화하고 입력란에 포커스를 줄 때 사용되는 함수
+		function clearErrorMessage(inputElement, errorMessageElement) {
+			// 입력란의 클래스에서 'error' 클래스를 제거하여 스타일을 초기화한다
+		    inputElement.removeClass('error');
+		    // 오류 메시지 요소의 내용을 빈 문자열로 설정하여 메시지를 지웁니다
+		    errorMessageElement.text('');
+		}
+		// 해당 부분이 focus될시
+		$('#repairContentId').focus(function() {
+			// clearErrorMessage 함수를 호출하여 해당 입력란과 관련된 오류 메시지를 지웁니다
+		    clearErrorMessage($(this), $('#repairContentIdMsg'));
+		});
 		
 	 	// 모달창 닫기
 	    $('.close').click(function(){
@@ -334,18 +330,24 @@
 		<c:forEach var="r" items="${repairList}">
 			<tr>
 				<td>${r.repairNo}</td>
-				<td>${r.memberId}</td>
+				<td style="font-weight: bold; color: orange;">${r.memberId}</td>
 				<td>${r.repairProductCategory}</td>
 				<td>${r.repairProductName}</td>
 				<td>${r.receivingDate}</td>
 				<td>${r.repairDate}</td>
 				<td>${r.repairStatus}</td>
 				<td>${r.repairReceivingReason}</td>
-				<td><a href="#" class="comRepairModalOpen"
-					data-comRepairNo="${r.repairNo}" data-comMemberId="${memberId}"
-					data-comRepairProductName="${r.repairProductName}"
-					data-comRepairReceivingReason="${r.repairReceivingReason}">수리END</a>
-				</td>
+				<!-- 수리 완료는 수리담당자 본인만 할 수 있게 세션아이디값으로 보이게설정 -->
+				<c:if test="${r.memberId eq memberId}">
+					<td><a href="#" class="comRepairModalOpen"
+						data-comRepairNo="${r.repairNo}" data-comMemberId="${memberId}"
+						data-comRepairProductName="${r.repairProductName}"
+						data-comRepairReceivingReason="${r.repairReceivingReason}">수리END</a>
+					</td>
+				</c:if>
+				<c:if test="${r.memberId ne memberId}">
+					<td></td>
+				</c:if>
 			</tr>
 		</c:forEach>
 	</table>
@@ -362,6 +364,16 @@
 		<a
 			href="${pageContext.request.contextPath}/repair/repairList?currentPage=${currentPage-1}&repairProductCategory=${param.repairProductCategory}&repairStatus=수리중">이전</a>
 	</c:if>
+	
+	<c:forEach var="i" begin="${minPage}" end="${maxPage}" step="1">
+		<c:if test="${i ==  currentPage}">
+			<span style="color: red;">${i}</span>
+		</c:if>
+		<c:if test="${i !=  currentPage}">
+			<span>${i}</span>
+		</c:if>
+	</c:forEach>
+	
 	<c:if test="${currentPage < lastPage}">
 		<a
 			href="${pageContext.request.contextPath}/repair/repairList?currentPage=${currentPage+1}&repairProductCategory=${param.repairProductCategory}&repairStatus=수리중">다음</a>
@@ -379,7 +391,7 @@
 				method="post">
 				<div class="row">
 					<div class="col-lg-12">
-						<h3>수리완료 수정</h3>
+						<h3>수리완료</h3>
 						<input type="hidden" name="repairNo" id="comRepairNoInput"
 							value="comRepairNoInput" required="required">
 						<table class="modalTable">
@@ -401,7 +413,7 @@
 							<tr>
 								<td>수리비</td>
 								<td><input id="totalPriceId" type="number" name="repairPrice" value="20000" required="required" readonly="readonly">원 
-								<span id="totalPriceIdMsg"></span>
+								<span id="totalPriceIdMsg" class="msg"></span>
 							</tr>
 							<tr>
 								<td>수리현황</td>
@@ -418,7 +430,7 @@
 								<td>수리내용</td>
 								<td><textarea id="repairContentId" rows="5" cols="50"
 										name="repairContent" required="required"></textarea>
-								<span id="repairContentIdMsg"></span>		
+								<span id="repairContentIdMsg" class="msg"></span>		
 							</tr>
 						</table>
 					</div>

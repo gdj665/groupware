@@ -5,7 +5,7 @@
 <head>
 <style>
     /* 모달 컨테이너 스타일 */
-	.modal {
+	.modal, .statusModal {
         display: none;
         position: fixed;
         z-index: 1;
@@ -19,7 +19,7 @@
     /* 모달 내용 스타일 */
     .modal_content {
         background-color: white;
-        margin: 15% auto;
+        margin: 5% auto;
         padding: 20px;
         border: 1px solid #888;
         width: 50%;
@@ -61,7 +61,8 @@
     /* 메시지 스타일 */
     .modal_content .msg {
         color: red;
-        font-size: 12px;
+        font-size: 14px;
+        font-weight: bold;
     }
 
     /* 버튼 스타일 */
@@ -95,7 +96,7 @@
 <script>
 	$(document).ready(function(){
 		
-		// 엑셀다운 ---------------------------------------
+// -----------------------------------엑셀다운 ---------------------------------------
 		$('#excelBtn').click(function() {
 		 	// 서버로 AJAX 요청을 보냄
 	   		$.ajax({
@@ -131,7 +132,7 @@
 	    	});
 		});
 		
-		
+// --------------------------------------장비 추가 모달창-----------------------------------------	
 		// 장비추가 모달창 오픈
 		$('#open').click(function(){
 			$('.modal').fadeIn();
@@ -142,30 +143,109 @@
 			// 입력값 유효성 검사
 			
 			if($('#equipmeNameId').val().length == 0) {
-				$('#equipmeNameIdMsg').text('장비명을 입력해주세요');
+				$('#equipmeNameIdMsg').text('장비명을 작성해주세요');
 				return;
 			} else {
 				$('#equipmeNameIdMsg').text('');
 			}
 			
 			if($('#equipmentInspectCycleId').val().length == 0 || isNaN($('#equipmentInspectCycleId').val()) == true) {
-				$('#equipmentInspectCycleIdMsg').text('점검주기를 숫자로 입력해주세요');
+				$('#equipmentInspectCycleIdMsg').text('점검주기를 설정 입력해주세요');
 				return;
 			} else {
 				$('#equipmentInspectCycleIdMsg').text('');
 			}
 			
 			if($('#equipmentContentId').val().length == 0) {
-				$('#equipmentContentIdMsg').text('설명을 입력해주세요');
+				$('#equipmentContentIdMsg').text('설명을 작성해주세요');
 				return;
 			} else {
 				$('#equipmentContentIdMsg').text('');
 			}
 			
+			if(!confirm($('#equipmeNameId').val()+'장비를 추가하시겠습니까?')) {
+				return false;
+			}
+			
 			$('#addEquipmentForm').submit();
 			$('.modal').fadeOut();
 		});
+		
+		// 오류 메시지를 초기화하고 입력란에 포커스를 줄 때 사용되는 함수
+		function clearErrorMessage(inputElement, errorMessageElement) {
+			// 입력란의 클래스에서 'error' 클래스를 제거하여 스타일을 초기화한다
+		    inputElement.removeClass('error');
+		    // 오류 메시지 요소의 내용을 빈 문자열로 설정하여 메시지를 지웁니다
+		    errorMessageElement.text('');
+		}
+		// 해당 부분이 focus될시
+		$('#equipmeNameId').focus(function() {
+			// clearErrorMessage 함수를 호출하여 해당 입력란과 관련된 오류 메시지를 지웁니다
+		    clearErrorMessage($(this), $('#equipmeNameIdMsg'));
+		});
+
+		$('#equipmentInspectCycleId').focus(function() {
+		    clearErrorMessage($(this), $('#equipmentInspectCycleIdMsg'));
+		});
+
+		$('#equipmentContentId').focus(function() {
+		    clearErrorMessage($(this), $('#equipmentContentIdMsg'));
+		});
 			
+// -------------------------------------장비대여 모달창 시작--------------------------------------------------
+		// 현재 날짜 구하기 
+		var today = new Date();
+
+		var year = today.getFullYear();
+		var month = ('0' + (today.getMonth() + 1)).slice(-2);
+		var day = ('0' + today.getDate()).slice(-2);
+		
+		var preDate = year + '-' + month  + '-' + day;
+		
+		// 장비 대여 모달창 
+	    $(".statusOpenModal").click(function() {
+	        var equipmentNo = $(this).data("equipmentno");
+	        var equipmentName = $(this).data("equipmentname");
+	        var loginId = $(this).data("loginid");
+	        $("#equipmentNoInput").val(equipmentNo); // 모달 내의 input 요소에 장비번호 설정
+	        $("#equipmentNameInput").val(equipmentName); // 모달 내의 input 요소에 장비이름 설정(보여주기식)
+	        $("#loginIdInput").val(loginId); // 대여자 Id값(세션에서 받아옴)
+	        $('#equipmentBegindateId').val(preDate); // 대여시작일은 현재 날짜	        
+	        $('.statusModal').fadeIn();
+	    });
+		
+		// 장비 대여 추가 버튼
+		$('#addEqHistroyBtn').click(function(){
+			
+			if($('#equipmentReasonId').val().length == 0) {
+				$('#equipmentReasonIdMsg').text('대여사유를 작성해주세요');
+				return;
+			} else {
+				$('#equipmentReasonIdMsg').text('');
+			}
+			
+			// alert창 확인
+			if(!confirm($('#equipmentReasonId').val()+ '장비를 대여하시겠습니까?')) {
+				return false;
+			}
+			
+			$('#addEqHistoryForm').submit();
+			$('.statusModal').fadeOut();
+		});
+	 	
+		// 오류 메시지를 초기화하고 입력란에 포커스를 줄 때 사용되는 함수
+		function clearErrorMessage(inputElement, errorMessageElement) {
+			// 입력란의 클래스에서 'error' 클래스를 제거하여 스타일을 초기화한다
+		    inputElement.removeClass('error');
+		    // 오류 메시지 요소의 내용을 빈 문자열로 설정하여 메시지를 지웁니다
+		    errorMessageElement.text('');
+		}
+		// 해당 부분이 focus될시
+		$('#equipmentReasonId').focus(function() {
+			// clearErrorMessage 함수를 호출하여 해당 입력란과 관련된 오류 메시지를 지웁니다
+		    clearErrorMessage($(this), $('#equipmentReasonIdMsg'));
+		});
+		
 		// 모달창 닫기
 	    $('.close').click(function(){
 			$('.modal').fadeOut();
@@ -185,7 +265,7 @@
 			<th>점검예정일</th>
 			<th>점검</th>
 			<th>대여</th>
-			<th>장비 삭제</th>
+			<th>비활성화</th>
 		</tr>
 		<c:forEach var="e" items="${equipmentList}">
 			<tr>
@@ -194,7 +274,7 @@
 				<td>${e.equipmentLastInspect}</td>
 				<td>
 					<!-- dateColor이라는 변수를 선언후 daysUntilNextInspect가 <0보다 작으면 점검예정일이 지났으므로 red를 넣고 <= 30 30일이내면 pink 나머지는 black으로 한다 -->
-					<c:set var="dateColor" value="${e.daysUntilNextInspect < 0 ? 'red' : e.daysUntilNextInspect <= 30 ? 'blue' : 'black'}" />
+					<c:set var="dateColor" value="${e.daysUntilNextInspect < 0 ? 'red' : e.daysUntilNextInspect <= 30 ? 'orange' : 'black'}" />
                 	<span style="color: ${dateColor};">${e.nextinspect}</span>
 				</td>
 				<td>
@@ -206,11 +286,15 @@
 				</c:if>
 				<c:if test="${e.equipmentStatus ne '대여'}">
 					<td>
-						<a href="${pageContext.request.contextPath}/eqHistory/addEqHistory?equipmentNo=${e.equipmentNo}&equipmentStatus=대여&memberId=${loginId}" onClick="return confirm('${e.equipmentName} 대여하시겠습니까?')">${e.equipmentStatus}</a>
+						<a href="#" class="statusOpenModal" data-equipmentNo="${e.equipmentNo}" data-equipmentName="${e.equipmentName}" 
+						data-loginId="${memberId}">${e.equipmentStatus}</a>
 					</td>
 				</c:if>
-				<td><a href="${pageContext.request.contextPath}/equipment/updateEquipment?equipmentNo=${e.equipmentNo}"
-					onClick="return confirm('${e.equipmentName} 삭제하시겠습니까?')">삭제</a></td>
+				<c:if test="${e.equipmentStatus eq '비대여'}">
+					<td><a href="${pageContext.request.contextPath}/equipment/updateEquipment?equipmentNo=${e.equipmentNo}"
+						onClick="return confirm('${e.equipmentName} 비활성 하시겠습니까?')">비활성</a>
+					</td>
+				</c:if>
 			</tr>
 		</c:forEach>
 	</table>
@@ -223,12 +307,20 @@
 		</form>
 	</div>
 	<c:if test="${currentPage > 1}">
-		<a
-			href="${pageContext.request.contextPath}/equipment/equipmentList?currentPage=${currentPage-1}&equipmentName=${param.equipmentName}">이전</a>
+		<a href="${pageContext.request.contextPath}/equipment/equipmentList?currentPage=${currentPage-1}&equipmentName=${param.equipmentName}">이전</a>
 	</c:if>
+	
+	<c:forEach var="i" begin="${minPage}" end="${maxPage}" step="1">
+		<c:if test="${i ==  currentPage}">
+			<span style="color: red;">${i}</span>
+		</c:if>
+		<c:if test="${i !=  currentPage}">
+			<span>${i}</span>
+		</c:if>
+	</c:forEach>
+	
 	<c:if test="${currentPage < lastPage}">
-		<a
-			href="${pageContext.request.contextPath}/equipment/equipmentList?currentPage=${currentPage+1}&equipmentName=${param.equipmentName}">다음</a>
+		<a href="${pageContext.request.contextPath}/equipment/equipmentList?currentPage=${currentPage+1}&equipmentName=${param.equipmentName}">다음</a>
 	</c:if>
 	
 	<div>
@@ -240,6 +332,7 @@
 		<div class="modal_content">
 			<h3>장비 추가</h3>
 			<form id="addEquipmentForm" action="${pageContext.request.contextPath}/equipment/addEquipment" method="post">
+				<input type="hidden" name="equipmentStatus" value="비대여" readonly="readonly">
 				<table>
 					<tr>
 						<td>장비명</td>
@@ -256,12 +349,6 @@
 						</td>
 					</tr>
 					<tr>
-						<td>대여유무</td>
-						<td>
-							<input type="text" name="equipmentStatus" value="비대여" readonly="readonly">
-						</td>
-					</tr>
-					<tr>
 						<td>설명</td>
 						<td>
 							<textarea id="equipmentContentId" rows="5" cols="30" name="equipmentContent"></textarea>
@@ -274,5 +361,46 @@
 			<button class="close" type="button">닫기</button>
 		</div>
 	</div>
+	
+	<!-- 장비 대여 모달 -->
+	<div class="statusModal">
+		<div class="modal_content">
+			<h3>장비 대여</h3>
+			<form id="addEqHistoryForm" action="${pageContext.request.contextPath}/eqHistory/addEqHistory" method="post">
+				<input type="hidden" name="equipmentNo" id="equipmentNoInput" value="equipmentNoInput">
+				<input type="hidden" name="equipmentStatus" value="대여">
+				<table>
+					<tr>
+						<td>장비명</td>
+						<td>
+							<input type="text" id="equipmentNameInput" value="equipmentNameInput" readonly="readonly">
+						</td>
+					</tr>
+					<tr>
+						<td>대여자ID</td>
+						<td>
+							<input type="text" name="memberId" id="loginIdInput" value="loginIdInput" readonly="readonly">
+						</td>
+					</tr>
+					<tr>
+						<td>대여시작일</td>
+						<td>
+							<input id="equipmentBegindateId" type="date" name="equipmentBegindate" readonly="readonly">
+							<span id="equipmentBegindateIdMsg" class="msg"></span>
+						</td>
+					</tr>
+					<tr>
+						<td>대여 사유</td>
+						<td>	
+							<textarea id="equipmentReasonId" rows="5" cols="50" name="equipmentReason"></textarea>
+							<span id="equipmentReasonIdMsg" class="msg"></span>
+						</td>
+					</tr>
+				</table>
+			</form>
+			<button id="addEqHistroyBtn" type="button">대여</button>
+			<button class="close" type="button">닫기</button>
+		</div>
+	</div> 
 </body>
 </html>

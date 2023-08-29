@@ -25,7 +25,7 @@ public class EquipmentHistoryController {
 	private EquipmentHistoryService equipmentHistoryService;
 	
 	// 1) 장비 대여 추가 매핑
-	@GetMapping("/eqHistory/addEqHistory")
+	@PostMapping("/eqHistory/addEqHistory")
 	public String addEqHistory(EquipmentHistory eqHistory, Equipment equipment) {
 		
 		log.debug("EquipmentHistoryController.addEqHistory() eqHistory --->" + eqHistory.toString());
@@ -81,6 +81,8 @@ public class EquipmentHistoryController {
 		// 페이징 값
 		model.addAttribute("currentPage", currentPage);
 		model.addAttribute("lastPage", resultMap.get("lastPage"));
+		model.addAttribute("minPage", resultMap.get("minPage"));
+		model.addAttribute("maxPage", resultMap.get("maxPage"));
 		
 		return "/eqHistory/eqHistoryList";
 	}

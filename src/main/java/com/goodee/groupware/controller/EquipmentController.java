@@ -37,16 +37,18 @@ public class EquipmentController {
 		log.debug("EquipmentController.getEquipmentList() resultMap --->" + resultMap.toString());
 		
 		// 장비 대여 추가시 ID값은 세션사용자 ID값을 넣기 위해 세션에서 값 불러옴
-		String loginId = (String) session.getAttribute("loginMember");
+		String memberId = (String) session.getAttribute("loginMember");
 		
 		// Model에 addAttribute를 사용하여 view에 값을 보낸다.
 		// 장비리스트 데이터
 		model.addAttribute("equipmentList", resultMap.get("equipmentList"));
 		// 세션 아이디값
-		model.addAttribute("loginId", loginId);
+		model.addAttribute("memberId", memberId);
 		// 페이징 변수 값
 		model.addAttribute("currentPage", currentPage);
 		model.addAttribute("lastPage", resultMap.get("lastPage"));
+		model.addAttribute("minPage", resultMap.get("minPage"));
+		model.addAttribute("maxPage", resultMap.get("maxPage"));
 		
 		return "/equipment/equipmentList";
 	}

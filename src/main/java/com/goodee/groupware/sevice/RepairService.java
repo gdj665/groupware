@@ -60,6 +60,20 @@ public class RepairService {
 		if(repairListCnt % rowPerPage != 0) {
 			lastPage += 1;
 		}
+		
+		// 페이지 네비게이션 페이징
+		int pagePerPage = 5;
+		
+		// 마지막 페이지 구하기
+		// 최소페이지,최대페이지 구하기
+		int minPage = ((currentPage-1) / pagePerPage) * pagePerPage + 1;
+		int maxPage = minPage + (pagePerPage -1);
+		
+		// maxPage가 마지막 페이지를 넘어가지 않도록 함
+		if(maxPage > lastPage) {
+			maxPage = lastPage;
+		}
+		
 		log.debug("RepairService.getRepairList() lastPage --->" + lastPage);
 		
 		// 수리완료 변경시 사용한 자재명과 개수 출력
@@ -71,6 +85,8 @@ public class RepairService {
 		Map<String,Object> resultMap = new HashMap<>();
 		resultMap.put("repairList", repairList);
 		resultMap.put("lastPage", lastPage);
+		resultMap.put("minPage", minPage);
+		resultMap.put("maxPage", maxPage);
 		resultMap.put("partsList", partsList);
 		
 		return resultMap;

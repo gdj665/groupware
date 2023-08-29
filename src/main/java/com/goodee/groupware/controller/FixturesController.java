@@ -37,6 +37,8 @@ public class FixturesController {
 		// 페이징 변수 값
 		model.addAttribute("currentPage", currentPage);
 		model.addAttribute("lastPage", resultMap.get("lastPage"));
+		model.addAttribute("minPage", resultMap.get("minPage"));
+		model.addAttribute("maxPage", resultMap.get("maxPage"));
 		
 		return "/fixtures/fixturesList";
 	}
