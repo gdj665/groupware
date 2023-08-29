@@ -54,13 +54,23 @@
 						
 							<c:forEach var="c" items="${m.workList}">
 								<c:if test="${d == (fn:substring(c.workDate,8,10))}">
-								<div>
-									<span style="color:green">출근시간: ${c.workBegin}</span>
-								</div>
-									<c:if test="${c.workEnd != null}">
-									<div>
-										<span style="color:orange">퇴근시간: ${c.workEnd}</span>
-									</div>
+									<!-- 출근 표시 -->
+									<c:if test="${not empty c.workBegin}">
+										<div>
+											<span style="color:green">출근시간: ${c.workBegin}</span>
+										</div>
+									</c:if>
+									<!-- 퇴근 표시 -->
+									<c:if test="${not empty c.workEnd}">
+										<div>
+											<span style="color:orange">퇴근시간: ${c.workEnd}</span>
+										</div>
+									</c:if>
+									<!-- 연차 표시 -->
+									<c:if test="${c.workAnnual eq 'Y'}">
+										<div>
+											<span style="color:blue">연차</span>
+										</div>
 									</c:if>
 								</c:if>
 							</c:forEach>

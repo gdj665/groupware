@@ -174,6 +174,10 @@ public class MemberService {
 	
 //	연차 입력
 	public int addWorkAnnual(Work work) {
+//		연차 유의성
+		if(memberMapper.checkWork(work) != 0) {
+			return 0;
+		}
 		return memberMapper.addWorkAnnual(work);
 	}
 	
