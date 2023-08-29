@@ -9,4 +9,5 @@ public class EquipmentHistory {
 	private String memberId;
 	private String equipmentBegindate;
 	private String equipmentEnddate;
+	private String equipmentReason;
 }

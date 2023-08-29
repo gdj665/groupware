@@ -19,7 +19,7 @@
     /* 모달 내용 스타일 */
     .modal_content {
         background-color: white;
-        margin: 15% auto;
+        margin: 5% auto;
         padding: 20px;
         border: 1px solid #888;
         width: 50%;
@@ -60,8 +60,9 @@
 
     /* 메시지 스타일 */
     .modal_content .msg {
+    	font-weight: bold;
         color: red;
-        font-size: 12px;
+        font-size: 14px;
     }
 
     /* 버튼 스타일 */
@@ -147,44 +148,79 @@
 		$('#partsAddBtn').click(function(){
 			// 입력값 유효성 검사
 			if($('#partsCategoryId').val().length == 0) {
-				$('#partsCategoryIdMsg').text('장비분류를 선택해주세요');
+				$('#partsCategoryIdMsg').text('자재분류를 선택해주세요');
 				return;
 			} else {
 				$('#partsCategoryIdMsg').text('');
 			}
 			
 			if($('#partsNameId').val().length == 0) {
-				$('#partsNameIdMsg').text('장비명을 입력해주세요');
+				$('#partsNameIdMsg').text('자재명을 작성해주세요');
 				return;
 			} else {
 				$('#partsNameIdMsg').text('');
 			}
 			
 			if($('#partsCntId').val().length == 0 || isNaN($('#partsCntId').val()) == true) {
-				$('#partsCntIdMsg').text('개수를 숫자로 입력해주세요');
+				$('#partsCntIdMsg').text('개수를 숫자로 작성해주세요');
 				return;
 			} else {
 				$('#partsCntIdMsg').text('');
 			}
 			
 			if($('#partsPriceId').val().length == 0 || isNaN($('#partsPriceId').val()) == true) {
-				$('#partsPriceIdMsg').text('가격을 입력해주세요');
+				$('#partsPriceIdMsg').text('가격을 작성해주세요');
 				return;
 			} else {
 				$('#partsPriceIdMsg').text('');
 			}
 			
 			if($('#partsContentId').val().length == 0) {
-				$('#partsContentIdMsg').text('설명을 입력해주세요');
+				$('#partsContentIdMsg').text('설명을 작성해주세요');
 				return;
 			} else {
 				$('#partsContentIdMsg').text('');
 			}
 			
+			// 예 아니오 확인하기
+	 		if(!confirm($('#partsNameId').val()+'자재를 추가하시겠습니까?')) {
+	 			return false;
+	 		}
+			
 			$('#addPartsForm').submit();
 			$('.modal').fadeOut();
 		});
 		
+		// 오류 메시지를 초기화하고 입력란에 포커스를 줄 때 사용되는 함수
+		function clearErrorMessage(inputElement, errorMessageElement) {
+			// 입력란의 클래스에서 'error' 클래스를 제거하여 스타일을 초기화한다
+		    inputElement.removeClass('error');
+		    // 오류 메시지 요소의 내용을 빈 문자열로 설정하여 메시지를 지웁니다
+		    errorMessageElement.text('');
+		}
+		// 해당 부분이 focus될시
+		$('#partsCategoryId').focus(function() {
+			// clearErrorMessage 함수를 호출하여 해당 입력란과 관련된 오류 메시지를 지웁니다
+		    clearErrorMessage($(this), $('#partsCategoryIdMsg'));
+		});
+
+		$('#partsNameId').focus(function() {
+		    clearErrorMessage($(this), $('#partsNameIdMsg'));
+		});
+
+		$('#partsCntId').focus(function() {
+		    clearErrorMessage($(this), $('#partsCntIdMsg'));
+		});
+
+		$('#partsPriceIdMsg').focus(function() {
+		    clearErrorMessage($(this), $('#partsPriceIdMsg'));
+		});
+		
+		$('#partsContentId').focus(function() {
+		    clearErrorMessage($(this), $('#partsContentIdMsg'));
+		});
+		
+		// 모달 닫기
 		$('#close').click(function(){
 			$('.modal').fadeOut();
 		});
@@ -201,7 +237,7 @@
 			<th>수량</th>
 			<th>가격</th>
 			<th>상세내용</th>
-			<th>삭제</th>
+			<th>비활성</th>
 		</tr>
 		<c:forEach var="f" items="${fixturesList}">
 			<tr>
@@ -209,9 +245,9 @@
 				<td>${f.partsCategory}</td>
 				<td>${f.partsName}</td>
 				<td>${f.partsCnt}</td>
-				<td>${f.partsPrice}</td>
+				<td>${f.partsPrice}원</td>
 				<td>${f.partsContent}</td>
-				<td><a href="/fixtures/deleteParts?partsNo=${f.partsNo}" onClick="return confirm('삭제하시겠습니까?')">삭제</a></td>
+				<td><a href="/fixtures/updatePartsAlive?partsNo=${f.partsNo}" onClick="return confirm('${f.partsName} 비활성화 하시겠습니까?')">비활성</a></td>
 			</tr>
 		</c:forEach>
 	</table>
@@ -225,6 +261,16 @@
 		<a
 			href="/fixtures/fixturesList?currentPage=${currentPage-1}&partsName=${param.partsName}">이전</a>
 	</c:if>
+	
+	<c:forEach var="i" begin="${minPage}" end="${maxPage}" step="1">
+		<c:if test="${i ==  currentPage}">
+			<span style="color: red;">${i}</span>
+		</c:if>
+		<c:if test="${i !=  currentPage}">
+			<span>${i}</span>
+		</c:if>
+	</c:forEach>
+	
 	<c:if test="${currentPage < lastPage}">
 		<a
 			href="/fixtures/fixturesList?currentPage=${currentPage+1}&partsName=${param.partsName}">다음</a>

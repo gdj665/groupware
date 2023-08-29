@@ -5,7 +5,7 @@
 <html>
 <head>
 <style>
-	.statusModal {
+	.modal {
         display: none;
         position: fixed;
         z-index: 1;
@@ -19,7 +19,7 @@
     /* 모달 내용 스타일 */
     .modal_content {
         background-color: white;
-        margin: 15% auto;
+        margin: 5% auto;
         padding: 20px;
         border: 1px solid #888;
         width: 50%;
@@ -61,7 +61,8 @@
     /* 메시지 스타일 */
     .modal_content .msg {
         color: red;
-        font-size: 12px;
+        font-size: 15px;
+        font-weight: bold;
     }
 
     /* 버튼 스타일 */
@@ -90,6 +91,15 @@
 
 <script>
 	$(document).ready(function(){
+		// 현재 날짜 구하기 
+		var today = new Date();
+
+		var year = today.getFullYear();
+		var month = ('0' + (today.getMonth() + 1)).slice(-2);
+		var day = ('0' + today.getDate()).slice(-2);
+		
+		var preDate = year + '-' + month  + '-' + day;
+		
 		// 장비 대여 모달창 
 	    $(".statusOpenModal").click(function() {
 	        var equipmentNo = $(this).data("equipmentno");
@@ -98,33 +108,45 @@
 	        $("#equipmentNoInput").val(equipmentNo); // 모달 내의 input 요소에 장비번호 설정
 	        $("#equipmentNameInput").val(equipmentName); // 모달 내의 input 요소에 장비이름 설정(보여주기식)
 	        $("#loginIdInput").val(loginId); // 대여자 Id값(세션에서 받아옴)
-	        
-	        $('.statusModal').fadeIn();
+	        $('#equipmentBegindateId').val(preDate); // 대여시작일은 현재 날짜	        
+	        $('.modal').fadeIn();
 	    });
 		
 	 	// 장비 대여 추가 버튼
 		$('#addEqHistroyBtn').click(function(){
-			if($('#equipmentBegindateId').val().length == 0) {
-				$('#equipmentBegindateIdMsg').text('대여시작일을 입력해주세요');
+			
+			if($('#equipmentReasonId').val().length == 0) {
+				$('#equipmentReasonIdMsg').text('대여사유를 작성해주세요');
 				return;
 			} else {
-				$('#equipmentBegindateIdMsg').text('');
+				$('#equipmentReasonIdMsg').text('');
 			}
 			
-			if($('#equipmentEnddateId').val().length == 0) {
-				$('#equipmentEnddateIdMsg').text('반납일을 입력해주세요');
-				return;
-			} else {
-				$('#equipmentEnddateIdMsg').text('');
+			// alert창 확인
+			if(!confirm($('#equipmentReasonId').val()+ '장비를 대여하시겠습니까?')) {
+				return false;
 			}
 			
 			$('#addEqHistoryForm').submit();
-			$('.statusModal').fadeOut();
+			$('.modal').fadeOut();
+		});
+	 	
+		// 오류 메시지를 초기화하고 입력란에 포커스를 줄 때 사용되는 함수
+		function clearErrorMessage(inputElement, errorMessageElement) {
+			// 입력란의 클래스에서 'error' 클래스를 제거하여 스타일을 초기화한다
+		    inputElement.removeClass('error');
+		    // 오류 메시지 요소의 내용을 빈 문자열로 설정하여 메시지를 지웁니다
+		    errorMessageElement.text('');
+		}
+		// 해당 부분이 focus될시
+		$('#equipmentReasonId').focus(function() {
+			// clearErrorMessage 함수를 호출하여 해당 입력란과 관련된 오류 메시지를 지웁니다
+		    clearErrorMessage($(this), $('#equipmentReasonIdMsg'));
 		});
 			
 		// 모달창 닫기
 	    $('.close').click(function(){
-			$('.statusModal').fadeOut();
+			$('.modal').fadeOut();
 		});
 	});
 </script>
@@ -165,7 +187,7 @@
 	</table>
 	
 	<!-- 장비 대여 모달 -->
-	<div class="statusModal">
+	<div class="modal">
 		<div class="modal_content">
 			<h3>장비 대여</h3>
 			<form id="addEqHistoryForm" action="${pageContext.request.contextPath}/eqHistory/addEqHistory" method="post">
@@ -187,20 +209,20 @@
 					<tr>
 						<td>대여시작일</td>
 						<td>
-							<input id="equipmentBegindateId" type="date" name="equipmentBegindate">
+							<input id="equipmentBegindateId" type="date" name="equipmentBegindate" readonly="readonly">
 							<span id="equipmentBegindateIdMsg" class="msg"></span>
 						</td>
 					</tr>
 					<tr>
-						<td>반납일</td>
-						<td>
-							<input id="equipmentEnddateId" type="date" name="equipmentEnddate">
-							<span id="equipmentEnddateIdMsg" class="msg"></span>
+						<td>대여 사유</td>
+						<td>	
+							<textarea id="equipmentReasonId" rows="5" cols="50" name="equipmentReason"></textarea>
+							<span id="equipmentReasonIdMsg" class="msg"></span>
 						</td>
 					</tr>
 				</table>
 			</form>
-			<button id="addEqHistroyBtn" type="button">추가</button>
+			<button id="addEqHistroyBtn" type="button">대여</button>
 			<button class="close" type="button">닫기</button>
 		</div>
 	</div>
@@ -213,6 +235,7 @@
 			<th>아이디(대여자)</th>
 			<th>대여시작일</th>
 			<th>반납일</th>
+			<th>대여 사유</th>
 		</tr>
 		<c:forEach var="eh" items="${eqHistoryList}">
 			<tr>
@@ -221,6 +244,7 @@
 				<td>${eh.memberId}</td>			
 				<td>${eh.equipmentBegindate}</td>			
 				<td>${eh.equipmentEnddate}</td>			
+				<td>${eh.equipmentReason}</td>			
 			</tr>
 		</c:forEach>
 	</table>

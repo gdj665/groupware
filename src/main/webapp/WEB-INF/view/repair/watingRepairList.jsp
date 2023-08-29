@@ -157,6 +157,11 @@
 		// 대기중 -> 수리중 수정 버튼
 		$('#updateUnderRepairBtn').click(function(){
 			
+			// 예 아니오 확인
+			if(!confirm($('#underRepairProductNameInput').val()+'제품을 수리시작 하시겠습니까?')) {
+				return false;
+			}
+			
 			$('#updateUnderRepair').submit();
 			$('#underRepairModal').fadeOut();
 		});
@@ -207,6 +212,16 @@
 	<c:if test="${currentPage > 1}">
 		<a href="${pageContext.request.contextPath}/repair/repairList?currentPage=${currentPage-1}&repairProductCategory=${param.repairProductCategory}&repairStatus=대기중">이전</a>
 	</c:if>
+	
+	<c:forEach var="i" begin="${minPage}" end="${maxPage}" step="1">
+		<c:if test="${i ==  currentPage}">
+			<span style="color: red;">${i}</span>
+		</c:if>
+		<c:if test="${i !=  currentPage}">
+			<span>${i}</span>
+		</c:if>
+	</c:forEach>
+	
 	<c:if test="${currentPage < lastPage}">
 		<a href="${pageContext.request.contextPath}/repair/repairList?currentPage=${currentPage+1}&repairProductCategory=${param.repairProductCategory}&repairStatus=대기중">다음</a>
 	</c:if>
@@ -218,7 +233,7 @@
 	<!-- 대기중 -> 수리중 업데이트 모달 -->
 	<div id="underRepairModal" class="modal">
 		<div class="modal_content">
-			<h3>수리중 수정</h3>
+			<h3>수리시작</h3>
 			<form id="updateUnderRepair" action="${pageContext.request.contextPath}/repair/updateRepair" method="post">
 				<input type="hidden" name="repairNo" id="underRepairNoInput" value="underRepairNoInput">
 				<table>

@@ -22,8 +22,8 @@ public interface FixturesMapper {
 	// 2.1) 자재 추가시 상위 카테고리 출력
 	List<Map<String, Object>> getPartsCategoryList();
 	
-	// 3) 자재 삭제
-	int deleteParts(Parts parts);
+	// 3) 자재 비활성화
+	int updateParatsAlive(Parts parts);
 	
 	// repairService 2번에서 사용 수리완료시 사용자재 출력 
 	List<Map<String,Object>> getPartsList(Parts parts);

@@ -13,9 +13,10 @@
 			p.parts_content partsContent	
 		FROM parts p INNER JOIN parts_category pc ON p.parts_category_no = pc.parts_category_no
 		<where>
+		p.parts_alive = 'Y'
 		<!-- 검색분기 -->
 			<if test="partsName != null">
-				p.parts_name LIKE '%' #{partsName} '%'
+				AND p.parts_name LIKE '%' #{partsName} '%'
 			</if>
 		</where>
 		ORDER BY p.createdate DESC
@@ -28,9 +29,10 @@
 			COUNT(*)
 		FROM parts p INNER JOIN parts_category pc ON p.parts_category_no = pc.parts_category_no
 		<where>
+		p.parts_alive = 'Y'
 			<!-- 검색분기 -->
 			<if test="partsName != null">
-				p.parts_name LIKE '%' #{partsName} '%'
+				AND p.parts_name LIKE '%' #{partsName} '%'
 			</if>
 		</where>
 	</select>
@@ -64,11 +66,11 @@
 		WHERE parts_parent_no > 0;
 	</select>
 	
-	<!-- 3) 자재 삭제 -->
-	<delete id="deleteParts" parameterType="com.goodee.groupware.vo.Parts">
-		DELETE FROM parts 
+	<!-- 3) 자재 비활성화 -->
+	<update id="updateParatsAlive" parameterType="com.goodee.groupware.vo.Parts">
+		UPDATE parts SET parts_alive = 'N' 
 		WHERE parts_no = #{partsNo}
-	</delete>
+	</update>
 	
 	<!-- repairService 2번에서 사용 수리완료시 사용자재 출력 -->
 	<select id="getPartsList" resultType="java.util.Map">

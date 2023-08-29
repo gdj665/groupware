@@ -86,6 +86,8 @@ public class RepairController {
 		// 페이징 값
 		model.addAttribute("currentPage", currentPage);
 		model.addAttribute("lastPage", resultMap.get("lastPage"));
+		model.addAttribute("minPage", resultMap.get("minPage"));
+		model.addAttribute("maxPage", resultMap.get("maxPage"));
 		
 		if(repair.getRepairStatus().equals("대기중")) {
 			System.out.println("대기중 리스트로!");

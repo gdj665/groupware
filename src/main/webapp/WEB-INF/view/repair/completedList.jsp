@@ -19,7 +19,7 @@
     /* 모달 내용 스타일 */
     .modal_content {
         background-color: white;
-        margin: 15% auto;
+        margin: 5% auto;
         padding: 20px;
         border: 1px solid #888;
         width: 50%;
@@ -227,6 +227,16 @@
 	<c:if test="${currentPage > 1}">
 		<a href="${pageContext.request.contextPath}/repair/repairList?currentPage=${currentPage-1}&repairProductCategory=${param.repairProductCategory}&repairStatus=수리완료">이전</a>
 	</c:if>
+	
+	<c:forEach var="i" begin="${minPage}" end="${maxPage}" step="1">
+		<c:if test="${i ==  currentPage}">
+			<span style="color: red;">${i}</span>
+		</c:if>
+		<c:if test="${i !=  currentPage}">
+			<span>${i}</span>
+		</c:if>
+	</c:forEach>
+	
 	<c:if test="${currentPage < lastPage}">
 		<a href="${pageContext.request.contextPath}/repair/repairList?currentPage=${currentPage+1}&repairProductCategory=${param.repairProductCategory}&repairStatus=수리완료">다음</a>
 	</c:if>
