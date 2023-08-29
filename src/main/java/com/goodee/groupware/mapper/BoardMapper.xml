@@ -12,8 +12,7 @@
 			createdate
 		FROM board
 		WHERE department_no = #{departmentNo}
-		ORDER BY board_status,createdate DESC
-		LIMIT #{beginRow},#{rowPerPage}
+		ORDER BY board_status DESC,board_no DESC
 	</select>
 	
 	<!-- 1.1) 게시판에 따른 게시판 행 갯수 출력 -->

@@ -188,7 +188,7 @@
 			</tr>
 			<tr>
 				<th>제목</th>
-				<td><input type="text" name="approvalTitle"></td>
+				<td><input type="text" name="approvalTitle" required="required"></td>
 			</tr>
 			<tr>
 				<th>작성자</th>
@@ -196,12 +196,12 @@
 			</tr>
 			<tr>
 				<th>내용</th>
-				<td><textarea name="approvalContent" rows="3" cols="50"></textarea></td>
+				<td><textarea name="approvalContent" rows="3" cols="50" required="required"></textarea></td>
 			</tr>
 			<tr>
 				<th colspan="2">
 					<!-- 모달창 열기 버튼 -->
-					<button id="open">모달창 열기</button>
+					<button id="open">결재자 선택</button>
 				</th>
 			</tr>
 			<tr>

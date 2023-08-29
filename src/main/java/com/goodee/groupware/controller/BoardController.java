@@ -28,8 +28,6 @@ public class BoardController {
 	@GetMapping("/board/boardList")
 	public String getBoardList(
 		Model model, 
-		@RequestParam(name = "currentPage", defaultValue = "1") int currentPage,
-		@RequestParam(name = "rowPerPage", defaultValue = "3") int rowPerPage,
 		@RequestParam(name = "departmentNo", defaultValue = "0") int departmentNo,
 		HttpSession session) {
 		
@@ -41,12 +39,10 @@ public class BoardController {
 		}
 		
 		// 서비스에서 값 받아와서 resultMap에 저장
-		Map<String, Object> resultMap = boardService.getBoardList(currentPage, rowPerPage, departmentNo);
+		Map<String, Object> resultMap = boardService.getBoardList(departmentNo);
 
 		// Model에 addAttribute를 사용하여 view에 값을 보낸다.
 		model.addAttribute("boardList", resultMap.get("boardList"));
-		model.addAttribute("currentPage", currentPage);
-		model.addAttribute("lastPage", resultMap.get("lastPage"));
 
 		return "/board/boardList";
 	}
@@ -86,7 +82,7 @@ public class BoardController {
 		int row = boardService.addBoard(board,path);
 		log.debug("BoardController.AddRow --> "+row);
 		
-		return "redirect:/board/boardList";
+		return "redirect:/board/boardList?departmentNo="+loginDepartmentNo;
 	}
 	
 	// 3.) 게시물 삭제

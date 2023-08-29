@@ -30,15 +30,10 @@ public class BoardService {
 	private FileMapper fileMapper;
 	
 	// 1.) 부서별 게시물 리스트 출력
-	public Map<String,Object> getBoardList(int currentPage, int rowPerPage, int departmentNo) {
-		
-		// 페이징 첫 번째 줄 변수 선언
-		int beginRow = (currentPage-1)*rowPerPage;
+	public Map<String,Object> getBoardList(int departmentNo) {
 		
 		// 부서별 게시물 리스트 출력을 위한 변수 Map 생성
 		Map<String,Object> boardMap = new HashMap<String,Object>();
-		boardMap.put("beginRow",beginRow);
-		boardMap.put("rowPerPage",rowPerPage);
 		boardMap.put("departmentNo",departmentNo);
 		// 1.) 부서별 게시물 리스트 출력
 		List<Map<String,Object>> boardList = boardMapper.getBoardList(boardMap);
@@ -55,15 +50,10 @@ public class BoardService {
 		// 디버깅
 		log.debug("BoardService.getBoardList().boardMapCount --->" + boardCount);
 		
-		int lastPage = boardCount / rowPerPage;
-		if((boardCount%rowPerPage) != 0) {
-			lastPage++;
-		}
-		
 		// 부서별 게시물 리스트와 마지막 페이지 값 resultMap 선언 후 삽입
 		Map<String,Object> resultMap = new HashMap<String,Object>();
 		resultMap.put("boardList",boardList);
-		resultMap.put("lastPage",lastPage);
+		//resultMap.put("lastPage",lastPage);
 		
 		return resultMap;
 	}
