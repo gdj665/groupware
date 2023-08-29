@@ -20,5 +20,6 @@ public interface MeetingroomMapper {
 	
 	// 회의실 삭제
 	int deleteMeetingroom(Meetingroom meetingroom);
-	
+// ----------------------------------------------------------------------
+	// 회의실 예약 조회
 }

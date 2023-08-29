@@ -146,7 +146,7 @@
 		</tr>
 		<c:forEach var="r" items="${m.meetingroomList}">
 		<tr>
-			<td class="table_cell">회의실${r.meetingroomNo}</td>
+			<td class="table_cell">회의실 ${r.meetingroomNo}호</td>
 			<td class="table_cell">${r.meetingroomContent}</td>		
 			<td class="table_cell">${r.createdate}</td>		
 			<td class="table_cell">${r.updatedate}</td>

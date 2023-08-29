@@ -277,55 +277,6 @@
 <body>
 	<!-- model값 받아와서 문자로 셋팅 -->
 	<c:set var="m" value="${scheduleMap}"></c:set>
-	<script>
-		// 공휴일 restAPI를 ajax로 호출
-	    $.ajax({
-		    url: "/rest/holidayList",
-		    type: "get",
-		    data: {
-		        targetYear: "${m.targetYear}",
-		        targetMonth: "${m.targetMonth+1}"
-		    },
-		    success: function(response) {
-	            // JSON 데이터 파싱
-	            var responseData = JSON.parse(response);
-
-	        	// JSON 데이터에서 필요한 값을 추출
-	            var items = responseData.response.body.items.item;
-	            var totalCount = responseData.response.body.totalCount;
-
-	         	// 여러 개의 항목이 있는 경우 배열인지 확인하고 처리
-	            if (Array.isArray(items)) {
-	                for (var i = 0; i < items.length; i++) {
-	                    var dateName = items[i].dateName;
-	                    var isHoliday = items[i].isHoliday;
-	                    var locdate = items[i].locdate;
-
-	                    // 추출한 값을 활용하여 필요한 작업 수행
-	                    console.log("dateName:", dateName);
-	                    console.log("isHoliday:", isHoliday);
-	                    console.log("locdate:", locdate);
-	                }
-	            } else {
-	                // 항목이 하나인 경우 처리
-	                var dateName = items.dateName;
-	                var isHoliday = items.isHoliday;
-	                var locdate = items.locdate;
-
-	                // 추출한 값을 활용하여 필요한 작업 수행
-	                console.log("dateName:", dateName);
-	                console.log("isHoliday:", isHoliday);
-	                console.log("locdate:", locdate);
-	            }
-	            
-	         	// totalCount 출력
-	            console.log("totalCount:", totalCount);
-	        },
-	        error: function(error) {
-	            console.log("Error:", error);
-	        }
-		});
-	</script>
 	
 	<a href="${pageContext.request.contextPath}/schedule/scheduleList?targetYear=${m.targetYear}&targetMonth=${m.targetMonth-1}&scheduleCategory=${m.scheduleCategory}">이전달</a>
 	<span>${m.memberId}님의 ${m.targetYear}년 ${m.targetMonth+1}월 달력</span>
