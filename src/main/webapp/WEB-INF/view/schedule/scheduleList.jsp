@@ -581,7 +581,5 @@
 			<button class="close" type="button">닫기</button>
 		</div>
 	</div>
-	
-	
 </body>
 </html>

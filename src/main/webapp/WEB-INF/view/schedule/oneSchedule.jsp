@@ -12,7 +12,7 @@
 <body>
 	<!-- model값 받아와서 문자로 셋팅 -->
 	<c:set var="m" value="${oneScheduleMap}"></c:set>
-	<a href="/schedule/scheduleList">뒤로가기</a>
+	<a href="${pageContext.request.contextPath}/schedule/scheduleList">뒤로가기</a>
 	
 	<h1>${m.targetYear}년 ${m.targetMonth+1}월 ${m.targetDate}일 일정</h1>
 

@@ -94,7 +94,7 @@ public class ScheduleService {
 // ----- 일 별 전체 일정 상세보기 조회 -----
 	public Map<String, Object> getOneSchedule(int departmentNo, String memberId, Integer targetYear, Integer targetMonth, Integer targetDate, String scheduleCategory){
 	
-		// Map에 담아서 Conntroller로 넘기기
+		// Map에 담아서 Controller로 넘기기
 		Map<String, Object> oneScheduleMap = new HashMap<String, Object>();
 		oneScheduleMap.put("targetYear", targetYear);
 		oneScheduleMap.put("targetMonth", targetMonth);
