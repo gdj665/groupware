@@ -228,8 +228,12 @@
 </script>
 </head>
 <body>
-	<h1>자재 목록</h1> <button id="open">자재 추가</button>
-	<table >
+	<!-- 자재추가는 팀장급부터만 가능하게 세션에 level값으로 조건 -->
+	<c:if test="${memberLevel > 1}">
+		<button id="open">자재 추가</button>
+	</c:if>
+	<h1>자재 목록</h1>
+	<table>
 		<tr>
 			<th>자재번호</th>
 			<th>분류명</th>
@@ -237,7 +241,9 @@
 			<th>수량</th>
 			<th>가격</th>
 			<th>상세내용</th>
-			<th>비활성</th>
+			<c:if test="${memberLevel > 1}">
+				<th>비활성</th>
+			</c:if>
 		</tr>
 		<c:forEach var="f" items="${fixturesList}">
 			<tr>
@@ -247,7 +253,11 @@
 				<td>${f.partsCnt}</td>
 				<td>${f.partsPrice}원</td>
 				<td>${f.partsContent}</td>
-				<td><a href="/fixtures/updatePartsAlive?partsNo=${f.partsNo}" onClick="return confirm('${f.partsName} 비활성화 하시겠습니까?')">비활성</a></td>
+				<c:if test="${memberLevel > 1}">
+					<td>
+						<a href="/fixtures/updatePartsAlive?partsNo=${f.partsNo}" onClick="return confirm('${f.partsName} 비활성화 하시겠습니까?')">비활성</a>
+					</td>
+				</c:if>
 			</tr>
 		</c:forEach>
 	</table>

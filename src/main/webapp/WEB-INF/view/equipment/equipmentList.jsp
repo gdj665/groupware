@@ -256,7 +256,10 @@
 </head>
 <body>
 	<h1>장비 목록</h1>
-	<button id="open">장비 추가</button>
+	<!-- 장비추가는 팀장급부터만 가능하게 세션에 level값으로 조건 -->
+	<c:if test="${memberLevel > 1}">
+		<button id="open">장비 추가</button>
+	</c:if>
 	<table border=1>
 		<tr>
 			<th>장비번호</th>
@@ -265,7 +268,10 @@
 			<th>점검예정일</th>
 			<th>점검</th>
 			<th>대여</th>
-			<th>비활성화</th>
+			<!-- 비활성화는 팀장급부터만 가능하게 세션에 level값으로 조건 -->
+			<c:if test="${memberLevel > 1}">
+				<th>비활성화</th>
+			</c:if>
 		</tr>
 		<c:forEach var="e" items="${equipmentList}">
 			<tr>
@@ -290,7 +296,8 @@
 						data-loginId="${memberId}">${e.equipmentStatus}</a>
 					</td>
 				</c:if>
-				<c:if test="${e.equipmentStatus eq '비대여'}">
+				<!-- 비활성화는 팀장급부터만 가능하게 세션에 level값으로 조건 -->
+				<c:if test="${e.equipmentStatus eq '비대여' && memberLevel > 1}">
 					<td><a href="${pageContext.request.contextPath}/equipment/updateEquipment?equipmentNo=${e.equipmentNo}"
 						onClick="return confirm('${e.equipmentName} 비활성 하시겠습니까?')">비활성</a>
 					</td>

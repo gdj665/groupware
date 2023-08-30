@@ -38,12 +38,19 @@ public class EquipmentController {
 		
 		// 장비 대여 추가시 ID값은 세션사용자 ID값을 넣기 위해 세션에서 값 불러옴
 		String memberId = (String) session.getAttribute("loginMember");
+		// 장비 추가 및 비활성화는 팀장급만 가능하도록 세션에서 Level값 가져옴 
+		String Level = (String) session.getAttribute("memberLevel");
+		// 앞에 숫자만 사용하여 비교하도록 int값으로 파싱함
+		int memberLevel = Integer.parseInt(Level.substring(0, 1));
+		
+		System.out.println("레벨 디버깅 테스트 " + memberLevel);
 		
 		// Model에 addAttribute를 사용하여 view에 값을 보낸다.
 		// 장비리스트 데이터
 		model.addAttribute("equipmentList", resultMap.get("equipmentList"));
-		// 세션 아이디값
+		// 세션 아이디,레벨값
 		model.addAttribute("memberId", memberId);
+		model.addAttribute("memberLevel", memberLevel);
 		// 페이징 변수 값
 		model.addAttribute("currentPage", currentPage);
 		model.addAttribute("lastPage", resultMap.get("lastPage"));

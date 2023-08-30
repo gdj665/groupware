@@ -25,6 +25,7 @@
         width: 50%;
         box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
         border-radius: 5px;
+        overflow-y: auto;
     }
 
     /* 제목 스타일 */
@@ -84,6 +85,12 @@
         background-color: #0056b3;
     }
     
+    .parts-list {
+	    max-height: 300px; /* 적절한 값으로 조정 */
+	    overflow-y: auto;
+	    border-radius: 5px;
+	    padding: 10px;
+	}
     
 </style>
 <meta charset="UTF-8">
@@ -205,7 +212,7 @@
 		    	
 		        // true면 추가 안되고 false면 추가 진행됩니다
 		        if (!isAlreadyAdded) {
-		            const selectedListItem = $('<span class="selectedPartsCnt"><li><input type="checkbox" class="removeChecked">'+checkPartsName+" 재고량 :"+checkPartsCnt+'<br>사용자재 수: <input type="text" class="partsCntClass" name="partsCnt[]" required="required" data-selectedPrice="'+checkPartsPrice+'" style="width:30px;height:30px;"><input type="hidden" class="partsNoClass" name="partsNo[]" required="required" value="'+checkPartsNo+'"></li></span>'); 
+		            const selectedListItem = $('<span class="selectedPartsCnt"><li><input type="checkbox" class="removeChecked" data-partsCnt="'+checkPartsCnt+'" data-partsName="'+checkPartsName+'">'+checkPartsName+" 재고량 :"+checkPartsCnt+'<br>사용자재 수: <input type="text" class="partsCntClass" name="partsCnt[]" required="required" data-selectedPrice="'+checkPartsPrice+'" style="width:50px;height:30px;"></span><input type="hidden" class="partsNoClass" name="partsNo[]" required="required" value="'+checkPartsNo+'">개</li></span>'); 
 		            $('#selectedPartsList').append(selectedListItem);
 		        }
 	            
@@ -246,22 +253,41 @@
 	 	
 	 	// 선택한 자재 부분에 사용자재 수를 입력할시 총비용 나오게하기
 	    $(document).on('change', '.partsCntClass', function(){
+	    	
+	    	// 총비용 담을 변수
 	    	let totalPrice = 0;
 	    	// 반복문을 통해 각 선택된 자재의 총 가격 계산
 	    	$('.selectedPartsCnt').each(function() {
 	    		// 변경된 항목에 자재 가격 가져옴
 				const selectedPrice = $(this).find('.partsCntClass').data('selectedprice');
 	    		// 변경된 항목에 변경값 가져옴
-				const inputCnt = parseInt($(this).find('.partsCntClass').val());
+				let inputCnt = parseInt($(this).find('.partsCntClass').val());
+	    		// 해당행의 총개수를 가져옴
+	    		const totalPartsCnt = parseInt($(this).find('.removeChecked').data('partscnt'));
+	    		console.log(totalPartsCnt);
+	    		console.log("if문 밖에 실행" + inputCnt);
 				
-				if (!isNaN(inputCnt)) {
+	    		// 입력값이 총 개수보다 클경우 총개수로 값 변경
+	    		if(inputCnt > totalPartsCnt) {
+	    			// 입력값만 총개수로 변경
+	    			parseInt($(this).find('.partsCntClass').val(totalPartsCnt));
+	    			// 가격 계산 입력개수변수 총개수로 변경 (안해주면 가격계산 이상해짐)
+	    			inputCnt = totalPartsCnt;
+	    			
+	    			console.log("if 문안에 실행 " + inputCnt);
+		 		} 
+		 		
+	    		// 숫자일때만 계산
+    			if (!isNaN(inputCnt)) {
 		            totalPrice += inputCnt * selectedPrice;
 		        }
+	    		
 	    	});
 	    	// 공임비 20000원 추가
 	    	totalPrice += 20000;
 	    	// 계산된 총 가격을 화면에 출력
 	        $('#totalPriceId').val(totalPrice);
+	    	
 	    });
 	 	
 	 	// 수정 버튼 클릭시 폼 전송
@@ -460,17 +486,19 @@
 						</div>
 					</div>
 					<div class="col-lg-5">
+						<div class="parts-list">
 						<h4>선택한 자재</h4>
-						<table class="modalTable">
-							<tr>
-								<td>
-									<!-- 옮겨진 자재들 -->
-									<ul id="selectedPartsList">
-						                <!-- 조회 결과 자재 목록이 여기에 추가됨 -->
-						            </ul>
-								</td>
-							</tr>
-						</table>
+							<table class="modalTable">
+								<tr>
+									<td>
+										<!-- 옮겨진 자재들 -->
+										<ul id="selectedPartsList">
+							                <!-- 조회 결과 자재 목록이 여기에 추가됨 -->
+							            </ul>
+									</td>
+								</tr>
+							</table>
+						</div>
 					</div>
 				</div>
 				<button id="updateCompletedRepairBtn" type="button">수정</button>

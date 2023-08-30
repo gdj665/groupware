@@ -149,10 +149,27 @@ public class RepairService {
 						minusPartsMap.put("partsNo", partsNoArr[i]);
 						minusPartsMap.put("partsCnt", partsCntArr[i]);
 
-			            log.debug("RepairService.updateRepair() 수리중 -> 수리완료 minusPartsMap22222 --->" + minusPartsMap.toString());
+			            log.debug("RepairService.updateRepair() 수리중 -> 수리완료 자재 개수 차감 minusPartsMap --->" + minusPartsMap.toString());
 			            
 			            // repairNo는 필요없으니 이것만 넣고 돌림
 						partsMinusCntRow = fixturesMapper.updatePartsCnt(minusPartsMap);
+						
+						// 자재 차감후 개수가 0 이되면 비활성화 시키기
+						int DisabledRow = 0;
+						// 개수 차감된 자재에 총개수 가져오기
+						Parts partsCheckCnt = fixturesMapper.getPartsCntCheck(minusPartsMap);
+						// 개수가 0이 면 실행
+						if(partsCheckCnt.getPartsCnt() == 0) {
+							// 해당 자재 비활성화 시키기
+							DisabledRow = fixturesMapper.updateParatsAlive(partsCheckCnt);
+							log.debug("RepairService.updateRepair() 수리중 -> 수리완료 자재 개수0될시 비활성 DisabledRow--->" + DisabledRow);
+						
+						// 차감됬는데 개수가 0보다 작아지면 return시킴
+						} else if(partsCheckCnt.getPartsCnt() < 0) {
+							
+							int returnRow = -1;
+							return returnRow;
+						}
 					}
 					
 				}

@@ -81,9 +81,10 @@
 			parts_price partsPrice
 		FROM parts
 		<where>
+		parts_alive = 'Y'
 			<!-- 분기 -->
 			<if test="partsName != null">
-				parts_name = #{partsName}
+				AND parts_name = #{partsName}
 			</if>
 		</where>
 	</select>
@@ -94,4 +95,12 @@
 		WHERE parts_no = #{partsNo};
 	</update>
 	
+	<!-- 수리완료시 repair_parts 사용 개수 확인하고 0이되면 비활성화 시키기 위해 조회 -->
+	<select id="getPartsCntCheck" parameterType="java.util.Map" resultType="com.goodee.groupware.vo.Parts">
+		SELECT 
+			parts_no partsNo,
+			parts_cnt partsCnt
+		FROM parts
+		WHERE parts_no = #{partsNo}
+	</select>
 </mapper>
