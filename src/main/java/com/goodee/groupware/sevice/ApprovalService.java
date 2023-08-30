@@ -155,7 +155,7 @@ public class ApprovalService {
 	}
 	
 	// 6.) 결재 진행 코멘트 업데이트 + 7.) 결재 진행 상태 변경
-	public int updateApprovalComment(Approval approval) {
+	public int updateApprovalComment(Approval approval, String approvalComment) {
 		
 		// 6.) 결재 진행 코멘트 업데이트
 		int updateApprovalCommentRow = approvalMapper.updateApprovalComment(approval);

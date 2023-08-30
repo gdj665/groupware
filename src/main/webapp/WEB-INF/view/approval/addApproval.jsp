@@ -12,7 +12,13 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
 <!-- 개인 css -->
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/department.css">
-
+<style>
+	.main-list {
+	    max-height: 400px;
+	    overflow-y: auto;
+	    overflow-x: hidden;
+	}
+</style>
 <script>
 	$(document).ready(function() {
 		// 결재버튼 눌렀을때 진행
@@ -201,7 +207,7 @@
 			<tr>
 				<th colspan="2">
 					<!-- 모달창 열기 버튼 -->
-					<button id="open">결재자 선택</button>
+					<button id="open" type="button">결재자 선택</button>
 				</th>
 			</tr>
 			<tr>
@@ -234,7 +240,7 @@
 				<td id="selectedFiles"></td>
 			</tr>
 		</table>
-		<button type="submit">결재 진행</button>
+		<button type="submit" form="uploadForm">결재 진행</button>
 	</form>
 
 	<!-- modal창 화면 -->
@@ -242,7 +248,7 @@
 		<div class="modal_content">
 			<div class="row">
 				<!-- 결재자 선택창 좌측 -->
-				<div class="col-lg-5">
+				<div class="col-lg-4">
 					<h3>결재자 선택</h3>
 					<ul class="main-list">
 						<li>
@@ -284,43 +290,43 @@
 						</li>
 					</ul><!-- main-list -->
 				</div>
-
-				<!-- 화살표 출력 -->
-				<div class="col-lg-2 d-flex align-items-center">
-					<div class="arrow-buttons">
-						<button id="rightArrowButtonFirst">&rarr;</button>
-						<button id="rightArrowButtonSecond">&rarr;</button>
-						<button id="rightArrowButtonThird">&rarr;</button>
-					</div>
+				
+				<div class="col-lg-2">
 				</div>
 
 				<!-- 세 번째 컨테이너 내용 -->
-				<div class="col-lg-5">
+				<div class="col-lg-6">
 					<h3>선택된 결재자</h3>
 					<form>
 						<table>
 							<tr>
+								<td rowspan="2"><button type="button" id="rightArrowButtonFirst">&rarr;</button></td>
 								<td>첫 번째 결재자</td>
 							</tr>
 							<tr>
+								<!-- <td><button id="rightArrowButtonFirst">&rarr;</button></td> -->
 								<td>
 									<input type="hidden" value="" name="memberId" class="memberIdInputFirst">
 									<input type="text" value="" name="memberName" class="memberNameInputFirst" readonly>
 								</td>
 							</tr>
 							<tr>
+								<td rowspan="2"><button type="button" id="rightArrowButtonSecond">&rarr;</button></td>
 								<td>두 번째 결재자</td>
 							</tr>
 							<tr>
+								<!-- <td rowspan="2"><button id="rightArrowButtonSecond">&rarr;</button></td> -->
 								<td>
 									<input type="hidden" value="" name="memberId" class="memberIdInputSecond">
 									<input type="text" value="" name="memberName" class="memberNameInputSecond" readonly>
 								</td>
 							</tr>
 							<tr>
+								<td rowspan="2"><button type="button" id="rightArrowButtonThird">&rarr;</button></td>
 								<td>세 번째 결재자</td>
 							</tr>
 							<tr>
+								<!-- <td rowspan="2"><button id="rightArrowButtonThird">&rarr;</button></td> -->
 								<td>
 									<input type="hidden" value="" name="memberId" class="memberIdInputThird">
 									<input type="text" value="" name="memberName" class="memberNameInputThird" readonly>

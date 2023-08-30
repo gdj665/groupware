@@ -203,7 +203,7 @@ public class ApprovalController {
 			}
 		}
 		
-		int row = approvalService.updateApprovalComment(approval);
+		int row = approvalService.updateApprovalComment(approval,approvalComment);
 		log.debug("ApprovalController.updateApprovalComment.Row-->"+row);
 		
 		return "redirect:/approval/approvalList";
