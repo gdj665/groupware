@@ -103,13 +103,14 @@ public class ScheduleService {
 		// 달력 API 가져오기
 		Calendar firstDate = Calendar.getInstance();
 
-		if (targetYear != null && targetMonth != null) { // 매개값으로 날짜가 넘어오면
-		    firstDate.set(Calendar.YEAR, targetYear);
-		    firstDate.set(Calendar.MONTH, targetMonth);
-		} else { // 매개값이 없는 경우 현재 날짜를 사용
-		    targetYear = firstDate.get(Calendar.YEAR);
-		    targetMonth = firstDate.get(Calendar.MONTH);
+		if(targetYear != null && targetMonth != null) { // 매개값으로 날짜가 넘어오면
+			firstDate.set(Calendar.YEAR, targetYear);
+			firstDate.set(Calendar.MONTH, targetMonth);
+			// API에서 Month 값으로 12가 들어오면 내년으로 바뀌고, -1이 들어오면 작년으로 바뀜
 		}
+		// 다시 세팅된 값이 존재 할 수 있으므로 값을 다시 저장
+		targetYear = firstDate.get(Calendar.YEAR);
+		targetMonth = firstDate.get(Calendar.MONTH);
 		
 		try {
 	    	StringBuilder urlBuilder = new StringBuilder("http://apis.data.go.kr/B090041/openapi/service/SpcdeInfoService/getRestDeInfo");

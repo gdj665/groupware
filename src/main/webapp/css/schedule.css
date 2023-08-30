@@ -1,0 +1,156 @@
+@charset "UTF-8";
+
+@import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css");
+@import url("https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css");
+
+/* 달력 테이블 전체 스타일 */
+table {
+	width: 80%;
+	height: 100%;
+	border-collapse: collapse;
+	margin: 0 auto;
+}
+
+/* 달력 요일 행 스타일 */
+th.table_cell {
+	height: 50px;	
+	padding: 10px;
+	text-align: center;
+	font-weight: bold;
+	border: 1px solid #ccc;
+}
+
+/* 날짜 셀 스타일 */
+td.table_cell {
+	width: 14.28%; /* 100% / 7 (일주일의 일 수) */
+	height: 80px;
+	padding: 5px;
+	vertical-align: top;
+	border: 1px solid #ccc;
+}
+
+/* 날짜 셀 내부 스타일 */
+td.table_cell div {
+	text-align: left;
+	padding: 5px;
+}
+
+/* 링크 스타일 */
+td.table_cell a {
+	color: black;
+	text-decoration: none;
+}
+
+/* 휴일 스타일 */
+td.table_cell span.color-red {
+	color: red;
+}
+
+/* 토요일 스타일 */
+td.table_cell span.color-blue {
+	color: blue;
+}
+
+/* 초록색 개인 일정 스타일 */
+td.table_cell a.updatePersonalScheduleModalOpen {
+	color: green;
+}
+
+/* 오렌지색 부서 일정 스타일 */
+td.table_cell a.updateDepartmentScheduleModalOpen {
+	color: orange;
+}
+
+/* 회색 날짜 스타일 */
+td.table_cell span.color-gray {
+	color: gray;
+}
+
+/* 링크에 호버 효과 추가 */
+td.table_cell a:hover {
+	text-decoration: underline;
+}
+
+/* 달력 테이블 내부의 간격 설정 */
+tr + tr td.table_cell {
+	margin-top: 10px;
+}
+
+/* 모달 컨테이너 스타일 */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+/* 모달 내용 스타일 */
+.modal_content {
+    background-color: white;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 50%;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+    border-radius: 5px;
+}
+
+/* 제목 스타일 */
+.modal_content h3 {
+    margin-top: 0;
+}
+
+/* 폼 스타일 */
+.modal_content form {
+    margin-top: 20px;
+}
+
+/* 테이블 스타일 */
+.modal_content table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+/* 테이블 셀 스타일 */
+.modal_content td {
+    padding: 8px;
+    border-bottom: 1px solid #ddd;
+}
+
+/* 입력 필드 스타일 */
+.modal_content input[type="text"],
+.modal_content input[type="date"] {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+}
+
+/* 메시지 스타일 */
+.modal_content .msg {
+    color: red;
+    font-size: 12px;
+}
+
+/* 버튼 스타일 */
+.modal_content button {
+    margin-top: 10px;
+    padding: 8px 15px;
+    border: none;
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+    border-radius: 3px;
+}
+
+.modal_content button.close {
+    background-color: #ccc;
+}
+
+.modal_content button:hover {
+    background-color: #0056b3;
+}

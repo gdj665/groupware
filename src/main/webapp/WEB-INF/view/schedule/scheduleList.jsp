@@ -6,97 +6,10 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<style>
-	/* 모달 컨테이너 스타일 */
-	.modal {
-        display: none;
-        position: fixed;
-        z-index: 1;
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, 0.4);
-    }
 
-    /* 모달 내용 스타일 */
-    .modal_content {
-        background-color: white;
-        margin: 15% auto;
-        padding: 20px;
-        border: 1px solid #888;
-        width: 50%;
-        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
-        border-radius: 5px;
-    }
-
-    /* 제목 스타일 */
-    .modal_content h3 {
-        margin-top: 0;
-    }
-
-    /* 폼 스타일 */
-    .modal_content form {
-        margin-top: 20px;
-    }
-
-    /* 테이블 스타일 */
-    .modal_content table {
-        width: 100%;
-        border-collapse: collapse;
-    }
-
-    /* 테이블 셀 스타일 */
-    .modal_content td {
-        padding: 8px;
-        border-bottom: 1px solid #ddd;
-    }
-
-    /* 입력 필드 스타일 */
-    .modal_content input[type="text"],
-    .modal_content input[type="date"] {
-        width: 100%;
-        padding: 8px;
-        border: 1px solid #ccc;
-        border-radius: 3px;
-    }
-
-    /* 메시지 스타일 */
-    .modal_content .msg {
-        color: red;
-        font-size: 12px;
-    }
-
-    /* 버튼 스타일 */
-    .modal_content button {
-        margin-top: 10px;
-        padding: 8px 15px;
-        border: none;
-        background-color: #007bff;
-        color: white;
-        cursor: pointer;
-        border-radius: 3px;
-    }
-
-    .modal_content button.close {
-        background-color: #ccc;
-    }
-
-    .modal_content button:hover {
-        background-color: #0056b3;
-    }
-    
-	
-	.table_cell {
-		border: 1px solid;
-		border-color: black;
-		width:100px;
-		height: 50px;
-	}
-	
-</style>
-<!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+<!-- 개인 css -->
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/schedule.css">
 <script>
 	$(document).ready(function(){
 
@@ -287,7 +200,7 @@
 	<a style="color:green" href="${pageContext.request.contextPath}/schedule/scheduleList?targetYear=${m.targetYear}&targetMonth=${m.targetMonth}&scheduleCategory=개인">개인</a>
 	<br><br>
 	<!-- 달력 시작 -->
-	<table style="width: 1000px; height: 500px;">
+	<table style="width: 80%; height: 500px;">
 		<!-- 달력 상단 요일 표시 -->
 		<tr>
 			<th class="table_cell" style="color: red;">일</th>
@@ -305,7 +218,7 @@
 			    <c:if test="${i != 0 && i % 7 == 0}">
 			        </tr><tr>
 			    </c:if>
-			    <c:set var="day" value="${i - m.beginBlank + 1}" />
+			    <c:set var="day" value="${i - m.beginBlank + 1}"></c:set>
 			    <c:choose>
 			        <c:when test="${day > 0 && day <= m.lastDate}">
 			            <td class="table_cell">
@@ -333,23 +246,29 @@
 			                                </c:if>
 			                            </c:otherwise>
 			                        </c:choose>
-			                        <!-- 개인이면 초록색, 부서면 오렌지색 -->
-			                        <br>
-		                            <c:forEach var="c" items="${m.scheduleList}">
-		                                <c:if test="${day == (fn:substring(c.scheduleBegindate,8,10))}">
-		                                    <c:if test="${c.scheduleCategory == '개인'}">
-		                                        <a href="#" class="updatePersonalScheduleModalOpen" data-updatePersonalScheduleNo="${c.scheduleNo}">
-		                                            <span style="color:green">${c.scheduleCategory} ${c.scheduleTitle}(시작)</span><br>
-		                                        </a>
-		                                    </c:if>
-		                                    <c:if test="${c.scheduleCategory == '부서'}">
-		                                        <a href="#" class="updateDepartmentScheduleModalOpen" data-updateDepartmentScheduleNo="${c.scheduleNo}">
-		                                            <span style="color:orange">${c.scheduleCategory} ${c.scheduleTitle}(시작)</span><br>
-		                                        </a>	
-		                                    </c:if>
-		                                </c:if>
-		                            </c:forEach>
 			                    </a>
+		                        <!-- 개인이면 초록색, 부서면 오렌지색 -->
+		                        <br>
+	                            <c:forEach var="c" items="${m.scheduleList}">
+	                                <c:if test="${day == (fn:substring(c.scheduleBegindate,8,10))}">
+	                                    <c:if test="${c.scheduleCategory == '개인'}">
+	                                        <a href="#" class="updatePersonalScheduleModalOpen" data-updatePersonalScheduleNo="${c.scheduleNo}">
+	                                            <span style="color:green;">${c.scheduleCategory} ${c.scheduleTitle}(시작)</span><br>
+	                                        </a>
+	                                    </c:if>
+	                                    <c:if test="${c.scheduleCategory == '부서'}">
+	                                        <a href="#" class="updateDepartmentScheduleModalOpen" data-updateDepartmentScheduleNo="${c.scheduleNo}">
+	                                            <span style="color:orange;">${c.scheduleCategory} ${c.scheduleTitle}(시작)</span><br>
+	                                        </a>	
+	                                    </c:if>
+	                                </c:if>
+	                            </c:forEach>
+	                            <!-- 공휴일에 빨간색으로 공휴일 이름 표시 -->
+	                            <c:forEach items="${getHolidayList}" var="holiday">
+	                            	<c:if test="${day == fn:substring(holiday.locdate, 6, 8)}">
+	                            		<span style="color:red;">${holiday.dateName}</span>
+	                            	</c:if>
+	                            </c:forEach>
 			                </div>
 			            </td>
 			        </c:when>
