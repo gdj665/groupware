@@ -270,28 +270,25 @@
 			alert('권한이 없습니다.');
 		}
 		console.log(fail);
-     
 	});
 </script>
 </head>
 <body>
 	<!-- model값 받아와서 문자로 셋팅 -->
 	<c:set var="m" value="${scheduleMap}"></c:set>
-    <c:forEach items="${getHolidayList}" var="holiday">
-        <span>${holiday.locdate}</span>
-    </c:forEach>
-	<br><br>	
 	<a href="${pageContext.request.contextPath}/schedule/scheduleList?targetYear=${m.targetYear}&targetMonth=${m.targetMonth-1}&scheduleCategory=${m.scheduleCategory}">이전달</a>
-	<span>${m.memberId}님의 ${m.targetYear}년 ${m.targetMonth+1}월 달력</span>
+	<span>${m.targetYear}년 ${m.targetMonth+1}월 달력</span>
 	<a href="${pageContext.request.contextPath}/schedule/scheduleList?targetYear=${m.targetYear}&targetMonth=${m.targetMonth+1}&scheduleCategory=${m.scheduleCategory}">다음달</a>
-	<br><br><br>
+	<br><br>
 	<button id="addPersonalScheduleModalOpen">개인일정 등록</button>
 	<button id="addDepartmentScheduleModalOpen">부서일정 등록</button>
 	<br><br><br>
 	<a style="color:orange" href="${pageContext.request.contextPath}/schedule/scheduleList?targetYear=${m.targetYear}&targetMonth=${m.targetMonth}&scheduleCategory=부서">부서</a>
 	<a style="color:green" href="${pageContext.request.contextPath}/schedule/scheduleList?targetYear=${m.targetYear}&targetMonth=${m.targetMonth}&scheduleCategory=개인">개인</a>
-	<br><br><br>
+	<br><br>
+	<!-- 달력 시작 -->
 	<table style="width: 1000px; height: 500px;">
+		<!-- 달력 상단 요일 표시 -->
 		<tr>
 			<th class="table_cell" style="color: red;">일</th>
 			<th class="table_cell">월</th>
@@ -303,63 +300,66 @@
 		</tr>
 		<tr>
 			<!-- totalTd 전까지 반복해야 하므로 -1 해야함 -->
-			<c:forEach var="i" begin="0" end="${m.totalTd -1}" step="1">
-				<c:if test="${i != 0 && i %7 == 0}">
-					</tr><tr>
-				</c:if>
-				<!-- 값을 변수로 셋팅 -->
-				<c:set var="day" value="${i - m.beginBlank + 1}"></c:set>
-				<c:choose>
-					<c:when test="${day > 0 && day <= m.lastDate}">
-						<td class="table_cell">
-							<!-- 토요일은 파란색, 일요일은 빨간색, 나머지는 검은색 -->
-							<div style="text-align: left;">
-								<a style="color: black;" href="${pageContext.request.contextPath}/schedule/oneSchedule?targetYear=${m.targetYear}&targetMonth=${m.targetMonth}&targetDate=${day}&scheduleCategory=${m.scheduleCategory}">
-									<c:choose>
-										<c:when test="${i % 7 == 0}">
-											<span style="color: red;">${day}</span>
-										</c:when>
-										<c:when test="${i % 7 == 6}">
-											<span style="color: blue;">${day}</span>
-										</c:when>
-										<c:otherwise>
-											<span>${day}</span>
-										</c:otherwise>
-									</c:choose>
-								</a>
-							</div>
-							<!-- 개인이면 초록색, 부서면 오렌지색 -->
-							<div>
-								<c:forEach var="c" items="${m.scheduleList}">
-									<c:if test="${day == (fn:substring(c.scheduleBegindate,8,10))}">
-										<c:if test="${c.scheduleCategory == '개인'}">
-											<a href="#" class="updatePersonalScheduleModalOpen" data-updatePersonalScheduleNo="${c.scheduleNo}">
-												<span style="color:green">${c.scheduleCategory} ${c.scheduleTitle}(시작)</span>
-											</a>
-										</c:if>
-										<c:if test="${c.scheduleCategory == '부서'}">
-											<a href="#" class="updateDepartmentScheduleModalOpen" data-updateDepartmentScheduleNo="${c.scheduleNo}">
-												<span style="color:orange">${c.scheduleCategory} ${c.scheduleTitle}(시작)</span>
-											</a>	
-										</c:if>
-									</c:if>
-								</c:forEach>
-							</div>
-							<!-- 공휴일이면 빨간색 -->
-							<div>
-								<c:if test="${day == (fn:substring(locdate, 6, 8))}">
-								    <span style="color:red;">${dateName}</span>
-								</c:if>
-							</div>
-						</td>
-					</c:when>
-					<c:when test="${day < 1}">
-						<td class="table_cell" style="color:gray">${m.preEndDate + day}</td>
-					</c:when>
-					<c:otherwise>
-						<td class="table_cell" style="color:gray">${day - m.lastDate}</td>
-					</c:otherwise>
-				</c:choose>
+			<c:forEach var="i" begin="0" end="${m.totalTd - 1}" step="1">
+			    <!-- 일주일이 끝나면 새로운 행으로 이동 -->
+			    <c:if test="${i != 0 && i % 7 == 0}">
+			        </tr><tr>
+			    </c:if>
+			    <c:set var="day" value="${i - m.beginBlank + 1}" />
+			    <c:choose>
+			        <c:when test="${day > 0 && day <= m.lastDate}">
+			            <td class="table_cell">
+			                <div style="text-align: left;">
+			                    <a style="color: black;" href="${pageContext.request.contextPath}/schedule/oneSchedule?targetYear=${m.targetYear}&targetMonth=${m.targetMonth}&targetDate=${day}&scheduleCategory=${m.scheduleCategory}">
+			                        <c:choose>
+			                            <c:when test="${i % 7 == 0}">
+			                                <span style="color: red;">${day}</span>
+			                            </c:when>
+			                            <c:when test="${i % 7 == 6}">
+			                                <span style="color: blue;">${day}</span>
+			                            </c:when>
+			                            <c:otherwise>
+			                            	<!-- 공휴일 여부 검사 -->
+			                                <c:set var="isHoliday" value="false"></c:set>
+			                                <c:forEach items="${getHolidayList}" var="holiday">
+			                                    <c:if test="${day == fn:substring(holiday.locdate, 6, 8)}">
+			                                        <span style="color: red;">${day}</span>
+			                                        <c:set var="isHoliday" value="true"></c:set>
+			                                    </c:if>
+			                                </c:forEach>
+			                                <!-- 공휴일이 아닌 경우 검은색으로 표시 -->
+			                                <c:if test="${not isHoliday}">
+			                                    <span>${day}</span>
+			                                </c:if>
+			                            </c:otherwise>
+			                        </c:choose>
+			                        <!-- 개인이면 초록색, 부서면 오렌지색 -->
+			                        <br>
+		                            <c:forEach var="c" items="${m.scheduleList}">
+		                                <c:if test="${day == (fn:substring(c.scheduleBegindate,8,10))}">
+		                                    <c:if test="${c.scheduleCategory == '개인'}">
+		                                        <a href="#" class="updatePersonalScheduleModalOpen" data-updatePersonalScheduleNo="${c.scheduleNo}">
+		                                            <span style="color:green">${c.scheduleCategory} ${c.scheduleTitle}(시작)</span><br>
+		                                        </a>
+		                                    </c:if>
+		                                    <c:if test="${c.scheduleCategory == '부서'}">
+		                                        <a href="#" class="updateDepartmentScheduleModalOpen" data-updateDepartmentScheduleNo="${c.scheduleNo}">
+		                                            <span style="color:orange">${c.scheduleCategory} ${c.scheduleTitle}(시작)</span><br>
+		                                        </a>	
+		                                    </c:if>
+		                                </c:if>
+		                            </c:forEach>
+			                    </a>
+			                </div>
+			            </td>
+			        </c:when>
+			        <c:when test="${day < 1}">
+			            <td class="table_cell" style="color: gray;">${m.preEndDate + day}</td>
+			        </c:when>
+			        <c:otherwise>
+			            <td class="table_cell" style="color: gray;">${day - m.lastDate}</td>
+			        </c:otherwise>
+			    </c:choose>
 			</c:forEach>
 		</tr>
 	</table>

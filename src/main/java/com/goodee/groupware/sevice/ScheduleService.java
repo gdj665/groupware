@@ -101,7 +101,7 @@ public class ScheduleService {
 // ----- 공공데이터 특일정보 API 조회 -----
 	public List<Map<String, String>> getHolidayList(Integer targetYear, Integer targetMonth) {
 	    try {
-	        StringBuilder urlBuilder = new StringBuilder("http://apis.data.go.kr/B090041/openapi/service/SpcdeInfoService/getRestDeInfo");
+	    	StringBuilder urlBuilder = new StringBuilder("http://apis.data.go.kr/B090041/openapi/service/SpcdeInfoService/getRestDeInfo");
 	        urlBuilder.append("?" + URLEncoder.encode("serviceKey", "UTF-8") + "=" + "tFL7GJrOcvvUeZMI0YoBejWUp9kDhMLlOj2HBxVDYOC%2FHjewkU%2BRXTxk4O5%2FiEFpSEqYPW1nT2j9IGDNoGMc9A%3D%3D");
 	        urlBuilder.append("&" + URLEncoder.encode("_type", "UTF-8") + "=" + URLEncoder.encode("json", "UTF-8"));
 	        urlBuilder.append("&" + URLEncoder.encode("solYear", "UTF-8") + "=" + URLEncoder.encode(targetYear.toString(), "UTF-8"));
@@ -139,9 +139,11 @@ public class ScheduleService {
 	        if (itemsNode.isArray()) {
 	            for (JsonNode itemNode : itemsNode) {
 	                String locdate = itemNode.path("locdate").asText();
+	                String dateName = itemNode.path("dateName").asText();
 
 	                Map<String, String> holidayMap = new HashMap<>();
 	                holidayMap.put("locdate", locdate);
+	                holidayMap.put("dateName", dateName);
 	                holidayList.add(holidayMap);
 	            }
 
@@ -149,13 +151,16 @@ public class ScheduleService {
 	            if (holidayList.isEmpty()) {
 	                Map<String, String> emptyHolidayMap = new HashMap<>();
 	                emptyHolidayMap.put("locdate", "");
+	                emptyHolidayMap.put("dateName", "");
 	                holidayList.add(emptyHolidayMap);
 	            }
 	        } else {
 	            // itemsNode가 단일 객체인 경우 처리
 	            String locdate = itemsNode.path("locdate").asText();
+	            String dateName = itemsNode.path("dateName").asText();
 	            Map<String, String> holidayMap = new HashMap<>();
 	            holidayMap.put("locdate", locdate);
+	            holidayMap.put("dateName", dateName);
 	            holidayList.add(holidayMap);
 	        }
 
