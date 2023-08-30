@@ -3,7 +3,12 @@
 <mapper namespace="com.goodee.groupware.mapper.DepartmentMapper">
 	<!-- 부서 리스트 계층형쿼리 사용해서 출력 -->
 	<select id="getDepartmentList" resultType="java.util.Map">
-		SELECT d1.`department_id` departmentId, d1.`department_no` departmentNo, d2.`department_id` departmentParentId FROM department d1 LEFT JOIN department d2 ON d1.`department_parent_no`= d2.`department_no` ORDER BY d1.`department_no` ASC 
+		SELECT d1.`department_id` departmentId, 
+		d1.`department_no` departmentNo, 
+		d2.`department_id` departmentParentId 
+		FROM department d1 LEFT JOIN department d2 
+		ON d1.`department_parent_no`= d2.`department_no` 
+		ORDER BY d1.`department_no` ASC 
 	</select>
 	
 	<!-- 부서 삭제 -->
@@ -31,30 +36,43 @@
 	</insert>
 	<!-- 사원 리스트 출력 -->
 	<select id="getMemberList" resultType="java.util.Map">
-		SELECT member_id memberId, department_no departmentNo, member_name memberName, member_level memberLevel
+		SELECT member_id memberId, 
+		department_no departmentNo,
+		member_name memberName, 
+		member_level memberLevel,
+		member_rank memberRank
 		FROM member
-		ORDER BY memberLevel
+		ORDER BY memberRank DESC
 	</select>
 	
 	<!-- 부서별 팀 리스트 출력 -->
 	<select id="getTeamDepartment" parameterType="com.goodee.groupware.vo.Department" resultType="java.util.Map">
-		SELECT department_id departmentId, department_no departmentNo FROM department WHERE department_parent_no = #{departmentNo} ORDER BY departmentId
+		SELECT department_id departmentId, 
+		department_no departmentNo 
+		FROM department 
+		WHERE department_parent_no = #{departmentNo} 
+		ORDER BY departmentId
 	</select>
 	
 	<!-- 부서이동 -->
 	<update id="updateDepartment" parameterType="com.goodee.groupware.vo.Member">
-		UPDATE member SET department_no = #{departmentNo}
+		UPDATE member 
+		SET department_no = #{departmentNo}
 		WHERE member_id = #{memberId}
 	</update>
 	<!-- 인사부 서비스 부 별 조건에 따라 부서 팁내의 최고 부서번호 가져오는 쿼리 -->
 	<select id="getMaxDepartmentNo" parameterType="com.goodee.groupware.vo.Department" resultType="int">
-		SELECT MAX(department_no) departmentNo FROM department WHERE department_parent_no = ${departmentParentNo}
+		SELECT MAX(department_no) departmentNo 
+		FROM department 
+		WHERE department_parent_no = ${departmentParentNo}
 	</select>
 	
 	<!-- 삭제 가능한 부서 리스트 출력 쿼리 퇴사 및 임시부서 제외-->
 	<select id="getDeleteOnDepartmentList" resultType="java.util.Map">
-		SELECT d.department_no departmentNo, d.department_id departmentId FROM department d LEFT JOIN member m ON d.department_no = m.department_no WHERE m.department_no is NULL AND d.department_no != '-2'
+		SELECT d.department_no departmentNo, 
+		d.department_id departmentId 
+		FROM department d LEFT JOIN member m 
+		ON d.department_no = m.department_no 
+		WHERE m.department_no is NULL AND d.department_no != '-2'
 	</select>
-	
-	
 </mapper>

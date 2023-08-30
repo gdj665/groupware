@@ -6,7 +6,7 @@
 			m.member_id memberId, 
 			m.member_name memberName, 
 			d.department_id departmentId, 
-			m.member_level memberLevel, 
+			SUBSTRING(m.member_level, 2) AS memberLevel, 
 			m.member_phone memberPhone, 
 			m.member_email memberEmail,
 			m.member_hiredate memberHiredate 

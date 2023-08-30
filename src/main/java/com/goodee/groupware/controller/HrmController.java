@@ -24,8 +24,9 @@ public class HrmController {
 	@GetMapping("/hrm/hrmList")
 	public String getMemberList(Model model) {
 		List<Map<String,Object>> memberList = hrmService.getMemberList();
-		
+		List<Map<String,Object>> departmentCnt = hrmService.departmentCnt();
 		model.addAttribute("memberList", memberList);
+		model.addAttribute("departmentCnt", departmentCnt);
 		
 		log.debug("hrmController.getMemberList() -->" + memberList);
 		
@@ -52,5 +53,5 @@ public class HrmController {
 			int deleteRow = hrmService.deleteMember(member);
 			log.debug("hrmController.deleteRow-->" + deleteRow);
 			return "redirect:/hrm/hrmList";
-		}
+	}
 }

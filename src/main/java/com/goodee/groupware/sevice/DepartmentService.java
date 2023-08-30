@@ -34,6 +34,7 @@ public class DepartmentService {
 		// 삭제 가능한 부서 리스트
 		List<Map<String,Object>> getDeleteOnDepartmentList = departmentMapper.getDeleteOnDepartmentList();
 		
+		//Map에 값을 담아 리턴
 		Map<String,Object> resultMap = new HashMap<String,Object>();
 		resultMap.put("department", departmentList);
 		resultMap.put("memberList", memberList);

@@ -27,6 +27,34 @@
             background-color: #e74c3c;
         }
     </style>
+    <script>
+$(document).ready(function() {
+  $('.copy-phone').click(function() {
+    // 클립보드에 텍스트 복사
+    var text = $(this).text();
+    
+    var tempInput = $('<input>');
+    $('body').append(tempInput);
+    tempInput.val(text).select();
+    document.execCommand('copy');
+    tempInput.remove();
+    
+    alert('복사되었습니다: ' + text);
+  });
+  $('.copy-email').click(function() {
+	    var text = $(this).text();
+	    
+	    // 이메일 주소에 맞게 클립보드에 복사
+	    var tempInput = $('<input>');
+	    $('body').append(tempInput);
+	    tempInput.val(text).select();
+	    document.execCommand('copy');
+	    tempInput.remove();
+	    
+	    alert('복사되었습니다: ' + text);
+	  });
+});
+</script>
 </head>
 <body>
 	<h1 class="text-center mt-4">주소록</h1>
@@ -89,35 +117,5 @@
 			href="${pageContext.request.contextPath}/address/addressList?currentPage=${currentPage+1}&colpol=${param.colpol}&searchName=${param.searchName}" class="choso-button">다음</a>
 	</c:if>
 	</div>
-	<script>
-    const copyEmailCells = document.querySelectorAll('.copy-email');
-    copyEmailCells.forEach(cell => {
-        cell.style.cursor = 'pointer';
-        cell.addEventListener('click', () => {
-            const textToCopy = cell.textContent;
-            const tempInput = document.createElement('textarea');
-            tempInput.value = textToCopy;
-            document.body.appendChild(tempInput);
-            tempInput.select();
-            document.execCommand('copy');
-            document.body.removeChild(tempInput);
-            alert('이메일 주소가 복사되었습니다: ' + textToCopy);
-        });
-    });
-    const copyEmailCells = document.querySelectorAll('.copy-phone');
-    copyEmailCells.forEach(cell => {
-        cell.style.cursor = 'pointer';
-        cell.addEventListener('click', () => {
-            const textToCopy = cell.textContent;
-            const tempInput = document.createElement('textarea');
-            tempInput.value = textToCopy;
-            document.body.appendChild(tempInput);
-            tempInput.select();
-            document.execCommand('copy');
-            document.body.removeChild(tempInput);
-            alert('전화번호가 복사되었습니다: ' + textToCopy);
-        });
-    });
-</script>
 </body>
 </html>

@@ -22,4 +22,6 @@ public interface HrmMapper {
 	int updateMember(Member member);
 	// 퇴사
 	int deleteMember(Member member);
+	// 부서별사원수
+	List<Map<String,Object>> departmentCnt();
 }

@@ -41,10 +41,22 @@ public class DepartmentController {
 	// 부서추가
 		@PostMapping("/department/addDepartment")
 		public String addDepartment(Department department) {
+			// 유효성검사
+			if(department.getDepartmentId().equals("") || department.getDepartmentId() == null) {
+				
+			}
+			// 현재부서의 가장 높은 번호 가져오기
 			int MaxDepartmentNo = departmentService.getMaxDepartmentNo(department);
-			department.setDepartmentNo(MaxDepartmentNo+1);
+			// 가장높은 부서번호에 + 1해서 값 넣기
+			int addDepartmentNo = 1;
+			department.setDepartmentNo(MaxDepartmentNo+addDepartmentNo);
+			//추가하는 부서 DB에 값 넣기
 			int row = departmentService.addDepartment(department);
-			System.out.println("DepartmentController Rwow " + row);
+			if(row > 0) {
+				System.out.println("DepartmentController 부서 추가 성공" + row);
+			}else {
+				System.out.println("DepartmentController 부서 추가 실패" + row);
+			}
 			return "redirect:/department/departmentList";
 		}
 	// 부서 이동

@@ -44,7 +44,8 @@ public class HrmService {
 		log.debug("hrmService.memberId() -->" + memberId);
 		member.setMemberId(memberId);
 		//기본 입사날 첫 사원 아이디 형식저장
-		memberId = memberId+"01";
+		String startMemberId = "01";
+		memberId = memberId+startMemberId;
 		//입사 날짜 int 타입으로 저장
 		int memberIdHiredate = Integer.parseInt(memberId);
 		int memberCnt = hrmMapper.getLastMemberId(member);
@@ -72,13 +73,19 @@ public class HrmService {
 	// 사원 퇴사
 		public int deleteMember(Member member) {
 			int row = 0;
+			// 퇴사임의 부서번호 값지정
 			int department = -3;
+			// 퇴사자 직급 값지정
 			String level = "0퇴사자";
+			//지정한 값은 member클래스에 값 지정
 			member.setDepartmentNo(department);
 			member.setMemberLevel(level);
 			row = hrmMapper.deleteMember(member);
 			return row;
-			
 		}
-	
+	// 부서별 사원 수
+		public List<Map<String,Object>> departmentCnt(){
+			List<Map<String,Object>> departmentCnt = hrmMapper.departmentCnt();
+			return departmentCnt;
+		}
 }
