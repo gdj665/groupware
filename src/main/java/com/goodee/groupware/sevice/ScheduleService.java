@@ -100,7 +100,18 @@ public class ScheduleService {
 	
 // ----- 공공데이터 특일정보 API 조회 -----
 	public List<Map<String, String>> getHolidayList(Integer targetYear, Integer targetMonth) {
-	    try {
+		// 달력 API 가져오기
+		Calendar firstDate = Calendar.getInstance();
+
+		if (targetYear != null && targetMonth != null) { // 매개값으로 날짜가 넘어오면
+		    firstDate.set(Calendar.YEAR, targetYear);
+		    firstDate.set(Calendar.MONTH, targetMonth);
+		} else { // 매개값이 없는 경우 현재 날짜를 사용
+		    targetYear = firstDate.get(Calendar.YEAR);
+		    targetMonth = firstDate.get(Calendar.MONTH);
+		}
+		
+		try {
 	    	StringBuilder urlBuilder = new StringBuilder("http://apis.data.go.kr/B090041/openapi/service/SpcdeInfoService/getRestDeInfo");
 	        urlBuilder.append("?" + URLEncoder.encode("serviceKey", "UTF-8") + "=" + "tFL7GJrOcvvUeZMI0YoBejWUp9kDhMLlOj2HBxVDYOC%2FHjewkU%2BRXTxk4O5%2FiEFpSEqYPW1nT2j9IGDNoGMc9A%3D%3D");
 	        urlBuilder.append("&" + URLEncoder.encode("_type", "UTF-8") + "=" + URLEncoder.encode("json", "UTF-8"));
@@ -170,8 +181,6 @@ public class ScheduleService {
 	        return null;
 	    }
 	}
-	
-
 	
 // ----- 일 별 전체 일정 상세보기 조회 -----
 	public Map<String, Object> getOneSchedule(int departmentNo, String memberId, Integer targetYear, Integer targetMonth, Integer targetDate, String scheduleCategory){
