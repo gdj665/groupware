@@ -99,7 +99,7 @@
 	<select id="getWorkCheckList"
 			parameterType="java.util.Map"
 			resultType="java.util.Map">
-		SELECT w.member_id memberId,  COUNT(case when HOUR(w.work_begin) &gt;= 9 then 1 END) workBeginLate, COUNT(case when HOUR(w.work_end) &lt; 18 then 1 END) workEndFast, COUNT(case when w.work_annual = 'Y' then 1 END) useAnnual
+		SELECT w.member_id memberId, m.member_name memberName, COUNT(case when HOUR(w.work_begin) &gt;= 9 then 1 END) workBeginLate, COUNT(case when HOUR(w.work_end) &lt; 18 then 1 END) workEndFast, COUNT(case when w.work_annual = 'Y' then 1 END) useAnnual
 		FROM work w INNER JOIN member m
 		ON w.member_id = m.member_id
 		INNER JOIN department d
@@ -116,9 +116,9 @@
 	<select id="getWorkCheckInfoList"
 			parameterType="java.util.Map"
 			resultType="com.goodee.groupware.vo.Work">
-		SELECT a.department_no departmentNo, a.member_id memberId, a.member_rank memberRank, b.work_begin workBegin, b.work_end workEnd, b.work_date workDate, b.work_annual workAnnual
+		SELECT a.department_no departmentNo, a.member_id memberId, a.member_name memberName, a.member_rank memberRank, b.work_begin workBegin, b.work_end workEnd, b.work_date workDate, b.work_annual workAnnual
 		FROM (
-			SELECT d.department_no, m.member_id, m.member_rank
+			SELECT d.department_no, m.member_id, m.member_rank, m.member_name
 			FROM member m INNER JOIN department d
 			ON m.department_no = d.department_no
 			WHERE d.department_no = #{departmentNo}
