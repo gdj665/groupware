@@ -232,7 +232,7 @@
 		<tr>
 			<th>대여 번호</th>
 			<th>장비 번호</th>
-			<th>아이디(대여자)</th>
+			<th>대여자</th>
 			<th>대여시작일</th>
 			<th>반납일</th>
 			<th>대여 사유</th>
@@ -241,7 +241,7 @@
 			<tr>
 				<td>${eh.equipmentHistoryNo}</td>			
 				<td>${eh.equipmentName}</td>			
-				<td>${eh.memberId}</td>			
+				<td>${eh.memberName}</td>			
 				<td>${eh.equipmentBegindate}</td>			
 				<td>${eh.equipmentEnddate}</td>			
 				<td>${eh.equipmentReason}</td>			
@@ -252,7 +252,7 @@
 		<form
 			action="${pageContext.request.contextPath}/equipment/equipmentOne" method="get">
 			<input type="hidden" name="equipmentNo" value="${equipmentOne.equipmentNo}">
-			<input type="text" name="memberId">
+			<input type="text" name="memberName">
 			<button type="submit">검색</button>
 		</form>
 	</div>

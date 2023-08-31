@@ -71,7 +71,7 @@ public class EquipmentHistoryService {
 		
 		// 장비 사용내역 목록에 전체행의 개수를 구하는 메서드 호출
 		
-		int eqHistoryListCnt = eqHistoryMapper.getEqHistoryListCnt(eqHistory);
+		int eqHistoryListCnt = eqHistoryMapper.getEqHistoryListCnt(pageMap);
 		log.debug("EquipmentHistoryService.getEqHistoryList() eqHistoryListCnt --->" + eqHistoryListCnt);
 		
 		// 마지막 페이지 구하기
