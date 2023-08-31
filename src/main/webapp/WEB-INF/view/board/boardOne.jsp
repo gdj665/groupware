@@ -259,7 +259,7 @@
 											</tr>
 											<tr>
 												<th>작성자아이디</th>
-												<th>${boardOne.memberId}</th>
+												<th>${boardOne.memberName}</th>
 											</tr>
 											<tr>
 												<th>제목</th>

@@ -17,7 +17,7 @@ public interface ApprovalMapper {
 	int getApprovalListCount(Map<String,Object>map);
 	
 	// 3.) 결제 상세출력
-	Approval getOneApproval(Approval approval);
+	Map<String,Object> getOneApproval(Approval approval);
 	  
 	// 4.) 결재 추가
 	int addApproval(Approval approval);

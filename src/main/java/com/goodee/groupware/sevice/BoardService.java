@@ -62,7 +62,7 @@ public class BoardService {
 	public Map<String,Object> getOneBoard(Board board, BoardFile boardFile) {
 		
 		// 2.) 게시물 상세 출력
-		Board boardOne = boardMapper.getOneBoard(board);
+		Map<String,Object> boardOne = boardMapper.getOneBoard(board);
 		// 1.) 게시물 첨부파일 리스트 출력
 		List<BoardFile> boardFileList = fileMapper.getBoardFileList(boardFile);
 		// 디버깅

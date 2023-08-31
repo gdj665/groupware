@@ -105,7 +105,7 @@ public class ApprovalController {
 	
 	// 3.) 결재 상세보기 출력
 	@GetMapping("/approval/oneApproval")
-	public String getOneBoard(Model model,Approval approval,ApprovalFile approvalFile, HttpSession session) {
+	public String getOneApproval(Model model,Approval approval,ApprovalFile approvalFile, HttpSession session) {
 		
 		String loginMemberId = (String) session.getAttribute("loginMember");
 		Map<String, Object> oneApprovalMap = approvalService.getOneApproval(approval, approvalFile);

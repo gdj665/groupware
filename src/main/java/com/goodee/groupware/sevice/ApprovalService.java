@@ -74,7 +74,11 @@ public class ApprovalService {
 	
 	// 3.) 결재 상세보기 출력
 	public Map<String,Object> getOneApproval(Approval approval, ApprovalFile approvalFile) {
-		Approval approvalOne = approvalMapper.getOneApproval(approval);
+		
+		
+		Map<String,Object> approvalOne = approvalMapper.getOneApproval(approval);
+		
+		// 파일출력
 		List<ApprovalFile> approvalFileList = fileMapper.getApprovalFileList(approvalFile);
 		
 		Map<String,Object> approvalOneMap = new HashMap<String,Object>();

@@ -60,26 +60,34 @@
 	</select>
 	
 	<!-- 3.) 결제 상세출력 -->
-	<select id = "getOneApproval" parameterType="com.goodee.groupware.vo.Approval" resultType="com.goodee.groupware.vo.Approval">
-		SELECT 
-			approval_no approvalNo,
-			member_id memberId,
-			approval_title approvalTitle,
-			approval_content approvalContent,
-			approval_form approvalForm,
-			approval_now_status approvalNowStatus,
-			approval_first_id approvalFirstId,
-			approval_first_comment approvalFirstComment,
-			approval_second_id approvalSecondId,
-			approval_second_comment approvalSecondComment,
-			approval_third_id approvalThirdId,
-			approval_third_comment approvalThirdComment,
-			approval_last_number approvalLastNumber,
-			approval_last_status approvalLastStatus,
-			createdate,
-			updatedate
-		FROM approval
-		WHERE approval_no = #{approvalNo}
+	<select id = "getOneApproval" parameterType="com.goodee.groupware.vo.Approval" resultType="java.util.Map">
+	SELECT
+		a.approval_no AS approvalNo,
+		a.member_id AS memberId,
+		m.member_name AS memberName,
+		a.approval_title AS approvalTitle,
+		a.approval_content AS approvalContent,
+		a.approval_form AS approvalForm,
+		a.approval_now_status AS approvalNowStatus,
+		a.approval_first_id AS approvalFirstId,
+		m_first.member_name AS approvalFirstName,
+		a.approval_first_comment AS approvalFirstComment,
+		a.approval_first_id AS approvalSecondId,
+		m_second.member_name AS approvalSecondName,
+		a.approval_second_comment AS approvalSecondComment,
+		a.approval_third_id AS approvalThirdId,
+		m_third.member_name AS approvalThirdName,
+		a.approval_third_comment AS approvalThirdComment,
+		a.approval_last_number AS approvalLastNumber,
+		a.approval_last_status AS approvalLastStatus,
+		a.createdate,
+		a.updatedate
+	FROM approval a
+	JOIN member m ON a.member_id = m.member_id
+	LEFT JOIN member m_first ON a.approval_first_id = m_first.member_id
+	LEFT JOIN member m_second ON a.approval_second_id = m_second.member_id
+	LEFT JOIN member m_third ON a.approval_third_id = m_third.member_id
+	WHERE a.approval_no = #{approvalNo}
 	</select>
 	
 	

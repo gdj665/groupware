@@ -17,7 +17,7 @@ public interface BoardMapper {
 	int getBoardListCount(Map<String, Object>map);
 	
 	// 2.) 게시물 상세 출력
-	Board getOneBoard(Board board);
+	Map<String,Object> getOneBoard(Board board);
 	
 	// 3.) 게시물 삭제
 	int deleteBoard(Board board);
