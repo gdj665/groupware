@@ -27,18 +27,20 @@
 			eh.equipment_history_no equipmentHistoryNo, 
 			eh.equipment_no equipmentNo, 
 			e.equipment_name equipmentName,
-			eh.member_id memberId, 
+			eh.member_id memberId,
+			m.member_name memberName, 
 			eh.equipment_begindate equipmentBegindate, 
 			eh.equipment_enddate equipmentEnddate,
 			eh.equipment_reason equipmentReason
 		FROM equipment_history eh INNER JOIN equipment e ON eh.equipment_no = e.equipment_no
+									INNER JOIN member m ON eh.member_id = m.member_id
 		<where>
 			<if test="equipmentNo != null">
 				eh.equipment_no = #{equipmentNo}
 			</if>
 			<!-- 검색분기 -->
-			<if test="memberId != null">
-				AND member_id LIKE '%' #{memberId} '%'
+			<if test="memberName != null">
+				AND m.member_name LIKE '%' #{memberName} '%'
 			</if>
 		</where>
 		ORDER BY eh.equipment_history_no DESC
@@ -50,14 +52,15 @@
 		SELECT 
 			COUNT(*)
 		FROM equipment_history eh INNER JOIN equipment e ON eh.equipment_no = e.equipment_no
+									INNER JOIN member m ON eh.member_id = m.member_id
 		
 		<where>
 			<if test="equipmentNo != null">
 				eh.equipment_no = #{equipmentNo}
 			</if>
 			<!-- 검색분기 -->
-			<if test="memberId != null">
-				AND member_id LIKE '%'#{memberId}'%'
+			<if test="memberName != null">
+				AND m.member_name LIKE '%'#{memberName}'%'
 			</if>
 		</where>
 	</select>

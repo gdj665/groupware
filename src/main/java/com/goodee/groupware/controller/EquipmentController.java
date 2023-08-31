@@ -15,6 +15,7 @@ import com.goodee.groupware.sevice.EquipmentHistoryService;
 import com.goodee.groupware.sevice.EquipmentService;
 import com.goodee.groupware.vo.Equipment;
 import com.goodee.groupware.vo.EquipmentHistory;
+import com.goodee.groupware.vo.Member;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -110,14 +111,18 @@ public class EquipmentController {
 	
 	// 5) 장비 상세보기 매핑
 	@GetMapping("/equipment/equipmentOne")
-	public String getEquipmentOne(Model model, Equipment equipment, EquipmentHistory eqHistory, HttpSession session,
+	public String getEquipmentOne(Model model, 
+									Equipment equipment, 
+									EquipmentHistory eqHistory, 
+									Member member,
+									HttpSession session,
 									@RequestParam(name ="currentPage", defaultValue = "1") int currentPage,
 									@RequestParam(name ="rowPerPage", defaultValue = "10") int rowPerPage) {
 		// 장비 대여 추가시 ID값은 세션사용자 ID값을 넣기 위해 세션에서 값 불러옴
 		String memberId = (String) session.getAttribute("loginMember");
 				
 		// 장비 상세보기 서비스 호출
-		Map<String, Object> resultMap = equipmentService.getEquipmentOne(equipment, currentPage, rowPerPage, eqHistory);
+		Map<String, Object> resultMap = equipmentService.getEquipmentOne(equipment, currentPage, rowPerPage, eqHistory, member);
 		
 		// 장비상세보기 값 
 		model.addAttribute("equipmentOne", resultMap.get("equipmentOne"));

@@ -58,6 +58,7 @@ public class RepairController {
 	public String repairList(Model model, Repair repair, HttpSession session,
 							@RequestParam(name ="currentPage", defaultValue = "1") int currentPage,
 							@RequestParam(name ="rowPerPage", defaultValue = "3") int rowPerPage) {
+		// 아무값이 넘어오지 않을경우 대기중으로 넣음
 		if(repair.getRepairStatus().equals("null") || repair.getRepairStatus().equals("")) {
 			System.out.println("null값이라 대기중 추가");
 			repair.setRepairStatus("대기중");

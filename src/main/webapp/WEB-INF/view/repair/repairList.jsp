@@ -136,7 +136,7 @@
 
 	             	// 엑셀 파일을 바이너리 형태로 변환하여 버퍼에 저장
 	             	let buf = XLSX.write(book, { bookType: 'xlsx', type: 'array' });
-
+					
 	            	 // 엑셀 파일을 Blob 형태로 변환하여 다운로드
 	             	let blob = new Blob([buf], { type: 'application/octet-stream' });
 	             	// 다운로드할 파일의 이름을 설정하여 다운로드
@@ -262,6 +262,8 @@
 				const selectedPrice = $(this).find('.partsCntClass').data('selectedprice');
 	    		// 변경된 항목에 변경값 가져옴
 				let inputCnt = parseInt($(this).find('.partsCntClass').val());
+	    		// 경고창에 알려줄 파츠명
+				const partsName = $(this).find('.removeChecked').data('partsname');
 	    		// 해당행의 총개수를 가져옴
 	    		const totalPartsCnt = parseInt($(this).find('.removeChecked').data('partscnt'));
 	    		console.log(totalPartsCnt);
@@ -269,6 +271,8 @@
 				
 	    		// 입력값이 총 개수보다 클경우 총개수로 값 변경
 	    		if(inputCnt > totalPartsCnt) {
+	    			alert(partsName + ' 자재의 입력개수가 총 개수보다 많이 입력되어 총 개수로 변경됩니다.');
+	    			
 	    			// 입력값만 총개수로 변경
 	    			parseInt($(this).find('.partsCntClass').val(totalPartsCnt));
 	    			// 가격 계산 입력개수변수 총개수로 변경 (안해주면 가격계산 이상해짐)
@@ -356,7 +360,7 @@
 		<c:forEach var="r" items="${repairList}">
 			<tr>
 				<td>${r.repairNo}</td>
-				<td style="font-weight: bold; color: orange;">${r.memberId}</td>
+				<td style="font-weight: bold; color: orange;">${r.memberName}</td>
 				<td>${r.repairProductCategory}</td>
 				<td>${r.repairProductName}</td>
 				<td>${r.receivingDate}</td>
