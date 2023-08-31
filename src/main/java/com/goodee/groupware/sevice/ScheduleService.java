@@ -90,7 +90,8 @@ public class ScheduleService {
 		
 		// 월 별 일정 정보 조회 
 		List<Schedule> scheduleList = new ArrayList<>();
-		scheduleList = scheduleMapper.getScheduleList(paramMap);	
+		scheduleList = scheduleMapper.getScheduleList(paramMap);
+		
 		// Map에 담아서 넘기기
 		scheduleMap.put("scheduleList", scheduleList);
 		log.debug("\u001B[31m"+"ScheduleService.getScheduleList() scheduleMap : "+ scheduleMap.toString()+"\u001B[0m");
@@ -118,9 +119,6 @@ public class ScheduleService {
 			targetYear = targetYear+1;
 			targetMonth = 0;
 		}
-		
-		log.debug("\u001B[31m"+"targetYear : 왜 안되냐고 "+ targetYear+"\u001B[0m");
-		log.debug("\u001B[31m"+"targetMonth : 왜 안되냐고"+ targetMonth+"\u001B[0m");
 		
 		try {
 	    	StringBuilder urlBuilder = new StringBuilder("http://apis.data.go.kr/B090041/openapi/service/SpcdeInfoService/getRestDeInfo");

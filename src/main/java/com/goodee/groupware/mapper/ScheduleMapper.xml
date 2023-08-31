@@ -3,25 +3,39 @@
 <mapper namespace="com.goodee.groupware.mapper.ScheduleMapper">
 	<!-- 월 별 일정 (개인 or 부서) -->
 	<select id="getScheduleList" parameterType="java.util.Map" resultType="com.goodee.groupware.vo.Schedule">
-		SELECT
-			s.schedule_no scheduleNo,
- 			s.schedule_category scheduleCategory,
-			s.schedule_title scheduleTitle,
-			s.schedule_content scheduleContent,
-			s.schedule_begindate scheduleBegindate,
-			s.schedule_enddate scheduleEnddate
-		FROM schedule s
-			INNER JOIN member m ON s.member_id = m.member_id
-		<where>
-            <if test="scheduleCategory == '개인'">
-            	m.member_id = #{memberId}
-            </if>
-            	AND s.schedule_category = #{scheduleCategory}
-            	AND m.department_no = #{departmentNo}
-            	AND YEAR(s.schedule_begindate) = #{targetYear}
-            	AND MONTH(s.schedule_begindate) = #{targetMonth}
-        </where>
-	</select>
+    SELECT
+        s.schedule_no scheduleNo,
+        s.schedule_category scheduleCategory,
+        s.schedule_title scheduleTitle,
+        s.schedule_content scheduleContent,
+        s.schedule_begindate scheduleBegindate,
+        s.schedule_enddate scheduleEnddate
+    FROM schedule s
+        INNER JOIN member m ON s.member_id = m.member_id
+    <where>
+        <if test="scheduleCategory == '개인'">
+            m.member_id = #{memberId}
+            AND s.schedule_category = #{scheduleCategory}
+            AND m.department_no = #{departmentNo}
+            AND YEAR(s.schedule_begindate) = #{targetYear}
+            AND MONTH(s.schedule_begindate) = #{targetMonth}
+        </if>
+        <if test="scheduleCategory == '부서'">
+            s.schedule_category = #{scheduleCategory}
+            AND m.department_no = #{departmentNo}
+            AND YEAR(s.schedule_begindate) = #{targetYear}
+            AND MONTH(s.schedule_begindate) = #{targetMonth}
+        </if>
+        <if test="scheduleCategory == '전체'">
+            s.schedule_category IN ('부서', '개인') <!-- '전체'인 경우 부서와 개인 스케줄 모두 검색 -->
+            AND m.department_no = #{departmentNo}
+            AND YEAR(s.schedule_begindate) = #{targetYear}
+            AND MONTH(s.schedule_begindate) = #{targetMonth}
+            AND (s.schedule_category = '부서' OR (s.schedule_category = '개인' AND m.member_id = #{memberId})) <!-- 전체에서 개인인 경우 memberId 필요 -->
+        </if>
+    </where>
+</select>
+
 	
 	<!-- 일 별 일정 상세보기 (전체 or 개인 or 부서) -->
 	<select id="getOneSchedule" parameterType="java.util.Map" resultType="java.util.Map">

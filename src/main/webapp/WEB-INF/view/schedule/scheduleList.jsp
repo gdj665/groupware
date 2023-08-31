@@ -196,8 +196,9 @@
 	<button id="addPersonalScheduleModalOpen">개인일정 등록</button>
 	<button id="addDepartmentScheduleModalOpen">부서일정 등록</button>
 	<br><br><br>
-	<a style="color:orange" href="${pageContext.request.contextPath}/schedule/scheduleList?targetYear=${m.targetYear}&targetMonth=${m.targetMonth}&scheduleCategory=부서">부서</a>
-	<a style="color:green" href="${pageContext.request.contextPath}/schedule/scheduleList?targetYear=${m.targetYear}&targetMonth=${m.targetMonth}&scheduleCategory=개인">개인</a>
+	<a style="color:black;" href="${pageContext.request.contextPath}/schedule/scheduleList?targetYear=${m.targetYear}&targetMonth=${m.targetMonth}&scheduleCategory=전체">전체</a>
+	<a style="color:orange;" href="${pageContext.request.contextPath}/schedule/scheduleList?targetYear=${m.targetYear}&targetMonth=${m.targetMonth}&scheduleCategory=부서">부서</a>
+	<a style="color:green;" href="${pageContext.request.contextPath}/schedule/scheduleList?targetYear=${m.targetYear}&targetMonth=${m.targetMonth}&scheduleCategory=개인">개인</a>
 	<br><br>
 	<!-- 달력 시작 -->
 	<table style="width: 80%; height: 500px;">
