@@ -13,7 +13,7 @@
 	<a href="${pageContext.request.contextPath}/member/workCheck">근태 관리</a><br>
 	<a href="${pageContext.request.contextPath}/schedule/scheduleList?scheduleCategory=전체">일정</a><br>
 	<a href="${pageContext.request.contextPath}/meetingroom/meetingroomList">회의실 목록</a>
-	<a href="${pageContext.request.contextPath}/meetingroom/meetingroomReservation">회의실 예약</a>
+	<a href="${pageContext.request.contextPath}/meetingroom/meetingroomReservationList">회의실 예약</a>
 	<a href="${pageContext.request.contextPath}/board/boardList">게시판</a><br>
 	<a href="${pageContext.request.contextPath}/approval/approvalList">결재</a><br>
 	<a href="${pageContext.request.contextPath}/equipment/equipmentList"> 장비 목록</a><br>
