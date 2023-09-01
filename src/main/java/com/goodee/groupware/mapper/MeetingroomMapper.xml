@@ -41,7 +41,80 @@
 		WHERE meetingroom_no = #{meetingroomNo}
 	</delete>
 	
-	<!-- 회의실 예약 조회 --> 	
+	<!-- 모든 회의실 조회 -->
+	<select id="getAllMeetingroomList" resultType="com.goodee.groupware.vo.Meetingroom">
+		SELECT 
+			meetingroom_no meetingroomNo
+		FROM meetingroom
+	</select>
+
+	<!-- 회의실 별 예약 조회 --> 	
+	<select id="getMeetingroomReservationList" parameterType="java.util.Map" resultType="com.goodee.groupware.vo.MeetingroomReserve">
+		SELECT
+			meetingroom_reserve_no meetingroomReserveNo,
+			meetingroom_no meetingroomNo,
+			meetingroom_reserve_date meetingroomReserveDate,
+			meetingroom_reserve_time meetingroomReserveTime,
+			meetingroom_reserve_status meetingroomReserveStatus
+		FROM meetingroom_reserve
+		<where>
+			meetingroom_no = #{meetingroomNo}
+	 		AND meetingroom_reserve_status = 'Y'
+			AND YEAR(meetingroom_reserve_date) = #{targetYear}
+            AND MONTH(meetingroom_reserve_date) = #{targetMonth}
+		</where>
+	</select>
 	
+	<!-- 회의실 예약 유무 -->
+	<select id="getReservationCount" parameterType="com.goodee.groupware.vo.MeetingroomReserve" resultType="int">
+		SELECT 
+			COUNT(*)
+		FROM meetingroom_reserve
+		WHERE meetingroom_no = #{meetingroomNo}
+			AND meetingroom_reserve_date = #{meetingroomReserveDate}
+			AND meetingroom_reserve_time = #{meetingroom_reserve_time}
+			AND meetingroom_reserve_status = 'Y'
+	</select>
+	
+	<!-- 예약 가능한 회의실 예약 등록 -->
+	<insert id="addMeetingroomReservation" parameterType="com.goodee.groupware.vo.MeetingroomReserve">
+		INSERT INTO meetingroom_reserve(
+			meetingroom_no,
+			department_no,
+			meetingroom_reserve_date,
+			meetingroom_reserve_time,
+			createdate,
+			updatedate
+		) VALUES(
+			#{meetingroomNo},
+			#{departmentNo},
+			#{meetingroomReserveDate},
+			#{meetingroomReserveTime},
+			NOW(),
+			NOW()
+		)
+	</insert>
+	
+	<!-- 회의실 예약 취소 -->
+	<update id="updateMeetingroomReservation" parameterType="com.goodee.groupware.vo.MeetingroomReserve">
+		UPDATE meetingroom_reserve
+		SET meetingroom_reserve_status = 'N',
+			updatedate = NOW()
+		WHERE meetingroom_reserve_no = #{meetingroomReserveNo}
+	</update>
+	
+	<!-- 회의실 예약/취소 내역 조회 -->
+	<select id="getReservationHistory" parameterType="com.goodee.groupware.vo.MeetingroomReserve" resultType="com.goodee.groupware.vo.MeetingroomReserve">
+		SELECT 
+			meetingroom_reserve_no meetingroomReserveNo,
+			meetingroom_no meetingroomNo,
+			meetingroom_reserve_date meetingroomReserveDate,
+			meetingroom_reserve_time meetingroomReserveTime,
+			meetingroom_reserve_status meetingroomReserveStatus
+		FROM meetingroom_reserve
+		WHERE meetingroom_reserve_status IN('Y', 'N')
+			AND department_no = #{departmentNo}
+		ORDER BY updatedate DESC	
+	</select>
 
 </mapper>

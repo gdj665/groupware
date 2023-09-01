@@ -29,7 +29,7 @@ public class ScheduleService {
 	@Autowired
 	private ScheduleMapper scheduleMapper;
 
-	// ----- 달력 출력 + 월 별 일정 정보 조회 -----
+// ----- 달력 출력 + 월 별 일정 정보 조회 -----
 	public Map<String, Object> getScheduleList(int departmentNo, String memberId, Integer targetYear, Integer targetMonth, String scheduleCategory){
 			
 		// 달력 API 가져오기

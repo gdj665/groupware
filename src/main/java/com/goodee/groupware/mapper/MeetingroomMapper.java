@@ -6,6 +6,7 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.goodee.groupware.vo.Meetingroom;
+import com.goodee.groupware.vo.MeetingroomReserve;
 
 @Mapper
 public interface MeetingroomMapper {
@@ -20,6 +21,24 @@ public interface MeetingroomMapper {
 	
 	// 회의실 삭제
 	int deleteMeetingroom(Meetingroom meetingroom);
+	
+	// 모든 회의실 조회
+	List<Meetingroom> getAllMeetingroomList();
+	
 // ----------------------------------------------------------------------
-	// 회의실 예약 조회
+	
+	// 회의실 별 예약 전체 조회
+	List<MeetingroomReserve> getMeetingroomReservationList(Map<String,Object> paramMap);
+	
+	// 회의실 예약 유무
+	int getReservationCount(MeetingroomReserve meetingroomReserve);
+	
+	// 회의실 예약 등록
+	int addMeetingroomReservation(MeetingroomReserve meetingroomReserve);
+	
+	// 회의실 예약 취소
+	int updateMeetingroomReservation(MeetingroomReserve meetingroomReserve);
+	
+	// 회의실 예약/취소 조회
+	List<MeetingroomReserve> getReservationHistory(MeetingroomReserve meetingroomReserve);
 }

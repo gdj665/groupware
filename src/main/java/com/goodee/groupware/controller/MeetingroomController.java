@@ -1,6 +1,8 @@
 package com.goodee.groupware.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.goodee.groupware.sevice.MeetingroomService;
+import com.goodee.groupware.sevice.ScheduleService;
 import com.goodee.groupware.vo.Meetingroom;
 import com.goodee.groupware.vo.Member;
 
@@ -23,6 +26,9 @@ import lombok.extern.slf4j.Slf4j;
 public class MeetingroomController {
 	@Autowired
 	MeetingroomService meetingroomService;
+	@Autowired
+	ScheduleService scheduleService;
+	
 // ----- 회의실 목록 -----	
 	@GetMapping("/meetingroom/meetingroomList")
 	public String getMeetingroomList(HttpSession session , Model model, Member member,
@@ -80,12 +86,33 @@ public class MeetingroomController {
 	@GetMapping("/meetingroom/deleteMeetingroom")
 	public String deleteMeetingroom(Meetingroom meetingroom) {
 		int row = 0;
-		
-		// 회의실 삭제
 		row = meetingroomService.deleteMeetingroom(meetingroom);
 		log.debug("\u001B[31m"+"MeetingroomController.deleteMeetingroom() row : "+row+"\u001B[0m");
 		return "redirect:/meetingroom/meetingroomList";
 	}
 
-
+// ----- 회의실 별 예약 조회 -----
+	@GetMapping("/meetingroom/meetingroomReservationList")
+	public String getMeetingroomReservationList(Model model, @RequestParam(required = false, name = "targetYear") Integer targetYear,		
+															 @RequestParam(required = false, name = "targetMonth") Integer targetMonth,
+															 @RequestParam(required = false, name = "meetingroomNo") Integer meetingroomNo) {
+		log.debug("\u001B[31m"+"targetYear : "+ targetYear+"\u001B[0m");
+		log.debug("\u001B[31m"+"targetMonth : "+ targetMonth+"\u001B[0m");
+		log.debug("\u001B[31m"+"meetingroomNo : "+ meetingroomNo+"\u001B[0m");
+		
+		// 요청한 매개값을 담아 서비스를 호출
+		Map<String, Object> reservationMap = new HashMap<>();
+		reservationMap = meetingroomService.getMeetingroomReservationList(meetingroomNo, targetYear, targetMonth);
+		log.debug("\u001B[31m"+"MeetingroomController.getMeetingroomReservationList() ReservationMap : "+ reservationMap.toString()+"\u001B[0m");
+		
+		// 요청한 매개값을 담아 서비스를 호출
+		List<Map<String, String>> getHolidayList = new ArrayList<>();
+		getHolidayList = scheduleService.getHolidayList(targetYear, targetMonth);
+		
+		model.addAttribute("reservationMap", reservationMap);
+		model.addAttribute("getHolidayList", getHolidayList);
+		model.addAttribute("meetingroomNo", meetingroomNo);
+		return "/meetingroom/meetingroomReservationList";
+	}
+	
 }
