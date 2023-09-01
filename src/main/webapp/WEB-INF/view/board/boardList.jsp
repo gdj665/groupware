@@ -263,7 +263,7 @@
 									</h1><br>
 								</header>
 								<div id="collapse4" class="body">
-									<table id="dataTable" class="table table-bordered table-condensed table-hover table-striped">
+									<table class="table table-striped responsive-table">
 										<thead>
 											<tr>
 												<th>번호</th>
@@ -285,6 +285,19 @@
 											</c:forEach>
 										</tbody>
 									</table>
+									<div>
+										<form action="${pageContext.request.contextPath}/board/boardList" method="get">
+											<input type="text" name="searchWord">
+											<input type="hidden" name="departmentNo" value="${param.departmentNo}">
+											<button type="submit">검색</button>
+										</form>
+									</div>
+									<c:if test="${currentPage>1}">
+										<a href="/board/boardList?currentPage=${currentPage-1}&departmentNo=${param.departmentNo}&searchWord=${param.searchWord}">이전</a>
+									</c:if>
+									<c:if test="${currentPage<lastPage}">
+										<a href="/board/boardList?currentPage=${currentPage+1}&departmentNo=${param.departmentNo}&searchWord=${param.searchWord}">다음</a>
+									</c:if>
 								</div>
 							</div>
 						</div>

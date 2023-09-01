@@ -159,7 +159,76 @@ public class ApprovalService {
 	}
 	
 	// 6.) 결재 진행 코멘트 업데이트 + 7.) 결재 진행 상태 변경
-	public int updateApprovalComment(Approval approval, String approvalComment) {
+	public int updateApprovalComment(Approval approval, String approvalLastStatus, String approvalNowStatus, String approvalComment) {
+		
+		log.debug("approval.getApprovalFirstComment()-->"+approval.getApprovalFirstComment());
+		log.debug("approval.getApprovalSecondComment()-->"+approval.getApprovalSecondComment());
+		log.debug("approval.getApprovalThirdComment()-->"+approval.getApprovalThirdComment());
+		log.debug("approval.approvalLastStatus()-->"+approvalLastStatus);
+		log.debug("approval.approvalNowStatus()-->"+approvalNowStatus);
+		
+		// 받아온 코멘트값 분기로 넘기기
+		// 1차 분기 = ID유무와 코멘트 유무확인
+		// 2차 분기 = approvalLastStatus에서 승인,반려,취소 확인
+		// 3차 분기 = 승인일 경우 더 이상 결재자 없으면 approvalLastStatus 변경
+		if(approval.getApprovalFirstComment()==null || approval.getApprovalFirstComment().equals("")) {
+			approval.setApprovalFirstComment(approvalComment);
+			// 2차 코멘드 넘어오는 것때문에 다시 null값으로 변경
+			approval.setApprovalSecondComment(null);
+			approval.setApprovalNowStatus(approvalNowStatus);
+			log.debug("1차 댓글 입력");
+			// 코멘트 디버깅
+			log.debug("approval.getApprovalFirstComment()-->"+approval.getApprovalFirstComment());
+					
+			if(approvalLastStatus != null && (approvalLastStatus.equals("반려") || approvalLastStatus.equals("취소"))) {
+				approvalNowStatus="결재완료";
+				approval.setApprovalLastStatus(approvalLastStatus);
+				approval.setApprovalNowStatus(approvalNowStatus);
+			} else if(approval.getApprovalSecondId() == null || approval.getApprovalSecondId().equals("")) {
+				approvalLastStatus = "승인";
+				approvalNowStatus="결재완료";
+				approval.setApprovalLastStatus(approvalLastStatus);
+				approval.setApprovalNowStatus(approvalNowStatus);
+			}
+			
+		} else if(approval.getApprovalSecondComment() == null
+				|| approval.getApprovalSecondComment().equals("")
+				&& approval.getApprovalFirstComment() != null
+				&& !approval.getApprovalFirstComment().equals("")) {
+			
+			log.debug("2차 댓글 입력");
+			approval.setApprovalSecondComment(approvalComment);
+			approval.setApprovalNowStatus(approvalNowStatus);
+			
+			//코멘트 디버깅
+			log.debug("approval.getApprovalFirstComment()-->"+approval.getApprovalSecondComment());
+			if(approvalLastStatus != null && approvalLastStatus.equals("반려") || approvalLastStatus.equals("취소")) {
+				approvalNowStatus="결재완료";
+				approval.setApprovalLastStatus(approvalLastStatus);
+				approval.setApprovalNowStatus(approvalNowStatus);
+			} else if(approval.getApprovalThirdId() == null || approval.getApprovalThirdId().equals("")) {
+				approvalLastStatus = "승인";
+				approvalNowStatus="결재완료";
+				approval.setApprovalLastStatus(approvalLastStatus);
+				approval.setApprovalNowStatus(approvalNowStatus);
+			}
+		} else {
+			log.debug("3차 댓글 입력");
+			approval.setApprovalThirdComment(approvalComment);
+			approval.setApprovalNowStatus(approvalNowStatus);
+			// 코멘트 디버깅
+			log.debug("approval.getApprovalThirdComment()-->"+approval.getApprovalThirdComment());
+			if(approvalLastStatus != null && approvalLastStatus.equals("반려") || approvalLastStatus.equals("취소")) {
+				approvalNowStatus="결재완료";
+				approval.setApprovalLastStatus(approvalLastStatus);
+				approval.setApprovalNowStatus(approvalNowStatus);
+			} else {
+				approvalLastStatus = "승인";
+				approvalNowStatus="결재완료";
+				approval.setApprovalLastStatus(approvalLastStatus);
+				approval.setApprovalNowStatus(approvalNowStatus);
+			}
+		}
 		
 		// 6.) 결재 진행 코멘트 업데이트
 		int updateApprovalCommentRow = approvalMapper.updateApprovalComment(approval);
@@ -169,9 +238,6 @@ public class ApprovalService {
 		int updateRow = updateApprovalCommentRow + updateApprovalStatusRow;
 		
 		// 디버깅
-		log.debug("approval.getApprovalFirstComment()-->"+approval.getApprovalFirstComment());
-		log.debug("approval.getApprovalSecondComment()-->"+approval.getApprovalSecondComment());
-		log.debug("approval.getApprovalThirdComment()-->"+approval.getApprovalThirdComment());
 		log.debug("approval.getApprovalNo()-->"+approval.getApprovalNo());
 		log.debug("ApprovalService.updateRow-->"+updateRow);
 		

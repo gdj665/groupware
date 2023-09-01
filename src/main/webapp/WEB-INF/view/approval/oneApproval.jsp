@@ -105,9 +105,9 @@
 			<button type="submit" onClick="return confirm('회수하시겠습니까?')">회수하기</button>
 		</form>
 	</c:if>
-	<c:if test="${(approvalOne.approvalFirstId == loginMemberId && approvalOne.approvalFirstComment == null)
-				|| (approvalOne.approvalSecondId == loginMemberId && approvalOne.approvalSecondComment == null && approvalOne.approvalFirstComment != null)
-				|| (approvalOne.approvalThirdId == loginMemberId && approvalOne.approvalThirdComment == null && approvalOne.approvalSecondComment != null && approvalOne.approvalFirstComment != null)}">
+	<c:if test="${(approvalOne.approvalFirstId == loginMemberId && approvalOne.approvalFirstComment == null && approvalOne.approvalNowStatus != '결재완료')
+				|| (approvalOne.approvalSecondId == loginMemberId && approvalOne.approvalSecondComment == null && approvalOne.approvalFirstComment != null && approvalOne.approvalNowStatus != '결재완료')
+				|| (approvalOne.approvalThirdId == loginMemberId && approvalOne.approvalThirdComment == null && approvalOne.approvalSecondComment != null && approvalOne.approvalFirstComment != null && approvalOne.approvalNowStatus != '결재완료')}">
 		<form action="/approval/updateApprovalComment" method="post">
 			<!-- 확인이 필요한 값 -->
 			<input type="hidden" name="approvalNo" value="${approvalOne.approvalNo}">

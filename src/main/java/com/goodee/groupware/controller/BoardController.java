@@ -29,6 +29,9 @@ public class BoardController {
 	public String getBoardList(
 		Model model, 
 		@RequestParam(name = "departmentNo", defaultValue = "0") int departmentNo,
+		@RequestParam(name = "currentPage", defaultValue = "1") int currentPage,
+		@RequestParam(name = "rowPerPage", defaultValue = "3") int rowPerPage,
+		@RequestParam(name = "searchWord", required = false) String searchWord,
 		HttpSession session) {
 		
 		// 세션에서 departmentNo받아와서 처리
@@ -39,10 +42,12 @@ public class BoardController {
 		}
 		
 		// 서비스에서 값 받아와서 resultMap에 저장
-		Map<String, Object> resultMap = boardService.getBoardList(departmentNo);
+		Map<String, Object> resultMap = boardService.getBoardList(currentPage,rowPerPage,searchWord,departmentNo);
 
 		// Model에 addAttribute를 사용하여 view에 값을 보낸다.
 		model.addAttribute("boardList", resultMap.get("boardList"));
+		model.addAttribute("currentPage", currentPage);
+		model.addAttribute("lastPage", resultMap.get("lastPage"));
 
 		return "/board/boardList";
 	}

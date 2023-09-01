@@ -12,8 +12,15 @@
 		    b.createdate
 		FROM board b
 		JOIN member m ON b.member_id = m.member_id
-		WHERE b.department_no = #{departmentNo}
-		ORDER BY b.board_status DESC, b.createdate DESC;
+		<where>
+			b.department_no = #{departmentNo}
+			<!-- 제목 검색 -->
+			<if test="searchWord != null and searchWord != ''">
+				AND b.board_title LIKE '%' #{searchWord} '%'
+			</if>
+		</where>
+		ORDER BY b.board_status ASC, b.createdate DESC
+		LIMIT #{beginRow},#{rowPerPage}
 	</select>
 	
 	<!-- 1.1) 게시판에 따른 게시판 행 갯수 출력 -->
@@ -21,7 +28,13 @@
 		SELECT
 			COUNT(*)
 		FROM board
-		WHERE department_no = #{departmentNo}
+		<where>
+			department_no = #{departmentNo}
+			<!-- 제목 검색 -->
+			<if test="searchWord != null and searchWord != ''">
+				AND board_title LIKE '%' #{searchWord} '%'
+			</if>
+		</where>
 	</select>
 	
 	<!-- 2.) 게시판 상세출력 -->
