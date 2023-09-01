@@ -3,13 +3,11 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Modernize Free</title>
-  <link rel="shortcut icon" type="image/png" href="${pageContext.request.contextPath}/assets/images/logos/favicon.png" />
-  <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/styles.min.css" />
-</head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Modernize Free</title>
 
+</head>
 <body>
   <!--  Body Wrapper -->
   <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
@@ -144,16 +142,7 @@
     </aside>
     <!--  Sidebar End -->
     <!--  Main wrapper -->
-    
-     
-  
-  <script src="${pageContext.request.contextPath}/assets/libs/jquery/dist/jquery.min.js"></script>
-  <script src="${pageContext.request.contextPath}/assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="${pageContext.request.contextPath}/assets/js/sidebarmenu.js"></script>
-  <script src="${pageContext.request.contextPath}/assets/js/app.min.js"></script>
-  <script src="${pageContext.request.contextPath}/assets/libs/apexcharts/dist/apexcharts.min.js"></script>
-  <script src="${pageContext.request.contextPath}/assets/libs/simplebar/dist/simplebar.js"></script>
-  <script src="${pageContext.request.contextPath}/assets/js/dashboard.js"></script>
 </body>
+<jsp:include page="${pageContext.request.contextPath}/menu/code.jsp"></jsp:include>
 
 </html>

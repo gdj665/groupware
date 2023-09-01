@@ -5,6 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+
 </head>
 <body>
 	<!--  Header Start -->
@@ -54,5 +55,6 @@
         </nav>
       </header>
       <!--  Header End -->
+<jsp:include page="${pageContext.request.contextPath}/menu/code.jsp"></jsp:include>
 </body>	
 </html>
