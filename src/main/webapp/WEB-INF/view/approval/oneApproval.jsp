@@ -36,8 +36,8 @@
 			<th>${approvalOne.approvalNo}</th>
 		</tr>
 		<tr>
-			<th>작성자아이디</th>
-			<th>${approvalOne.memberId}</th>
+			<th>작성자</th>
+			<th>${approvalOne.memberName}</th>
 		</tr>
 		<tr>
 			<th>제목</th>
@@ -61,7 +61,7 @@
 		</tr>
 		<tr>
 			<th>1차 결재자</th>
-			<th>${approvalOne.approvalFirstId}</th>
+			<th>${approvalOne.approvalFirstName}</th>
 		</tr>
 		<tr>
 			<th>1차 결재자 댓글</th>
@@ -69,7 +69,7 @@
 		</tr>
 		<tr>
 			<th>2차 결재자</th>
-			<th>${approvalOne.approvalSecondId}</th>
+			<th>${approvalOne.approvalSecondName}</th>
 		</tr>
 		<tr>
 			<th>2차 결재자 댓글</th>
@@ -77,7 +77,7 @@
 		</tr>
 		<tr>
 			<th>3차 결재자</th>
-			<th>${approvalOne.approvalThirdId}</th>
+			<th>${approvalOne.approvalThirdName}</th>
 		</tr>
 		<tr>
 			<th>3차 결재자 댓글</th>

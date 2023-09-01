@@ -7,6 +7,7 @@ public class Work {
 	private int workNo;
 	private int departmentNo;
 	private String memberId;
+	private String memberName;
 	private String workBegin;
 	private String workEnd;
 	private String workDate;

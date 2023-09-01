@@ -23,7 +23,7 @@ public interface EquipmentHistoryMapper {
 	List<Map<String,Object>> getEqHistoryList (Map<String,Object> eqHistoryMap); 
 	
 	// 2.1) 장비 사용내역 리스트 총행의 개수(장비상세보기에서 해당장비 사용내역만 나옴)
-	int getEqHistoryListCnt (EquipmentHistory eqHistroy);
+	int getEqHistoryListCnt (Map<String,Object> pageMap);
 	
 	// 3) 장비 사용내역 세션아이디값으로 조회해 자신이 사용한 장비 기록 목록
 	List<Map<String,Object>> getEqHistoryListById (Map<String,Object> eqHistoryByIdMap);

@@ -27,8 +27,9 @@
 			success : function(model) {
 				
 				model.forEach(function(item, index){
+					let member = item.memberId + '(' + item.memberName + ')' 
 					// chart모델 생성
-					x.push(item.memberId);
+					x.push(member);
 					y1.push(item.workBeginLate);
 					y2.push(item.workEndFast);
 					y3.push(item.useAnnual);
@@ -90,7 +91,7 @@
 			<td>
 				<c:forEach var="wil" items="${im.workCheckInfoList}">
 					<c:if test="${empty wil.workBegin && empty wil.workAnnual}">
-						${wil.memberId}<br>
+						${wil.memberId}(${wil.memberName})<br>
 					</c:if>
 				</c:forEach>
 			</td>
@@ -98,7 +99,7 @@
 			<td>
 				<c:forEach var="wil" items="${im.workCheckInfoList}">
 					<c:if test="${not empty wil.workBegin && empty wil.workEnd}">
-						${wil.memberId}<br>
+						${wil.memberId}(${wil.memberName})<br>
 					</c:if>
 				</c:forEach>
 			</td>
@@ -106,7 +107,7 @@
 			<td>
 				<c:forEach var="wil" items="${im.workCheckInfoList}">
 					<c:if test="${not empty wil.workEnd}">
-						${wil.memberId}<br>
+						${wil.memberId}(${wil.memberName})<br>
 					</c:if>
 				</c:forEach>
 			</td>
@@ -114,7 +115,7 @@
 			<td>
 				<c:forEach var="wil" items="${im.workCheckInfoList}">
 					<c:if test="${wil.workAnnual eq 'Y'}">
-						${wil.memberId}<br>
+						${wil.memberId}(${wil.memberName})<br>
 					</c:if>
 				</c:forEach>
 			</td>

@@ -5,14 +5,15 @@
 	<!-- 1) 부서 게시판 리스트출력 -->
 	<select id = "getBoardList" parameterType="java.util.Map" resultType="java.util.Map">
 		SELECT 
-			board_no boardNo, 
-			member_id memberId,
-			CASE WHEN CHAR_LENGTH(board_title)>10 THEN CONCAT(LEFT(board_title,10),'...') ELSE board_title END boardTitle,
-			CASE WHEN CHAR_LENGTH(board_content)>10 THEN CONCAT(LEFT(board_content,10),'...') ELSE board_content END boardContent,
-			createdate
-		FROM board
-		WHERE department_no = #{departmentNo}
-		ORDER BY board_status DESC,board_no DESC
+		    board_no AS boardNo, 
+		    m.member_name AS memberName,
+		    CASE WHEN CHAR_LENGTH(board_title) > 10 THEN CONCAT(LEFT(board_title, 10), '...') ELSE board_title END AS boardTitle,
+		    CASE WHEN CHAR_LENGTH(board_content) > 10 THEN CONCAT(LEFT(board_content, 10), '...') ELSE board_content END AS boardContent,
+		    b.createdate
+		FROM board b
+		JOIN member m ON b.member_id = m.member_id
+		WHERE b.department_no = #{departmentNo}
+		ORDER BY b.board_status DESC, b.createdate DESC;
 	</select>
 	
 	<!-- 1.1) 게시판에 따른 게시판 행 갯수 출력 -->
@@ -24,18 +25,21 @@
 	</select>
 	
 	<!-- 2.) 게시판 상세출력 -->
-	<select id = "getOneBoard" parameterType="com.goodee.groupware.vo.Board" resultType="com.goodee.groupware.vo.Board">
+	<select id = "getOneBoard" parameterType="com.goodee.groupware.vo.Board" resultType="java.util.Map">
 		SELECT 
-			board_no boardNo,
-			member_id memberId,
-			board_title boardTitle,
-			board_content boardContent,
-			department_no departmentNo,
-			board_status boardStatus,
-			createdate createdate,
-			updatedate updatedate
-		FROM board
-		WHERE board_no = #{boardNo}
+			b.board_no AS boardNo,
+			b.member_id AS memberId,
+			m.member_name AS memberName,
+			b.board_title AS boardTitle,
+			b.board_content AS boardContent,
+			b.department_no AS departmentNo,
+			b.board_status AS boardStatus,
+			b.createdate AS createdate,
+			b.updatedate AS updatedate
+		FROM board b
+		JOIN member m ON b.member_id = m.member_id
+		WHERE b.board_no = #{boardNo}
+
 	</select>
 	
 	<!-- 3.) 게시판 삭제 -->

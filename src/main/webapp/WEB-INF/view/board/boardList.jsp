@@ -279,7 +279,7 @@
 													<td>${b.boardNo}</td>
 													<td>${b.boardTitle}</td>
 													<td>${b.boardContent}</td>
-													<td>${b.memberId}</td>
+													<td>${b.memberName}</td>
 													<td>${b.createdate}</td>
 												</tr>
 											</c:forEach>
