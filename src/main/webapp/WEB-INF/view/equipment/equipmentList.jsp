@@ -255,6 +255,9 @@
 </script>
 </head>
 <body>
+	<jsp:include page="${pageContext.request.contextPath}/menu/menu.jsp"></jsp:include>
+	
+
 	<h1>장비 목록</h1>
 	<!-- 장비추가는 팀장급부터만 가능하게 세션에 level값으로 조건 -->
 	<c:if test="${memberLevel > 1}">
@@ -408,6 +411,6 @@
 			<button id="addEqHistroyBtn" type="button">대여</button>
 			<button class="close" type="button">닫기</button>
 		</div>
-	</div> 
+	</div>
 </body>
 </html>
