@@ -28,7 +28,7 @@ body {
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     overflow: hidden;
     
-    border: 2px solid black; /* 검정색 태두리 추가 */
+    border: 1px solid black; /* 검정색 태두리 추가 */
 }
 /* 첫 번째, 두 번째, 세 번째 컨테이너 공통 스타일 */
 .container:nth-child(1),
