@@ -6,55 +6,9 @@
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
 <!-- 개인 css -->
-<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/hrm.css">
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/address.css">
 <meta charset="UTF-8">
-<title>Insert title here</title>
-<style>
-        /* Add some basic styling to the buttons */
-        .choso-button {
-            display: inline-block;
-            padding: 8px 12px;
-            margin-right: 8px;
-            background-color: #3498db;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-
-        /* Style the active button */
-        .choso-button.active {
-            background-color: #e74c3c;
-        }
-    </style>
-    <script>
-$(document).ready(function() {
-  $('.copy-phone').click(function() {
-    // 클립보드에 텍스트 복사
-    var text = $(this).text();
-    
-    var tempInput = $('<input>');
-    $('body').append(tempInput);
-    tempInput.val(text).select();
-    document.execCommand('copy');
-    tempInput.remove();
-    
-    alert('복사되었습니다: ' + text);
-  });
-  $('.copy-email').click(function() {
-	    var text = $(this).text();
-	    
-	    // 이메일 주소에 맞게 클립보드에 복사
-	    var tempInput = $('<input>');
-	    $('body').append(tempInput);
-	    tempInput.val(text).select();
-	    document.execCommand('copy');
-	    tempInput.remove();
-	    
-	    alert('복사되었습니다: ' + text);
-	  });
-});
-</script>
+<title>addressList</title>
 </head>
 <body>
 	<h1 class="text-center mt-4">주소록</h1>
@@ -117,5 +71,6 @@ $(document).ready(function() {
 			href="${pageContext.request.contextPath}/address/addressList?currentPage=${currentPage+1}&colpol=${param.colpol}&searchName=${param.searchName}" class="choso-button">다음</a>
 	</c:if>
 	</div>
+	<script src="${pageContext.request.contextPath}/javascript/address.js"></script>
 </body>
 </html>

@@ -9,6 +9,8 @@
 	margin-bottom: 20px;
 	height: 700px;
 	overflow-y: scroll;
+	display: flex;
+  	flex-direction: row;
 	/* 내용이 넘칠 경우 스크롤 생성 */
 }
 
@@ -213,7 +215,34 @@ a:hover {
 }
 
 .button-container {
-    display: flex; /* Flexbox를 사용하여 아이템을 한 줄에 나열합니다. */
     gap: 10px; /* 버튼 사이의 간격을 조정합니다. */
-    
+    width: 20%;
+  padding: 10px;
 }
+.table-container {
+  width: 80%;
+  padding: 10px;
+  display: none;
+}
+
+.toggle-button {
+  display: block;
+  margin-bottom: 5px;
+  padding: 3px 10px;
+  font-size: 12px;
+  height: 30px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.toggle-button i {
+  margin-right: 5px;
+}
+
+/* Additional style for vertical arrangement */
+.button-container .toggle-button {
+  display: block;
+  width: 100%; /* Set width to 100% for full container width */
+}
+

@@ -7,7 +7,8 @@
 		d1.`department_no` departmentNo, 
 		d2.`department_id` departmentParentId 
 		FROM department d1 LEFT JOIN department d2 
-		ON d1.`department_parent_no`= d2.`department_no` 
+		ON d1.`department_parent_no`= d2.`department_no`
+		WHERE d1.department_no >= 0 
 		ORDER BY d1.`department_no` ASC 
 	</select>
 	
