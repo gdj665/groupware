@@ -5,97 +5,10 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<style>
-	/* 모달 컨테이너 스타일 */
-	.modal {
-        display: none;
-        position: fixed;
-        z-index: 1;
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, 0.4);
-    }
-
-    /* 모달 내용 스타일 */
-    .modal_content {
-        background-color: white;
-        margin: 15% auto;
-        padding: 20px;
-        border: 1px solid #888;
-        width: 50%;
-        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
-        border-radius: 5px;
-    }
-
-    /* 제목 스타일 */
-    .modal_content h3 {
-        margin-top: 0;
-    }
-
-    /* 폼 스타일 */
-    .modal_content form {
-        margin-top: 20px;
-    }
-
-    /* 테이블 스타일 */
-    .modal_content table {
-        width: 100%;
-        border-collapse: collapse;
-    }
-
-    /* 테이블 셀 스타일 */
-    .modal_content td {
-        padding: 8px;
-        border-bottom: 1px solid #ddd;
-    }
-
-    /* 입력 필드 스타일 */
-    .modal_content input[type="text"],
-    .modal_content input[type="date"] {
-        width: 100%;
-        padding: 8px;
-        border: 1px solid #ccc;
-        border-radius: 3px;
-    }
-
-    /* 메시지 스타일 */
-    .modal_content .msg {
-        color: red;
-        font-size: 12px;
-    }
-
-    /* 버튼 스타일 */
-    .modal_content button {
-        margin-top: 10px;
-        padding: 8px 15px;
-        border: none;
-        background-color: #007bff;
-        color: white;
-        cursor: pointer;
-        border-radius: 3px;
-    }
-
-    .modal_content button.close {
-        background-color: #ccc;
-    }
-
-    .modal_content button:hover {
-        background-color: #0056b3;
-    }
-    
-	
-	.table_cell {
-		border: 1px solid;
-		border-color: black;
-		width:100px;
-		height: 50px;
-	}
-	
-</style>
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+<!-- 개인 css -->
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/schedule.css">
 <script>
 	$(document).ready(function(){
 		// 개인일정 등록 모달창 오픈
@@ -151,7 +64,7 @@
 			<td class="table_cell">${r.createdate}</td>		
 			<td class="table_cell">${r.updatedate}</td>
 			<td class="table_cell">
-				<a href="${pageContext.request.contextPath}/meetingroom/deleteMeetingroom?meetingroomNo=${r.meetingroomNo}">삭제</a>
+				<a href="${pageContext.request.contextPath}/meetingroom/deleteMeetingroom?meetingroomNo=${r.meetingroomNo}" onClick="return confirm('삭제하시겠습니까?')">삭제</a>
 			</td>
 		</tr>
 		</c:forEach>
