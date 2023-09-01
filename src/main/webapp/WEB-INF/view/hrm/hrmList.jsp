@@ -237,8 +237,8 @@
 			                </tr>
 						</table>
 					</form>
-						<button id="addHrmBtn" type="button">추가</button>
-						<button id="close" type="button">닫기</button>
+						<button id="addHrmBtn" type="button" class="btn btn-primary">추가</button>
+						<button id="close" type="button" class="btn btn-primary">닫기</button>
 				</div>
 			</div>
 			
@@ -333,9 +333,9 @@
 			                </tr>
 						</table>
 					</form>
-				    <button id="updateMemberBtn" type="button">수정</button>
-				    <button id="close2" type="button">닫기</button>
-			        <button id="deleteMemberBtn" type="button">퇴사</button>
+				    <button id="updateMemberBtn" type="button" class="btn btn-primary">수정</button>
+				    <button id="close2" type="button" class="btn btn-primary">닫기</button>
+			        <button id="deleteMemberBtn" type="button" class="btn btn-primary">퇴사</button>
 				    <form action="${pageContext.request.contextPath}/hrm/deleteMember" method="post">
 				        <input type="hidden" id="memberId2"  name="memberId">
 				    </form>

@@ -28,24 +28,24 @@
 						action="${pageContext.request.contextPath}/address/addressList"
 						method="get">
 						<input type="text" name="searchName">
-						<button type="submit" class="choso-button">검색</button>
+						<button type="submit" class="choso-button btn btn-primary" >검색</button>
 					</form>
 					<br>
-					<a href="${pageContext.request.contextPath}/address/addressList?currentPage=${currentPage}" class="choso-button">전체</a>
-					<a href="${pageContext.request.contextPath}/address/addressList?currentPage=1&colpol=ㄱ" class="choso-button">ㄱ</a>
-					<a href="${pageContext.request.contextPath}/address/addressList?currentPage=1&colpol=ㄴ" class="choso-button">ㄴ</a>
-					<a href="${pageContext.request.contextPath}/address/addressList?currentPage=1&colpol=ㄷ" class="choso-button">ㄷ</a>
-					<a href="${pageContext.request.contextPath}/address/addressList?currentPage=1&colpol=ㄹ" class="choso-button">ㄹ</a>
-					<a href="${pageContext.request.contextPath}/address/addressList?currentPage=1&colpol=ㅁ" class="choso-button">ㅁ</a>
-					<a href="${pageContext.request.contextPath}/address/addressList?currentPage=1&colpol=ㅂ" class="choso-button">ㅂ</a>
-					<a href="${pageContext.request.contextPath}/address/addressList?currentPage=1&colpol=ㅅ" class="choso-button">ㅅ</a>
-					<a href="${pageContext.request.contextPath}/address/addressList?currentPage=1&colpol=ㅇ" class="choso-button">ㅇ</a>
-					<a href="${pageContext.request.contextPath}/address/addressList?currentPage=1&colpol=ㅈ" class="choso-button">ㅈ</a>
-					<a href="${pageContext.request.contextPath}/address/addressList?currentPage=1&colpol=ㅊ" class="choso-button">ㅊ</a>
-					<a href="${pageContext.request.contextPath}/address/addressList?currentPage=1&colpol=ㅋ" class="choso-button">ㅋ</a>
-					<a href="${pageContext.request.contextPath}/address/addressList?currentPage=1&colpol=ㅌ" class="choso-button">ㅌ</a>
-					<a href="${pageContext.request.contextPath}/address/addressList?currentPage=1&colpol=ㅍ" class="choso-button">ㅍ</a>
-					<a href="${pageContext.request.contextPath}/address/addressList?currentPage=1&colpol=ㅎ" class="choso-button">ㅎ</a>
+					<a href="${pageContext.request.contextPath}/address/addressList?currentPage=${currentPage}" class="choso-button btn btn-primary">전체</a>
+					<a href="${pageContext.request.contextPath}/address/addressList?currentPage=1&colpol=ㄱ" class="choso-button btn btn-primary">ㄱ</a>
+					<a href="${pageContext.request.contextPath}/address/addressList?currentPage=1&colpol=ㄴ" class="choso-button btn btn-primary">ㄴ</a>
+					<a href="${pageContext.request.contextPath}/address/addressList?currentPage=1&colpol=ㄷ" class="choso-button btn btn-primary">ㄷ</a>
+					<a href="${pageContext.request.contextPath}/address/addressList?currentPage=1&colpol=ㄹ" class="choso-button btn btn-primary">ㄹ</a>
+					<a href="${pageContext.request.contextPath}/address/addressList?currentPage=1&colpol=ㅁ" class="choso-button btn btn-primary">ㅁ</a>
+					<a href="${pageContext.request.contextPath}/address/addressList?currentPage=1&colpol=ㅂ" class="choso-button btn btn-primary">ㅂ</a>
+					<a href="${pageContext.request.contextPath}/address/addressList?currentPage=1&colpol=ㅅ" class="choso-button btn btn-primary">ㅅ</a>
+					<a href="${pageContext.request.contextPath}/address/addressList?currentPage=1&colpol=ㅇ" class="choso-button btn btn-primary">ㅇ</a>
+					<a href="${pageContext.request.contextPath}/address/addressList?currentPage=1&colpol=ㅈ" class="choso-button btn btn-primary">ㅈ</a>
+					<a href="${pageContext.request.contextPath}/address/addressList?currentPage=1&colpol=ㅊ" class="choso-button btn btn-primary">ㅊ</a>
+					<a href="${pageContext.request.contextPath}/address/addressList?currentPage=1&colpol=ㅋ" class="choso-button btn btn-primary">ㅋ</a>
+					<a href="${pageContext.request.contextPath}/address/addressList?currentPage=1&colpol=ㅌ" class="choso-button btn btn-primary">ㅌ</a>
+					<a href="${pageContext.request.contextPath}/address/addressList?currentPage=1&colpol=ㅍ" class="choso-button btn btn-primary">ㅍ</a>
+					<a href="${pageContext.request.contextPath}/address/addressList?currentPage=1&colpol=ㅎ" class="choso-button btn btn-primary">ㅎ</a>
 				    <br><br>
 				<table>
 					<thead>
@@ -73,12 +73,12 @@
 				</table>
 				<br>
 				<c:if test="${currentPage > 1}">
-					<a
+					<a class="choso-button btn btn-primary"
 						href="${pageContext.request.contextPath}/address/addressList?currentPage=${currentPage-1}&colpol=${param.colpol}&searchName=${param.searchName}" class="choso-button">이전</a>
 				</c:if>
 					<span class="choso-button">${currentPage}</span>
 				<c:if test="${currentPage < lastPage}">
-					<a
+					<a class="choso-button btn btn-primary"
 						href="${pageContext.request.contextPath}/address/addressList?currentPage=${currentPage+1}&colpol=${param.colpol}&searchName=${param.searchName}" class="choso-button">다음</a>
 				</c:if>
 				</div>

@@ -119,20 +119,7 @@ select, input[type="text"] {
     margin-bottom: 10px;
 }
 
-button[type="submit"] {
-    padding: 10px 20px;
-    background-color: #007bff;
-    border: none;
-    border-radius: 4px;
-    color: #fff;
-    font-size: 14px;
-    cursor: pointer;
-    transition: background-color 0.2s;
-}
 
-button[type="submit"]:hover {
-    background-color: #0056b3;
-}
 /* 체크박스 스타일 */
 .member-checkbox {
     appearance: none;
@@ -282,8 +269,6 @@ button[type="submit"]:hover {
         margin-top: 10px;
         padding: 8px 15px;
         border: none;
-        background-color: #007bff;
-        color: white;
         cursor: pointer;
         border-radius: 3px;
     }
@@ -352,19 +337,10 @@ button[type="submit"]:hover {
     margin-top: 10px;
     padding: 8px 15px;
     border: none;
-    background-color: #007bff;
-    color: white;
     cursor: pointer;
     border-radius: 3px;
 }
 
-.modal_content2 button.close {
-    background-color: #ccc;
-}
-
-.modal_content2 button:hover {
-    background-color: #0056b3;
-}
 h5 {
     font-size: 1.5rem; /* 원하는 폰트 크기로 조절 */
     font-weight: bold;

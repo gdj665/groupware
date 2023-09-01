@@ -115,7 +115,7 @@
 				                    </td>
 				                </tr>
 				            </table>
-				            <button type="submit">업데이트</button>
+				            <button type="submit" class="btn btn-primary">업데이트</button>
 				        </form>
 				    </div>
 				</div>
@@ -146,8 +146,8 @@
 								</tr>
 							</table>
 						</form>
-							<button id="addDepartmentBtn" type="button">추가</button>
-							<button id="close" type="button">닫기</button>
+							<button id="addDepartmentBtn" type="button" class="btn btn-primary">추가</button>
+							<button id="close" type="button" class="btn btn-primary">닫기</button>
 					</div>
 				</div>
 				<!-- 부서 삭제 모달창 html -->
@@ -168,8 +168,8 @@
 								</c:forEach>
 							</table>	
 						</form>
-						<button id="deleteDepartmentBtn" type="button">삭제</button>
-						<button id="close2" type="button">닫기</button>
+						<button id="deleteDepartmentBtn" type="button" class="btn btn-primary">삭제</button>
+						<button id="close2" type="button" class="btn btn-primary">닫기</button>
 					</div>
 				</div>
             </div>
@@ -177,6 +177,7 @@
         </div>
       </div>
     </div>
+    <script src="${pageContext.request.contextPath}/javascript/department.js"></script>
  <jsp:include page="${pageContext.request.contextPath}/menu/code.jsp"></jsp:include>
 </body>
 

@@ -111,24 +111,6 @@ li {
 	font-size: 12px;
 }
 
-/* 버튼 스타일 */
-.modal_content button {
-	margin-top: 10px;
-	padding: 8px 15px;
-	border: none;
-	background-color: #007bff;
-	color: white;
-	cursor: pointer;
-	border-radius: 3px;
-}
-
-.modal_content button.close {
-	background-color: #ccc;
-}
-
-.modal_content button:hover {
-	background-color: #0056b3;
-}
 
 /* 모달2 내용 스타일 */
 .modal_content2 {
@@ -183,16 +165,6 @@ li {
 	font-size: 12px;
 }
 
-/* 버튼 스타일 */
-.modal_content2 button {
-	margin-top: 10px;
-	padding: 8px 15px;
-	border: none;
-	background-color: #007bff;
-	color: white;
-	cursor: pointer;
-	border-radius: 3px;
-}
 
 .modal_content2 button.close {
 	background-color: #ccc;
