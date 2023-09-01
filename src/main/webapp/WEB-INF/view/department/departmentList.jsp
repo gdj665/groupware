@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
     <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html lang="en">
@@ -7,8 +6,6 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>부서관리</title>
-  <link rel="shortcut icon" type="image/png" href="${pageContext.request.contextPath}/assets/images/logos/favicon.png" />
-  <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/styles.min.css" />
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
 <!-- 개인 css -->
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/department.css">
@@ -180,12 +177,7 @@
         </div>
       </div>
     </div>
-  <script src="${pageContext.request.contextPath}/javascript/department.js"></script>
-  <script src="${pageContext.request.contextPath}/assets/libs/jquery/dist/jquery.min.js"></script>
-  <script src="${pageContext.request.contextPath}/assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="${pageContext.request.contextPath}/assets/js/sidebarmenu.js"></script>
-  <script src="${pageContext.request.contextPath}/assets/js/app.min.js"></script>
-  <script src="${pageContext.request.contextPath}/assets/libs/simplebar/dist/simplebar.js"></script>
+ <jsp:include page="${pageContext.request.contextPath}/menu/code.jsp"></jsp:include>
 </body>
 
 </html>
