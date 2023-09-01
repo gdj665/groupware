@@ -1,202 +1,259 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>결재 문서 작성</title>
+<title>결재 리스트</title>
 
-<!-- jquery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
-<!-- bootStrap CSS -->
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+<!-- Bootstrap -->
+<link rel="stylesheet" href="${pageContext.request.contextPath}/assets/lib/bootstrap/css/bootstrap.css">
+<!-- Font Awesome -->
+<link rel="stylesheet" href="${pageContext.request.contextPath}/assets/lib/font-awesome/css/font-awesome.css">
+<!-- Metis core stylesheet -->
+<link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/main.css">
+<!-- metisMenu stylesheet -->
+<link rel="stylesheet" href="${pageContext.request.contextPath}/assets/lib/metismenu/metisMenu.css">
+<!-- onoffcanvas stylesheet -->
+<link rel="stylesheet" href="${pageContext.request.contextPath}/assets/lib/onoffcanvas/onoffcanvas.css">
+<!-- animate.css stylesheet -->
+<link rel="stylesheet" href="${pageContext.request.contextPath}/assets/lib/animate.css/animate.css">
+<!--fa -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 <!-- 개인 css -->
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/department.css">
-<style>
-	.main-list {
-	    max-height: 400px;
-	    overflow-y: auto;
-	    overflow-x: hidden;
-	}
-    label {
-        display: block;
-        margin-bottom: 5px;
-    }
-    
-	input[type=file]::file-selector-button {
-	width: 150px;
-	height: 30px;
-	background: #fff;
-	border: 1px solid rgb(77,77,77);
-	border-radius: 10px;
-	cursor: pointer;
-	&:hover {
-		background: rgb(77,77,77);
-		color: #fff;
-	}
-}
-</style>
 <script>
-	$(document).ready(function() {
-		// 결재버튼 눌렀을때 진행
-		$('#uploadForm').submit(function() {
-			// 결재 코멘트와 세션 로그인 정보 변수선언
-			const firstApprovalId = $('.memberIdInputFirst').val();
-	        const secondApprovalId= $('.memberIdInputSecond').val();
-	        const thirdApprovalId = $('.memberIdInputThird').val();
-	        const memberId = '${sessionScope.loginMember}';
-	        
-	        // 두 번째 결재자 입력 확인
-	        if (secondApprovalId && !firstApprovalId && !thirdApprovalId) {
-	            alert("두 번째 결재자를 선택하려면 첫 번째 결재자를 먼저 선택해야 합니다.");
-	            return false;
-	        }
-
-	        // 세 번째 결재자 입력 확인
-	        if (thirdApprovalId && (!thirdApprovalId || !firstApprovalId)) {
-	            alert("세 번째 결재자를 선택하려면 첫 번째와 두 번째 결재자를 먼저 선택해야 합니다.");
-	            return false;
-	        }
-	        
-	        // 결재자 중복확인
-	        if (!firstApprovalId
-	        		&& (thirdApprovalId === secondApprovalId) 
-	        		|| (secondApprovalId === firstApprovalId)
-	        		|| (thirdApprovalId === firstApprovalId)) {
-	            alert("결재자가 중복 또는 누락되었습니다. 수정바랍니다");
-	            return false;
-	        }
-	        
-	   		// 결재자란에 작성자가 들어가면 오류
-	        if ((firstApprovalId === memberId)
-	        		|| (thirdApprovalId === memberId) 
-	        		|| (secondApprovalId === memberId)) {
-	            alert("자기 자신은 결재자로 선택할수 없습니다. 수정바랍니다");
-	            return false;
-	        }
-	   		
-			// 첨부파일 갯수 5개 까지만으로 제한
-			const fileInput = $('#fileInput')[0];
-			if (fileInput.files.length > 5) {
-				alert("최대 5개의 파일만 업로드할 수 있습니다.");
-				return false;
-			}
-
-			// 업로드된 파일들의 크기를 확인
-			// 파일들의 합 최대 50MB로 제한
-			const maxFileSize = 50 * 1024 * 1024;
-
-			let totalSize = 0;
-			for (let i = 0; i < fileInput.files.length; i++) {
-				totalSize += fileInput.files[i].size;
-			}
-
-			if (totalSize > maxFileSize) {
-				alert("최대 50MB의 파일만 업로드할 수 있습니다.");
-				return false;
-			}
-		});
-		
-		// 파일 선택 시 파일명 표시
-		$('#fileInput').change(function() {
-			const selectedFiles = [];
-			for (let i = 0; i < this.files.length; i++) {
-				selectedFiles.push(this.files[i].name);
-			}
-			// 각 파일 출력후에 <br>태그로 개행(text 타입에서 \n으로는 개행이 되지않음)
-			$('#selectedFiles').html(selectedFiles.join("<br>"));
-		});
-
-		const selectElement = document.getElementById("approvalForm");
-
-		selectElement.addEventListener("change", function() {
-			if (selectElement.value === "") {
-				selectElement.setAttribute("required", "required");
-			} else {
-				selectElement.removeAttribute("required");
-			}
-		});
-
-		// 모달창 이벤트 -------------------------------------
-		$('#open').click(function() {
-			$('.modal').fadeIn();
-		});
-		$('#close').click(function() {
-			$('.modal').fadeOut();
-		});
-		$('.modal').click(function() {
-			$('.modal').fadeOut();
-		});
-		$('.modal_content').click(function(event) {
-			event.stopPropagation(); // 이벤트 전파 중단
-		});
-
-		// ul li 숨기고 보이는 기능  ------------------------------------
-		$('.toggle-link').click(function(e) {
-			e.preventDefault();
-
-			// 클릭한 요소의 하위 ul 요소를 활성화/비활성화합니다.
-			$(this).next('ul').toggleClass('active');
-
-			// 아이콘 방향을 변경합니다.
-			$(this).toggleClass('active');
-		});
-		
-		// 체크박스 관련 기능
-		let selectedCheckbox = null; // 선택된 체크박스를 추적하는 변수
-
-		// 체크박스 클릭 이벤트
-		$('.member-checkbox').click(function() {
-			// 다른 체크박스 선택 해제
-			$('.member-checkbox').not(this).prop('checked', false);
-
-			// 클릭한 체크박스 선택
-			$(this).prop('checked', true);
-
-			selectedCheckbox = this; // 선택된 체크박스 저장
-		});
-		
-		// 오른쪽 화살표 첫번째 버튼 동작 구현
-		$('#rightArrowButtonFirst').click(function() {
-			if (selectedCheckbox !== null) {
-				const memberIdInputFirst = $('.memberIdInputFirst');
-				const memberNameInputFirst = $('.memberNameInputFirst');
-				const memberId = $(selectedCheckbox).val();
-				const memberName = $(selectedCheckbox).parent().text().trim();
-				memberIdInputFirst.val(memberId);
-				memberNameInputFirst.val(memberName);
-			}
-		});
-		
-		// 오른쪽 화살표 두번째 버튼 동작 구현
-		$('#rightArrowButtonSecond').click(function() {
-			if (selectedCheckbox !== null) {
-				const memberIdInputSecond = $('.memberIdInputSecond');
-				const memberNameInputSecond = $('.memberNameInputSecond');
-				const memberId = $(selectedCheckbox).val();
-				const memberName = $(selectedCheckbox).parent().text().trim();
-				memberIdInputSecond.val(memberId);
-				memberNameInputSecond.val(memberName);
-			}
-		});
-		
-		// 오른쪽 화살표 세번째 버튼 동작 구현
-		$('#rightArrowButtonThird').click(function() {
-			if (selectedCheckbox !== null) {
-				const memberIdInputThird = $('.memberIdInputThird');
-				const memberNameInputThird = $('.memberNameInputThird');
-				const memberId = $(selectedCheckbox).val();
-				const memberName = $(selectedCheckbox).parent().text().trim();
-				memberIdInputThird.val(memberId);
-				memberNameInputThird.val(memberName);
-			}
-		});
-	});
+	less = {
+		env: "development",
+		relativeUrls: false,
+		rootpath: "/assets/"
+	};
 </script>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/style-switcher.css">
+<link rel="stylesheet/less" type="text/css" href="${pageContext.request.contextPath}/assets/less/theme.less">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/less.js/2.7.1/less.js"></script>
+
+
 </head>
-<body>
-	<h1>결재 문서 작성</h1>
-	<form action="/approval/addApproval" method="post" enctype="multipart/form-data" id="uploadForm">
+
+<body class="  ">
+	<div class="bg-dark dk" id="wrap">
+		<div id="top">
+			<!-- .navbar -->
+			<nav class="navbar navbar-inverse navbar-static-top">
+				<div class="container-fluid">
+					<div class="topnav">
+						<!-- 상단 표시버튼 3개 -->
+						<div class="btn-group">
+							<a data-placement="bottom" data-original-title="E-mail" data-toggle="tooltip"
+								class="btn btn-default btn-sm">
+								<i class="fa fa-envelope"></i>
+								<span class="label label-warning">5</span>
+							</a>
+							<a data-placement="bottom" data-original-title="Messages" href="#" data-toggle="tooltip"
+								class="btn btn-default btn-sm">
+								<i class="fa fa-comments"></i>
+								<span class="label label-danger">4</span>
+							</a>
+							<a data-toggle="modal" data-original-title="Help" data-placement="bottom"
+								class="btn btn-default btn-sm" href="#helpModal">
+								<i class="fa fa-question"></i>
+							</a>
+						</div>
+						<!-- logout버튼 -->
+						<div class="btn-group">
+							<a href="${pageContext.request.contextPath}/logout" data-toggle="tooltip" data-original-title="Logout"
+								data-placement="bottom" class="btn btn-metis-1 btn-sm">
+								<i class="fa fa-power-off"></i>
+							</a>
+						</div>
+						<!-- 로그아웃 오른쪽 사이드바 보여주기와 알림창 표시 -->
+						<div class="btn-group">
+							<!-- 사이드 숨기고 보여주기 -->
+							<a data-placement="bottom" data-original-title="Show / Hide Left" data-toggle="tooltip"
+								class="btn btn-primary btn-sm toggle-left" id="menu-toggle">
+								<i class="fa fa-bars"></i>
+							</a>
+							<!-- 화면 우측에 알림창 표시 -->
+							<a href="#right" data-toggle="onoffcanvas" class="btn btn-default btn-sm"
+								aria-expanded="false">
+								<span class="fa fa-fw fa-comment"></span>
+							</a>
+						</div>
+					</div><!-- /topnav -->
+
+					<div class="collapse navbar-collapse navbar-ex1-collapse">
+						<!-- nav -->
+						<ul class="nav navbar-nav">
+							<!-- Logo a href 링크 하면 좋을예정 -->
+							<li><a href="${pageContext.request.contextPath}/home">홈으로</a></li>
+							<!-- 사용시에 활성화 좌측상단 로그 우측에 메뉴 바 기능 -->
+							<!-- 
+							<li class="active"><a href="table.html">Tables</a></li>
+							<li class='dropdown '>
+								<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+									Form Elements <b class="caret"></b>
+								</a>
+								<ul class="dropdown-menu">
+									<li><a href="form-general.html">General</a></li>
+									<li><a href="form-validation.html">Validation</a></li>
+									<li><a href="form-wysiwyg.html">WYSIWYG</a></li>
+									<li><a href="form-wizard.html">Wizard &amp; File Upload</a></li>
+								</ul>
+							</li>
+							-->
+						</ul>
+						<!-- /.nav -->
+					</div>
+				</div>
+				<!-- /.container-fluid -->
+			</nav>
+			<!-- /.navbar 상단바 종료-->
+			
+		</div>
+		<!-- /#top -->
+		
+		<div id="left">
+			<div class="media user-media bg-dark dker">
+				<!-- 좌측 사용자 표시 -->
+				<div class="user-wrapper bg-dark">
+					<a class="user-link" href="">
+						<img class="media-object img-thumbnail user-img" alt="User Picture" src="assets/img/user.gif">
+						<span class="label label-danger user-label">16</span>
+					</a>
+					<div class="media-body">
+						<h5 class="media-heading">Archie</h5>
+						<ul class="list-unstyled user-info">
+							<li><a href="">Administrator</a></li>
+							<li>Last Access : <br>
+								<small><i class="fa fa-calendar"></i>&nbsp;16 Mar 16:32</small>
+							</li>
+						</ul>
+					</div>
+				</div><!-- ./user-wrapper bg-dart -->
+			</div>
+			<!-- #menu -->
+			<ul id="menu" class="bg-blue dker">
+				<li class="nav-header">Menu</li>
+				<!-- 게시판으로 이동 -->
+				<li class="">
+					<a href="javascript:;">
+						<i class="fa-sharp fa-regular fa-pen-to-square"></i>
+						<span class="link-title">&nbsp; 게시판</span>
+						<span class="fa arrow"></span>
+					</a>
+					<ul class="collapse">
+						<li>
+							<a href="${pageContext.request.contextPath}/board/boardList?departmentNo=-1">
+							<i class="fa fa-angle-right"></i>&nbsp; 부서 게시판</a>
+						</li>
+						<li>
+							<a href="${pageContext.request.contextPath}/board/boardList?departmentNo=0">
+							<i class="fa fa-angle-right"></i>&nbsp; 회사 게시판</a>
+						</li>
+						<li>
+							<a href="${pageContext.request.contextPath}/board/addBoard">
+							<i class="fa fa-angle-right"></i>&nbsp; 게시글 작성</a>
+						</li>
+					</ul>
+				</li>
+				<!-- 결재로 이동 -->
+				<li class="">
+					<a href="javascript:;">
+						<i class="fa fa-tasks"></i>
+						<span class="link-title">&nbsp; 결재</span>
+						<span class="fa arrow"></span>
+					</a>
+					<ul class="collapse">
+						<li>
+							<a href="${pageContext.request.contextPath}/approval/approvalList">
+							<i class="fa fa-angle-right"></i>&nbsp; 결재 리스트</a>
+						</li>
+						<li>
+							<a href="${pageContext.request.contextPath}/approval/addApproval">
+							<i class="fa fa-angle-right"></i>&nbsp; 결재 추가</a>
+						</li>
+					</ul>
+				</li>
+				<!-- 단일 메뉴 -->
+				<li>
+					<a href="table.html">
+						<i class="fa fa-table"></i>
+						<span class="link-title">단일 메뉴</span>
+					</a>
+				</li>
+				<!-- 사이드 바 레벨 -->
+				<li>
+					<a href="javascript:;">
+						<i class="fa fa-code"></i>
+						<span class="link-title">
+							Unlimited Level Menu
+						</span>
+						<span class="fa arrow"></span>
+					</a>
+					<ul class="collapse">
+						<li>
+							<a href="javascript:;">Level 1 <span class="fa arrow"></span> </a>
+							<ul class="collapse">
+								<li> <a href="javascript:;">Level 2</a> </li>
+								<li> <a href="javascript:;">Level 2</a> </li>
+								<li>
+									<a href="javascript:;">Level 2 <span class="fa arrow"></span> </a>
+									<ul class="collapse">
+										<li> <a href="javascript:;">Level 3</a> </li>
+										<li> <a href="javascript:;">Level 3</a> </li>
+										<li>
+											<a href="javascript:;">Level 3 <span class="fa arrow"></span> </a>
+											<ul class="collapse">
+												<li> <a href="javascript:;">Level 4</a> </li>
+												<li> <a href="javascript:;">Level 4</a> </li>
+												<li>
+													<a href="javascript:;">Level 4 <span class="fa arrow"></span> </a>
+													<ul class="collapse">
+														<li> <a href="javascript:;">Level 5</a> </li>
+														<li> <a href="javascript:;">Level 5</a> </li>
+														<li> <a href="javascript:;">Level 5</a> </li>
+													</ul>
+												</li>
+											</ul>
+										</li>
+										<li> <a href="javascript:;">Level 4</a> </li>
+									</ul>
+								</li>
+								<li> <a href="javascript:;">Level 2</a> </li>
+							</ul>
+						</li>
+						<li> <a href="javascript:;">Level 1</a> </li>
+						<li>
+							<a href="javascript:;">Level 1 <span class="fa arrow"></span> </a>
+							<ul class="collapse">
+								<li> <a href="javascript:;">Level 2</a> </li>
+								<li> <a href="javascript:;">Level 2</a> </li>
+								<li> <a href="javascript:;">Level 2</a> </li>
+							</ul>
+						</li>
+					</ul>
+				</li>
+			</ul>
+			<!-- /#menu -->
+		</div>
+		<!-- /#left -->
+		
+		<!-- 테이블 시작-->
+		<div id="content">
+			<div class="outer">
+				<div class="inner bg-light lter">
+					<!--Begin Datatables-->
+					<div class="row">
+						<div class="col-lg-12">
+							<div class="box">
+								<header>
+									<h1 style="margin-left:30px;">
+										결재
+									</h1><br>
+								</header>
+								<div id="collapse4" class="body">
+									<form action="/approval/addApproval" method="post" enctype="multipart/form-data" id="uploadForm">
 	
 			<label class="form-label">기안서 종류</label>
 				<select name="approvalForm" id="approvalForm" required="required">
@@ -217,7 +274,7 @@
 			<textarea id="approvalContent" name="approvalContent" rows="3" cols="50" required="required"></textarea><br>
 			
 			<!-- 모달창 열기 버튼 -->
-			<button id="open" type="button">결재자 선택</button>
+			<a data-toggle="modal" href="#helpModal">결재자 선택</a>
 				
 			<label class="form-label">1차 결재자</label>
 			<input type="hidden" value="" name="approvalFirstId" class="memberIdInputFirst">
@@ -239,10 +296,89 @@
 		<button type="submit" form="uploadForm">결재 진행</button>
 	</form>
 
-	<!-- modal창 화면 -->
-	<div class="modal">
-		<div class="modal_content">
-			<div class="row">
+								</div>
+							</div>
+						</div>
+					</div><!--row -->
+				</div><!-- /.inner -->
+			</div><!-- /.outer -->
+		</div><!-- /#content -->
+
+		<!-- 우상단 메세지 눌럿을 때 알람창 출력 -->
+		<div id="right" class="onoffcanvas is-right is-fixed bg-light" aria-expanded=false>
+			<a class="onoffcanvas-toggler" href="#right" data-toggle=onoffcanvas aria-expanded=false></a>
+			<br>
+			<br>
+			<div class="alert alert-danger">
+				<button type="button" class="close" data-dismiss="alert">&times;</button>
+				<strong>Warning!</strong> Best check yo self, you're not looking too good.
+			</div>
+			<!-- .well well-small -->
+			<div class="well well-small dark">
+				<ul class="list-unstyled">
+					<li>Visitor <span class="inlinesparkline pull-right">1,4,4,7,5,9,10</span></li>
+					<li>Online Visitor <span class="dynamicsparkline pull-right">Loading..</span></li>
+					<li>Popularity <span class="dynamicbar pull-right">Loading..</span></li>
+					<li>New Users <span class="inlinebar pull-right">1,3,4,5,3,5</span></li>
+				</ul>
+			</div>
+			<!-- /.well well-small -->
+			<!-- .well well-small -->
+			<div class="well well-small dark">
+				<button class="btn btn-block">Default</button>
+				<button class="btn btn-primary btn-block">Primary</button>
+				<button class="btn btn-info btn-block">Info</button>
+				<button class="btn btn-success btn-block">Success</button>
+				<button class="btn btn-danger btn-block">Danger</button>
+				<button class="btn btn-warning btn-block">Warning</button>
+				<button class="btn btn-inverse btn-block">Inverse</button>
+				<button class="btn btn-metis-1 btn-block">btn-metis-1</button>
+				<button class="btn btn-metis-2 btn-block">btn-metis-2</button>
+				<button class="btn btn-metis-3 btn-block">btn-metis-3</button>
+				<button class="btn btn-metis-4 btn-block">btn-metis-4</button>
+				<button class="btn btn-metis-5 btn-block">btn-metis-5</button>
+				<button class="btn btn-metis-6 btn-block">btn-metis-6</button>
+			</div>
+			<!-- /.well well-small -->
+			<!-- .well well-small -->
+			<div class="well well-small dark">
+				<span>Default</span><span class="pull-right"><small>20%</small></span>
+
+				<div class="progress xs">
+					<div class="progress-bar progress-bar-info" style="width: 20%"></div>
+				</div>
+				<span>Success</span><span class="pull-right"><small>40%</small></span>
+
+				<div class="progress xs">
+					<div class="progress-bar progress-bar-success" style="width: 40%"></div>
+				</div>
+				<span>warning</span><span class="pull-right"><small>60%</small></span>
+
+				<div class="progress xs">
+					<div class="progress-bar progress-bar-warning" style="width: 60%"></div>
+				</div>
+				<span>Danger</span><span class="pull-right"><small>80%</small></span>
+
+				<div class="progress xs">
+					<div class="progress-bar progress-bar-danger" style="width: 80%"></div>
+				</div>
+			</div>
+		</div>
+		<!-- /#right -->
+	</div>
+	<!-- /#wrap -->
+	
+	
+	<footer class="Footer bg-dark dker">
+		<p>2023 &copy; 구슬</p>
+	</footer>
+	<!-- /#footer -->
+	
+	<!-- #helpModal -->
+	<div id="helpModal" class="modal fade">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="row">
 				<!-- 결재자 선택창 좌측 -->
 				<div class="col-lg-4">
 					<h3>결재자 선택</h3>
@@ -334,7 +470,35 @@
 					</form>
 				</div><!-- 모달창 결재자 선택 3번째 -->
 			</div><!-- row -->
-		</div><!-- modal_content -->
-	</div><!-- modal -->
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	</div>
+	<!-- /.modal -->
+	<!-- /#helpModal -->
+	
+	
+<!--jQuery -->
+<script src="${pageContext.request.contextPath}/assets/lib/jquery/jquery.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.0/jquery-ui.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.12/js/jquery.dataTables.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.12/js/dataTables.bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.26.6/js/jquery.tablesorter.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.3/jquery.ui.touch-punch.min.js"></script>
+<!--Bootstrap -->
+<script src="${pageContext.request.contextPath}/assets/lib/bootstrap/js/bootstrap.js"></script>
+<!-- MetisMenu -->
+<script src="${pageContext.request.contextPath}/assets/lib/metismenu/metisMenu.js"></script>
+<!-- onoffcanvas -->
+<script src="${pageContext.request.contextPath}/assets/lib/onoffcanvas/onoffcanvas.js"></script>
+<!-- Screenfull -->
+<script src="${pageContext.request.contextPath}/assets/lib/screenfull/screenfull.js"></script>
+<!-- Metis core scripts -->
+<script src="${pageContext.request.contextPath}/assets/js/core.js"></script>
+<!-- Metis demo scripts -->
+<script src="${pageContext.request.contextPath}/assets/js/app.js"></script>
+<!-- 화면 우측에서 나와서 사이드 바 색변경 가능 -->
+<script src="${pageContext.request.contextPath}/assets/js/style-switcher.js"></script>
 </body>
 </html>
