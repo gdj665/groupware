@@ -263,7 +263,7 @@
 									</h1><br>
 								</header>
 								<div id="collapse4" class="body">
-									<table class="table table-striped responsive-table">
+									<table class="table table-striped responsive-table table-hover">
 										<thead>
 											<tr>
 												<th>번호</th>
@@ -426,12 +426,6 @@
 <script src="${pageContext.request.contextPath}/assets/js/core.js"></script>
 <!-- Metis demo scripts -->
 <script src="${pageContext.request.contextPath}/assets/js/app.js"></script>
-<script>
-	$(function () {
-		Metis.MetisTable();
-		Metis.metisSortable();
-	});
-</script>
 <!-- 화면 우측에서 나와서 사이드 바 색변경 가능 -->
 <script src="${pageContext.request.contextPath}/assets/js/style-switcher.js"></script>
 </body>

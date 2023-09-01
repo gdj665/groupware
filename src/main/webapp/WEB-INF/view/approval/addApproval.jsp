@@ -18,6 +18,23 @@
 	    overflow-y: auto;
 	    overflow-x: hidden;
 	}
+    label {
+        display: block;
+        margin-bottom: 5px;
+    }
+    
+	input[type=file]::file-selector-button {
+	width: 150px;
+	height: 30px;
+	background: #fff;
+	border: 1px solid rgb(77,77,77);
+	border-radius: 10px;
+	cursor: pointer;
+	&:hover {
+		background: rgb(77,77,77);
+		color: #fff;
+	}
+}
 </style>
 <script>
 	$(document).ready(function() {
@@ -180,66 +197,45 @@
 <body>
 	<h1>결재 문서 작성</h1>
 	<form action="/approval/addApproval" method="post" enctype="multipart/form-data" id="uploadForm">
-		<table class="table">
-			<tr>
-				<th>기안서 종류</th>
-				<td>
-					<select name="approvalForm" id="approvalForm" required="required">
-						<option value="">===선택해주세요===</option>
-						<option value="기안서">기안서</option>
-						<option value="지출결의서">지출결의서</option>
-						<option value="휴가계획서">휴가계획서</option>
-					</select>
-				</td>
-			</tr>
-			<tr>
-				<th>제목</th>
-				<td><input type="text" name="approvalTitle" required="required"></td>
-			</tr>
-			<tr>
-				<th>작성자</th>
-				<td><c:out value="${sessionScope.loginMember}" /></td>
-			</tr>
-			<tr>
-				<th>내용</th>
-				<td><textarea name="approvalContent" rows="3" cols="50" required="required"></textarea></td>
-			</tr>
-			<tr>
-				<th colspan="2">
-					<!-- 모달창 열기 버튼 -->
-					<button id="open" type="button">결재자 선택</button>
-				</th>
-			</tr>
-			<tr>
-				<th>1차 결재자</th>
-				<td>
-					<input type="hidden" value="" name="approvalFirstId" class="memberIdInputFirst">
-					<input type="text" value="" class="memberNameInputFirst" readonly>
-				</td>
-			</tr>
-			<tr>
-				<th>2차 결재자</th>
-				<td>
-					<input type="hidden" value="" name="approvalSecondId" class="memberIdInputSecond">
-					<input type="text" value="" class="memberNameInputSecond" readonly>
-				</td>
-			</tr>
-			<tr>
-				<th>3차 결재자</th>
-				<td>
-					<input type="hidden" value="" name="approvalThirdId" class="memberIdInputThird">
-					<input type="text" value="" class="memberNameInputThird" readonly>
-				</td>
-			</tr>
-			<tr>
-				<td><input type="file" name="multipartFile" id="fileInput" multiple></td>
-			</tr>
+	
+			<label class="form-label">기안서 종류</label>
+				<select name="approvalForm" id="approvalForm" required="required">
+					<option value="">===선택해주세요===</option>
+					<option value="기안서">기안서</option>
+					<option value="지출결의서">지출결의서</option>
+					<option value="휴가계획서">휴가계획서</option>
+				</select>
+				
+			<label for="approvalTitle" class="form-label">제목</label>
+			<input type="text" id="approvalTitle" name="approvalTitle" required="required">
+			
+			
+			<label class="form-label">작성자</label>
+			<c:out value="${sessionScope.loginMember}" />
+			
+			<label for="approvalContent" class="form-label">내용</label>
+			<textarea id="approvalContent" name="approvalContent" rows="3" cols="50" required="required"></textarea><br>
+			
+			<!-- 모달창 열기 버튼 -->
+			<button id="open" type="button">결재자 선택</button>
+				
+			<label class="form-label">1차 결재자</label>
+			<input type="hidden" value="" name="approvalFirstId" class="memberIdInputFirst">
+			<input type="text" value="" class="memberNameInputFirst" readonly>
+			
+			<label class="form-label">2차 결재자</label>
+			<input type="hidden" value="" name="approvalSecondId" class="memberIdInputSecond">
+			<input type="text" value="" class="memberNameInputSecond" readonly>
+			
+			<label class="form-label">3차 결재자</label>
+			<input type="hidden" value="" name="approvalThirdId" class="memberIdInputThird">
+			<input type="text" value="" class="memberNameInputThird" readonly>
+			
+			<input type="file" name="multipartFile" id="fileInput" multiple>
 			<!-- 선택한 첨부파일들 이름 출력 -->
-			<tr>
-				<th>선택한 파일</th>
-				<td id="selectedFiles"></td>
-			</tr>
-		</table>
+			<label class="form-label">선택된 파일</label>
+			<div id="selectedFiles"></div>
+			
 		<button type="submit" form="uploadForm">결재 진행</button>
 	</form>
 
