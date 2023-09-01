@@ -58,7 +58,9 @@
 			meetingroom_reserve_status meetingroomReserveStatus
 		FROM meetingroom_reserve
 		<where>
-			meetingroom_no = #{meetingroomNo}
+			<if test="meetingroomNo != null">
+				meetingroom_no = #{meetingroomNo}
+			</if>
 	 		AND meetingroom_reserve_status = 'Y'
 			AND YEAR(meetingroom_reserve_date) = #{targetYear}
             AND MONTH(meetingroom_reserve_date) = #{targetMonth}
@@ -83,6 +85,7 @@
 			department_no,
 			meetingroom_reserve_date,
 			meetingroom_reserve_time,
+			meetingroom_reserve_status,
 			createdate,
 			updatedate
 		) VALUES(
@@ -90,6 +93,7 @@
 			#{departmentNo},
 			#{meetingroomReserveDate},
 			#{meetingroomReserveTime},
+			'Y',
 			NOW(),
 			NOW()
 		)

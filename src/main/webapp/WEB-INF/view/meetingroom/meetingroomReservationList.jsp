@@ -18,9 +18,10 @@
 	<span>${m.targetYear}년 ${m.targetMonth+1}월 달력</span>
 	<a href="${pageContext.request.contextPath}/meetingroom/meetingroomReservationList?targetYear=${m.targetYear}&targetMonth=${m.targetMonth+1}&meetingroomNo=${meetingroomNo}">다음달</a>
 	<br><br><br>
+	<a href="${pageContext.request.contextPath}/meetingroom/meetingroomReservationList?targetYear=${m.targetYear}&targetMonth=${m.targetMonth}">회의실 전체</a><br>
 	<!-- 회의실 전체 목록 가져오기 -->
 	<c:forEach var="s" items="${m.meetingroomList}">
-		<a href="${pageContext.request.contextPath}/meetingroom/meetingroomReservationList?targetYear=${m.targetYear}&targetMonth=${m.targetMonth}&meetingroomNo=${s.meetingroomNo}">${s.meetingroomNo}</a>
+		<a href="${pageContext.request.contextPath}/meetingroom/meetingroomReservationList?targetYear=${m.targetYear}&targetMonth=${m.targetMonth}&meetingroomNo=${s.meetingroomNo}">회의실 ${s.meetingroomNo}호</a><br>
 	</c:forEach>
 	<br>
 		<!-- 달력 시작 -->
@@ -74,7 +75,7 @@
 						<c:forEach var="r" items="${m.reserveList}">
 							<c:if test="${day == (fn:substring(r.meetingroomReserveDate,8,10))}">
 								<span>회의실 ${r.meetingroomNo}호</span>
-								<span>${r.meetingroomReserveTime}타임</span><br>
+								<span>(${r.meetingroomReserveTime}타임)</span><br>
 							</c:if>
 						</c:forEach>
 	                 	<!-- 공휴일에 빨간색으로 공휴일 이름 표시 -->
@@ -95,5 +96,59 @@
 			</c:forEach>
 		</tr>
 	</table>
+	<br>
+	<!-- 예약 등록하기 -->
+	<form>
+		<input type="hidden" name="departmentNo">
+		<table>
+			<tr>
+				<th>meetingroom_no</th>
+				<td>
+					<select>
+				</td>	
+			</tr>
+			<tr>
+				<th>meetingroom_reserve_date</th>
+				<td>
+					<input type="date" name="meetingroomReserveDate">
+				</td>	
+			</tr>
+			<tr>
+				<th>meetingroom_reserve_time</th>
+				<td><input type="number" min="0" max="4" name="meetingroomReserveTime"></td>	
+			</tr>
+			
+			<tr>
+			
+		</table>
+	</form>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 </body>
 </html>
