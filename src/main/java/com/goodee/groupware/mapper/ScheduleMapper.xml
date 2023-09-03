@@ -26,7 +26,7 @@
             AND YEAR(s.schedule_begindate) = #{targetYear}
             AND MONTH(s.schedule_begindate) = #{targetMonth}
         </if>
-        <if test="scheduleCategory == '전체'">
+        <if test="scheduleCategory == null or scheduleCategory == ''">
             s.schedule_category IN ('부서', '개인') <!-- '전체'인 경우 부서와 개인 스케줄 모두 검색 -->
             AND m.department_no = #{departmentNo}
             AND YEAR(s.schedule_begindate) = #{targetYear}
