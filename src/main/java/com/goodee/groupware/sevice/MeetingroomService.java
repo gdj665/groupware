@@ -22,6 +22,7 @@ import lombok.extern.slf4j.Slf4j;
 public class MeetingroomService {
 	@Autowired
 	private MeetingroomMapper meetingroomMapper;
+	
 // ----- 회의실 목록 출력 -----	
 	public Map<String, Object> getMeetingroomList(int currentPage, int rowPerPage) {
 		
@@ -145,6 +146,27 @@ public class MeetingroomService {
 		return reservationMap;
 	}
 	
+// ----- 회의실 예약 등록 -----	
+	public int addMeetingroomReservation(MeetingroomReserve meetingroomReserve) {
+		int cnt = 0;
+		int row = 0;
+		
+		// 회의실 예약 유무 조회
+		cnt = meetingroomMapper.getReservationCount(meetingroomReserve);
+		log.debug("\u001B[31m"+"MeetingroomService.addMeetingroomReservation() cnt : "+cnt+"\u001B[0m");
+		if(cnt == 0) { // 예약 되어있지 않으면(예약 가능 상태이면)
+			row = meetingroomMapper.addMeetingroomReservation(meetingroomReserve);
+		}
+		return row;
+	}
 	
-	
+// ----- 회의실 예약/취소 조회 -----	
+	public List<MeetingroomReserve> getReservationHistory(MeetingroomReserve meetingroomReserve){
+		// Map에 담아서 Controller로 넘기기
+		List<MeetingroomReserve> reservationHistoryList = new ArrayList<>();
+		reservationHistoryList = meetingroomMapper.getReservationHistory(meetingroomReserve);
+		log.debug("\u001B[31m"+"MeetingroomService.reservationHistoryList() reservationHistoryList : "+ reservationHistoryList.toString()+"\u001B[0m");
+		
+		return reservationHistoryList;
+	}
 }

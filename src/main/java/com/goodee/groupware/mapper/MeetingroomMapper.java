@@ -24,9 +24,7 @@ public interface MeetingroomMapper {
 	
 	// 모든 회의실 조회
 	List<Meetingroom> getAllMeetingroomList();
-	
 // ----------------------------------------------------------------------
-	
 	// 회의실 별 예약 전체 조회
 	List<MeetingroomReserve> getMeetingroomReservationList(Map<String,Object> paramMap);
 	

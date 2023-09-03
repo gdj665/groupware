@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.goodee.groupware.sevice.MeetingroomService;
 import com.goodee.groupware.sevice.ScheduleService;
 import com.goodee.groupware.vo.Meetingroom;
+import com.goodee.groupware.vo.MeetingroomReserve;
 import com.goodee.groupware.vo.Member;
 
 import lombok.extern.slf4j.Slf4j;
@@ -93,12 +94,16 @@ public class MeetingroomController {
 
 // ----- 회의실 별 예약 조회 -----
 	@GetMapping("/meetingroom/meetingroomReservationList")
-	public String getMeetingroomReservationList(Model model, @RequestParam(required = false, name = "targetYear") Integer targetYear,		
-															 @RequestParam(required = false, name = "targetMonth") Integer targetMonth,
-															 @RequestParam(required = false, name = "meetingroomNo") Integer meetingroomNo) {
+	public String getMeetingroomReservationList(HttpSession session, Model model,
+															@RequestParam(required = false, name = "targetYear") Integer targetYear,		
+															@RequestParam(required = false, name = "targetMonth") Integer targetMonth,
+															@RequestParam(required = false, name = "meetingroomNo") Integer meetingroomNo) {
 		log.debug("\u001B[31m"+"targetYear : "+ targetYear+"\u001B[0m");
 		log.debug("\u001B[31m"+"targetMonth : "+ targetMonth+"\u001B[0m");
 		log.debug("\u001B[31m"+"meetingroomNo : "+ meetingroomNo+"\u001B[0m");
+		
+		// 세션 부서 번호 저장
+		int departmentNo = (Integer) session.getAttribute("departmentNo");
 		
 		// 요청한 매개값을 담아 서비스를 호출
 		Map<String, Object> reservationMap = new HashMap<>();
@@ -112,7 +117,35 @@ public class MeetingroomController {
 		model.addAttribute("reservationMap", reservationMap);
 		model.addAttribute("getHolidayList", getHolidayList);
 		model.addAttribute("meetingroomNo", meetingroomNo);
+		model.addAttribute("departmentNo", departmentNo);
+		
 		return "/meetingroom/meetingroomReservationList";
 	}
 	
+// ----- 회의실 예약 등록 -----
+	@PostMapping("/meetingroom/addMeetingroomReservation")
+	public String addMeetingroomReservation(MeetingroomReserve meetingroomReserve) {
+		int row = 0;
+		row = meetingroomService.addMeetingroomReservation(meetingroomReserve);
+		log.debug("\u001B[31m"+"meetingroomController.addMeetingroomReservation() row : "+row+"\u001B[0m");
+		return "redirect:/meetingroom/meetingroomReservationList";
+	}
+	
+// ----- 회의실 예약/취소 조회 -----
+	@GetMapping("/meetingroom/meetingroomReservationHistory")
+	public String getReservationHistory(HttpSession session, Model model, MeetingroomReserve meetingroomReserve) {
+		// 세션 부서 번호 저장
+		int departmentNo = (Integer) session.getAttribute("departmentNo");
+		meetingroomReserve.setDepartmentNo(departmentNo);
+		
+		// 요청한 매개값을 담아 서비스를 호출
+		List<MeetingroomReserve> reservationHistoryList = new ArrayList<>();
+		reservationHistoryList = meetingroomService.getReservationHistory(meetingroomReserve);
+		log.debug("\u001B[31m"+"MeetingroomController.getReservationHistory() reservationHistoryList : "+ reservationHistoryList.toString()+"\u001B[0m");
+		
+		// Model에 담아서 View로 넘기기
+		model.addAttribute("reservationHistoryList", reservationHistoryList);
+		model.addAttribute("departmentNo", departmentNo);
+		return "/meetingroom/meetingroomReservationHistory";
+	}
 }

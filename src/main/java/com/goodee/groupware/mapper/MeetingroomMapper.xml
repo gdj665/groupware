@@ -74,7 +74,7 @@
 		FROM meetingroom_reserve
 		WHERE meetingroom_no = #{meetingroomNo}
 			AND meetingroom_reserve_date = #{meetingroomReserveDate}
-			AND meetingroom_reserve_time = #{meetingroom_reserve_time}
+			AND meetingroom_reserve_time = #{meetingroomReserveTime}
 			AND meetingroom_reserve_status = 'Y'
 	</select>
 	
