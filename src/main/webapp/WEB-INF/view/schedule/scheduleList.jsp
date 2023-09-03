@@ -11,14 +11,14 @@
 <!-- 개인 css -->
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/schedule.css">
 <script>
-$(document).ready(function(){
-	// 부서장 권한 검사
-	var fail = "${fail}";
-	if (fail === '실패') {
-		alert('권한이 없습니다.');
-	}
-	console.log(fail);
-});
+	$(document).ready(function(){
+		// 부서장 권한 검사
+		var fail = "${fail}";
+		if (fail === '실패') {
+			alert('권한이 없습니다.');
+		}
+		console.log(fail);
+	});
 </script>
 </head>
 <body>
