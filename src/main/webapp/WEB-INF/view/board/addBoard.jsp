@@ -11,6 +11,7 @@
 <!-- 개인 css -->
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/department.css">
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/addApproval.css">
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/list.css">
 </head>
 <body>
 	<jsp:include page="${pageContext.request.contextPath}/menu/menu.jsp"></jsp:include>
@@ -19,7 +20,7 @@
 		<div class="container-fluid">
 			<div class="container-fluid">
 				<div class="card">
-					<div style="padding:20px; font-size: 30pt; font-weight: bold; color:#000000;">게시글 작성</div>
+					<div class="list-title">게시글 작성</div>
 					
 					<form action="/group/board/addBoard" method="post" enctype="multipart/form-data" id="uploadForm">
 						<!-- 상단 고정 여부 -->

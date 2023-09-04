@@ -49,6 +49,8 @@ public class ApprovalController {
 		model.addAttribute("currentPage", currentPage);
 		model.addAttribute("lastPage", resultMap.get("lastPage"));
 		model.addAttribute("memberId", resultMap.get("memberId")); 
+		model.addAttribute("minPage", resultMap.get("minPage"));
+		model.addAttribute("maxPage", resultMap.get("maxPage"));
 		
 		log.debug("ApprovalController.resultMap-->"+resultMap);
 		
