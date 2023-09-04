@@ -69,17 +69,18 @@
 						<div class="container">
 							<!-- model값 받아와서 문자로 셋팅 -->
 							<c:set var="m" value="${reservationMap}"></c:set>
-							<a href="${pageContext.request.contextPath}/meetingroom/meetingroomReservationList?targetYear=${m.targetYear}&targetMonth=${m.targetMonth-1}&meetingroomNo=${meetingroomNo}">이전달</a>
+							<h1>회의실 예약 현황</h1>
+							<a href="${pageContext.request.contextPath}/group/meetingroom/meetingroomReservationList?targetYear=${m.targetYear}&targetMonth=${m.targetMonth-1}&meetingroomNo=${meetingroomNo}">이전달</a>
 							<span>${m.targetYear}년 ${m.targetMonth+1}월 달력</span>
-							<a href="${pageContext.request.contextPath}/meetingroom/meetingroomReservationList?targetYear=${m.targetYear}&targetMonth=${m.targetMonth+1}&meetingroomNo=${meetingroomNo}">다음달</a>
+							<a href="${pageContext.request.contextPath}/group/meetingroom/meetingroomReservationList?targetYear=${m.targetYear}&targetMonth=${m.targetMonth+1}&meetingroomNo=${meetingroomNo}">다음달</a>
 							<br><br>
 							<button class="btn btn-primary" id="addMeetingroomReservationModalOpen">예약 등록</button>
-							<a class="btn btn-primary" href="${pageContext.request.contextPath}/meetingroom/meetingroomReservationHistory">예약 내역</a>
+							<a class="btn btn-primary" href="${pageContext.request.contextPath}/group/meetingroom/meetingroomReservationHistory">예약 내역</a>
 							<br><br>
-							<a class="btn btn-primary" href="${pageContext.request.contextPath}/meetingroom/meetingroomReservationList?targetYear=${m.targetYear}&targetMonth=${m.targetMonth}">회의실 전체</a>
+							<a class="btn btn-primary" href="${pageContext.request.contextPath}/group/meetingroom/meetingroomReservationList?targetYear=${m.targetYear}&targetMonth=${m.targetMonth}">회의실 전체</a>
 							<!-- 회의실 전체 목록 가져오기 -->
 							<c:forEach var="s" items="${m.meetingroomList}">
-								<a class="btn btn-primary" href="${pageContext.request.contextPath}/meetingroom/meetingroomReservationList?targetYear=${m.targetYear}&targetMonth=${m.targetMonth}&meetingroomNo=${s.meetingroomNo}">회의실 ${s.meetingroomNo}호</a>
+								<a class="btn btn-primary" href="${pageContext.request.contextPath}/group/meetingroom/meetingroomReservationList?targetYear=${m.targetYear}&targetMonth=${m.targetMonth}&meetingroomNo=${s.meetingroomNo}">회의실 ${s.meetingroomNo}호</a>
 							</c:forEach>
 							<br><br>
 								<!-- 달력 시작 -->
@@ -171,7 +172,7 @@
 							<div id="addMeetingroomReservationModal" class="modal">
 								<div class="modal_content">
 								<h3>회의실 예약</h3>
-									<form id="addMeetingroomReservationForm" method="post" action="${pageContext.request.contextPath}/meetingroom/addMeetingroomReservation">
+									<form id="addMeetingroomReservationForm" method="post" action="${pageContext.request.contextPath}/group/meetingroom/addMeetingroomReservation">
 										<input type="hidden" name="departmentNo" value="${departmentNo}">
 										<table>
 											<tr>

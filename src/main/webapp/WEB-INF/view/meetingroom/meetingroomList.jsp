@@ -25,8 +25,8 @@
 						<div class="container">
 							<!-- model값 받아와서 문자로 셋팅 -->
 							<c:set var="m" value="${meetingroomMap}"></c:set>
-							<a href="${pageContext.request.contextPath}/home">뒤로가기</a>
-							<br><br>
+							<h1>회의실 목록</h1>
+							<br>
 							<button class="btn btn-primary" id="addMeetingroomModalOpen">회의실 추가</button>
 							<br><br>
 							<table style="width: 90%;">
@@ -44,7 +44,7 @@
 									<th class="table_cell">${r.createdate}</th>		
 									<th class="table_cell">${r.updatedate}</th>
 									<th class="table_cell">
-										<a href="${pageContext.request.contextPath}/meetingroom/deleteMeetingroom?meetingroomNo=${r.meetingroomNo}" onClick="return confirm('삭제하시겠습니까?')">삭제</a>
+										<a href="${pageContext.request.contextPath}/group/meetingroom/deleteMeetingroom?meetingroomNo=${r.meetingroomNo}" onClick="return confirm('삭제하시겠습니까?')">삭제</a>
 									</th>
 								</tr>
 								</c:forEach>
@@ -52,11 +52,11 @@
 							<br>
 							<div style="text-align: center;">
 								<c:if test="${currentPage > 1}">
-									<a class="btn btn-primary" href="${pageContext.request.contextPath}/meetingroom/meetingroomList?currentPage=${currentPage-1}">이전</a>
+									<a class="btn btn-primary" href="${pageContext.request.contextPath}/group/meetingroom/meetingroomList?currentPage=${currentPage-1}">이전</a>
 								</c:if>
 								<span>&nbsp;&nbsp;&nbsp;&nbsp;${currentPage}&nbsp;&nbsp;&nbsp;&nbsp;</span>
 								<c:if test="${currentPage < lastPage}">
-									<a class="btn btn-primary" href="${pageContext.request.contextPath}/meetingroom/meetingroomList?currentPage=${currentPage+1}">다음</a>
+									<a class="btn btn-primary" href="${pageContext.request.contextPath}/group/meetingroom/meetingroomList?currentPage=${currentPage+1}">다음</a>
 								</c:if>
 							</div>
 							
@@ -64,7 +64,7 @@
 							<div id="addMeetingroomModal" class="modal">
 								<div class="modal_content">
 									<h3>개인 일정 등록</h3>
-									<form id="addMeetingroomForm" method="post" action="${pageContext.request.contextPath}/meetingroom/addMeetingroom">
+									<form id="addMeetingroomForm" method="post" action="${pageContext.request.contextPath}/group/meetingroom/addMeetingroom">
 										<table>
 											<tr>
 												<th>회의실 번호</th>

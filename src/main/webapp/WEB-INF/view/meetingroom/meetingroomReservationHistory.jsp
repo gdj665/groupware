@@ -23,7 +23,7 @@
            		<div class="card-body">
 					<div class="container-wrapper">
 						<div class="container">
-						<a href="${pageContext.request.contextPath}/meetingroom/meetingroomReservationList">뒤로가기</a>
+						<a href="${pageContext.request.contextPath}/group/meetingroom/meetingroomReservationList">뒤로가기</a>
 						<h1>부서 예약 정보</h1>
 						<br><br>
 							<table>
@@ -41,7 +41,7 @@
 										<th class="table_cell">${h.meetingroomReserveDate}</th>
 										<th class="table_cell">${h.meetingroomReserveTime}</th>
 										<th class="table_cell">
-											<a href="${pageContext.request.contextPath}/meetingroom/updateMeetingroomReservation?meetingroomReserveNo=${h.meetingroomReserveNo}" onClick="return confirm('예약취소 하시겠습니까?')">
+											<a href="${pageContext.request.contextPath}/group/meetingroom/updateMeetingroomReservation?meetingroomReserveNo=${h.meetingroomReserveNo}" onClick="return confirm('예약취소 하시겠습니까?')">
 												<c:if test="${h.meetingroomReserveStatus == 'Y'}">
 													<span>예약중</span>
 												</c:if>

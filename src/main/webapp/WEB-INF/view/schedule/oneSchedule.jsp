@@ -23,16 +23,12 @@
 						<div class="container">
 							<!-- model값 받아와서 문자로 셋팅 -->
 							<c:set var="m" value="${oneScheduleMap}"></c:set>
-							<a href="${pageContext.request.contextPath}/schedule/scheduleList">뒤로가기</a>
+							<a class="btn btn-primary" href="${pageContext.request.contextPath}/group/schedule/scheduleList">뒤로가기</a>
 							
 							<h1>${m.targetYear}년 ${m.targetMonth+1}월 ${m.targetDate}일 일정</h1>
 						
-							<a style="color:orange" href="${pageContext.request.contextPath}/schedule/oneSchedule?targetYear=${m.targetYear}&targetMonth=${m.targetMonth}&targetDate=${m.targetDate}&scheduleCategory=부서">부서</a>
-							<a style="color:green" href="${pageContext.request.contextPath}/schedule/oneSchedule?targetYear=${m.targetYear}&targetMonth=${m.targetMonth}&targetDate=${m.targetDate}&scheduleCategory=개인">개인</a>
-							<br>
-							<span>${m.memberId}</span>
-							<span>${memberLevel}</span>
-							<span>${m.departmentNo}</span>
+							<a style="color:orange" href="${pageContext.request.contextPath}/group/schedule/oneSchedule?targetYear=${m.targetYear}&targetMonth=${m.targetMonth}&targetDate=${m.targetDate}&scheduleCategory=부서">부서</a>
+							<a style="color:green" href="${pageContext.request.contextPath}/group/schedule/oneSchedule?targetYear=${m.targetYear}&targetMonth=${m.targetMonth}&targetDate=${m.targetDate}&scheduleCategory=개인">개인</a>
 							<br><br>
 							<table class="table" style="width: 90%;">
 								<tr>
@@ -53,10 +49,10 @@
 									<th class="table_cell">${c.scheduleBegindate}</th>
 									<th class="table_cell">${c.scheduleEnddate}</th>
 									<c:if test="${c.scheduleCategory == '개인'}">
-										<th class="table_cell"><a href="${pageContext.request.contextPath}/schedule/deletePersonalSchedule?scheduleNo=${c.scheduleNo}" onClick="return confirm('삭제하시겠습니까?')">개인일정삭제</a></th>
+										<th class="table_cell"><a href="${pageContext.request.contextPath}/group/schedule/deletePersonalSchedule?scheduleNo=${c.scheduleNo}" onClick="return confirm('삭제하시겠습니까?')">개인일정삭제</a></th>
 									</c:if>
 									<c:if test="${c.scheduleCategory == '부서'}">
-										<th class="table_cell"><a href="${pageContext.request.contextPath}/schedule/deleteDepartmentSchedule?scheduleNo=${c.scheduleNo}" onClick="return confirm('삭제하시겠습니까?')">부서일정삭제</a></th>
+										<th class="table_cell"><a href="${pageContext.request.contextPath}/group/schedule/deleteDepartmentSchedule?scheduleNo=${c.scheduleNo}" onClick="return confirm('삭제하시겠습니까?')">부서일정삭제</a></th>
 									</c:if>
 								</tr>
 								</c:forEach>

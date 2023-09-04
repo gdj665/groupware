@@ -31,7 +31,7 @@ public class MeetingroomController {
 	ScheduleService scheduleService;
 	
 // ----- 회의실 목록 -----	
-	@GetMapping("/meetingroom/meetingroomList")
+	@GetMapping("/group/meetingroom/meetingroomList")
 	public String getMeetingroomList(HttpSession session , Model model, Member member,
 									@RequestParam(name ="currentPage", defaultValue = "1") int currentPage,
 									@RequestParam(name ="rowPerPage", defaultValue = "3") int rowPerPage) {
@@ -41,7 +41,7 @@ public class MeetingroomController {
 		// 권한 유효성 검사
 		if(!memberLevel.equals("4관리자")) { // 관리자가 아니면 홈으로 되돌아간다.
 			log.debug("\u001B[31m"+"관리자가 아닙니다"+"\u001B[0m");
-			return "redirect:/home";
+			return "redirect:/group/home";
 		}
 		
 		// 요청한 매개값을 담아 서비스를 호출
@@ -60,7 +60,7 @@ public class MeetingroomController {
 	}
 
 // ----- 회의실 추가 ------	
-	@GetMapping("/meetingroom/addMeetingroom")
+	@GetMapping("/group/meetingroom/addMeetingroom")
 	public String addMeetingroom(HttpSession session) {
 		 
 		// 세션 부서 레벨 저장
@@ -73,27 +73,27 @@ public class MeetingroomController {
 		return "/meetingroom/addMeetingroom";
 	}
 	
-	@PostMapping("/meetingroom/addMeetingroom")
+	@PostMapping("/group/meetingroom/addMeetingroom")
 	public String addMeetingroom(Meetingroom meetingroom) {
 		int row = 0;
 		
 		// 회의실 추가
 		row = meetingroomService.addMeetingroom(meetingroom);
 		log.debug("\u001B[31m"+"MeetingroomController.addMeetingroom() row : "+row+"\u001B[0m");
-		return "redirect:/meetingroom/meetingroomList";
+		return "redirect:/group/meetingroom/meetingroomList";
 	}
 	
 // ----- 회의실 삭제 -----	
-	@GetMapping("/meetingroom/deleteMeetingroom")
+	@GetMapping("/group/meetingroom/deleteMeetingroom")
 	public String deleteMeetingroom(Meetingroom meetingroom) {
 		int row = 0;
 		row = meetingroomService.deleteMeetingroom(meetingroom);
 		log.debug("\u001B[31m"+"MeetingroomController.deleteMeetingroom() row : "+row+"\u001B[0m");
-		return "redirect:/meetingroom/meetingroomList";
+		return "redirect:/group/meetingroom/meetingroomList";
 	}
 
 // ----- 회의실 별 예약 조회 -----
-	@GetMapping("/meetingroom/meetingroomReservationList")
+	@GetMapping("/group/meetingroom/meetingroomReservationList")
 	public String getMeetingroomReservationList(HttpSession session, Model model,
 															@RequestParam(required = false, name = "targetYear") Integer targetYear,		
 															@RequestParam(required = false, name = "targetMonth") Integer targetMonth,
@@ -123,16 +123,16 @@ public class MeetingroomController {
 	}
 	
 // ----- 회의실 예약 등록 -----
-	@PostMapping("/meetingroom/addMeetingroomReservation")
+	@PostMapping("/group/meetingroom/addMeetingroomReservation")
 	public String addMeetingroomReservation(MeetingroomReserve meetingroomReserve) {
 		int row = 0;
 		row = meetingroomService.addMeetingroomReservation(meetingroomReserve);
 		log.debug("\u001B[31m"+"meetingroomController.addMeetingroomReservation() row : "+row+"\u001B[0m");
-		return "redirect:/meetingroom/meetingroomReservationList";
+		return "redirect:/group/meetingroom/meetingroomReservationList";
 	}
 	
 // ----- 회의실 예약/취소 조회 -----
-	@GetMapping("/meetingroom/meetingroomReservationHistory")
+	@GetMapping("/group/meetingroom/meetingroomReservationHistory")
 	public String getReservationHistory(HttpSession session, Model model, MeetingroomReserve meetingroomReserve) {
 		// 세션 부서 번호 저장
 		int departmentNo = (Integer) session.getAttribute("departmentNo");
@@ -150,11 +150,11 @@ public class MeetingroomController {
 	}
 	
 // ----- 회의시 예약 상태 취소로 변경 -----	
-	@GetMapping("meetingroom/updateMeetingroomReservation")
+	@GetMapping("/group/meetingroom/updateMeetingroomReservation")
 	public String updateMeetingroomReservation(MeetingroomReserve meetingroomReserve) {
 		int row = 0;
 		row = meetingroomService.updateMeetingroomReservation(meetingroomReserve);
 		log.debug("\u001B[31m"+"meetingroomController.updateMeetingroomReservation() row : "+row+"\u001B[0m");
-		return "redirect:/meetingroom/meetingroomReservationHistory";
+		return "redirect:/group/meetingroom/meetingroomReservationHistory";
 	}
 }

@@ -36,16 +36,17 @@
 						<div class="container">
 							<!-- model값 받아와서 문자로 셋팅 -->
 							<c:set var="m" value="${scheduleMap}"></c:set>
-							<a href="${pageContext.request.contextPath}/schedule/scheduleList?targetYear=${m.targetYear}&targetMonth=${m.targetMonth-1}&scheduleCategory=${m.scheduleCategory}">이전달</a>
+							<h1>나의 일정</h1>
+							<a href="${pageContext.request.contextPath}/group/schedule/scheduleList?targetYear=${m.targetYear}&targetMonth=${m.targetMonth-1}&scheduleCategory=${m.scheduleCategory}">이전달</a>
 							<span>${m.targetYear}년 ${m.targetMonth+1}월 달력</span>
-							<a href="${pageContext.request.contextPath}/schedule/scheduleList?targetYear=${m.targetYear}&targetMonth=${m.targetMonth+1}&scheduleCategory=${m.scheduleCategory}">다음달</a>
+							<a href="${pageContext.request.contextPath}/group/schedule/scheduleList?targetYear=${m.targetYear}&targetMonth=${m.targetMonth+1}&scheduleCategory=${m.scheduleCategory}">다음달</a>
 							<br><br>
 							<button class="btn btn-primary" id="addPersonalScheduleModalOpen">개인일정 등록</button>
 							<button class="btn btn-primary" id="addDepartmentScheduleModalOpen">부서일정 등록</button>
 							<br><br><br>
-							<a style="color:black;" href="${pageContext.request.contextPath}/schedule/scheduleList?targetYear=${m.targetYear}&targetMonth=${m.targetMonth}">전체</a>
-							<a style="color:orange;" href="${pageContext.request.contextPath}/schedule/scheduleList?targetYear=${m.targetYear}&targetMonth=${m.targetMonth}&scheduleCategory=부서">부서</a>
-							<a style="color:green;" href="${pageContext.request.contextPath}/schedule/scheduleList?targetYear=${m.targetYear}&targetMonth=${m.targetMonth}&scheduleCategory=개인">개인</a>
+							<a style="color:black;" href="${pageContext.request.contextPath}/group/schedule/scheduleList?targetYear=${m.targetYear}&targetMonth=${m.targetMonth}">전체</a>
+							<a style="color:orange;" href="${pageContext.request.contextPath}/group/schedule/scheduleList?targetYear=${m.targetYear}&targetMonth=${m.targetMonth}&scheduleCategory=부서">부서</a>
+							<a style="color:green;" href="${pageContext.request.contextPath}/group/schedule/scheduleList?targetYear=${m.targetYear}&targetMonth=${m.targetMonth}&scheduleCategory=개인">개인</a>
 							<br><br>
 							<!-- 달력 시작 -->
 							<table style="width: 90%; height: 400px;">
@@ -71,7 +72,7 @@
 									        <c:when test="${day > 0 && day <= m.lastDate}">
 									            <td class="table_cell">
 									                <div style="text-align: left;">
-									                    <a style="color: black;" href="${pageContext.request.contextPath}/schedule/oneSchedule?targetYear=${m.targetYear}&targetMonth=${m.targetMonth}&targetDate=${day}&scheduleCategory=${m.scheduleCategory}">
+									                    <a style="color: black;" href="${pageContext.request.contextPath}/group/schedule/oneSchedule?targetYear=${m.targetYear}&targetMonth=${m.targetMonth}&targetDate=${day}&scheduleCategory=${m.scheduleCategory}">
 									                        <c:choose>
 									                            <c:when test="${i % 7 == 0}">
 									                                <span style="color: red;">${day}</span>
@@ -148,7 +149,7 @@
 							<div id="addPersonalScheduleModal" class="modal">
 								<div class="modal_content">
 									<h3>개인 일정 등록</h3>
-									<form id="addPersonalScheduleForm" method="post" action="${pageContext.request.contextPath}/schedule/addPersonalSchedule">
+									<form id="addPersonalScheduleForm" method="post" action="${pageContext.request.contextPath}/group/schedule/addPersonalSchedule">
 										<input type="hidden" name="memberId" value="${m.memberId}">
 										<input type="hidden" name="scheduleCategory" value="개인">
 										<table>
@@ -191,7 +192,7 @@
 							<div id="addDepartmentScheduleModal" class="modal">
 								<div class="modal_content">
 									<h3>부서일정 등록</h3>
-									<form id="addDepartmentScheduleForm" method="post" action="${pageContext.request.contextPath}/schedule/addDepartmentSchedule">
+									<form id="addDepartmentScheduleForm" method="post" action="${pageContext.request.contextPath}/group/schedule/addDepartmentSchedule">
 										<input type="hidden" name="memberId" value="${m.memberId}">
 										<input type="hidden" name="scheduleCategory" value="부서">
 										<table>
@@ -234,7 +235,7 @@
 							<div id="updatePersonalScheduleModal" class="modal">
 								<div class="modal_content">
 									<h3>개인일정 수정</h3>
-									<form id="updatePersonalScheduleForm" method="post" action="${pageContext.request.contextPath}/schedule/updatePersonalSchedule">
+									<form id="updatePersonalScheduleForm" method="post" action="${pageContext.request.contextPath}/group/schedule/updatePersonalSchedule">
 										<input type="hidden" name="scheduleNo" id="updatePersonalScheduleNoInput" value="updatePersonalScheduleNoInput">
 										<input type="hidden" name="memberId" value="${m.memberId}">
 										<table>
@@ -277,7 +278,7 @@
 							<div id="updateDepartmentScheduleModal" class="modal">
 								<div class="modal_content">
 								<h3>부서 일정 수정</h3>
-									<form id="updateDepartmentScheduleForm" method="post" action="${pageContext.request.contextPath}/schedule/updateDepartmentSchedule">
+									<form id="updateDepartmentScheduleForm" method="post" action="${pageContext.request.contextPath}/group/schedule/updateDepartmentSchedule">
 										<input type="hidden" name="scheduleNo" id="updateDepartmentScheduleNoInput" value="updateDepartmentScheduleNoInput">
 										<input type="hidden" name="memberId" value="${m.memberId}">
 										<table>
