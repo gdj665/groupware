@@ -61,28 +61,30 @@
 	<div>
 		<form action="${pageContext.request.contextPath}/repair/repairList"
 			method="get">
-			<input type="text" name="repairProductCategory"> <input
-				type="hidden" name="repairStatus" value="수리중">
-			<button type="submit">검색</button>
+			<div class="input-group" style="width:25% !important;">
+				<input type="text" name="repairProductCategory"> <input
+					type="hidden" name="repairStatus" value="수리중">
+				<button class="btn btn-primary" type="submit">검색</button>
+			</div>
 		</form>
 	</div>
 	<c:if test="${currentPage > 1}">
 		<a
-			href="${pageContext.request.contextPath}/repair/repairList?currentPage=${currentPage-1}&repairProductCategory=${param.repairProductCategory}&repairStatus=수리중">이전</a>
+			href="${pageContext.request.contextPath}/group/repair/repairList?currentPage=${currentPage-1}&repairProductCategory=${param.repairProductCategory}&repairStatus=수리중">이전</a>
 	</c:if>
 	
 	<c:forEach var="i" begin="${minPage}" end="${maxPage}" step="1">
 		<c:if test="${i ==  currentPage}">
-			<span style="color: red;">${i}</span>
+			<span style="background-color: #cccccc;" class="page-link current-page">${i}</span>
 		</c:if>
 		<c:if test="${i !=  currentPage}">
-			<span>${i}</span>
+			<a href="${pageContext.request.contextPath}/group/repair/repairList?currentPage=${i}&repairProductCategory=${param.repairProductCategory}&repairStatus=수리중" class="page-link">${i}</a>
 		</c:if>
 	</c:forEach>
 	
 	<c:if test="${currentPage < lastPage}">
 		<a
-			href="${pageContext.request.contextPath}/repair/repairList?currentPage=${currentPage+1}&repairProductCategory=${param.repairProductCategory}&repairStatus=수리중">다음</a>
+			href="${pageContext.request.contextPath}/group/repair/repairList?currentPage=${currentPage+1}&repairProductCategory=${param.repairProductCategory}&repairStatus=수리중">다음</a>
 	</c:if>
 	
 	<div>

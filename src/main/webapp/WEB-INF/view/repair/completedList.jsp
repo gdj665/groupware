@@ -21,6 +21,9 @@
 <body>
 	<!-- 수리완료 리스트 -->
 	<h1>AS완료리스트</h1>
+	<div style="text-align: right;">
+		<button id="excelBtn">엑셀 다운</button>
+	</div>
 	<table>
 		<tr>
 			<th>번호</th>
@@ -50,9 +53,11 @@
 	<!-- 검색및 페이징 -->
 	<div>
 		<form action="${pageContext.request.contextPath}/group/repair/repairList" method="get">
-			<input type="text" name="repairProductCategory">
-			<input type="hidden" name="repairStatus" value="수리완료">
-			<button type="submit">검색</button>
+			<div class="input-group" style="width:25% !important;">
+				<input type="text" name="repairProductCategory">
+				<input type="hidden" name="repairStatus" value="수리완료">
+				<button class="btn btn-primary" type="submit">검색</button>
+			</div>
 		</form>
 	</div>
 	<c:if test="${currentPage > 1}">
@@ -61,7 +66,7 @@
 	
 	<c:forEach var="i" begin="${minPage}" end="${maxPage}" step="1">
 		<c:if test="${i ==  currentPage}">
-			<span style="color: red;">${i}</span>
+			<span style="background-color: #cccccc;" class="page-link current-page">${i}</span>
 		</c:if>
 		<c:if test="${i !=  currentPage}">
 			<a href="${pageContext.request.contextPath}/group/repair/repairList?currentPage=${i}&repairProductCategory=${param.repairProductCategory}&repairStatus=수리완료" class="page-link">${i}</a>
@@ -71,10 +76,6 @@
 	<c:if test="${currentPage < lastPage}">
 		<a href="${pageContext.request.contextPath}/group/repair/repairList?currentPage=${currentPage+1}&repairProductCategory=${param.repairProductCategory}&repairStatus=수리완료">다음</a>
 	</c:if>
-	
-	<div>
-		<button id="excelBtn">엑셀 다운</button>
-	</div>
 	
 	<!-- modal 상세보기 -->
 	<div class="modal">

@@ -32,11 +32,13 @@
 	        	<div class="card">
 					<!-- 자재추가는 팀장급부터만 가능하게 세션에 level값으로 조건 -->
 					<h5 class="card-title fw-semibold mb-4">자재 목록</h5>
-					<span>
+					<span style="text-align: right;">
 						<c:if test="${memberLevel > 1}">
-							<button id="open">자재 추가</button>
+							<button class="btn btn-primary" id="open">자재 추가</button>
+							<button class="btn btn-success" id="excelBtn">엑셀 다운</button>
 						</c:if>
 					</span>
+					<br>
 					<table>
 						<tr>
 							<th>자재번호</th>
@@ -65,40 +67,39 @@
 							</tr>
 						</c:forEach>
 					</table>
+					<br>
 					<div>
 						<form action="${pageContext.request.contextPath}/group/fixtures/fixturesList" method="get">
-							<input type="text" name="partsName">
-							<button type="submit">검색</button>
+							<div class="input-group" style="width:25% !important;">
+								<input type="text" class="form-control" style="width:30% !important;" name="partsName" placeholder="부품명으로 검색">
+								<button class="btn btn-primary" type="submit">검색</button>
+							</div>
 						</form>
 					</div>
-					<ul class="pagination">
-						    <c:if test="${currentPage > 1}">
-						        <li class="page-item">
-						            <a href="${pageContext.request.contextPath}/group/fixtures/fixturesList?currentPage=${currentPage-1}&partsName=${param.partsName}" class="page-link">이전</a>
-						        </li>
-						    </c:if>
-						    
-						    <c:forEach var="i" begin="${minPage}" end="${maxPage}" step="1">
-						        <li class="page-item">
-						            <c:if test="${i ==  currentPage}">
-						                <span class="page-link current-page">${i}</span>
-						            </c:if>
-						            <c:if test="${i !=  currentPage}">
-						                <a href="${pageContext.request.contextPath}/group/fixtures/fixturesList?currentPage=${i}&partsName=${param.partsName}" class="page-link">${i}</a>
-						            </c:if>
-						        </li>
-						    </c:forEach>
-						    
-						    <c:if test="${currentPage < lastPage}">
-						        <li class="page-item">
-						            <a href="${pageContext.request.contextPath}/group/fixtures/fixturesList?currentPage=${currentPage+1}&partsName=${param.partsName}" class="page-link">다음</a>
-						        </li>
-						    </c:if>
+					<ul class="pagination" style="justify-content: center;">
+					    <c:if test="${currentPage > 1}">
+					        <li class="page-item">
+					            <a href="${pageContext.request.contextPath}/group/fixtures/fixturesList?currentPage=${currentPage-1}&partsName=${param.partsName}" class="page-link">이전</a>
+					        </li>
+					    </c:if>
+					    
+					    <c:forEach var="i" begin="${minPage}" end="${maxPage}" step="1">
+					        <li class="page-item">
+					            <c:if test="${i ==  currentPage}">
+					                <span style="background-color: #cccccc;" class="page-link current-page">${i}</span>
+					            </c:if>
+					            <c:if test="${i !=  currentPage}">
+					                <a href="${pageContext.request.contextPath}/group/fixtures/fixturesList?currentPage=${i}&partsName=${param.partsName}" class="page-link">${i}</a>
+					            </c:if>
+					        </li>
+					    </c:forEach>
+					    
+					    <c:if test="${currentPage < lastPage}">
+					        <li class="page-item">
+					            <a href="${pageContext.request.contextPath}/group/fixtures/fixturesList?currentPage=${currentPage+1}&partsName=${param.partsName}" class="page-link">다음</a>
+					        </li>
+					    </c:if>
 					</ul>
-				
-					<div>
-						<button id="excelBtn">엑셀 다운</button>
-					</div>
 	        	</div>
 	    	</div>
 		</div>

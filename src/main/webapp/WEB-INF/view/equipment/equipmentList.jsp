@@ -29,6 +29,7 @@
 						<c:if test="${memberLevel > 1}">
 							<button class="btn btn-primary" id="open">장비 추가</button>
 						</c:if>
+						<button class="btn btn-success" id="excelBtn">엑셀 다운</button>
 	        		</span>
 					<br>
 					<table border=1>
@@ -78,13 +79,14 @@
 					</table>
 					<br>
 					<!-- 페이징 -->
-					<div class="pagination-search">
 					    <form action="${pageContext.request.contextPath}/group/equipment/equipmentList" method="get">
-					        <input type="text" name="equipmentName">
-					        <button type="submit">검색</button>
+							<div class="input-group" style="width:25% !important;">
+						        <input type="text" class="form-control" style="width:30% !important;" name="equipmentName" placeholder="장비명으로 검색">
+						        <button class="btn btn-primary" type="submit">검색</button>
+							</div>
 					    </form>
 					
-						<ul class="pagination">
+						<ul class="pagination" style="justify-content: center;">
 						    <c:if test="${currentPage > 1}">
 						        <li class="page-item">
 						            <a href="${pageContext.request.contextPath}/group/equipment/equipmentList?currentPage=${currentPage-1}&equipmentName=${param.equipmentName}" class="page-link">이전</a>
@@ -94,7 +96,7 @@
 						    <c:forEach var="i" begin="${minPage}" end="${maxPage}" step="1">
 						        <li class="page-item">
 						            <c:if test="${i ==  currentPage}">
-						                <span class="page-link current-page">${i}</span>
+						                <span style="background-color: #cccccc;" class="page-link current-page">${i}</span>
 						            </c:if>
 						            <c:if test="${i !=  currentPage}">
 						                <a href="${pageContext.request.contextPath}/group/equipment/equipmentList?currentPage=${i}&equipmentName=${param.equipmentName}" class="page-link">${i}</a>
@@ -108,8 +110,6 @@
 						        </li>
 						    </c:if>
 						</ul>
-						<button class="btn btn-success" id="excelBtn">엑셀</button>
-					</div>
 	        	</div>
 	    	</div>
 		</div>

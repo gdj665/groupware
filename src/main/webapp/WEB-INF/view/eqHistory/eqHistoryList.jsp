@@ -46,9 +46,12 @@
 						</c:forEach>
 					</table>
 					<div>
+						<br>
 						<form action="${pageContext.request.contextPath}/group/eqHistory/eqHistoryList" method="get">
-							<input type="text" name="equipmentName">
-							<button type="submit">검색</button>
+							<div class="input-group" style="width:25% !important;">
+								<input type="text" class="form-control"  name="equipmentName" placeholder="장비명으로 검색">
+								<button class="btn btn-primary" type="submit">검색</button>
+							</div>
 						</form>
 						
 						<ul class="pagination">
@@ -61,7 +64,7 @@
 						    <c:forEach var="i" begin="${minPage}" end="${maxPage}" step="1">
 						        <li class="page-item">
 						            <c:if test="${i ==  currentPage}">
-						                <span class="page-link current-page">${i}</span>
+						                <span style="background-color: #cccccc;" class="page-link current-page">${i}</span>
 						            </c:if>
 						            <c:if test="${i !=  currentPage}">
 						                <a href="${pageContext.request.contextPath}/group/eqHistory/eqHistoryList?currentPage=${i}&partsName=${param.partsName}" class="page-link">${i}</a>

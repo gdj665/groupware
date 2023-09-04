@@ -202,7 +202,7 @@
               <span class="hide-menu">부서 및 인사관리</span>
             </li>
             <li class="sidebar-item">
-              <a class="sidebar-link" href="${pageContext.request.contextPath}/department/departmentList" aria-expanded="false">
+              <a class="sidebar-link" href="${pageContext.request.contextPath}/group/department/departmentList" aria-expanded="false">
                 <span>
                   <i class="ti ti-mood-happy"></i>
                 </span>
@@ -210,7 +210,7 @@
               </a>
             </li>
             <li class="sidebar-item">
-              <a class="sidebar-link" href="${pageContext.request.contextPath}/hrm/hrmList" aria-expanded="false">
+              <a class="sidebar-link" href="${pageContext.request.contextPath}/group/hrm/hrmList" aria-expanded="false">
                 <span>
                   <i class="ti ti-aperture"></i>
                 </span>
@@ -218,7 +218,7 @@
               </a>
             </li>
             <li class="sidebar-item">
-              <a class="sidebar-link" href="${pageContext.request.contextPath}/address/addressList" aria-expanded="false">
+              <a class="sidebar-link" href="${pageContext.request.contextPath}/group/address/addressList" aria-expanded="false">
                 <span>
                   <i class="ti ti-aperture"></i>
                 </span>

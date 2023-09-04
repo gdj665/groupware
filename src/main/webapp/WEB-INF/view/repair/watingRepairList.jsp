@@ -43,9 +43,11 @@
 	<!-- 검색및 페이징 -->
 	<div>
 		<form action="${pageContext.request.contextPath}/repair/repairList" method="get">
-			<input type="text" name="repairProductCategory">
-			<input type="hidden" name="repairStatus" value="대기중">
-			<button type="submit">검색</button>
+			<div class="input-group" style="width:25% !important;">
+				<input type="text" name="repairProductCategory">
+				<input type="hidden" name="repairStatus" value="대기중">
+				<button class="btn btn-primary" type="submit">검색</button>
+			</div>
 		</form>
 	</div>
 	<c:if test="${currentPage > 1}">
@@ -54,10 +56,10 @@
 	
 	<c:forEach var="i" begin="${minPage}" end="${maxPage}" step="1">
 		<c:if test="${i ==  currentPage}">
-			<span style="color: red;">${i}</span>
+			<span style="background-color: #cccccc;" class="page-link current-page">${i}</span>
 		</c:if>
 		<c:if test="${i !=  currentPage}">
-			<span>${i}</span>
+			<a href="${pageContext.request.contextPath}/group/repair/repairList?currentPage=${i}&repairProductCategory=${param.repairProductCategory}&repairStatus=대기중" class="page-link">${i}</a>
 		</c:if>
 	</c:forEach>
 	
