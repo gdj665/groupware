@@ -57,7 +57,7 @@
 							<td>${equipmentOne.equipmentContet}</td>
 						</tr>
 					</table>
-					
+					<br>
 					<table border=1>
 						<tr>
 							<th>대여 번호</th>
@@ -78,15 +78,17 @@
 							</tr>
 						</c:forEach>
 					</table>
+					<br>
 					<!-- 페이징 -->
 					<div class="pagination-search">
-						<form
-							action="${pageContext.request.contextPath}/group/equipment/equipmentOne" method="get">
-							<input type="hidden" name="equipmentNo" value="${equipmentOne.equipmentNo}">
-							<input type="text" name="memberName">
-							<button type="submit">검색</button>
+						<form action="${pageContext.request.contextPath}/group/equipment/equipmentOne" method="get">
+							<div class="input-group" style="width:25% !important;">
+								<input type="hidden" name="equipmentNo" value="${equipmentOne.equipmentNo}">
+								<input type="text" class="form-control" name="memberName" placeholder="이름으로 검색가능">
+								<button class="btn btn-primary" type="submit">검색</button>
+							</div>
 						</form>
-						<ul class="pagination">
+						<ul class="pagination" style="justify-content: center;">
 						    <c:if test="${currentPage > 1}">
 						        <li class="page-item">
 						            <a href="${pageContext.request.contextPath}/group/equipment/equipmentOne?currentPage=${currentPage-1}&equipmentNo=${equipmentOne.equipmentNo}&memberName=${param.memberName}" class="page-link">이전</a>
@@ -96,7 +98,7 @@
 						    <c:forEach var="i" begin="${minPage}" end="${maxPage}" step="1">
 						        <li class="page-item">
 						            <c:if test="${i ==  currentPage}">
-						                <span class="page-link current-page">${i}</span>
+						                <span style="background-color: #cccccc;" class="page-link current-page">${i}</span>
 						            </c:if>
 						            <c:if test="${i !=  currentPage}">
 						                <a href="${pageContext.request.contextPath}/group/equipment/equipmentOne?currentPage=${i}&equipmentNo=${equipmentOne.equipmentNo}&memberName=${param.memberName}" class="page-link">${i}</a>

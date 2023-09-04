@@ -80,3 +80,94 @@
 .modal_content button:hover {
 	background-color: #5D87FF;
 }
+
+
+
+/* 전체 테이블 스타일 */
+table {
+	width: 100%;
+	border-collapse: collapse;
+}
+
+/* 테이블 헤더 스타일 */
+th {
+	background-color: darkgrey;
+	color: #fff;
+	font-weight: bold;
+	text-align: center;
+	padding: 10px;
+	border: 1px solid #ddd;
+}
+
+tr {
+	text-align: center;
+}
+
+/* 테이블 데이터 스타일 */
+td {
+	text-align: center;
+	padding: 8px;
+	border: 1px solid #ddd;
+}
+
+/* 링크 스타일 */
+a {
+	text-decoration: none;
+	color: #007bff;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+/* 점검일 색상 */
+.red {
+	color: red;
+}
+
+.orange {
+	color: orange;
+}
+
+.black {
+	color: black;
+}
+
+/* 대여 상태 스타일 */
+.rented {
+	font-weight: bold;
+	color: green;
+}
+
+.not-rented {
+	font-weight: bold;
+	color: red;
+}
+
+/* 비활성화 스타일 */
+.deactivate-link {
+	color: red;
+}
+
+.deactivate-link:hover {
+	text-decoration: underline;
+}
+
+/* 페이징 스타일 */
+.pagination-search {
+	margin-top: 20px;
+}
+
+.pagination {
+	list-style: none;
+	display: flex;
+	justify-content: center;
+}
+
+.page-item {
+	margin: 0 5px;
+}
+
+.current-page {
+	font-weight: bold;
+}

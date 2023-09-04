@@ -41,11 +41,11 @@
 							<th>점검</th>
 							<th>대여</th>
 							<!-- 비활성화는 팀장급부터만 가능하게 세션에 level값으로 조건 -->
-						<c:if test="${memberLevel > 1}">
-							<th>비활성화</th>
-						</c:if>
-					</tr>
-					<c:forEach var="e" items="${equipmentList}">
+							<c:if test="${memberLevel > 1}">
+								<th>비활성화</th>
+							</c:if>
+						</tr>
+						<c:forEach var="e" items="${equipmentList}">
 						<tr>
 							<td><a href="${pageContext.request.contextPath}/group/equipment/equipmentOne?equipmentNo=${e.equipmentNo}">${e.equipmentNo}</a></td>
 							<td><a href="${pageContext.request.contextPath}/group/equipment/equipmentOne?equipmentNo=${e.equipmentNo}">${e.equipmentName}</a></td>
@@ -75,7 +75,7 @@
 								</td>
 							</c:if>
 						</tr>
-					</c:forEach>
+						</c:forEach>
 					</table>
 					<br>
 					<!-- 페이징 -->

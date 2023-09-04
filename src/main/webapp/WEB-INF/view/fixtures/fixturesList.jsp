@@ -71,7 +71,7 @@
 					<div>
 						<form action="${pageContext.request.contextPath}/group/fixtures/fixturesList" method="get">
 							<div class="input-group" style="width:25% !important;">
-								<input type="text" class="form-control" style="width:30% !important;" name="partsName" placeholder="부품명으로 검색">
+								<input type="text" class="form-control" name="partsName" placeholder="부품명으로 검색">
 								<button class="btn btn-primary" type="submit">검색</button>
 							</div>
 						</form>

@@ -54,7 +54,7 @@
 							</div>
 						</form>
 						
-						<ul class="pagination">
+						<ul class="pagination" style="justify-content: center;">
 						    <c:if test="${currentPage > 1}">
 						        <li class="page-item">
 						            <a href="${pageContext.request.contextPath}/group/eqHistory/eqHistoryList?currentPage=${currentPage-1}&partsName=${param.partsName}" class="page-link">이전</a>
