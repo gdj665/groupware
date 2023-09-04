@@ -9,7 +9,7 @@ $(document).ready(function () {
             $('#littleDepartment').append('<option value="">==팀 선택==</option>');
         } else {
             $.ajax({
-                url: '/rest/departmentList',
+                url: '/group/rest/departmentList',
                 type: 'get',
                 data: {
                     departmentId: $('#bigDepartment').val() // 선택한 부서의 값 전달

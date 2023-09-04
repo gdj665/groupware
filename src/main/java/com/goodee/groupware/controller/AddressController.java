@@ -33,6 +33,8 @@ public class AddressController {
 		model.addAttribute("getAddressList", getAddressList.get("getAddressList"));
 		model.addAttribute("currentPage", currentPage);
 		model.addAttribute("lastPage", getAddressList.get("lastPage"));
+		model.addAttribute("minPage", getAddressList.get("minPage"));
+		model.addAttribute("maxPage", getAddressList.get("maxPage"));
 		return "/address/addressList";
 	}
 }

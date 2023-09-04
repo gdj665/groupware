@@ -24,12 +24,14 @@
             <div class="card-body">
               <h1 class="text-center mt-4">주소록</h1>
 				<div class="container">
-					<form
-						action="${pageContext.request.contextPath}/address/addressList"
-						method="get">
-						<input type="text" name="searchName">
-						<button type="submit" class="choso-button btn btn-primary" >검색</button>
-					</form>
+					<div>
+						<form action="${pageContext.request.contextPath}/group/address/addressList" method="get">
+							<div class="input-group" style="width:25% !important;">
+								<input type="text" class="form-control" style="width:30% !important;" name="searchName" placeholder="사원명으로 검색">
+								<button class="btn btn-primary" type="submit">검색</button>
+							</div>
+						</form>
+					</div>
 					<br>
 					<a href="${pageContext.request.contextPath}/address/addressList?currentPage=${currentPage}" class="choso-button btn btn-primary">전체</a>
 					<a href="${pageContext.request.contextPath}/address/addressList?currentPage=1&colpol=ㄱ" class="choso-button btn btn-primary">ㄱ</a>
@@ -72,15 +74,33 @@
 					</tbody>
 				</table>
 				<br>
-				<c:if test="${currentPage > 1}">
-					<a class="choso-button btn btn-primary"
-						href="${pageContext.request.contextPath}/address/addressList?currentPage=${currentPage-1}&colpol=${param.colpol}&searchName=${param.searchName}" class="choso-button">이전</a>
-				</c:if>
-					<span class="choso-button">${currentPage}</span>
-				<c:if test="${currentPage < lastPage}">
-					<a class="choso-button btn btn-primary"
-						href="${pageContext.request.contextPath}/address/addressList?currentPage=${currentPage+1}&colpol=${param.colpol}&searchName=${param.searchName}" class="choso-button">다음</a>
-				</c:if>
+				
+					<div>
+						<ul class="pagination" style="justify-content: center;">
+							<c:if test="${currentPage > 1}">
+								<li class="page-item">
+								    <a href="/group/address/addressList?currentPage=${currentPage-1}&colpol=${param.colpol}&searchName=${param.searchName}" class="page-link">이전</a>
+								</li>
+							</c:if>
+							
+							<c:forEach var="i" begin="${minPage}" end="${maxPage}" step="1">
+								<li class="page-item">
+							    	<c:if test="${i ==  currentPage}">
+										<span style="background-color: #cccccc;" class="page-link current-page">${i}</span>
+									</c:if>
+									<c:if test="${i !=  currentPage}">
+										<a href="/group/address/addressList?currentPage=${i}&colpol=${param.colpol}&searchName=${param.searchName}" class="page-link">${i}</a>
+									</c:if>
+								</li>
+							</c:forEach>
+								
+							<c:if test="${currentPage < lastPage}">
+								<li class="page-item">
+								    <a href="/group/address/addressList?currentPage=${currentPage+1}&colpol=${param.colpol}&searchName=${param.searchName}" class="page-link">다음</a>
+								</li>
+							</c:if>
+						</ul>
+					</div>
 				</div>
             </div>
           </div>
