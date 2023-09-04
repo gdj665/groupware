@@ -24,11 +24,10 @@
 							<!-- model값 받아와서 문자로 셋팅 -->
 							<c:set var="m" value="${oneScheduleMap}"></c:set>
 							<a class="btn btn-primary" href="${pageContext.request.contextPath}/group/schedule/scheduleList">뒤로가기</a>
-							
-							<h1>${m.targetYear}년 ${m.targetMonth+1}월 ${m.targetDate}일 일정</h1>
-						
-							<a style="color:orange" href="${pageContext.request.contextPath}/group/schedule/oneSchedule?targetYear=${m.targetYear}&targetMonth=${m.targetMonth}&targetDate=${m.targetDate}&scheduleCategory=부서">부서</a>
-							<a style="color:green" href="${pageContext.request.contextPath}/group/schedule/oneSchedule?targetYear=${m.targetYear}&targetMonth=${m.targetMonth}&targetDate=${m.targetDate}&scheduleCategory=개인">개인</a>
+							<br>
+							<div style="padding:20px; font-size: 30pt; font-weight: bold; color:#000000;">${m.targetYear}년 ${m.targetMonth+1}월 ${m.targetDate}일 일정</div>
+							<a class="btn text-white" style="background-color:orange" href="${pageContext.request.contextPath}/group/schedule/oneSchedule?targetYear=${m.targetYear}&targetMonth=${m.targetMonth}&targetDate=${m.targetDate}&scheduleCategory=부서">부서</a>
+							<a class="btn text-white" style="background-color:green" href="${pageContext.request.contextPath}/group/schedule/oneSchedule?targetYear=${m.targetYear}&targetMonth=${m.targetMonth}&targetDate=${m.targetDate}&scheduleCategory=개인">개인</a>
 							<br><br>
 							<table class="table" style="width: 100%;">
 								<tr>

@@ -69,19 +69,24 @@
 						<div class="container">
 							<!-- model값 받아와서 문자로 셋팅 -->
 							<c:set var="m" value="${reservationMap}"></c:set>
-							<h1>회의실 예약 현황</h1>
-							<a href="${pageContext.request.contextPath}/group/meetingroom/meetingroomReservationList?targetYear=${m.targetYear}&targetMonth=${m.targetMonth-1}&meetingroomNo=${meetingroomNo}">이전달</a>
-							<span>${m.targetYear}년 ${m.targetMonth+1}월 달력</span>
-							<a href="${pageContext.request.contextPath}/group/meetingroom/meetingroomReservationList?targetYear=${m.targetYear}&targetMonth=${m.targetMonth+1}&meetingroomNo=${meetingroomNo}">다음달</a>
-							<br><br>
-							<button class="btn btn-primary" id="addMeetingroomReservationModalOpen">예약 등록</button>
-							<br><br>
-							<a class="btn btn-primary" href="${pageContext.request.contextPath}/group/meetingroom/meetingroomReservationList?targetYear=${m.targetYear}&targetMonth=${m.targetMonth}">회의실 전체</a>
+							<div style="padding:20px; font-size: 30pt; font-weight: bold; color:#000000;">회의실 예약 현황</div>
+							<div style="text-align: right;">
+								<button class="btn text-white" style="background-color:orange;" id="addMeetingroomReservationModalOpen">예약 등록</button>
+							</div>
 							<!-- 회의실 전체 목록 가져오기 -->
+							<a class="btn btn-primary" href="${pageContext.request.contextPath}/group/meetingroom/meetingroomReservationList?targetYear=${m.targetYear}&targetMonth=${m.targetMonth}">전체</a>
 							<c:forEach var="s" items="${m.meetingroomList}">
-								<a class="btn btn-primary" href="${pageContext.request.contextPath}/group/meetingroom/meetingroomReservationList?targetYear=${m.targetYear}&targetMonth=${m.targetMonth}&meetingroomNo=${s.meetingroomNo}">회의실 ${s.meetingroomNo}호</a>
+								<a class="btn btn-primary" href="${pageContext.request.contextPath}/group/meetingroom/meetingroomReservationList?targetYear=${m.targetYear}&targetMonth=${m.targetMonth}&meetingroomNo=${s.meetingroomNo}">${s.meetingroomNo}호</a>
 							</c:forEach>
 							<br><br>
+							<div style="text-align: center;">
+								<h1>
+									<a href="${pageContext.request.contextPath}/group/meetingroom/meetingroomReservationList?targetYear=${m.targetYear}&targetMonth=${m.targetMonth-1}&meetingroomNo=${meetingroomNo}">이전달</a>
+									<span>${m.targetYear}년 ${m.targetMonth+1}월 달력</span>
+									<a href="${pageContext.request.contextPath}/group/meetingroom/meetingroomReservationList?targetYear=${m.targetYear}&targetMonth=${m.targetMonth+1}&meetingroomNo=${meetingroomNo}">다음달</a>
+								</h1>
+							</div>
+							<br>
 								<!-- 달력 시작 -->
 								<table style="width: 90%; height: 500px;">
 								<tr>

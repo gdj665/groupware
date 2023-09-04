@@ -23,7 +23,7 @@
            		<div class="card-body">
 					<div class="container-wrapper">
 						<div class="container">
-						<h1>부서 예약 정보</h1>
+						<div style="padding:20px; font-size: 30pt; font-weight: bold; color:#000000;">부서 예약 정보</div>
 						<br>
 							<table style="width: 100%;">
 								<tr>

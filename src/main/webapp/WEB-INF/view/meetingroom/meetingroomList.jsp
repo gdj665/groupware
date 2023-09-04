@@ -25,10 +25,11 @@
 						<div class="container">
 							<!-- model값 받아와서 문자로 셋팅 -->
 							<c:set var="m" value="${meetingroomMap}"></c:set>
-							<h1>회의실 목록</h1>
+							<div style="padding:20px; font-size: 30pt; font-weight: bold; color:#000000;">회의실 목록</div>
+							<div style="text-align: right;">
+								<button class="btn btn-primary" id="addMeetingroomModalOpen">회의실 추가</button>
+							</div>
 							<br>
-							<button class="btn btn-primary" id="addMeetingroomModalOpen">회의실 추가</button>
-							<br><br>
 							<table style="width: 100%;">
 								<tr>
 									<th class="table_cell">회의실 이름</th>

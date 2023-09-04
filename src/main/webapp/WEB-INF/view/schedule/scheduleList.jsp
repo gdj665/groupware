@@ -36,17 +36,21 @@
 						<div class="container">
 							<!-- model값 받아와서 문자로 셋팅 -->
 							<c:set var="m" value="${scheduleMap}"></c:set>
-							<h1>나의 일정</h1>
-							<a href="${pageContext.request.contextPath}/group/schedule/scheduleList?targetYear=${m.targetYear}&targetMonth=${m.targetMonth-1}&scheduleCategory=${m.scheduleCategory}">이전달</a>
-							<span>${m.targetYear}년 ${m.targetMonth+1}월 달력</span>
-							<a href="${pageContext.request.contextPath}/group/schedule/scheduleList?targetYear=${m.targetYear}&targetMonth=${m.targetMonth+1}&scheduleCategory=${m.scheduleCategory}">다음달</a>
-							<br><br>
-							<button class="btn btn-primary" id="addPersonalScheduleModalOpen">개인일정 등록</button>
-							<button class="btn btn-primary" id="addDepartmentScheduleModalOpen">부서일정 등록</button>
-							<br><br><br>
-							<a style="color:black;" href="${pageContext.request.contextPath}/group/schedule/scheduleList?targetYear=${m.targetYear}&targetMonth=${m.targetMonth}">전체</a>
-							<a style="color:orange;" href="${pageContext.request.contextPath}/group/schedule/scheduleList?targetYear=${m.targetYear}&targetMonth=${m.targetMonth}&scheduleCategory=부서">부서</a>
-							<a style="color:green;" href="${pageContext.request.contextPath}/group/schedule/scheduleList?targetYear=${m.targetYear}&targetMonth=${m.targetMonth}&scheduleCategory=개인">개인</a>
+							<div style="padding:20px; font-size: 30pt; font-weight: bold; color:#000000;">나의 일정</div>
+							<div style="text-align: right;">
+								<button class="btn text-white" style="background-color:green;" id="addPersonalScheduleModalOpen">개인일정 등록</button>
+								<button class="btn text-white" style="background-color:orange;" id="addDepartmentScheduleModalOpen">부서일정 등록</button>
+							</div>
+							<a class="btn text-white" style="background-color:black;" href="${pageContext.request.contextPath}/group/schedule/scheduleList?targetYear=${m.targetYear}&targetMonth=${m.targetMonth}">전체</a>
+							<a class="btn text-white" style="background-color:green;" href="${pageContext.request.contextPath}/group/schedule/scheduleList?targetYear=${m.targetYear}&targetMonth=${m.targetMonth}&scheduleCategory=개인">개인</a>
+							<a class="btn text-white" style="background-color:orange;" href="${pageContext.request.contextPath}/group/schedule/scheduleList?targetYear=${m.targetYear}&targetMonth=${m.targetMonth}&scheduleCategory=부서">부서</a>
+							<div style="text-align: center;">
+								<h1>
+									<a href="${pageContext.request.contextPath}/group/schedule/scheduleList?targetYear=${m.targetYear}&targetMonth=${m.targetMonth-1}&scheduleCategory=${m.scheduleCategory}">이전달</a>
+									<span>${m.targetYear}년 ${m.targetMonth+1}월 달력</span>
+									<a href="${pageContext.request.contextPath}/group/schedule/scheduleList?targetYear=${m.targetYear}&targetMonth=${m.targetMonth+1}&scheduleCategory=${m.scheduleCategory}">다음달</a>
+								</h1>
+							</div>
 							<br><br>
 							<!-- 달력 시작 -->
 							<table style="width: 100%; height: 400px;">
