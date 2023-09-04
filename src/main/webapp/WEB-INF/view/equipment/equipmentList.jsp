@@ -13,103 +13,111 @@
 <!-- file download api : FileServer saveAs-->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/1.3.8/FileSaver.min.js"></script>
 </head>
-<body>	
+<style>
 	
+</style>
+<body>	
 	<jsp:include page="${pageContext.request.contextPath}/menu/menu.jsp"></jsp:include>
 	<div class="body-wrapper">
-	<jsp:include page="${pageContext.request.contextPath}/menu/header.jsp"></jsp:include>
-		
-	<div class="container-fluid">
+		<jsp:include page="${pageContext.request.contextPath}/menu/header.jsp"></jsp:include>
 		<div class="container-fluid">
-        	<div class="card">
-            	<div class="card-body">
-            		<h5 class="card-title fw-semibold mb-4">Alerts</h5>
-            			<div class="card mb-0">
-                			<div class="card-body p-4">
-								<h1>장비 목록</h1>
-								<!-- 장비추가는 팀장급부터만 가능하게 세션에 level값으로 조건 -->
-								<c:if test="${memberLevel > 1}">
-								<button id="open">장비 추가</button>
-								</c:if>
-								<table border=1>
-									<tr>
-										<th>장비번호</th>
-										<th>장비명</th>
-										<th>마지막 점검일</th>
-										<th>점검예정일</th>
-										<th>점검</th>
-										<th>대여</th>
-										<!-- 비활성화는 팀장급부터만 가능하게 세션에 level값으로 조건 -->
-									<c:if test="${memberLevel > 1}">
-										<th>비활성화</th>
-									</c:if>
-								</tr>
-								<c:forEach var="e" items="${equipmentList}">
-									<tr>
-										<td><a href="${pageContext.request.contextPath}/equipment/equipmentOne?equipmentNo=${e.equipmentNo}">${e.equipmentNo}</a></td>
-										<td><a href="${pageContext.request.contextPath}/equipment/equipmentOne?equipmentNo=${e.equipmentNo}">${e.equipmentName}</a></td>
-										<td>${e.equipmentLastInspect}</td>
-										<td>
-											<!-- dateColor이라는 변수를 선언후 daysUntilNextInspect가 <0보다 작으면 점검예정일이 지났으므로 red를 넣고 <= 30 30일이내면 pink 나머지는 black으로 한다 -->
-											<c:set var="dateColor" value="${e.daysUntilNextInspect < 0 ? 'red' : e.daysUntilNextInspect <= 30 ? 'orange' : 'black'}" />
-								              	<span style="color: ${dateColor};">${e.nextinspect}</span>
-										</td>
-										<td>
-											<a href="${pageContext.request.contextPath}/equipment/updateEqInspect?equipmentNo=${e.equipmentNo}" onClick="return confirm('${e.equipmentName} 점검하시겠습니까?')">점검하기</a>
-										</td>
-										<!-- 대여중인 상품은 대여 불가 대여중아닌 상품만 대여 가능 -->
-										<c:if test="${e.equipmentStatus eq '대여'}">
-											<td>${e.equipmentStatus}중</td>
-										</c:if>
-										<c:if test="${e.equipmentStatus ne '대여'}">
-											<td>
-												<a href="#" class="statusOpenModal" data-equipmentNo="${e.equipmentNo}" data-equipmentName="${e.equipmentName}" 
-												data-loginId="${memberId}">${e.equipmentStatus}</a>
-											</td>
-										</c:if>
-										<!-- 비활성화는 팀장급부터만 가능하게 세션에 level값으로 조건 -->
-										<c:if test="${e.equipmentStatus eq '비대여' && memberLevel > 1}">
-											<td><a href="${pageContext.request.contextPath}/equipment/updateEquipment?equipmentNo=${e.equipmentNo}"
-												onClick="return confirm('${e.equipmentName} 비활성 하시겠습니까?')">비활성</a>
-											</td>
-										</c:if>
-									</tr>
-								</c:forEach>
-								</table>
-								<div>
-									<form
-										action="${pageContext.request.contextPath}/equipment/equipmentList"
-										method="get">
-										<input type="text" name="equipmentName">
-										<button type="submit">검색</button>
-									</form>
-								</div>
-								<c:if test="${currentPage > 1}">
-								<a href="${pageContext.request.contextPath}/equipment/equipmentList?currentPage=${currentPage-1}&equipmentName=${param.equipmentName}">이전</a>
-								</c:if>
-								
-								<c:forEach var="i" begin="${minPage}" end="${maxPage}" step="1">
-								<c:if test="${i ==  currentPage}">
-									<span style="color: red;">${i}</span>
-								</c:if>
-								<c:if test="${i !=  currentPage}">
-									<span>${i}</span>
-								</c:if>
-								</c:forEach>
-								
-								<c:if test="${currentPage < lastPage}">
-								<a href="${pageContext.request.contextPath}/equipment/equipmentList?currentPage=${currentPage+1}&equipmentName=${param.equipmentName}">다음</a>
-								</c:if>
-								
-								<div>
-									<button id="excelBtn">엑셀 다운</button>
-								</div>
-                		</div>
-            		</div>
-            	</div>
-        	</div>
-    	</div>
+			<div class="container-fluid">
+	        	<div class="card">
+					<!-- 장비추가는 팀장급부터만 가능하게 세션에 level값으로 조건 -->
+	        		<h5 class="card-title fw-semibold mb-4">장비추가</h5>
+					<c:if test="${memberLevel > 1}">
+					<div style="text-align: right;">
+						<button class="btn btn-primary" id="open">장비 추가</button>
+					</div>
+					<br>
+					</c:if>
+					<table border=1>
+						<tr>
+							<th>장비번호</th>
+							<th>장비명</th>
+							<th>마지막 점검일</th>
+							<th>점검예정일</th>
+							<th>점검</th>
+							<th>대여</th>
+							<!-- 비활성화는 팀장급부터만 가능하게 세션에 level값으로 조건 -->
+						<c:if test="${memberLevel > 1}">
+							<th>비활성화</th>
+						</c:if>
+					</tr>
+					<c:forEach var="e" items="${equipmentList}">
+						<tr>
+							<td><a href="${pageContext.request.contextPath}/equipment/equipmentOne?equipmentNo=${e.equipmentNo}">${e.equipmentNo}</a></td>
+							<td><a href="${pageContext.request.contextPath}/equipment/equipmentOne?equipmentNo=${e.equipmentNo}">${e.equipmentName}</a></td>
+							<td>${e.equipmentLastInspect}</td>
+							<td>
+								<!-- dateColor이라는 변수를 선언후 daysUntilNextInspect가 <0보다 작으면 점검예정일이 지났으므로 red를 넣고 <= 30 30일이내면 pink 나머지는 black으로 한다 -->
+								<c:set var="dateColor" value="${e.daysUntilNextInspect < 0 ? 'red' : e.daysUntilNextInspect <= 30 ? 'orange' : 'black'}" />
+					              	<span style="color: ${dateColor};">${e.nextinspect}</span>
+							</td>
+							<td>
+								<a href="${pageContext.request.contextPath}/equipment/updateEqInspect?equipmentNo=${e.equipmentNo}" onClick="return confirm('${e.equipmentName} 점검하시겠습니까?')" class="inspect-link">점검하기</a>
+							</td>
+							<!-- 대여중인 상품은 대여 불가 대여중아닌 상품만 대여 가능 -->
+							<c:if test="${e.equipmentStatus eq '대여'}">
+								<td>${e.equipmentStatus}중</td>
+							</c:if>
+							<c:if test="${e.equipmentStatus ne '대여'}">
+								<td>
+									<a href="#" class="statusOpenModal" data-equipmentNo="${e.equipmentNo}" data-equipmentName="${e.equipmentName}" 
+									data-loginId="${memberId}">${e.equipmentStatus}</a>
+								</td>
+							</c:if>
+							<!-- 비활성화는 팀장급부터만 가능하게 세션에 level값으로 조건 -->
+							<c:if test="${e.equipmentStatus eq '비대여' && memberLevel > 1}">
+								<td><a href="${pageContext.request.contextPath}/equipment/updateEquipment?equipmentNo=${e.equipmentNo}"
+									onClick="return confirm('${e.equipmentName} 비활성 하시겠습니까?')">비활성</a>
+								</td>
+							</c:if>
+						</tr>
+					</c:forEach>
+					</table>
+					<br>
+					<!-- 페이징 -->
+					<div class="pagination-search">
+					    <form action="${pageContext.request.contextPath}/equipment/equipmentList" method="get">
+					        <input type="text" name="equipmentName">
+					        <button type="submit">검색</button>
+					    </form>
+					
+						<ul class="pagination">
+						    <c:if test="${currentPage > 1}">
+						        <li class="page-item">
+						            <a href="${pageContext.request.contextPath}/equipment/equipmentList?currentPage=${currentPage-1}&equipmentName=${param.equipmentName}" class="page-link">이전</a>
+						        </li>
+						    </c:if>
+						    
+						    <c:forEach var="i" begin="${minPage}" end="${maxPage}" step="1">
+						        <li class="page-item">
+						            <c:if test="${i ==  currentPage}">
+						                <span class="page-link current-page">${i}</span>
+						            </c:if>
+						            <c:if test="${i !=  currentPage}">
+						                <a href="${pageContext.request.contextPath}/equipment/equipmentList?currentPage=${i}&equipmentName=${param.equipmentName}" class="page-link">${i}</a>
+						            </c:if>
+						        </li>
+						    </c:forEach>
+						    
+						    <c:if test="${currentPage < lastPage}">
+						        <li class="page-item">
+						            <a href="${pageContext.request.contextPath}/equipment/equipmentList?currentPage=${currentPage+1}&equipmentName=${param.equipmentName}" class="page-link">다음</a>
+						        </li>
+						    </c:if>
+						</ul>
+					</div>
+					
+					<div>
+						<button class="btn btn-success" id="excelBtn">엑셀</button>
+					</div>
+	        	</div>
+	    	</div>
+		</div>
 	</div>
+
 	<!-- 장비추가 모달 -->
 	<div class="modal">
 		<div class="modal_content">
@@ -184,7 +192,6 @@
 			<button id="addEqHistroyBtn" type="button">대여</button>
 			<button class="close" type="button">닫기</button>
 		</div>
-	</div>
 	</div>
 <jsp:include page="${pageContext.request.contextPath}/menu/code.jsp"></jsp:include>
 <script src="${pageContext.request.contextPath}/javascript/equipmentList.js"></script>

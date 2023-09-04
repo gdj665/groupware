@@ -65,7 +65,7 @@
 	</div>
 	<c:if test="${currentPage > 1}">
 		<a
-			href="/fixtures/fixturesList?currentPage=${currentPage-1}&partsName=${param.partsName}">이전</a>
+			href="${pageContext.request.contextPath}/fixtures/fixturesList?currentPage=${currentPage-1}&partsName=${param.partsName}">이전</a>
 	</c:if>
 	
 	<c:forEach var="i" begin="${minPage}" end="${maxPage}" step="1">
@@ -79,7 +79,7 @@
 	
 	<c:if test="${currentPage < lastPage}">
 		<a
-			href="/fixtures/fixturesList?currentPage=${currentPage+1}&partsName=${param.partsName}">다음</a>
+			href="${pageContext.request.contextPath}/fixtures/fixturesList?currentPage=${currentPage+1}&partsName=${param.partsName}">다음</a>
 	</c:if>
 
 	<div>

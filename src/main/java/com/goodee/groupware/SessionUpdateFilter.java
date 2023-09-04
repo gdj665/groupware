@@ -17,7 +17,7 @@ import javax.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@WebFilter("/*")
+@WebFilter("/group/*")
 public class SessionUpdateFilter extends HttpFilter implements Filter {
        
     public SessionUpdateFilter() {

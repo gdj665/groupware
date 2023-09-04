@@ -30,7 +30,7 @@
 			equipment_alive = 'Y'
 			<!-- 검색분기 -->
 			<if test="equipmentName != null">
-				AND equipment_name LIKE '%'#{equipmentName}'%'
+				AND equipment_name LIKE '%' #{equipmentName} '%'
 			</if>
 		</where>
 	</select>

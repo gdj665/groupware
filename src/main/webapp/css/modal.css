@@ -65,7 +65,7 @@
         margin-top: 10px;
         padding: 8px 15px;
         border: none;
-        background-color: #007bff;
+        background-color: #5D87FF;
         color: white;
         cursor: pointer;
         border-radius: 3px;
@@ -76,5 +76,152 @@
     }
 
     .modal_content button:hover {
-        background-color: #0056b3;
+        background-color: #5D87FF;
     }
+    
+    table {
+	    border-collapse: collapse;
+	    width: 100%;
+	    margin-bottom: 20px;
+	}
+	
+	table, th, td {
+	    border: 1px solid #ccc;
+	    text-align: center;
+	}
+	
+	th, td {
+	    padding: 10px;
+	    text-align: center;
+	}
+	
+	th {
+	    background-color: #f2f2f2;
+	}
+	
+	tr:nth-child(even) {
+	    background-color: #f2f2f2;
+	}
+	
+	.actions {
+	    display: flex;
+	    justify-content: center;
+	    margin-top: 20px;
+	}
+	
+	.search {
+	    display: flex;
+	    justify-content: flex-end;
+	}
+	
+	.search input[type="text"] {
+	    padding: 5px;
+	    border: 1px solid #ccc;
+	    border-radius: 5px;
+	}
+	
+	.search button {
+	    padding: 5px 10px;
+	    background-color: #007bff;
+	    color: #fff;
+	    border: none;
+	    border-radius: 5px;
+	    cursor: pointer;
+	}
+	
+	.pagination {
+	    display: flex;
+	    justify-content: center;
+	    margin-top: 20px;
+	}
+	
+	.pagination a {
+	    padding: 5px 10px;
+	    margin: 0 5px;
+	    text-decoration: none;
+	    background-color: black;
+	    color: #fff;
+	    border-radius: 5px;
+	}
+	
+	.pagination span {
+	    padding: 5px 10px;
+	    margin: 0 5px;
+	    background-color: red;
+	    border-radius: 5px;
+	}
+	
+	/* 일반 링크 스타일 */
+	a {
+	    text-decoration: none;
+	    color: #007bff; /* 일반 링크 색상 */
+	    transition: color 0.3s ease; /* 링크 색상 변화 애니메이션 */
+	}
+	
+	/* 호버(마우스 오버) 상태 스타일 */
+	a:hover {
+	    color: #0056b3; /* 호버 상태 색상 */
+	}
+	
+	/* 방문(클릭 후) 상태 스타일 */
+	a:visited {
+	    color: #6c757d; /* 방문 상태 색상 */
+	}
+	
+	/* 특별한 클래스에 대한 스타일 */
+	.inspect-link {
+	    color: #ff6600; /* 특별한 클래스에 대한 링크 색상 */
+	    font-weight: bold; /* 텍스트 굵게 표시 */
+	    text-transform: uppercase; /* 대문자로 변환 */
+	    transition: color 0.3s ease; /* 링크 색상 변화 애니메이션 */
+	}
+	
+	/* 특별한 클래스 호버(마우스 오버) 상태 스타일 */
+	.inspect-link:hover {
+	    color: #cc3300; /* 호버 상태 색상 */
+	}
+	
+	/* 페이징과 검색을 포함하는 전체 컨테이너 스타일 */
+	.pagination-search {
+	    display: flex;
+	    align-items: center;
+	    justify-content: space-between;
+	    margin-bottom: 20px; /* 원하는 간격 설정 */
+	}
+	
+	/* 검색 입력 필드 스타일 */
+	input[name="equipmentName"] {
+	    padding: 5px;
+	    border: 1px solid #ccc;
+	}
+	
+	/* 검색 버튼 스타일 */
+	button[type="submit"] {
+	    background-color: #007bff;
+	    color: white;
+	    padding: 5px 10px;
+	    border: none;
+	    cursor: pointer;
+	}
+	
+	/* 페이징 스타일 */
+	.pagination {
+	    list-style: none;
+	    display: flex;
+	    gap: 5px; /* 페이지 간격 설정 */
+	}
+	
+	/* 페이지 번호 스타일 */
+	.page-item {
+	    padding: 5px;
+	    border: 1px solid #ccc;
+	    background-color: white;
+	}
+	
+	/* 현재 페이지 스타일 */
+	.current-page {
+	    background-color: #007bff;
+	    color: white;
+	    padding: 5px;
+	    border: 1px solid #007bff;
+	}

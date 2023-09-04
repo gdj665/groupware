@@ -100,6 +100,8 @@ public class EquipmentService {
 		resultMap.put("minPage", minPage);
 		resultMap.put("maxPage", maxPage);
 		
+		log.debug("EquipmentService.getEquipmentList()) resultMap --->" + resultMap.toString());
+		
 		return resultMap;
 	}
 	

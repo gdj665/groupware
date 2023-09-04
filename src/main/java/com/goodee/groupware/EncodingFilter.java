@@ -15,7 +15,7 @@ import org.springframework.core.annotation.Order;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@WebFilter("/*")
+@WebFilter("/group/*")
 public class EncodingFilter extends HttpFilter implements Filter {
     public EncodingFilter() {
         super();

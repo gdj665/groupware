@@ -30,7 +30,7 @@ public class EquipmentController {
 	public String getEquipmentList(Model model, 
 									HttpSession session,
 									@RequestParam(name ="currentPage", defaultValue = "1") int currentPage,
-									@RequestParam(name ="rowPerPage", defaultValue = "10") int rowPerPage,
+									@RequestParam(name ="rowPerPage", defaultValue = "2") int rowPerPage,
 									@RequestParam(name ="equipmentName", required = false) String equipmentName) {
 		log.debug("EquipmentController.getEquipmentList() 요청값 디버깅 --->" + currentPage, rowPerPage, equipmentName);
 		// 장비 리스트 서비스 호출
