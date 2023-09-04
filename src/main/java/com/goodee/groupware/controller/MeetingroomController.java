@@ -148,4 +148,13 @@ public class MeetingroomController {
 		model.addAttribute("departmentNo", departmentNo);
 		return "/meetingroom/meetingroomReservationHistory";
 	}
+	
+// ----- 회의시 예약 상태 취소로 변경 -----	
+	@GetMapping("meetingroom/updateMeetingroomReservation")
+	public String updateMeetingroomReservation(MeetingroomReserve meetingroomReserve) {
+		int row = 0;
+		row = meetingroomService.updateMeetingroomReservation(meetingroomReserve);
+		log.debug("\u001B[31m"+"meetingroomController.updateMeetingroomReservation() row : "+row+"\u001B[0m");
+		return "redirect:/meetingroom/meetingroomReservationHistory";
+	}
 }

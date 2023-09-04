@@ -99,14 +99,6 @@
 		)
 	</insert>
 	
-	<!-- 회의실 예약 취소 -->
-	<update id="updateMeetingroomReservation" parameterType="com.goodee.groupware.vo.MeetingroomReserve">
-		UPDATE meetingroom_reserve
-		SET meetingroom_reserve_status = 'N',
-			updatedate = NOW()
-		WHERE meetingroom_reserve_no = #{meetingroomReserveNo}
-	</update>
-	
 	<!-- 회의실 예약/취소 내역 조회 -->
 	<select id="getReservationHistory" parameterType="com.goodee.groupware.vo.MeetingroomReserve" resultType="com.goodee.groupware.vo.MeetingroomReserve">
 		SELECT 
@@ -120,5 +112,13 @@
 			AND department_no = #{departmentNo}
 		ORDER BY updatedate DESC	
 	</select>
+	
+	<!-- 회의실 예약 상태 취소로 변경 -->
+	<update id="updateMeetingroomReservation" parameterType="com.goodee.groupware.vo.MeetingroomReserve">
+		UPDATE meetingroom_reserve
+		SET meetingroom_reserve_status = 'N',
+			updatedate = NOW()
+		WHERE meetingroom_reserve_no = #{meetingroomReserveNo}
+	</update>
 
 </mapper>

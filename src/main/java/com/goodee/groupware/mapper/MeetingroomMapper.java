@@ -34,9 +34,9 @@ public interface MeetingroomMapper {
 	// 회의실 예약 등록
 	int addMeetingroomReservation(MeetingroomReserve meetingroomReserve);
 	
-	// 회의실 예약 취소
-	int updateMeetingroomReservation(MeetingroomReserve meetingroomReserve);
-	
 	// 회의실 예약/취소 조회
 	List<MeetingroomReserve> getReservationHistory(MeetingroomReserve meetingroomReserve);
+	
+	// 회의실 예약 상태 취소로 변경
+	int updateMeetingroomReservation(MeetingroomReserve meetingroomReserve);
 }

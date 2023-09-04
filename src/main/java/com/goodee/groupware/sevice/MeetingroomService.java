@@ -52,8 +52,8 @@ public class MeetingroomService {
 		Map<String, Object> meetingroomMap = new HashMap<>(); 
 		meetingroomMap.put("meetingroomList", meetingroomList);
 		meetingroomMap.put("lastPage", lastPage);
-		log.debug("\u001B[31m"+"MeetingroomService.getMeetingroomList() meetingroomMap : "+ meetingroomMap.toString()+"\u001B[0m");
 		
+		log.debug("\u001B[31m"+"MeetingroomService.getMeetingroomList() meetingroomMap : "+ meetingroomMap.toString()+"\u001B[0m");
 		return meetingroomMap;
 	}
 
@@ -141,8 +141,8 @@ public class MeetingroomService {
 		// Map에 담아서 넘기기
 		reservationMap.put("reserveList", reserveList);
 		reservationMap.put("meetingroomList", meetingroomList);
-		log.debug("\u001B[31m"+"MeetingroomService.getMeetingroomReservationList() reservationMap : "+ reservationMap.toString()+"\u001B[0m");
 		
+		log.debug("\u001B[31m"+"MeetingroomService.getMeetingroomReservationList() reservationMap : "+ reservationMap.toString()+"\u001B[0m");
 		return reservationMap;
 	}
 	
@@ -157,6 +157,7 @@ public class MeetingroomService {
 		if(cnt == 0) { // 예약 되어있지 않으면(예약 가능 상태이면)
 			row = meetingroomMapper.addMeetingroomReservation(meetingroomReserve);
 		}
+		log.debug("\u001B[31m"+"MeetingroomService.getReservationCount() row : "+row+"\u001B[0m");
 		return row;
 	}
 	
@@ -168,5 +169,15 @@ public class MeetingroomService {
 		log.debug("\u001B[31m"+"MeetingroomService.reservationHistoryList() reservationHistoryList : "+ reservationHistoryList.toString()+"\u001B[0m");
 		
 		return reservationHistoryList;
+	}
+	
+// ----- 회의실 예약 상태 취소로 변경 -----	
+	public int updateMeetingroomReservation(MeetingroomReserve meetingroomReserve) {
+		int row = 0;
+		
+		// 회의실 예약 상태 변경
+		row = meetingroomMapper.updateMeetingroomReservation(meetingroomReserve);
+		log.debug("\u001B[31m"+"MeetingroomService.updateMeetingroomReservation() row : "+row+"\u001B[0m");
+		return row;
 	}
 }
