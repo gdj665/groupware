@@ -56,14 +56,6 @@
                 <span class="hide-menu">근태관리</span>
               </a>
             </li>
-            <li class="sidebar-item">
-              <a class="sidebar-link" href="${pageContext.request.contextPath}/group/member/mypage?memberId=${memberId}" aria-expanded="false">
-                <span>
-                  <i class="ti ti-layout-dashboard"></i>
-                </span>
-                <span class="hide-menu">마이페이지</span>
-              </a>
-            </li>
             <!-- 공지 -->
             <li class="nav-small-cap">
               <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
@@ -115,6 +107,20 @@
                 <span class="hide-menu">회의실 예약</span>
               </a>
             </li>
+            <!-- 결재 -->
+            <li class="nav-small-cap">
+              <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+              <span class="hide-menu">결재</span>
+            </li>
+            <li class="sidebar-item">
+              <a class="sidebar-link" href="${pageContext.request.contextPath}/group/approval/approvalList" aria-expanded="false">
+                <span>
+                  <i class="ti ti-article"></i>
+                </span>
+                <span class="hide-menu">결재관리</span>
+              </a>
+            </li>
+           
             <!-- 장비 자재 -->
             <li class="nav-small-cap">
               <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
