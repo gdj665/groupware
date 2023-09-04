@@ -23,7 +23,7 @@ public class DepartmentController {
 	private DepartmentService departmentService;
 	
 	// 리스트 출력 
-	@GetMapping("/department/departmentList")
+	@GetMapping("/group/department/departmentList")
 		public String getDepartmentList(Model model) {
 		
 		Map<String,Object> resultMap = departmentService.getDepartmentList();
@@ -39,7 +39,7 @@ public class DepartmentController {
 		return "/department/departmentList";
 	}
 	// 부서추가
-		@PostMapping("/department/addDepartment")
+		@PostMapping("/group/department/addDepartment")
 		public String addDepartment(Department department) {
 			// 유효성검사
 			if(department.getDepartmentId().equals("") || department.getDepartmentId() == null) {
@@ -57,10 +57,10 @@ public class DepartmentController {
 			}else {
 				System.out.println("DepartmentController 부서 추가 실패" + row);
 			}
-			return "redirect:/department/departmentList";
+			return "redirect:/group/department/departmentList";
 		}
 	// 부서 이동
-		@PostMapping("/department/updateDepartment")
+		@PostMapping("/group/department/updateDepartment")
 		public String updateDepartment( @RequestParam(name="littleDepartment", defaultValue="0") int departmentNo,
 										@RequestParam(name="memberId") String memberId){
 			log.debug("DepartmentCotroller.@RequestParam()-->" + departmentNo + memberId);
@@ -69,16 +69,16 @@ public class DepartmentController {
 			member.setDepartmentNo(departmentNo);
 			int row = departmentService.updateDepartment(member);
 			log.debug("DepartmentCotroller.row()-->" + departmentNo + memberId + row);
-			return "redirect:/department/departmentList";
+			return "redirect:/group/department/departmentList";
 		}
 		
 	// 부서 삭제
-		@PostMapping("/department/deleteDepartment")
+		@PostMapping("/group/department/deleteDepartment")
 		public String deleteDepartments(Department department) {
 			
 		    int deletedCount = departmentService.deleteDepartments(department);
 		    log.debug("DepartmentCotroller.deletedCount()-->" + deletedCount);
-		    return "redirect:/department/departmentList";
+		    return "redirect:/group/department/departmentList";
 		}
 
 		

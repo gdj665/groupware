@@ -23,7 +23,7 @@ public class HrmController {
 	@Autowired
 	private DepartmentService departmentService;
 	// 사원 리스트 출력
-	@GetMapping("/hrm/hrmList")
+	@GetMapping("/group/hrm/hrmList")
 	public String getMemberList(Model model) {
 		List<Map<String,Object>> memberList = hrmService.getMemberList();
 		List<Map<String,Object>> departmentCnt = hrmService.departmentCnt();
@@ -37,25 +37,25 @@ public class HrmController {
 		return "/hrm/hrmList";
 	}
 	// 사원 추가
-	@PostMapping("/hrm/addHrm")
+	@PostMapping("/group/hrm/addHrm")
 	public String addMember(Member member) {
 		
 		int addMemberRow = hrmService.addMember(member);
 		log.debug("hrmController.addMemberRow-->" + addMemberRow);
-		return "redirect:/hrm/hrmList";
+		return "redirect:/group/hrm/hrmList";
 	}
 	// 사원 수정
-	@PostMapping("/hrm/updateMember")
+	@PostMapping("/group/hrm/updateMember")
 	public String updateMember(Member member) {
 		int updateRow = hrmService.updateMember(member);
 		log.debug("hrmController.updateRow-->" + updateRow);
-		return "redirect:/hrm/hrmList";
+		return "redirect:/group/hrm/hrmList";
 	}
 	// 사원 퇴사
-		@PostMapping("/hrm/deleteMember")
+		@PostMapping("/group/hrm/deleteMember")
 		public String deleteMember(Member member) {
 			int deleteRow = hrmService.deleteMember(member);
 			log.debug("hrmController.deleteRow-->" + deleteRow);
-			return "redirect:/hrm/hrmList";
+			return "redirect:/group/hrm/hrmList";
 	}
 }

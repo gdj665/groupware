@@ -19,7 +19,7 @@ public class AddressController {
 	private AddressService addressService;
 	
 	// 1) 주소록 리스트
-	@GetMapping("/address/addressList")
+	@GetMapping("/group/address/addressList")
 	public String getAddressList(Model model,
 								@RequestParam(name ="currentPage", defaultValue = "1") int currentPage,
 								@RequestParam(name ="rowPerPage", defaultValue = "10") int rowPerPage,

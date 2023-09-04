@@ -17,7 +17,7 @@ public class DepartmentRest {
     @Autowired
     private DepartmentService departmentService;
 
-    @GetMapping("/rest/departmentList")
+    @GetMapping("/group/rest/departmentList")
     public Map<String, Object> getTeamDepartmentList(@RequestParam String departmentId) {
         // Department 객체를 생성하여 departmentId를 설정
         Department department = new Department();

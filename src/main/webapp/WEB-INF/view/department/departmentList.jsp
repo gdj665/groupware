@@ -78,7 +78,7 @@
 				    <div class="container">
 				        <!-- 세 번째 컨테이너 내용 -->
 				        <h5>이동할 부서 선택</h5>
-				        <form id="updateForm" action="/department/updateDepartment" method="post">
+				        <form id="updateForm" action="/group/department/updateDepartment" method="post">
 				            <table>
 				                <tr>
 				                    <td>부서</td>
@@ -124,7 +124,7 @@
 				<div class="modal">
 					<div class="modal_content">
 						<h3>부서 추가</h3>
-						<form id="addDepartmentForm" action="${pageContext.request.contextPath}/department/addDepartment" method="post">
+						<form id="addDepartmentForm" action="${pageContext.request.contextPath}/group/department/addDepartment" method="post">
 							<table>
 								<tr>
 									<td>부서목록</td>
@@ -155,7 +155,7 @@
 					<div class="modal_content2">
 						<h3>부서 삭제</h3>
 						<h6>부서 삭제를 하시려면 부서인원을 모두 이동 후 삭제가능합니다.</h6>
-						<form id="deleteDepartmentForm" action="${pageContext.request.contextPath}/department/deleteDepartment" method="post">
+						<form id="deleteDepartmentForm" action="${pageContext.request.contextPath}/group/department/deleteDepartment" method="post">
 							<table>
 								<tr>
 									<td>삭제 가능 부서 목록</td>

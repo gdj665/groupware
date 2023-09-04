@@ -10,7 +10,7 @@ $(document).ready(function() {
 
         $.ajax({
             type: "GET",
-            url: "/rest/getOneMember",
+            url: "/group/rest/getOneMember",
             data: { memberId: memberId },
             success: function(response) {
                 var memberData = response[0];
@@ -68,7 +68,7 @@ $(document).ready(function() {
     $('#excelBtn').click(function() {
        // 서버로 AJAX 요청을 보냄
        $.ajax({
-          url: '/rest/getMemberList', // 서버의 '/excel' URL로 요청을 보냄
+          url: '/group/rest/getMemberList', // 서버의 '/excel' URL로 요청을 보냄
           type: 'get', // GET 요청 방식
           dataType: 'json', // 서버에서 반환하는 데이터 형식을 JSON으로 설정
           success: function(data) { // AJAX 요청이 성공했을 때 실행되는 콜백 함수
@@ -114,7 +114,7 @@ $(document).ready(function() {
             $('#littleDepartment').append('<option value="">==팀 선택==</option>');
         } else {
             $.ajax({
-                url: '/rest/departmentList',
+                url: '/group/rest/departmentList',
                 type: 'get',
                 data: {
                     departmentId: $('#bigDepartment').val() // 선택한 부서의 값 전달

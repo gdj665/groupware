@@ -141,7 +141,7 @@
 			<div class="modal">
 				<div class="modal_content">
 					<h3>사원 추가</h3>
-					<form id="addHrmForm" action="${pageContext.request.contextPath}/hrm/addHrm" method="post">
+					<form id="addHrmForm" action="${pageContext.request.contextPath}/group/hrm/addHrm" method="post">
 						<table>
 							<tr>
 			                    <td>부서</td>
@@ -247,7 +247,7 @@
 			<div class="modal2">
 				<div class="modal_content2">
 					<h3>사원 상세보기 </h3>
-					<form id="updateMember" action="${pageContext.request.contextPath}/hrm/updateMember" method="post">
+					<form id="updateMember" action="${pageContext.request.contextPath}/group/hrm/updateMember" method="post">
 						
 						<table>
 							<tr>
@@ -336,7 +336,7 @@
 				    <button id="updateMemberBtn" type="button" class="btn btn-primary">수정</button>
 				    <button id="close2" type="button" class="btn btn-primary">닫기</button>
 			        <button id="deleteMemberBtn" type="button" class="btn btn-primary">퇴사</button>
-				    <form action="${pageContext.request.contextPath}/hrm/deleteMember" method="post">
+				    <form action="${pageContext.request.contextPath}/group/hrm/deleteMember" method="post">
 				        <input type="hidden" id="memberId2"  name="memberId">
 				    </form>
 				</div>

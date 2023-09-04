@@ -19,14 +19,14 @@ public class HrmRest {
 	@Autowired
 	private HrmService hrmService;
 	
-	@GetMapping("/rest/getOneMember")
+	@GetMapping("/group/rest/getOneMember")
 	public List<Map<String,Object>> getOneMember2(@RequestParam(name = "memberId") String memberId){
 		log.debug("getOneMember2.memberId() -->" + memberId);
 	    List<Map<String,Object>> getOneMember = hrmService.getOneMember2(memberId);
 	    log.debug("getOneMember2.getOneMember() -->" + getOneMember);
 	    return getOneMember;
 	}
-	@GetMapping("/rest/getMemberList")
+	@GetMapping("/group/rest/getMemberList")
 	public List<Map<String,Object>> getMemberListExcel() {
 		List<Map<String,Object>> getMemberListExcel = hrmService.getMemberList();
 		return getMemberListExcel;
