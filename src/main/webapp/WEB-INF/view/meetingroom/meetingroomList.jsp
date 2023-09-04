@@ -29,7 +29,7 @@
 							<br>
 							<button class="btn btn-primary" id="addMeetingroomModalOpen">회의실 추가</button>
 							<br><br>
-							<table style="width: 90%;">
+							<table style="width: 100%;">
 								<tr>
 									<th class="table_cell">회의실 이름</th>
 									<th class="table_cell">회의실 상세내용</th>

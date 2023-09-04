@@ -30,7 +30,7 @@
 							<a style="color:orange" href="${pageContext.request.contextPath}/group/schedule/oneSchedule?targetYear=${m.targetYear}&targetMonth=${m.targetMonth}&targetDate=${m.targetDate}&scheduleCategory=부서">부서</a>
 							<a style="color:green" href="${pageContext.request.contextPath}/group/schedule/oneSchedule?targetYear=${m.targetYear}&targetMonth=${m.targetMonth}&targetDate=${m.targetDate}&scheduleCategory=개인">개인</a>
 							<br><br>
-							<table class="table" style="width: 90%;">
+							<table class="table" style="width: 100%;">
 								<tr>
 									<th class="table_cell">카테고리</th>
 									<th class="table_cell">부서번호</th>

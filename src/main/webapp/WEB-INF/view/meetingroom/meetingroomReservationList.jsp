@@ -75,7 +75,6 @@
 							<a href="${pageContext.request.contextPath}/group/meetingroom/meetingroomReservationList?targetYear=${m.targetYear}&targetMonth=${m.targetMonth+1}&meetingroomNo=${meetingroomNo}">다음달</a>
 							<br><br>
 							<button class="btn btn-primary" id="addMeetingroomReservationModalOpen">예약 등록</button>
-							<a class="btn btn-primary" href="${pageContext.request.contextPath}/group/meetingroom/meetingroomReservationHistory">예약 내역</a>
 							<br><br>
 							<a class="btn btn-primary" href="${pageContext.request.contextPath}/group/meetingroom/meetingroomReservationList?targetYear=${m.targetYear}&targetMonth=${m.targetMonth}">회의실 전체</a>
 							<!-- 회의실 전체 목록 가져오기 -->

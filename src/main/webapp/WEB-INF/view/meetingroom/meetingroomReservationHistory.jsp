@@ -23,10 +23,9 @@
            		<div class="card-body">
 					<div class="container-wrapper">
 						<div class="container">
-						<a href="${pageContext.request.contextPath}/group/meetingroom/meetingroomReservationList">뒤로가기</a>
 						<h1>부서 예약 정보</h1>
-						<br><br>
-							<table>
+						<br>
+							<table style="width: 100%;">
 								<tr>
 									<th class="table_cell">회의실 예약 번호</th>
 									<th class="table_cell">회의실 이름</th>

@@ -49,7 +49,7 @@
 							<a style="color:green;" href="${pageContext.request.contextPath}/group/schedule/scheduleList?targetYear=${m.targetYear}&targetMonth=${m.targetMonth}&scheduleCategory=개인">개인</a>
 							<br><br>
 							<!-- 달력 시작 -->
-							<table style="width: 90%; height: 400px;">
+							<table style="width: 100%; height: 400px;">
 								<!-- 달력 상단 요일 표시 -->
 								<tr>
 									<th class="table_cell" style="color: red;">일</th>
