@@ -5,10 +5,11 @@
 	<!-- 1) 부서 게시판 리스트출력 -->
 	<select id = "getBoardList" parameterType="java.util.Map" resultType="java.util.Map">
 		SELECT 
-		    board_no AS boardNo, 
+		    b.board_no AS boardNo, 
 		    m.member_name AS memberName,
-		    CASE WHEN CHAR_LENGTH(board_title) > 10 THEN CONCAT(LEFT(board_title, 10), '...') ELSE board_title END AS boardTitle,
-		    CASE WHEN CHAR_LENGTH(board_content) > 10 THEN CONCAT(LEFT(board_content, 10), '...') ELSE board_content END AS boardContent,
+		    CASE WHEN CHAR_LENGTH(b.board_title) > 10 THEN CONCAT(LEFT(b.board_title, 10), '...') ELSE b.board_title END AS boardTitle,
+		    CASE WHEN CHAR_LENGTH(b.board_content) > 10 THEN CONCAT(LEFT(b.board_content, 10), '...') ELSE b.board_content END AS boardContent,
+		    b.board_status AS boardStatus,
 		    b.createdate
 		FROM board b
 		JOIN member m ON b.member_id = m.member_id

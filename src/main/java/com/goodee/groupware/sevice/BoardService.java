@@ -58,6 +58,18 @@ public class BoardService {
 		if((boardCount%rowPerPage) != 0) { 
 			lastPage++; 
 		}
+		// 페이지 네비게이션 페이징
+		int pagePerPage = 5;
+		
+		// 마지막 페이지 구하기
+		// 최소페이지,최대페이지 구하기
+		int minPage = ((currentPage-1) / pagePerPage) * pagePerPage + 1;
+		int maxPage = minPage + (pagePerPage -1);
+		
+		// maxPage가 마지막 페이지를 넘어가지 않도록 함
+		if(maxPage > lastPage) {
+			maxPage = lastPage;
+		}
 		// 디버깅
 		log.debug("BoardService.getBoardList().boardMapCount --->" + boardCount);
 		
@@ -65,6 +77,8 @@ public class BoardService {
 		Map<String,Object> resultMap = new HashMap<String,Object>();
 		resultMap.put("boardList",boardList);
 		resultMap.put("lastPage",lastPage);
+		resultMap.put("minPage", minPage);
+		resultMap.put("maxPage", maxPage);
 		
 		return resultMap;
 	}

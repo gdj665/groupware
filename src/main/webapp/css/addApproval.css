@@ -1,0 +1,24 @@
+@charset "UTF-8";
+
+.main-list {
+    max-height: 400px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+input[type=file]::file-selector-button {
+	width: 150px;
+	height: 30px;
+	background: #fff;
+	border: 1px solid #cccccc;
+	border-radius: 5px;
+	cursor: pointer;
+	&:hover {
+		background: rgb(77,77,77);
+		color: #fff;
+	}
+}

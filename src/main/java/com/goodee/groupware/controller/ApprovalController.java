@@ -33,7 +33,7 @@ public class ApprovalController {
 	 
 	
 	// 1.) 결재 리스트출력
-	@GetMapping("/approval/approvalList")
+	@GetMapping("/group/approval/approvalList")
 	public String getBoardList(Model model,
 		HttpSession session,
 		@RequestParam(name = "currentPage", defaultValue = "1") int currentPage,
@@ -57,7 +57,7 @@ public class ApprovalController {
   
   
 	// 4.) 결재 추가
-	@GetMapping("/approval/addApproval")
+	@GetMapping("/group/approval/addApproval")
 	public String addApproval(Model model) { 
 		
 		// 결재자 선택을 위해 리스트를 불러온다
@@ -70,7 +70,7 @@ public class ApprovalController {
 		return "/approval/addApproval";
 	}
 	
-	@PostMapping("/approval/addApproval")
+	@PostMapping("/group/approval/addApproval")
 	public String addBoard(HttpServletRequest request,Approval approval, HttpSession session) {
 		
 		String memberId = (String) session.getAttribute("loginMember");
@@ -100,11 +100,11 @@ public class ApprovalController {
 		int row = approvalService.addApproval(approval,path);
 		log.debug("ApprovalControllerAddRow --> "+row); 
 		
-		return "redirect:/approval/approvalList"; 
+		return "redirect:/group/approval/approvalList"; 
 	}
 	
 	// 3.) 결재 상세보기 출력
-	@GetMapping("/approval/oneApproval")
+	@GetMapping("/group/approval/oneApproval")
 	public String getOneApproval(Model model,Approval approval,ApprovalFile approvalFile, HttpSession session) {
 		
 		String loginMemberId = (String) session.getAttribute("loginMember");
@@ -119,18 +119,18 @@ public class ApprovalController {
 	}
 	
 	// 5.) 결재 회수
-	@PostMapping("/approval/updateApprovalRecall")
+	@PostMapping("/group/approval/updateApprovalRecall")
 	public String updateApprovalRecall(Approval approval) {
 		
 		// 5.) 결재 회수
 		int row = approvalService.updateApprovalRecall(approval);
 		log.debug("ApprovalController.updateApprovalRecall.Row-->"+row);
 		
-		return "redirect:/approval/approvalList";
+		return "redirect:/group/approval/approvalList";
 	}
 	
 	// 6.) 결재 진행 코멘트 업데이트 + 7.) 결재 진행 상태 변경
-	@PostMapping("/approval/updateApprovalComment")
+	@PostMapping("/group/approval/updateApprovalComment")
 	public String updateApprovalComment(Approval approval,
 			@RequestParam(name = "approvalNowStatus", defaultValue = "결재중") String approvalNowStatus,
 			@RequestParam(name = "approvalLastStatus", required = false, defaultValue="") String approvalLastStatus,
@@ -140,7 +140,7 @@ public class ApprovalController {
 		int row = approvalService.updateApprovalComment(approval,approvalLastStatus,approvalNowStatus,approvalComment);
 		log.debug("ApprovalController.updateApprovalComment.Row-->"+row);
 		
-		return "redirect:/approval/approvalList";
+		return "redirect:/group/approval/approvalList";
 	}
 }
  

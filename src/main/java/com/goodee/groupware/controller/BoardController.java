@@ -25,7 +25,7 @@ public class BoardController {
 	private BoardService boardService;
 
 	// 1.) 부서별 게시물 리스트 출력
-	@GetMapping("/board/boardList")
+	@GetMapping("/group/board/boardList")
 	public String getBoardList(
 		Model model, 
 		@RequestParam(name = "departmentNo", defaultValue = "0") int departmentNo,
@@ -48,12 +48,14 @@ public class BoardController {
 		model.addAttribute("boardList", resultMap.get("boardList"));
 		model.addAttribute("currentPage", currentPage);
 		model.addAttribute("lastPage", resultMap.get("lastPage"));
+		model.addAttribute("minPage", resultMap.get("minPage"));
+		model.addAttribute("maxPage", resultMap.get("maxPage"));
 
 		return "/board/boardList";
 	}
 	
 	// 2.) 게시물 상세 출력
-	@GetMapping("/board/boardOne")
+	@GetMapping("/group/board/boardOne")
 	public String getOneBoard(Model model,Board board,BoardFile boardFile, HttpSession session) {
 		
 		// 세션에서 아이디값 받아오기
@@ -68,11 +70,11 @@ public class BoardController {
 	}
 	
 	// 4.) 게시물 추가
-	@GetMapping("/board/addBoard")
+	@GetMapping("/group/board/addBoard")
 	public String addBoard() {
 		return "/board/addBoard";
 	}
-	@PostMapping("/board/addBoard")
+	@PostMapping("/group/board/addBoard")
 	public String addBoard(HttpServletRequest request,Board board, HttpSession session) { 
 		
 		int loginDepartmentNo = (Integer) session.getAttribute("departmentNo");
@@ -87,11 +89,11 @@ public class BoardController {
 		int row = boardService.addBoard(board,path);
 		log.debug("BoardController.AddRow --> "+row);
 		
-		return "redirect:/board/boardList?departmentNo="+loginDepartmentNo;
+		return "redirect:/group/board/boardList?departmentNo="+loginDepartmentNo;
 	}
 	
 	// 3.) 게시물 삭제
-	@PostMapping("/board/deleteBoard")
+	@PostMapping("/group/board/deleteBoard")
 	public String deleteBoard(HttpServletRequest request,Board board,BoardFile boardFile, HttpSession session) {
 		
 		// 파일이 저장되어 있는경로
@@ -104,6 +106,6 @@ public class BoardController {
 		// 디버깅
 		log.debug("BoardControllerDeleteRow --> "+row);
 		
-		return "redirect:/board/boardList";
+		return "redirect:/group/board/boardList";
 	}
 }
