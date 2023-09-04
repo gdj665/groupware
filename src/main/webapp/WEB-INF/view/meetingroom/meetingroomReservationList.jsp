@@ -110,8 +110,21 @@
 															<span style="color: red;">${day}</span>
 														</c:when>
 														<c:when test="${i % 7 == 6}">
-															<span style="color: blue;">${day}</span>
-														</c:when>
+				                                        <c:set var="isHoliday" value="false" />
+					                                        <c:forEach items="${getHolidayList}" var="holiday">
+					                                            <c:if test="${day == fn:substring(holiday.locdate, 6, 8)}">
+					                                                <c:set var="isHoliday" value="true"></c:set>
+					                                            </c:if>
+					                                        </c:forEach>
+					                                        <c:choose>
+					                                            <c:when test="${isHoliday}">
+					                                                <span style="color: red;">${day}</span>
+					                                            </c:when>
+					                                            <c:otherwise>
+					                                                <span style="color: blue;">${day}</span>
+					                                            </c:otherwise>
+					                                        </c:choose>
+					                                  	</c:when>
 							                            <c:otherwise>
 							                            	<!-- 공휴일 여부 검사 -->
 							                                <c:set var="isHoliday" value="false"></c:set>
