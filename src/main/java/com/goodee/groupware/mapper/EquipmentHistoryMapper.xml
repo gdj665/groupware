@@ -60,7 +60,7 @@
 			</if>
 			<!-- 검색분기 -->
 			<if test="memberName != null">
-				AND m.member_name LIKE '%'#{memberName}'%'
+				AND m.member_name LIKE '%' #{memberName} '%'
 			</if>
 		</where>
 	</select>

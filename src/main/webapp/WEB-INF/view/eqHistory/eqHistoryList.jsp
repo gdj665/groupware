@@ -8,51 +8,77 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<h1>${memberId}님 장비 사용내역</h1>
-	<table border=1>
-		<tr>
-			<th>장비 번호</th>
-			<th>장비명</th>
-			<th>대여상태</th>
-			<th>대여시작일</th>
-			<th>반납일</th>
-			<th>대여사유</th>
-			<th>반납하기</th>
-		</tr>
-		<c:forEach var="eqH" items="${eqHistoryListById}">
-			<tr>
-				<td>${eqH.equipmentHistoryNo}</td>			
-				<td>${eqH.equipmentName}</td>			
-				<td>${eqH.equipmentStatus}중</td>			
-				<td>${eqH.equipmentBegindate}</td>			
-				<td>${eqH.equipmentEnddate}</td>
-        		<td>${eqH.equipmentReason}</td>
-        		<c:if test="${eqH.equipmentStatus eq '대여' && eqH.equipmentEnddate == null}">
-		            <td>
-		                <a href="${pageContext.request.contextPath}/group/eqHistory/updateEquipment?equipmentNo=${eqH.equipmentNo}&equipmentStatus=비대여&equipmentHistoryNo=${eqH.equipmentHistoryNo}" onClick="return confirm('${eqH.equipmentName} 장비를 반납하시겠습니까?')">반납</a>
-		            </td>
-		        </c:if>
-		        
-		        <c:forEach var="i" begin="${minPage}" end="${maxPage}" step="1">
-					<c:if test="${i ==  currentPage}">
-						<span style="color: red;">${i}</span>
-					</c:if>
-					<c:if test="${i !=  currentPage}">
-						<span>${i}</span>
-					</c:if>
-				</c:forEach>
-		        
-		        <c:if test="${eqH.equipmentStatus ne '대여' || eqH.equipmentEnddate != null}">
-		            <td>반납완료</td>
-        		</c:if>   
-			</tr>
-		</c:forEach>
-	</table>
-	<div>
-		<form action="${pageContext.request.contextPath}/group/eqHistory/eqHistoryList" method="get">
-			<input type="text" name="equipmentName">
-			<button type="submit">검색</button>
-		</form>
+	<jsp:include page="${pageContext.request.contextPath}/menu/menu.jsp"></jsp:include>
+	<div class="body-wrapper">
+		<jsp:include page="${pageContext.request.contextPath}/menu/header.jsp"></jsp:include>
+		<div class="container-fluid">
+			<div class="container-fluid">
+	        	<div class="card">
+					<!-- 자재추가는 팀장급부터만 가능하게 세션에 level값으로 조건 -->
+					<h5 class="card-title fw-semibold mb-4">${memberId}님 장비 사용내역</h5>
+					<table border=1>
+						<tr>
+							<th>장비 번호</th>
+							<th>장비명</th>
+							<th>대여상태</th>
+							<th>대여시작일</th>
+							<th>반납일</th>
+							<th>대여사유</th>
+							<th>반납하기</th>
+						</tr>
+						<c:forEach var="eqH" items="${eqHistoryListById}">
+							<tr>
+								<td>${eqH.equipmentHistoryNo}</td>			
+								<td>${eqH.equipmentName}</td>			
+								<td>${eqH.equipmentStatus}중</td>			
+								<td>${eqH.equipmentBegindate}</td>			
+								<td>${eqH.equipmentEnddate}</td>
+				        		<td>${eqH.equipmentReason}</td>
+				        		<c:if test="${eqH.equipmentStatus eq '대여' && eqH.equipmentEnddate == null}">
+						            <td>
+						                <a href="${pageContext.request.contextPath}/group/eqHistory/updateEquipment?equipmentNo=${eqH.equipmentNo}&equipmentStatus=비대여&equipmentHistoryNo=${eqH.equipmentHistoryNo}" onClick="return confirm('${eqH.equipmentName} 장비를 반납하시겠습니까?')">반납</a>
+						            </td>
+						        </c:if>
+						        <c:if test="${eqH.equipmentStatus ne '대여' || eqH.equipmentEnddate != null}">
+						            <td>반납완료</td>
+				        		</c:if>   
+							</tr>
+						</c:forEach>
+					</table>
+					<div>
+						<form action="${pageContext.request.contextPath}/group/eqHistory/eqHistoryList" method="get">
+							<input type="text" name="equipmentName">
+							<button type="submit">검색</button>
+						</form>
+						
+						<ul class="pagination">
+						    <c:if test="${currentPage > 1}">
+						        <li class="page-item">
+						            <a href="${pageContext.request.contextPath}/group/eqHistory/eqHistoryList?currentPage=${currentPage-1}&partsName=${param.partsName}" class="page-link">이전</a>
+						        </li>
+						    </c:if>
+						    
+						    <c:forEach var="i" begin="${minPage}" end="${maxPage}" step="1">
+						        <li class="page-item">
+						            <c:if test="${i ==  currentPage}">
+						                <span class="page-link current-page">${i}</span>
+						            </c:if>
+						            <c:if test="${i !=  currentPage}">
+						                <a href="${pageContext.request.contextPath}/group/eqHistory/eqHistoryList?currentPage=${i}&partsName=${param.partsName}" class="page-link">${i}</a>
+						            </c:if>
+						        </li>
+						    </c:forEach>
+						    
+						    <c:if test="${currentPage < lastPage}">
+						        <li class="page-item">
+						            <a href="${pageContext.request.contextPath}/group/eqHistory/eqHistoryList?currentPage=${currentPage+1}&partsName=${param.partsName}" class="page-link">다음</a>
+						        </li>
+						    </c:if>
+						</ul>
+					</div>
+	        	</div>
+	    	</div>
+		</div>
 	</div>
 </body>
 </html>

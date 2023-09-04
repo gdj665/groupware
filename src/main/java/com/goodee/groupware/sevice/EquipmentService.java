@@ -177,6 +177,19 @@ public class EquipmentService {
 		}
 		log.debug("EquipmentService.getEquipmentOne() lastPage --->" + lastPage);
 		
+		// 페이지 네비게이션 페이징
+		int pagePerPage = 5;
+		
+		// 마지막 페이지 구하기
+		// 최소페이지,최대페이지 구하기
+		int minPage = ((currentPage-1) / pagePerPage) * pagePerPage + 1;
+		int maxPage = minPage + (pagePerPage -1);
+		
+		// maxPage가 마지막 페이지를 넘어가지 않도록 함
+		if(maxPage > lastPage) {
+			maxPage = lastPage;
+		}
+		
 		// 반환값을 넣은 resultMap 
 		Map<String,Object> resultMap = new HashMap<>();
 		// 상세보기
@@ -185,6 +198,9 @@ public class EquipmentService {
 		resultMap.put("eqHistoryList", eqHistoryList);
 		// 페이징 값
 		resultMap.put("lastPage", lastPage);
+		
+		resultMap.put("minPage", minPage);
+		resultMap.put("maxPage", maxPage);
 		
 		return resultMap;
 	}

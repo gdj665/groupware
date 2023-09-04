@@ -24,67 +24,86 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 <body>
-	<!-- 자재추가는 팀장급부터만 가능하게 세션에 level값으로 조건 -->
-	<c:if test="${memberLevel > 1}">
-		<button id="open">자재 추가</button>
-	</c:if>
-	<h1>자재 목록</h1>
-	<table>
-		<tr>
-			<th>자재번호</th>
-			<th>분류명</th>
-			<th>부품명</th>
-			<th>수량</th>
-			<th>가격</th>
-			<th>상세내용</th>
-			<c:if test="${memberLevel > 1}">
-				<th>비활성</th>
-			</c:if>
-		</tr>
-		<c:forEach var="f" items="${fixturesList}">
-			<tr>
-				<td>${f.partsNo}</td>
-				<td>${f.partsCategory}</td>
-				<td>${f.partsName}</td>
-				<td>${f.partsCnt}</td>
-				<td>${f.partsPrice}원</td>
-				<td>${f.partsContent}</td>
-				<c:if test="${memberLevel > 1}">
-					<td>
-						<a href="/group/fixtures/updatePartsAlive?partsNo=${f.partsNo}" onClick="return confirm('${f.partsName} 비활성화 하시겠습니까?')">비활성</a>
-					</td>
-				</c:if>
-			</tr>
-		</c:forEach>
-	</table>
-	<div>
-		<form action="${pageContext.request.contextPath}/group/fixtures/fixturesList" method="get">
-			<input type="text" name="partsName">
-			<button type="submit">검색</button>
-		</form>
+	<jsp:include page="${pageContext.request.contextPath}/menu/menu.jsp"></jsp:include>
+	<div class="body-wrapper">
+		<jsp:include page="${pageContext.request.contextPath}/menu/header.jsp"></jsp:include>
+		<div class="container-fluid">
+			<div class="container-fluid">
+	        	<div class="card">
+					<!-- 자재추가는 팀장급부터만 가능하게 세션에 level값으로 조건 -->
+					<h5 class="card-title fw-semibold mb-4">자재 목록</h5>
+					<span>
+						<c:if test="${memberLevel > 1}">
+							<button id="open">자재 추가</button>
+						</c:if>
+					</span>
+					<table>
+						<tr>
+							<th>자재번호</th>
+							<th>분류명</th>
+							<th>부품명</th>
+							<th>수량</th>
+							<th>가격</th>
+							<th>상세내용</th>
+							<c:if test="${memberLevel > 1}">
+								<th>비활성</th>
+							</c:if>
+						</tr>
+						<c:forEach var="f" items="${fixturesList}">
+							<tr>
+								<td>${f.partsNo}</td>
+								<td>${f.partsCategory}</td>
+								<td>${f.partsName}</td>
+								<td>${f.partsCnt}</td>
+								<td>${f.partsPrice}원</td>
+								<td>${f.partsContent}</td>
+								<c:if test="${memberLevel > 1}">
+									<td>
+										<a href="/group/fixtures/updatePartsAlive?partsNo=${f.partsNo}" onClick="return confirm('${f.partsName} 비활성화 하시겠습니까?')">비활성</a>
+									</td>
+								</c:if>
+							</tr>
+						</c:forEach>
+					</table>
+					<div>
+						<form action="${pageContext.request.contextPath}/group/fixtures/fixturesList" method="get">
+							<input type="text" name="partsName">
+							<button type="submit">검색</button>
+						</form>
+					</div>
+					<ul class="pagination">
+						    <c:if test="${currentPage > 1}">
+						        <li class="page-item">
+						            <a href="${pageContext.request.contextPath}/group/fixtures/fixturesList?currentPage=${currentPage-1}&partsName=${param.partsName}" class="page-link">이전</a>
+						        </li>
+						    </c:if>
+						    
+						    <c:forEach var="i" begin="${minPage}" end="${maxPage}" step="1">
+						        <li class="page-item">
+						            <c:if test="${i ==  currentPage}">
+						                <span class="page-link current-page">${i}</span>
+						            </c:if>
+						            <c:if test="${i !=  currentPage}">
+						                <a href="${pageContext.request.contextPath}/group/fixtures/fixturesList?currentPage=${i}&partsName=${param.partsName}" class="page-link">${i}</a>
+						            </c:if>
+						        </li>
+						    </c:forEach>
+						    
+						    <c:if test="${currentPage < lastPage}">
+						        <li class="page-item">
+						            <a href="${pageContext.request.contextPath}/group/fixtures/fixturesList?currentPage=${currentPage+1}&partsName=${param.partsName}" class="page-link">다음</a>
+						        </li>
+						    </c:if>
+					</ul>
+				
+					<div>
+						<button id="excelBtn">엑셀 다운</button>
+					</div>
+	        	</div>
+	    	</div>
+		</div>
 	</div>
-	<c:if test="${currentPage > 1}">
-		<a
-			href="${pageContext.request.contextPath}/group/fixtures/fixturesList?currentPage=${currentPage-1}&partsName=${param.partsName}">이전</a>
-	</c:if>
 	
-	<c:forEach var="i" begin="${minPage}" end="${maxPage}" step="1">
-		<c:if test="${i ==  currentPage}">
-			<span style="color: red;">${i}</span>
-		</c:if>
-		<c:if test="${i !=  currentPage}">
-			<span>${i}</span>
-		</c:if>
-	</c:forEach>
-	
-	<c:if test="${currentPage < lastPage}">
-		<a
-			href="${pageContext.request.contextPath}/group/fixtures/fixturesList?currentPage=${currentPage+1}&partsName=${param.partsName}">다음</a>
-	</c:if>
-
-	<div>
-		<button id="excelBtn">엑셀 다운</button>
-	</div>
 	
 	<div class="modal">
 		<div class="modal_content">

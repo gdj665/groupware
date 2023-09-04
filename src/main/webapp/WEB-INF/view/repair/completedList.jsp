@@ -49,14 +49,14 @@
 	</table>
 	<!-- 검색및 페이징 -->
 	<div>
-		<form action="${pageContext.request.contextPath}/repair/repairList" method="get">
+		<form action="${pageContext.request.contextPath}/group/repair/repairList" method="get">
 			<input type="text" name="repairProductCategory">
 			<input type="hidden" name="repairStatus" value="수리완료">
 			<button type="submit">검색</button>
 		</form>
 	</div>
 	<c:if test="${currentPage > 1}">
-		<a href="${pageContext.request.contextPath}/repair/repairList?currentPage=${currentPage-1}&repairProductCategory=${param.repairProductCategory}&repairStatus=수리완료">이전</a>
+		<a href="${pageContext.request.contextPath}/group/repair/repairList?currentPage=${currentPage-1}&repairProductCategory=${param.repairProductCategory}&repairStatus=수리완료">이전</a>
 	</c:if>
 	
 	<c:forEach var="i" begin="${minPage}" end="${maxPage}" step="1">
@@ -64,12 +64,12 @@
 			<span style="color: red;">${i}</span>
 		</c:if>
 		<c:if test="${i !=  currentPage}">
-			<span>${i}</span>
+			<a href="${pageContext.request.contextPath}/group/repair/repairList?currentPage=${i}&repairProductCategory=${param.repairProductCategory}&repairStatus=수리완료" class="page-link">${i}</a>
 		</c:if>
 	</c:forEach>
 	
 	<c:if test="${currentPage < lastPage}">
-		<a href="${pageContext.request.contextPath}/repair/repairList?currentPage=${currentPage+1}&repairProductCategory=${param.repairProductCategory}&repairStatus=수리완료">다음</a>
+		<a href="${pageContext.request.contextPath}/group/repair/repairList?currentPage=${currentPage+1}&repairProductCategory=${param.repairProductCategory}&repairStatus=수리완료">다음</a>
 	</c:if>
 	
 	<div>

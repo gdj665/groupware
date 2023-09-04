@@ -30,7 +30,7 @@ public class EquipmentController {
 	public String getEquipmentList(Model model, 
 									HttpSession session,
 									@RequestParam(name ="currentPage", defaultValue = "1") int currentPage,
-									@RequestParam(name ="rowPerPage", defaultValue = "2") int rowPerPage,
+									@RequestParam(name ="rowPerPage", defaultValue = "10") int rowPerPage,
 									@RequestParam(name ="equipmentName", required = false) String equipmentName) {
 		log.debug("EquipmentController.getEquipmentList() 요청값 디버깅 --->" + currentPage, rowPerPage, equipmentName);
 		// 장비 리스트 서비스 호출
@@ -117,7 +117,7 @@ public class EquipmentController {
 									Member member,
 									HttpSession session,
 									@RequestParam(name ="currentPage", defaultValue = "1") int currentPage,
-									@RequestParam(name ="rowPerPage", defaultValue = "10") int rowPerPage) {
+									@RequestParam(name ="rowPerPage", defaultValue = "5") int rowPerPage) {
 		// 장비 대여 추가시 ID값은 세션사용자 ID값을 넣기 위해 세션에서 값 불러옴
 		String memberId = (String) session.getAttribute("loginMember");
 				
@@ -130,6 +130,9 @@ public class EquipmentController {
 		model.addAttribute("eqHistoryList", resultMap.get("eqHistoryList"));
 		// 페이징 값
 		model.addAttribute("lastPage", resultMap.get("lastPage"));
+		model.addAttribute("currentPage", currentPage);
+		model.addAttribute("minPage", resultMap.get("minPage"));
+		model.addAttribute("maxPage", resultMap.get("maxPage"));
 		// 장비 대여시 대여자 아이디값
 		model.addAttribute("memberId", memberId);
 		

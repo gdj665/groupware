@@ -24,13 +24,13 @@
 			<div class="container-fluid">
 	        	<div class="card">
 					<!-- 장비추가는 팀장급부터만 가능하게 세션에 level값으로 조건 -->
-	        		<h5 class="card-title fw-semibold mb-4">장비추가</h5>
-					<c:if test="${memberLevel > 1}">
-					<div style="text-align: right;">
-						<button class="btn btn-primary" id="open">장비 추가</button>
-					</div>
+	        		<h5 class="card-title fw-semibold mb-4">장비관리</h5>
+	        		<span style="text-align: right;">
+						<c:if test="${memberLevel > 1}">
+							<button class="btn btn-primary" id="open">장비 추가</button>
+						</c:if>
+	        		</span>
 					<br>
-					</c:if>
 					<table border=1>
 						<tr>
 							<th>장비번호</th>
@@ -108,9 +108,6 @@
 						        </li>
 						    </c:if>
 						</ul>
-					</div>
-					
-					<div>
 						<button class="btn btn-success" id="excelBtn">엑셀</button>
 					</div>
 	        	</div>
