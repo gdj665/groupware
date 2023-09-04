@@ -28,7 +28,7 @@ public class ExcelRest {
 	private RepairService repairService;
 	
 	// 1) fixturesList(자재목록) 엑셀다운
-	@GetMapping("/fixtures/fixturesExcel")
+	@GetMapping("/group/fixtures/fixturesExcel")
 	public List<Map<String,Object>> fixturesExcel() {
 		// excel로 뽑을 list
 		// list데이터를 Service를 호출하여 불러옴
@@ -39,7 +39,7 @@ public class ExcelRest {
 	}
 	
 	// 2) equipmentList(장비목록) 엑셀다운
-	@GetMapping("/equipment/equipmentExcel")
+	@GetMapping("/group/equipment/equipmentExcel")
 	public List<Map<String,Object>> equipmentExcel(){
 		// excel로 뽑을 list
 		// list데이터를 Service를 호출하여 불러옴
@@ -50,7 +50,7 @@ public class ExcelRest {
 	}
 	
 	// 3) repair(수리목록) 엑셀다운 repairStauts로 대기중 수리중 수리완료 각각 출력
-	@GetMapping("/repair/repairExcel")
+	@GetMapping("/group/repair/repairExcel")
 	public List<Map<String,Object>> repairExcel(Repair repair) {
 		
 		log.debug("ExcelRest.repairExcel() Param repair --->" + repair.toString());
@@ -63,7 +63,7 @@ public class ExcelRest {
 	}
 	
 	// parts 비동기 처리
-	@GetMapping("/parts/getPartsCntList")
+	@GetMapping("/group/parts/getPartsCntList")
 	public Map<String,Object> partsCntLIst(@RequestParam(required = false) String partsName) {
 		
 		log.debug("ExcelRest.partsCntLIst() Param partsName --->" + partsName);
@@ -78,7 +78,7 @@ public class ExcelRest {
 	}
 
 	// 수리완료 상세보기
-	@GetMapping("/repair/completedOne")
+	@GetMapping("/group/repair/completedOne")
 	public Map<String,Object> completedOne(Repair repair) {
 		
 		Map<String,Object> completedMap = repairService.getCompletedOne(repair);

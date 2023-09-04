@@ -47,11 +47,11 @@ public class SessionUpdateFilter extends HttpFilter implements Filter {
 		} 
 		
 //		로그인 상태에 따른 기본 위치 지정
-		if (session.getAttribute("loginMember") != null && uri.equals("/login")) {
-			httpResponse.sendRedirect("/home");
+		if (session.getAttribute("loginMember") != null && uri.equals("/group/login")) {
+			httpResponse.sendRedirect("/group/home");
 			return;
-		} else if (session.getAttribute("loginMember") == null && !uri.equals("/login") && !uri.equals("/checkMember")) {
-			httpResponse.sendRedirect("/login");
+		} else if (session.getAttribute("loginMember") == null && !uri.equals("/group/login") && !uri.equals("/group/checkMember")) {
+			httpResponse.sendRedirect("/group/login");
 			return;
 		}
 		chain.doFilter(request, response);

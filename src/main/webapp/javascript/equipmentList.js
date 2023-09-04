@@ -4,7 +4,7 @@ $(document).ready(function(){
 		$('#excelBtn').click(function() {
 		 	// 서버로 AJAX 요청을 보냄
 	   		$.ajax({
-	        	url: '/equipment/equipmentExcel', // 서버의 '/excel' URL로 요청을 보냄
+	        	url: '/group/equipment/equipmentExcel', // 서버의 '/excel' URL로 요청을 보냄
 	            type: 'get', // GET 요청 방식
 	            dataType: 'json', // 서버에서 반환하는 데이터 형식을 JSON으로 설정
 	            success: function(data) { // AJAX 요청이 성공했을 때 실행되는 콜백 함수
