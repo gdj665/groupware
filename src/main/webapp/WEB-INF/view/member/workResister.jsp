@@ -10,11 +10,11 @@
 <body>
 	<c:set var="m" value="${workMap}"></c:set>
 	<h1>근태 관리</h1>
-	<a href="${pageContext.request.contextPath}/member/workBegin?memberId=${m.memberId}">출근</a>
-	<a href="${pageContext.request.contextPath}/member/workEnd?memberId=${m.memberId}">퇴근</a>
+	<a href="${pageContext.request.contextPath}/group/member/workBegin?memberId=${m.memberId}">출근</a>
+	<a href="${pageContext.request.contextPath}/group/member/workEnd?memberId=${m.memberId}">퇴근</a>
 	<h1>${m.targetYear}년 ${m.targetMonth+1}월</h1>
-	<a href="${pageContext.request.contextPath}/member/workResister?targetYear=${m.targetYear}&targetMonth=${m.targetMonth - 1}">이전달</a>
-	<a href="${pageContext.request.contextPath}/member/workResister?targetYear=${m.targetYear}&targetMonth=${m.targetMonth + 1}">다음달</a>
+	<a href="${pageContext.request.contextPath}/group/member/workResister?targetYear=${m.targetYear}&targetMonth=${m.targetMonth - 1}">이전달</a>
+	<a href="${pageContext.request.contextPath}/group/member/workResister?targetYear=${m.targetYear}&targetMonth=${m.targetMonth + 1}">다음달</a>
 	<table style="width: 1000px; height: 500px;">
 		<tr>
 			<th style="color: red;">일</th>

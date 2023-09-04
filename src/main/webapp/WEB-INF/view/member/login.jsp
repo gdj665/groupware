@@ -10,7 +10,7 @@
 		function checkMember(){
 		    // AJAX 요청 보내기
 		    $.ajax({
-		      url: '/checkMember', // 중복 체크를 수행하는 서블릿 주소
+		      url: '/group/checkMember', // 중복 체크를 수행하는 서블릿 주소
 		      type: 'post',
 		      data: { 'memberId': $('#memberId').val(),
 		    	  'memberPw': $('#memberPw').val()}, // 서버로 보낼 데이터
@@ -44,7 +44,7 @@
 </head>
 <body>
 	<h1>로그인 페이지</h1>
-	<form action="/login" method="post" id="loginForm">
+	<form action="/group/login" method="post" id="loginForm">
 		아이디 : <input type="text" name="memberId" id="memberId" value="${saveLoginId}"><input type="checkbox" name="saveId" ${saveId}><br>
 		비번 : <input type="password" name="memberPw" id="memberPw"><br>
 		<button type="button" id="loginBtn">로그인</button>

@@ -26,7 +26,7 @@ public class EquipmentController {
 	private EquipmentService equipmentService;
 	
 	// 1) 장비 리스트 매핑
-	@GetMapping("/equipment/equipmentList")
+	@GetMapping("/group/equipment/equipmentList")
 	public String getEquipmentList(Model model, 
 									HttpSession session,
 									@RequestParam(name ="currentPage", defaultValue = "1") int currentPage,
@@ -63,7 +63,7 @@ public class EquipmentController {
 	
 	
 	// 2) 장비 추가 매핑
-	@PostMapping("/equipment/addEquipment")
+	@PostMapping("/group/equipment/addEquipment")
 	public String addEquipment(Equipment equipment) {
 		// 추가 서비스 호출
 		int row = equipmentService.addEquipment(equipment);
@@ -75,11 +75,11 @@ public class EquipmentController {
 			log.debug("EquipmentController.addEquipment() row --->" + row + "장비추가실패"); 
 		}
 		
-		return "redirect:/equipment/equipmentList";
+		return "redirect:/group/equipment/equipmentList";
 	}
 	
 	// 3) 장비 비활성화 매핑
-	@GetMapping("/equipment/updateEquipment")
+	@GetMapping("/group/equipment/updateEquipment")
 	public String updateEquipment(Equipment equipment) {
 		// 삭제 서비스 호출
 		int row = equipmentService.updateEquipment(equipment);
@@ -90,11 +90,11 @@ public class EquipmentController {
 		} else {
 			log.debug("EquipmentController.updateEquipment() row --->" + row + "장비삭제실패"); 
 		}
-		return "redirect:/equipment/equipmentList";
+		return "redirect:/group/equipment/equipmentList";
 	}
 	
 	// 4) 장비 점검 업데이트 매핑
-	@GetMapping("/equipment/updateEqInspect")
+	@GetMapping("/group/equipment/updateEqInspect")
 	public String updateEquipmentInspect(Equipment equipment) {
 		// 장비 점검 서비스 호출
 		int row = equipmentService.updateEquipmentInspect(equipment);
@@ -106,11 +106,11 @@ public class EquipmentController {
 			log.debug("EquipmentController.updateEquipmentInspect() row --->" + row + "장비점검실패"); 
 		}
 		
-		return "redirect:/equipment/equipmentList";
+		return "redirect:/group/equipment/equipmentList";
 	}
 	
 	// 5) 장비 상세보기 매핑
-	@GetMapping("/equipment/equipmentOne")
+	@GetMapping("/group/equipment/equipmentOne")
 	public String getEquipmentOne(Model model, 
 									Equipment equipment, 
 									EquipmentHistory eqHistory, 

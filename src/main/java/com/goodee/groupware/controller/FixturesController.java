@@ -22,7 +22,7 @@ public class FixturesController {
 	@Autowired private FixturesService fixturesService;
 	
 	// 1) 자재 리스트 
-	@GetMapping("/fixtures/fixturesList")
+	@GetMapping("/group/fixtures/fixturesList")
 	public String getFixturesList(Model model, 
 								HttpSession session,
 								@RequestParam(name ="currentPage", defaultValue = "1") int currentPage,
@@ -54,7 +54,7 @@ public class FixturesController {
 	}
 	
 	// 2) parts 추가
-	@PostMapping("/fixtures/addParts")
+	@PostMapping("/group/fixtures/addParts")
 	public String addParts(Parts parts) {
 		// 추가 서비스 호출
 		int row = fixturesService.addParts(parts);
@@ -65,11 +65,11 @@ public class FixturesController {
 		} else {
 			log.debug("FixturesController.addParts() row --->" + row + "입력실패"); 
 		}
-		return "redirect:/fixtures/fixturesList";
+		return "redirect:/group/fixtures/fixturesList";
 	}
 	
 	// 3) parts 비활성화
-	@GetMapping("/fixtures/updatePartsAlive")
+	@GetMapping("/group/fixtures/updatePartsAlive")
 	public String updatePartsAlive(Parts parts) {
 		// 비활성화 서비스 호출
 		int row = fixturesService.updatePartsAlive(parts);
@@ -80,6 +80,6 @@ public class FixturesController {
 		} else {
 			log.debug("FixturesController.updatePartsAlive() row --->" + row + "삭제실패"); 
 		}
-		return "redirect:/fixtures/fixturesList";
+		return "redirect:/group/fixtures/fixturesList";
 	}
 }

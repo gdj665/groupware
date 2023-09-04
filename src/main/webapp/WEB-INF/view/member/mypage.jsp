@@ -17,7 +17,7 @@
 	${m.memberEmail}<br>
 	${m.memberAddress}<br>
 	<img src="/signFile/${m.memberSignFile}"><br>
-	<a href="/member/updateSign?memberId=${m.memberId}">사인 수정</a><br>
-	<a href="/member/updateMypage?memberId=${m.memberId}">수정페이지</a><br>
+	<a href="/group/member/updateSign?memberId=${m.memberId}">사인 수정</a><br>
+	<a href="/group/member/updateMypage?memberId=${m.memberId}">수정페이지</a><br>
 </body>
 </html>

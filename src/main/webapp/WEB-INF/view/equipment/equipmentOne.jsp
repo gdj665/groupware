@@ -53,7 +53,7 @@
 	<div class="modal">
 		<div class="modal_content">
 			<h3>장비 대여</h3>
-			<form id="addEqHistoryForm" action="${pageContext.request.contextPath}/eqHistory/addEqHistory" method="post">
+			<form id="addEqHistoryForm" action="${pageContext.request.contextPath}/group/eqHistory/addEqHistory" method="post">
 				<input type="hidden" name="equipmentNo" id="equipmentNoInput" value="equipmentNoInput">
 				<input type="hidden" name="equipmentStatus" value="대여">
 				<table>
@@ -113,7 +113,7 @@
 	</table>
 	<div>
 		<form
-			action="${pageContext.request.contextPath}/equipment/equipmentOne" method="get">
+			action="${pageContext.request.contextPath}/group/equipment/equipmentOne" method="get">
 			<input type="hidden" name="equipmentNo" value="${equipmentOne.equipmentNo}">
 			<input type="text" name="memberName">
 			<button type="submit">검색</button>

@@ -25,7 +25,7 @@ public class EquipmentHistoryController {
 	private EquipmentHistoryService equipmentHistoryService;
 	
 	// 1) 장비 대여 추가 매핑
-	@PostMapping("/eqHistory/addEqHistory")
+	@PostMapping("/group/eqHistory/addEqHistory")
 	public String addEqHistory(EquipmentHistory eqHistory, Equipment equipment) {
 		
 		log.debug("EquipmentHistoryController.addEqHistory() eqHistory --->" + eqHistory.toString());
@@ -40,11 +40,11 @@ public class EquipmentHistoryController {
 		        log.debug("EquipmentHistoryController.addEquipment() row --->" + row + "장비 대여 추가실패");
 		    }
 		} 
-		return "redirect:/equipment/equipmentList";
+		return "redirect:/group/equipment/equipmentList";
 	}
 	
 	// 1.1) 장비 반납시 비대여로 업데이트
-	@GetMapping("/eqHistory/updateEquipment") 
+	@GetMapping("/group/eqHistory/updateEquipment") 
 	public String updateEquipment(Equipment equipment, EquipmentHistory eqHistory) {
 		int row = 0;
 		
@@ -56,11 +56,11 @@ public class EquipmentHistoryController {
 		        log.debug("EquipmentHistoryController.updateEquipment() row --->" + row + "장비 반납 실패");
 		    }
 		} 
-		return "redirect:/eqHistory/eqHistoryList";
+		return "redirect:/group/eqHistory/eqHistoryList";
 	}
 	
 	// 2) 장비 사용내역(본인 아이디값으로 본인이 사용한 장비내역) 목록 매핑
-	@GetMapping("/eqHistory/eqHistoryList")
+	@GetMapping("/group/eqHistory/eqHistoryList")
 	public String eqHistoryList(Model model, HttpSession session,
 								@RequestParam(name ="equipmentName", required = false) String equipmentName,
 								@RequestParam(name ="currentPage", defaultValue = "1") int currentPage,

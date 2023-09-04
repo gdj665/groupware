@@ -30,7 +30,7 @@
 </head>
 <body>
 	${memberId}님 비번 변경<br>
-	<form action="/member/updatePw" method="post" id="pwForm">
+	<form action="/group/member/updatePw" method="post" id="pwForm">
 		<input type="hidden" value="${memberId}" name="memberId">
 		<h5>최소 8 자, 하나 이상의 문자, 하나의 숫자 및 하나의 특수 문자</h5>
 		새 비번 입력 : <input type="password" id="memberPw" name="memberPw"><br>

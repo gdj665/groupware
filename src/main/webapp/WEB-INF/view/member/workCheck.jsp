@@ -20,7 +20,7 @@
 		// 동기호출로 x,y값을 셋팅
 		$.ajax({
 			async : false, // true(비동기:기본값), false(동기)
-			url : '/member/restWorkCheckList',
+			url : '/group/member/restWorkCheckList',
 			data : {targetMonth : $("#targetMonth").val(),
 					targetYear : $("#targetYear").val()}, 
 			type : 'get',

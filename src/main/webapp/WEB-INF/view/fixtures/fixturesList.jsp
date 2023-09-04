@@ -51,21 +51,21 @@
 				<td>${f.partsContent}</td>
 				<c:if test="${memberLevel > 1}">
 					<td>
-						<a href="/fixtures/updatePartsAlive?partsNo=${f.partsNo}" onClick="return confirm('${f.partsName} 비활성화 하시겠습니까?')">비활성</a>
+						<a href="/group/fixtures/updatePartsAlive?partsNo=${f.partsNo}" onClick="return confirm('${f.partsName} 비활성화 하시겠습니까?')">비활성</a>
 					</td>
 				</c:if>
 			</tr>
 		</c:forEach>
 	</table>
 	<div>
-		<form action="${pageContext.request.contextPath}/fixtures/fixturesList" method="get">
+		<form action="${pageContext.request.contextPath}/group/fixtures/fixturesList" method="get">
 			<input type="text" name="partsName">
 			<button type="submit">검색</button>
 		</form>
 	</div>
 	<c:if test="${currentPage > 1}">
 		<a
-			href="${pageContext.request.contextPath}/fixtures/fixturesList?currentPage=${currentPage-1}&partsName=${param.partsName}">이전</a>
+			href="${pageContext.request.contextPath}/group/fixtures/fixturesList?currentPage=${currentPage-1}&partsName=${param.partsName}">이전</a>
 	</c:if>
 	
 	<c:forEach var="i" begin="${minPage}" end="${maxPage}" step="1">
@@ -79,7 +79,7 @@
 	
 	<c:if test="${currentPage < lastPage}">
 		<a
-			href="${pageContext.request.contextPath}/fixtures/fixturesList?currentPage=${currentPage+1}&partsName=${param.partsName}">다음</a>
+			href="${pageContext.request.contextPath}/group/fixtures/fixturesList?currentPage=${currentPage+1}&partsName=${param.partsName}">다음</a>
 	</c:if>
 
 	<div>
@@ -89,7 +89,7 @@
 	<div class="modal">
 		<div class="modal_content">
 			<h3>자재 추가</h3>
-			<form id="addPartsForm" action="${pageContext.request.contextPath}/fixtures/addParts" method="post">
+			<form id="addPartsForm" action="${pageContext.request.contextPath}/group/fixtures/addParts" method="post">
 				<table>
 					<tr>
 						<td>자재 분류</td>

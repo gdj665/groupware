@@ -29,7 +29,7 @@ public class RepairController {
 	private RepairService repairSerivce;
 	
 	// 1) repair추가
-	@PostMapping("/repair/addRepair")
+	@PostMapping("/group/repair/addRepair")
 	public String addRepair(Repair repair, RedirectAttributes redirectAttributes) {
 		
 		// repair 추가 서비스 호출
@@ -42,11 +42,11 @@ public class RepairController {
 		}
 		
 		redirectAttributes.addAttribute("repairStatus", "대기중");
-		return "redirect:/repair/repairList";
+		return "redirect:/group/repair/repairList";
 	}
 	
 	// 1.1) addRepair 폼으로
-	@GetMapping("/repair/addRepairForm")
+	@GetMapping("/group/repair/addRepairForm")
 	public String addRepairForm() {
 		log.debug("RepairController.addRepairForm() AS추가폼으로 이동");
 		
@@ -54,7 +54,7 @@ public class RepairController {
 	}
 	
 	// 2) repairList출력(대기중)
-	@GetMapping("/repair/repairList")
+	@GetMapping("/group/repair/repairList")
 	public String repairList(Model model, Repair repair, HttpSession session,
 							@RequestParam(name ="currentPage", defaultValue = "1") int currentPage,
 							@RequestParam(name ="rowPerPage", defaultValue = "3") int rowPerPage) {
@@ -106,7 +106,7 @@ public class RepairController {
 	
 	
 	// 3) repair 대기중 -> 수리중 -> 수리완료 수정
-	@PostMapping("/repair/updateRepair")
+	@PostMapping("/group/repair/updateRepair")
 	public String updateRepair(@RequestParam(name = "partsNo[]", required = false) int[] partsNoArray,
             					@RequestParam(name = "partsCnt[]", required = false) int[] partsCntArray,
 								Repair repair, RepairParts repairParts, RedirectAttributes redirectAttributes) {
@@ -126,7 +126,7 @@ public class RepairController {
 			}
 			System.out.println("updateRepair() 수리중 실행!");
 			redirectAttributes.addAttribute("repairStatus", "수리중");
-			return "redirect:/repair/repairList";
+			return "redirect:/group/repair/repairList";
 			
 		} else if(repair.getRepairContent() != null) {
 			// 호출
@@ -144,13 +144,13 @@ public class RepairController {
 			
 			System.out.println("updateRepair() 수리완료 실행!");
 			redirectAttributes.addAttribute("repairStatus", "수리완료");
-			return "redirect:/repair/repairList";
+			return "redirect:/group/repair/repairList";
 		}
 		
 		System.out.println("updateRepair() 대기중 실행!");
 		// 수정 실패시 대기중 리스트로
 		redirectAttributes.addAttribute("repairStatus", "대기중");
-		return "redirect:/repair/repairList";
+		return "redirect:/group/repair/repairList";
 	}
 	
 }

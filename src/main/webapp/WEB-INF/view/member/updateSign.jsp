@@ -35,12 +35,12 @@
 				alert("내용이 없습니다.");
 			} else {
 				$.ajax({
-					url : '/member/addSign', 
+					url : '/group/member/addSign', 
 					data : {sign : sign.toDataURL('image/png', 1.0)},
 					type : 'post',
 					success : function(jsonData) {
 						alert('사인이 성공적으로 저장 되었습니다')
-						location.href="/member/mypage?memberId=" + ${m.memberId};
+						location.href="/group/member/mypage?memberId=" + ${m.memberId};
 					},
 					error : function(jsonData){
 						alert('사인 저장에 실패했습니다.')

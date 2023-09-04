@@ -32,7 +32,7 @@ public class MemberController {
 	private HrmService hrmService;
 	
 //	home 페이지 이동
-	@GetMapping("/home")
+	@GetMapping("/group/home")
 	public String home(HttpSession session,
 			HttpServletRequest request) {
 		String memberId = (String)session.getAttribute("loginMember");
@@ -41,7 +41,7 @@ public class MemberController {
 	}
 	
 //	login 페이지 이동
-	@GetMapping("/login")
+	@GetMapping("/group/login")
 	public String login(HttpSession session,
 						HttpServletRequest request) {
 		Cookie[] cookies = request.getCookies();
@@ -53,14 +53,14 @@ public class MemberController {
 		}
 //		로그인 돼있을 경우 홈으로
 		if(session.getAttribute("loginId") != null) {
-			return "redirect:/home";
+			return "redirect:/group/home";
 		};
 		
 		return "/member/login";
 	}
 	
 //	login 실행
-	@PostMapping("/login")
+	@PostMapping("/group/login")
 	public String login(HttpSession session,
 						HttpServletResponse response,
 						@RequestParam(name = "memberId") String memberId,
@@ -75,7 +75,7 @@ public class MemberController {
 //		cnt 없을 경우 로그인으로 리턴
 		if(member.getCnt() == 0) {
 			log.debug("로그인실패");
-			return "redirect:/member/login";
+			return "redirect:/group/member/login";
 		}
 //		로그인 성공시
 		session.setAttribute("loginMember", memberId);
@@ -104,13 +104,13 @@ public class MemberController {
 		
 //		비밀번호 1234 일때 비밀번호 변경페이지로 이동
 		if(memberPw.equals("1234")) {
-			return "redirect:/member/updatePw";
+			return "redirect:/group/member/updatePw";
 		}
-		return "redirect:/home";
+		return "redirect:/group/home";
 	}
 	
 //	비밀번호 수정 페이지
-	@GetMapping("/member/updatePw")
+	@GetMapping("/group/member/updatePw")
 	public String updatePw(HttpSession session,
 							HttpServletRequest request) {
 		String memberId = (String)session.getAttribute("loginMember");
@@ -130,14 +130,14 @@ public class MemberController {
 		
 //		비밀번호 초기화 했을경우 addSign 할 필요없어서 home으로 가게 분기처리
 		if (hrmService.getOneMember(memberId).getMemberSignFile() != null) {
-			return "redirect:/home";
+			return "redirect:/group/home";
 		}
-		return "redirct:/member/addSign";
+		return "redirct:/group/member/addSign";
 	}
 	
 //	비밀번호 수정 실행 페이지(마이페이지에서 수정)
 	@ResponseBody
-	@PostMapping("/updateMemberPw")
+	@PostMapping("/group/updateMemberPw")
 	public int updateMemberPw(@RequestParam(name = "memberId") String memberId,
 							@RequestParam(name = "memberPw") String memberPw) {
 		Member member = new Member();
@@ -149,13 +149,13 @@ public class MemberController {
 	}
 	
 //	사인 추가 페이지
-	@GetMapping("/member/addSign")
+	@GetMapping("/group/member/addSign")
 	public String addSign() {
 		return "/member/addSign";
 	}
 	
 //	사인 수정 페이지
-	@GetMapping("/member/updateSign")
+	@GetMapping("/group/member/updateSign")
 	public String updateSign(Model model, String memberId) {
 //		기존 사인 데이터 가지고 오기 위함
 		Member member = hrmService.getOneMember(memberId);
@@ -167,7 +167,7 @@ public class MemberController {
 //	RestController를 안쓰고 Controller만 썻을때 메소드에 ResponseBody 붙이면 RestController처럼 사용가능
 //	AJAX 사용하기위해 붙인 어노테이션
 	@ResponseBody
-	@PostMapping("/checkMember")
+	@PostMapping("/group/checkMember")
 	public int checkId(@RequestParam(name = "memberId") String memberId,
 						@RequestParam(name = "memberPw") String memberPw) {
 //		member에 id, pw 입력
@@ -181,14 +181,14 @@ public class MemberController {
 	}
 	
 //	logout 실행
-	@GetMapping("/logout")
+	@GetMapping("/group/logout")
 	public String logout(HttpSession session) {
 		session.invalidate();
-		return "redirect:/login";
+		return "redirect:/group/login";
 	}
 	
 //	마이페이지 출력
-	@GetMapping("/member/mypage")
+	@GetMapping("/group/member/mypage")
 	public String mypage(Model model, String memberId) {
 		Member member = hrmService.getOneMember(memberId);
 		model.addAttribute("member", member);
@@ -197,7 +197,7 @@ public class MemberController {
 	}
 	
 //	마이페이지 수정 출력
-	@GetMapping("/member/updateMypage")
+	@GetMapping("/group/member/updateMypage")
 	public String updateMypage(Model model, String memberId) {
 		Member member = hrmService.getOneMember(memberId);
 		model.addAttribute("member", member);
@@ -205,14 +205,14 @@ public class MemberController {
 	}
 	
 //	마이페이지 출력
-	@PostMapping("/member/updateMypage")
+	@PostMapping("/group/member/updateMypage")
 	public String updateMypage(Member member) {
 		int row = memberService.updateOneMember(member);
-		return "redirect:/member/mypage?memberId=" + member.getMemberId();
+		return "redirect:/group/member/mypage?memberId=" + member.getMemberId();
 	}
 	
 //	근태 출력
-	@GetMapping("/member/workResister")
+	@GetMapping("/group/member/workResister")
 	public String getWorkList(HttpSession session, Model model,
 									@RequestParam(required = false, name = "targetYear") Integer targetYear,		
 									@RequestParam(required = false, name = "targetMonth") Integer targetMonth) {
@@ -223,21 +223,21 @@ public class MemberController {
 	}
 	
 //	출근 등록
-	@GetMapping("/member/workBegin")
+	@GetMapping("/group/member/workBegin")
 	public String addWorkBegin(@RequestParam(name = "memberId") String memberId) {
 		memberService.addWorkBegin(memberId);
-		return "redirect:/member/workResister";
+		return "redirect:/group/member/workResister";
 	}
 
 //	퇴근 등록
-	@GetMapping("/member/workEnd")
+	@GetMapping("/group/member/workEnd")
 	public String addWorkEnd(@RequestParam(name = "memberId") String memberId) {
 		memberService.addWorkEnd(memberId);
-		return "redirect:/member/workResister";
+		return "redirect:/group/member/workResister";
 	}
 	
 //	부서 근태 출력
-	@GetMapping("/member/workCheck")
+	@GetMapping("/group/member/workCheck")
 	public String getWorkCheckList(HttpSession session, Model model,
 									@RequestParam(required = false, name = "targetYear") Integer targetYear,		
 									@RequestParam(required = false, name = "targetMonth") Integer targetMonth,

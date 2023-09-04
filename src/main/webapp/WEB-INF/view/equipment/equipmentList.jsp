@@ -46,8 +46,8 @@
 					</tr>
 					<c:forEach var="e" items="${equipmentList}">
 						<tr>
-							<td><a href="${pageContext.request.contextPath}/equipment/equipmentOne?equipmentNo=${e.equipmentNo}">${e.equipmentNo}</a></td>
-							<td><a href="${pageContext.request.contextPath}/equipment/equipmentOne?equipmentNo=${e.equipmentNo}">${e.equipmentName}</a></td>
+							<td><a href="${pageContext.request.contextPath}/group/equipment/equipmentOne?equipmentNo=${e.equipmentNo}">${e.equipmentNo}</a></td>
+							<td><a href="${pageContext.request.contextPath}/group/equipment/equipmentOne?equipmentNo=${e.equipmentNo}">${e.equipmentName}</a></td>
 							<td>${e.equipmentLastInspect}</td>
 							<td>
 								<!-- dateColor이라는 변수를 선언후 daysUntilNextInspect가 <0보다 작으면 점검예정일이 지났으므로 red를 넣고 <= 30 30일이내면 pink 나머지는 black으로 한다 -->
@@ -55,7 +55,7 @@
 					              	<span style="color: ${dateColor};">${e.nextinspect}</span>
 							</td>
 							<td>
-								<a href="${pageContext.request.contextPath}/equipment/updateEqInspect?equipmentNo=${e.equipmentNo}" onClick="return confirm('${e.equipmentName} 점검하시겠습니까?')" class="inspect-link">점검하기</a>
+								<a href="${pageContext.request.contextPath}/group/equipment/updateEqInspect?equipmentNo=${e.equipmentNo}" onClick="return confirm('${e.equipmentName} 점검하시겠습니까?')" class="inspect-link">점검하기</a>
 							</td>
 							<!-- 대여중인 상품은 대여 불가 대여중아닌 상품만 대여 가능 -->
 							<c:if test="${e.equipmentStatus eq '대여'}">
@@ -69,7 +69,7 @@
 							</c:if>
 							<!-- 비활성화는 팀장급부터만 가능하게 세션에 level값으로 조건 -->
 							<c:if test="${e.equipmentStatus eq '비대여' && memberLevel > 1}">
-								<td><a href="${pageContext.request.contextPath}/equipment/updateEquipment?equipmentNo=${e.equipmentNo}"
+								<td><a href="${pageContext.request.contextPath}/group/equipment/updateEquipment?equipmentNo=${e.equipmentNo}"
 									onClick="return confirm('${e.equipmentName} 비활성 하시겠습니까?')">비활성</a>
 								</td>
 							</c:if>
@@ -79,7 +79,7 @@
 					<br>
 					<!-- 페이징 -->
 					<div class="pagination-search">
-					    <form action="${pageContext.request.contextPath}/equipment/equipmentList" method="get">
+					    <form action="${pageContext.request.contextPath}/group/equipment/equipmentList" method="get">
 					        <input type="text" name="equipmentName">
 					        <button type="submit">검색</button>
 					    </form>
@@ -87,7 +87,7 @@
 						<ul class="pagination">
 						    <c:if test="${currentPage > 1}">
 						        <li class="page-item">
-						            <a href="${pageContext.request.contextPath}/equipment/equipmentList?currentPage=${currentPage-1}&equipmentName=${param.equipmentName}" class="page-link">이전</a>
+						            <a href="${pageContext.request.contextPath}/group/equipment/equipmentList?currentPage=${currentPage-1}&equipmentName=${param.equipmentName}" class="page-link">이전</a>
 						        </li>
 						    </c:if>
 						    
@@ -97,14 +97,14 @@
 						                <span class="page-link current-page">${i}</span>
 						            </c:if>
 						            <c:if test="${i !=  currentPage}">
-						                <a href="${pageContext.request.contextPath}/equipment/equipmentList?currentPage=${i}&equipmentName=${param.equipmentName}" class="page-link">${i}</a>
+						                <a href="${pageContext.request.contextPath}/group/equipment/equipmentList?currentPage=${i}&equipmentName=${param.equipmentName}" class="page-link">${i}</a>
 						            </c:if>
 						        </li>
 						    </c:forEach>
 						    
 						    <c:if test="${currentPage < lastPage}">
 						        <li class="page-item">
-						            <a href="${pageContext.request.contextPath}/equipment/equipmentList?currentPage=${currentPage+1}&equipmentName=${param.equipmentName}" class="page-link">다음</a>
+						            <a href="${pageContext.request.contextPath}/group/equipment/equipmentList?currentPage=${currentPage+1}&equipmentName=${param.equipmentName}" class="page-link">다음</a>
 						        </li>
 						    </c:if>
 						</ul>
@@ -122,7 +122,7 @@
 	<div class="modal">
 		<div class="modal_content">
 			<h3>장비 추가</h3>
-			<form id="addEquipmentForm" action="${pageContext.request.contextPath}/equipment/addEquipment" method="post">
+			<form id="addEquipmentForm" action="${pageContext.request.contextPath}/group/equipment/addEquipment" method="post">
 				<input type="hidden" name="equipmentStatus" value="비대여" readonly="readonly">
 				<table>
 					<tr>
@@ -157,7 +157,7 @@
 	<div class="statusModal">
 		<div class="modal_content">
 			<h3>장비 대여</h3>
-			<form id="addEqHistoryForm" action="${pageContext.request.contextPath}/eqHistory/addEqHistory" method="post">
+			<form id="addEqHistoryForm" action="${pageContext.request.contextPath}/group/eqHistory/addEqHistory" method="post">
 				<input type="hidden" name="equipmentNo" id="equipmentNoInput" value="equipmentNoInput">
 				<input type="hidden" name="equipmentStatus" value="대여">
 				<table>

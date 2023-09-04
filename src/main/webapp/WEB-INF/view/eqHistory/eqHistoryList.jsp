@@ -29,7 +29,7 @@
         		<td>${eqH.equipmentReason}</td>
         		<c:if test="${eqH.equipmentStatus eq '대여' && eqH.equipmentEnddate == null}">
 		            <td>
-		                <a href="${pageContext.request.contextPath}/eqHistory/updateEquipment?equipmentNo=${eqH.equipmentNo}&equipmentStatus=비대여&equipmentHistoryNo=${eqH.equipmentHistoryNo}" onClick="return confirm('${eqH.equipmentName} 장비를 반납하시겠습니까?')">반납</a>
+		                <a href="${pageContext.request.contextPath}/group/eqHistory/updateEquipment?equipmentNo=${eqH.equipmentNo}&equipmentStatus=비대여&equipmentHistoryNo=${eqH.equipmentHistoryNo}" onClick="return confirm('${eqH.equipmentName} 장비를 반납하시겠습니까?')">반납</a>
 		            </td>
 		        </c:if>
 		        
@@ -49,7 +49,7 @@
 		</c:forEach>
 	</table>
 	<div>
-		<form action="${pageContext.request.contextPath}/eqHistory/eqHistoryList" method="get">
+		<form action="${pageContext.request.contextPath}/group/eqHistory/eqHistoryList" method="get">
 			<input type="text" name="equipmentName">
 			<button type="submit">검색</button>
 		</form>

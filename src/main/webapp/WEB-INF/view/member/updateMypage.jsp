@@ -33,7 +33,7 @@
 				function checkMember(){
 				    // AJAX 요청 보내기
 				    $.ajax({
-				      url: '/checkMember', // 중복 체크를 수행하는 서블릿 주소
+				      url: '/group/checkMember', // 중복 체크를 수행하는 서블릿 주소
 				      type: 'post',
 				      data: { 'memberId': $('#memberId').val(),
 				    	  'memberPw': $('#memberPw').val()}, // 서버로 보낼 데이터
@@ -59,7 +59,7 @@
 				function updatePw(){
 					// AJAX 요청 보내기
 				    $.ajax({
-				      url: '/updateMemberPw', // pw 업데이트하는 서블릿 주소
+				      url: '/group/updateMemberPw', // pw 업데이트하는 서블릿 주소
 				      type: 'post',
 				      data: { 'memberId': $('#memberId').val(),
 				    	  'memberPw': $('#newMemberPw').val()}, // 서버로 보낼 데이터
@@ -121,7 +121,7 @@
 	</div>
 		
 		
-	<form action="/member/updateMypage" method="post" id="updateForm">
+	<form action="/group/member/updateMypage" method="post" id="updateForm">
 		<input type="hidden" value="${m.memberId}" name="memberId" id="memberId">
 		${m.departmentNo}<br>
 		<input type="text" value="${m.memberName}" name="memberName" required="required"><br>
@@ -130,7 +130,7 @@
 		<input type="text" value="${m.memberEmail}" name="memberEmail" required="required"><br>
 		<input type="text" value="${m.memberAddress}" name="memberAddress" required="required"><br>
 		<button type="button" id="updateBtn">수정</button>
-		<a href="/member/mypage?memberId=${m.memberId}">취소</a>
+		<a href="/group/member/mypage?memberId=${m.memberId}">취소</a>
 	</form>
 </body>
 </html>
