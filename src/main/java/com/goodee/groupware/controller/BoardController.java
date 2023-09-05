@@ -40,13 +40,14 @@ public class BoardController {
 			departmentNo = departmentNo/100*100;
 			log.debug("BoardController.getBoardList-->부서게시판 실행");
 		}
-		
+		String memberId = (String)session.getAttribute("loginMember");
 		// 서비스에서 값 받아와서 resultMap에 저장
 		Map<String, Object> resultMap = boardService.getBoardList(currentPage,rowPerPage,searchWord,departmentNo);
 
 		// Model에 addAttribute를 사용하여 view에 값을 보낸다.
 		model.addAttribute("boardList", resultMap.get("boardList"));
 		model.addAttribute("currentPage", currentPage);
+		model.addAttribute("memberId", memberId);
 		model.addAttribute("lastPage", resultMap.get("lastPage"));
 		model.addAttribute("minPage", resultMap.get("minPage"));
 		model.addAttribute("maxPage", resultMap.get("maxPage"));

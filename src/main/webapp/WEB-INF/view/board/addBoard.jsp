@@ -51,9 +51,6 @@
 		</div><!-- ./container-fluid -->
 	</div><!-- ./body-wrapper -->
 	
-	<!-- javaScirpt -->
-	<script src="${pageContext.request.contextPath}/assets/libs/jquery/dist/jquery.min.js"></script>
-	<script src="${pageContext.request.contextPath}/assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 	<!-- 개인 js -->
 	<script src="${pageContext.request.contextPath}/javascript/addBoard.js"></script>
 </body>
