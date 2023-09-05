@@ -35,13 +35,21 @@
 		)
 	</insert>
 	
+	<!-- 삭제할 회의실의 예약중, 예약취소 유무 -->
+	<select id="getReservationStatusCount" parameterType="com.goodee.groupware.vo.Meetingroom" resultType="int">
+		SELECT COUNT(*)
+		FROM meetingroom_reserve
+		WHERE meetingroom_no = #{meetingroomNo} 
+			AND meetingroom_reserve_status IN ('Y', 'N');
+	</select>
+	
 	<!-- 회의실 삭제 -->
 	<delete id="deleteMeetingroom" parameterType="com.goodee.groupware.vo.Meetingroom">
 		DELETE FROM meetingroom
 		WHERE meetingroom_no = #{meetingroomNo}
 	</delete>
 	
-	<!-- 모든 회의실 조회 -->
+	<!-- 모든 회의실 목록 조회 -->
 	<select id="getAllMeetingroomList" resultType="com.goodee.groupware.vo.Meetingroom">
 		SELECT 
 			meetingroom_no meetingroomNo

@@ -68,8 +68,14 @@ public class MeetingroomService {
 	
 // ----- 회의실 삭제 -----	
 	public int deleteMeetingroom(Meetingroom meetingroom) {
+		int cnt = 0;
 		int row = 0;
-		row = meetingroomMapper.deleteMeetingroom(meetingroom);
+		
+		// 삭제할 회의실의 예약중, 예약취소 유무
+		cnt = meetingroomMapper.getReservationStatusCount(meetingroom);
+		if(cnt == 0) { // 삭제할 회의실의 예약이 없으면
+			row = meetingroomMapper.deleteMeetingroom(meetingroom);
+		}
 		log.debug("\u001B[31m"+"MeetingroomService.deleteMeetingroom() row : "+row+"\u001B[0m");
 		return row;
 	}

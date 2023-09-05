@@ -19,6 +19,9 @@ public interface MeetingroomMapper {
 	// 회의실 추가
 	int addMeetingroom(Meetingroom meetingroom);
 	
+	// 삭제할 회의실의 예약중, 예약취소 유무
+	int getReservationStatusCount(Meetingroom meetingroom);
+	
 	// 회의실 삭제
 	int deleteMeetingroom(Meetingroom meetingroom);
 	

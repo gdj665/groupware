@@ -115,7 +115,7 @@
 															<span style="color: red;">${day}</span>
 														</c:when>
 														<c:when test="${i % 7 == 6}">
-				                                        <c:set var="isHoliday" value="false" />
+				                                        <c:set var="isHoliday" value="false"></c:set>
 					                                        <c:forEach items="${getHolidayList}" var="holiday">
 					                                            <c:if test="${day == fn:substring(holiday.locdate, 6, 8)}">
 					                                                <c:set var="isHoliday" value="true"></c:set>
@@ -141,7 +141,9 @@
 							                                </c:forEach>
 							                                <!-- 공휴일이 아닌 경우 검은색으로 표시 -->
 							                                <c:if test="${not isHoliday}">
-							                                    <span>${day}</span>
+							                                    <a href="#">
+							                                    	<span>${day}</span>
+							                                    </a>
 							                                </c:if>
 							                            </c:otherwise>
 													</c:choose>

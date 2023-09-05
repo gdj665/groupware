@@ -76,7 +76,6 @@
 									        <c:when test="${day > 0 && day <= m.lastDate}">
 									            <td class="table_cell">
 									                <div style="text-align: left;">
-									                    <a style="color: black;" href="${pageContext.request.contextPath}/group/schedule/oneSchedule?targetYear=${m.targetYear}&targetMonth=${m.targetMonth}&targetDate=${day}&scheduleCategory=${m.scheduleCategory}">
 									                        <c:choose>
 									                            <c:when test="${i % 7 == 0}">
 									                                <span style="color: red;">${day}</span>
@@ -108,11 +107,12 @@
 									                                </c:forEach>
 									                                <!-- 공휴일이 아닌 경우 검은색으로 표시 -->
 									                                <c:if test="${not isHoliday}">
-									                                    <span>${day}</span>
+									                    				<a style="color: black;" href="${pageContext.request.contextPath}/group/schedule/oneSchedule?targetYear=${m.targetYear}&targetMonth=${m.targetMonth}&targetDate=${day}&scheduleCategory=${m.scheduleCategory}">
+									                                    	<span>${day}</span>
+									                    				</a>
 									                                </c:if>
 									                            </c:otherwise>
 									                        </c:choose>
-									                    </a>
 								                        <!-- 개인이면 초록색, 부서면 오렌지색 -->
 								                        <br>
 							                            <c:forEach var="c" items="${m.scheduleList}">
