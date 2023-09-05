@@ -6,6 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/modal.css">
 </head>
 <body>
 	<jsp:include page="${pageContext.request.contextPath}/menu/menu.jsp"></jsp:include>
@@ -16,7 +17,7 @@
 	        	<div class="card">
 					<!-- 자재추가는 팀장급부터만 가능하게 세션에 level값으로 조건 -->
 					<h5 class="card-title fw-semibold mb-4">${memberId}님 장비 사용내역</h5>
-					<table border=1>
+					<table>
 						<tr>
 							<th>장비 번호</th>
 							<th>장비명</th>

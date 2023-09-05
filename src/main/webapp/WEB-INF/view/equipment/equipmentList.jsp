@@ -32,7 +32,7 @@
 						<button class="btn btn-success" id="excelBtn">엑셀 다운</button>
 	        		</span>
 					<br>
-					<table border=1>
+					<table>
 						<tr>
 							<th>장비번호</th>
 							<th>장비명</th>

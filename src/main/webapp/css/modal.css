@@ -95,6 +95,7 @@
 table {
 	width: 100%;
 	border-collapse: collapse;
+	border: 1;
 }
 
 /* 테이블 헤더 스타일 */

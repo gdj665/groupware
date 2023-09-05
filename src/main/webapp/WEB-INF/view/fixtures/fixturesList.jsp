@@ -35,8 +35,8 @@
 					<span style="text-align: right;">
 						<c:if test="${memberLevel > 1}">
 							<button class="btn btn-primary" id="open">자재 추가</button>
-							<button class="btn btn-success" id="excelBtn">엑셀 다운</button>
 						</c:if>
+						<button class="btn btn-success" id="excelBtn">엑셀 다운</button>
 					</span>
 					<br>
 					<table>
