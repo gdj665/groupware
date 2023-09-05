@@ -27,7 +27,6 @@
 						<br>
 							<table style="width: 100%;">
 								<tr>
-									<th class="table_cell">회의실 예약 번호</th>
 									<th class="table_cell">회의실 이름</th>
 									<th class="table_cell">회의실 예약 날짜</th>
 									<th class="table_cell">회의실 예약 시간</th>
@@ -35,10 +34,22 @@
 								</tr>
 								<c:forEach var="h" items="${reservationHistoryList}">
 									<tr>
-										<th class="table_cell">${h.meetingroomReserveNo}</th>
 										<th class="table_cell">회의실 ${h.meetingroomNo}호</th>
 										<th class="table_cell">${h.meetingroomReserveDate}</th>
-										<th class="table_cell">${h.meetingroomReserveTime}</th>
+										<th class="table_cell">
+											<c:if test="${h.meetingroomReserveTime == '1'}">
+												<span>10:00 - 12:00</span>
+											</c:if>
+											<c:if test="${h.meetingroomReserveTime == '2'}">
+												<span>13:00 - 15:00</span>
+											</c:if>
+											<c:if test="${h.meetingroomReserveTime == '3'}">
+												<span>15:00 - 17:00</span>
+											</c:if>
+											<c:if test="${h.meetingroomReserveTime == '4'}">
+												<span>17:00 - 19:00</span>
+											</c:if>
+										</th>
 										<th class="table_cell">
 											<a href="${pageContext.request.contextPath}/group/meetingroom/updateMeetingroomReservation?meetingroomReserveNo=${h.meetingroomReserveNo}" onClick="return confirm('예약취소 하시겠습니까?')">
 												<c:if test="${h.meetingroomReserveStatus == 'Y'}">
