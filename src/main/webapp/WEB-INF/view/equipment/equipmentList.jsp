@@ -79,37 +79,37 @@
 					</table>
 					<br>
 					<!-- 페이징 -->
-					    <form action="${pageContext.request.contextPath}/group/equipment/equipmentList" method="get">
-							<div class="input-group" style="width:25% !important;">
-						        <input type="text" class="form-control" style="width:30% !important;" name="equipmentName" placeholder="장비명으로 검색">
-						        <button class="btn btn-primary" type="submit">검색</button>
-							</div>
-					    </form>
-					
-						<ul class="pagination" style="justify-content: center;">
-						    <c:if test="${currentPage > 1}">
-						        <li class="page-item">
-						            <a href="${pageContext.request.contextPath}/group/equipment/equipmentList?currentPage=${currentPage-1}&equipmentName=${param.equipmentName}" class="page-link">이전</a>
-						        </li>
-						    </c:if>
-						    
-						    <c:forEach var="i" begin="${minPage}" end="${maxPage}" step="1">
-						        <li class="page-item">
-						            <c:if test="${i ==  currentPage}">
-						                <span style="background-color: #cccccc;" class="page-link current-page">${i}</span>
-						            </c:if>
-						            <c:if test="${i !=  currentPage}">
-						                <a href="${pageContext.request.contextPath}/group/equipment/equipmentList?currentPage=${i}&equipmentName=${param.equipmentName}" class="page-link">${i}</a>
-						            </c:if>
-						        </li>
-						    </c:forEach>
-						    
-						    <c:if test="${currentPage < lastPage}">
-						        <li class="page-item">
-						            <a href="${pageContext.request.contextPath}/group/equipment/equipmentList?currentPage=${currentPage+1}&equipmentName=${param.equipmentName}" class="page-link">다음</a>
-						        </li>
-						    </c:if>
-						</ul>
+				    <form action="${pageContext.request.contextPath}/group/equipment/equipmentList" method="get">
+						<div class="input-group" style="width:25% !important;">
+					        <input type="text" class="form-control" style="width:30% !important;" name="equipmentName" placeholder="장비명으로 검색">
+					        <button class="btn btn-primary" type="submit">검색</button>
+						</div>
+				    </form>
+				
+					<ul class="pagination" style="justify-content: center;">
+					    <c:if test="${currentPage > 1}">
+					        <li class="page-item">
+					            <a href="${pageContext.request.contextPath}/group/equipment/equipmentList?currentPage=${currentPage-1}&equipmentName=${param.equipmentName}" class="page-link">이전</a>
+					        </li>
+					    </c:if>
+					    
+					    <c:forEach var="i" begin="${minPage}" end="${maxPage}" step="1">
+					        <li class="page-item">
+					            <c:if test="${i ==  currentPage}">
+					                <span style="background-color: #cccccc;" class="page-link current-page">${i}</span>
+					            </c:if>
+					            <c:if test="${i !=  currentPage}">
+					                <a href="${pageContext.request.contextPath}/group/equipment/equipmentList?currentPage=${i}&equipmentName=${param.equipmentName}" class="page-link">${i}</a>
+					            </c:if>
+					        </li>
+					    </c:forEach>
+					    
+					    <c:if test="${currentPage < lastPage}">
+					        <li class="page-item">
+					            <a href="${pageContext.request.contextPath}/group/equipment/equipmentList?currentPage=${currentPage+1}&equipmentName=${param.equipmentName}" class="page-link">다음</a>
+					        </li>
+					    </c:if>
+					</ul>
 	        	</div>
 	    	</div>
 		</div>
@@ -139,7 +139,7 @@
 					<tr>
 						<td>설명</td>
 						<td>
-							<textarea id="equipmentContentId" rows="5" cols="30" name="equipmentContent"></textarea>
+							<textarea id="equipmentContentId" rows="2" cols="60" name="equipmentContent"></textarea>
 							<span id="equipmentContentIdMsg" class="msg"></span>
 						</td>
 					</tr>

@@ -1,0 +1,52 @@
+/* 폼 컨테이너 스타일 */
+#addRepairForm {
+	width: 80%;
+	margin: 0 auto;
+	padding: 20px;
+	background-color: #f7f7f7;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+}
+
+/* 테이블 스타일 */
+table {
+	width: 100%;
+	border-collapse: collapse;
+	margin-top: 20px;
+}
+
+/* 테이블 셀 스타일 */
+td {
+	padding: 10px;
+	text-align: right;
+	vertical-align: top;
+	font-weight: bold;
+}
+
+/* 셀 내부 입력 필드 스타일 */
+select,
+input[type="text"],
+input[type="date"],
+textarea {
+	width: 100%;
+	padding: 10px;
+	border: 1px solid #ccc;
+	border-radius: 3px;
+	font-size: 16px;
+}
+
+/* 버튼 스타일 */
+#addRepairBtn {
+	display: block;
+	margin-top: 20px;
+	padding: 10px 20px;
+	background-color: #007bff;
+	color: #fff;
+	border: none;
+	border-radius: 5px;
+	cursor: pointer;
+}
+
+#addRepairBtn:hover {
+	background-color: #0056b3;
+}

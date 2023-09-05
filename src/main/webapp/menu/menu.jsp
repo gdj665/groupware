@@ -35,7 +35,7 @@
             <li class="sidebar-item">
               <a class="sidebar-link" href="${pageContext.request.contextPath}/group/home" aria-expanded="false">
                 <span>
-                  <i class="ti ti-layout-dashboard"></i>
+                  <i class="ti ti-home"></i>
                 </span>
                 <span class="hide-menu">메인화면</span>
               </a>
@@ -43,7 +43,7 @@
             <li class="sidebar-item">
               <a class="sidebar-link" href="${pageContext.request.contextPath}/group/member/workResister" aria-expanded="false">
                 <span>
-                  <i class="ti ti-layout-dashboard"></i>
+                  <i class="ti ti-stretching"></i>
                 </span>
                 <span class="hide-menu">근태</span>
               </a>
@@ -51,7 +51,7 @@
             <li class="sidebar-item">
               <a class="sidebar-link" href="${pageContext.request.contextPath}/group/member/workCheck" aria-expanded="false">
                 <span>
-                  <i class="ti ti-layout-dashboard"></i>
+                  <i class="ti ti-report"></i>
                 </span>
                 <span class="hide-menu">근태관리</span>
               </a>
@@ -64,7 +64,7 @@
             <li class="sidebar-item">
               <a class="sidebar-link" href="${pageContext.request.contextPath}/group/board/boardList?departmentNo=0" aria-expanded="false">
                 <span>
-                  <i class="ti ti-layout-dashboard"></i>
+                  <i class="ti ti-speakerphone"></i>
                 </span>
                 <span class="hide-menu">공지사항</span>
               </a>
@@ -72,7 +72,7 @@
             <li class="sidebar-item">
               <a class="sidebar-link" href="${pageContext.request.contextPath}/group/board/boardList?departmentNo=-1" aria-expanded="false">
                 <span>
-                  <i class="ti ti-layout-dashboard"></i>
+                  <i class="ti ti-news"></i>
                 </span>
                 <span class="hide-menu">부서게시판</span>
               </a>
@@ -86,7 +86,7 @@
             <li class="sidebar-item">
               <a class="sidebar-link" href="${pageContext.request.contextPath}/group/schedule/scheduleList" aria-expanded="false">
                 <span>
-                  <i class="ti ti-article"></i>
+                  <i class="ti ti-calendar"></i>
                 </span>
                 <span class="hide-menu">일정</span>
               </a>
@@ -94,7 +94,7 @@
             <li class="sidebar-item">
               <a class="sidebar-link" href="${pageContext.request.contextPath}/group/meetingroom/meetingroomList" aria-expanded="false">
                 <span>
-                  <i class="ti ti-alert-circle"></i>
+                  <i class="ti ti-category"></i>
                 </span>
                 <span class="hide-menu">회의실 목록</span>
               </a>
@@ -102,7 +102,7 @@
             <li class="sidebar-item">
               <a class="sidebar-link" href="${pageContext.request.contextPath}/group/meetingroom/meetingroomReservationList" aria-expanded="false">
                 <span>
-                  <i class="ti ti-cards"></i>
+                  <i class="ti ti-clock-edit"></i>
                 </span>
                 <span class="hide-menu">회의실 예약</span>
               </a>
@@ -110,7 +110,7 @@
             <li class="sidebar-item">
               <a class="sidebar-link" href="${pageContext.request.contextPath}/group/meetingroom/meetingroomReservationHistory" aria-expanded="false">
                 <span>
-                  <i class="ti ti-cards"></i>
+                  <i class="ti ti-clipboard-list"></i>
                 </span>
                 <span class="hide-menu">회의실 예약내역</span>
               </a>
@@ -124,7 +124,7 @@
             <li class="sidebar-item">
               <a class="sidebar-link" href="${pageContext.request.contextPath}/group/approval/approvalList" aria-expanded="false">
                 <span>
-                  <i class="ti ti-article"></i>
+                  <i class="ti ti-file-check"></i>
                 </span>
                 <span class="hide-menu">결재관리</span>
               </a>
@@ -138,7 +138,7 @@
             <li class="sidebar-item">
               <a class="sidebar-link" href="${pageContext.request.contextPath}/group/equipment/equipmentList" aria-expanded="false">
                 <span>
-                  <i class="ti ti-login"></i>
+                  <i class="ti ti-axe"></i>
                 </span>
                 <span class="hide-menu">장비 목록</span>
               </a>
@@ -146,7 +146,7 @@
             <li class="sidebar-item">
               <a class="sidebar-link" href="${pageContext.request.contextPath}/group/fixtures/fixturesList" aria-expanded="false">
                 <span>
-                  <i class="ti ti-user-plus"></i>
+                  <i class="ti ti-ballpen"></i>
                 </span>
                 <span class="hide-menu">자재 목록</span>
               </a>
@@ -154,7 +154,7 @@
             <li class="sidebar-item">
               <a class="sidebar-link" href="${pageContext.request.contextPath}/group/eqHistory/eqHistoryList" aria-expanded="false">
                 <span>
-                  <i class="ti ti-user-plus"></i>
+                  <i class="ti ti-checkup-list"></i>
                 </span>
                 <span class="hide-menu">개인 장비사용내역</span>
               </a>
@@ -167,7 +167,7 @@
             <li class="sidebar-item">
               <a class="sidebar-link" href="${pageContext.request.contextPath}/group/repair/addRepairForm" aria-expanded="false">
                 <span>
-                  <i class="ti ti-mood-happy"></i>
+                  <i class="ti ti-pencil-plus"></i>
                 </span>
                 <span class="hide-menu">AS추가</span>
               </a>
@@ -175,7 +175,7 @@
             <li class="sidebar-item">
               <a class="sidebar-link" href="${pageContext.request.contextPath}/group/repair/repairList?repairStatus=대기중" aria-expanded="false">
                 <span>
-                  <i class="ti ti-aperture"></i>
+                  <i class="ti ti-loader"></i>
                 </span>
                 <span class="hide-menu">대기</span>
               </a>
@@ -183,7 +183,7 @@
             <li class="sidebar-item">
               <a class="sidebar-link" href="${pageContext.request.contextPath}/group/repair/repairList?repairStatus=수리중" aria-expanded="false">
                 <span>
-                  <i class="ti ti-aperture"></i>
+                  <i class="ti ti-hammer"></i>
                 </span>
                 <span class="hide-menu">수리중</span>
               </a>
@@ -191,7 +191,7 @@
             <li class="sidebar-item">
               <a class="sidebar-link" href="${pageContext.request.contextPath}/group/repair/repairList?repairStatus=수리완료" aria-expanded="false">
                 <span>
-                  <i class="ti ti-aperture"></i>
+                  <i class="ti ti-checklist"></i>
                 </span>
                 <span class="hide-menu">완료</span>
               </a>
@@ -204,7 +204,7 @@
             <li class="sidebar-item">
               <a class="sidebar-link" href="${pageContext.request.contextPath}/group/department/departmentList" aria-expanded="false">
                 <span>
-                  <i class="ti ti-mood-happy"></i>
+                  <i class="ti ti-friends"></i>
                 </span>
                 <span class="hide-menu">부서관리</span>
               </a>
@@ -212,7 +212,7 @@
             <li class="sidebar-item">
               <a class="sidebar-link" href="${pageContext.request.contextPath}/group/hrm/hrmList" aria-expanded="false">
                 <span>
-                  <i class="ti ti-aperture"></i>
+                  <i class="ti ti-accessible"></i>
                 </span>
                 <span class="hide-menu">인사관리</span>
               </a>
@@ -220,7 +220,7 @@
             <li class="sidebar-item">
               <a class="sidebar-link" href="${pageContext.request.contextPath}/group/address/addressList" aria-expanded="false">
                 <span>
-                  <i class="ti ti-aperture"></i>
+                  <i class="ti ti-address-book"></i> 
                 </span>
                 <span class="hide-menu">주소록</span>
               </a>
