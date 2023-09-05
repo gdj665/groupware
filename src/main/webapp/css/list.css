@@ -18,3 +18,24 @@
 	background-color: #f2f2f3 !important;
 	font-weight: bold;
 }
+.detail-content {
+	padding: 20px;
+}
+table img {
+	max-width:100%;
+	height:auto;
+}
+.sign-table {
+	text-align: center;
+	width:100%;
+	border-collapse: collapse;
+	border : 1px solid #cccccc;
+}
+.sign-table tr{
+	border : 1px solid #cccccc;
+}
+.approval-status {
+	font-size: 18pt;
+	font-weight: bold;
+	color: #000000;
+}

@@ -19,34 +19,40 @@
 			<div class="container-fluid">
 				<div class="card">
 					<div class="list-title">게시글 상세보기</div>
-					
-					<label class="form-label">번호</label>
-					<input type="text" class="form-control" value="${boardOne.boardNo}" readonly="readonly"><br>
-					<label class="form-label">작성자아이디</label>
-					<input type="text" class="form-control" value="${boardOne.memberId}" readonly="readonly"><br>
-					<label class="form-label">제목</label>
-					<input type="text" class="form-control" value="${boardOne.boardTitle}" readonly="readonly"><br>
-					<label class="form-label">내용</label>
-					<textarea class="form-control" rows="20" cols="50" readonly="readonly">${boardOne.boardContent}</textarea><br>
-					<label class="form-label">부서</label>
-					<input type="text" class="form-control" value="${boardOne.departmentNo}" readonly="readonly"><br>
-					<label class="form-label">생성일짜</label>
-					<input type="text" class="form-control" value="${boardOne.createdate}" readonly="readonly"><br>
-					<label class="form-label">수정일</label>
-					<input type="text" class="form-control" value="${boardOne.updatedate}" readonly="readonly"><br>
+					<!-- 본문 내용 -->
+					<div class="detail-content">
+						<div class="row">
+							<div class="col-sm-4">
+								<label class="form-label">번호</label>
+								<input type="text" class="form-control" value="${boardOne.boardNo}" readonly="readonly"><br>
+							</div>
+							<div class="col-sm-4">
+								<label class="form-label">작성자아이디</label>
+								<input type="text" class="form-control" value="${boardOne.memberId}" readonly="readonly"><br>
+							</div>
+							<div class="col-sm-4">
+								<label class="form-label">생성일짜</label>
+								<input type="text" class="form-control" value="${boardOne.createdate}" readonly="readonly"><br>
+							</div>
+						</div>
+						
+						<label class="form-label">제목</label>
+						<input type="text" class="form-control" value="${boardOne.boardTitle}" readonly="readonly"><br>
+						<label class="form-label">내용</label>
+						<textarea class="form-control" rows="20" cols="50" readonly="readonly">${boardOne.boardContent}</textarea><br>
+						
+						<label class="form-label">첨부파일 목록</label><br>
 						<c:forEach var="b" items="${boardFileList}">
-							<tr>
-								<td>${b.boardFileOri}</td>
-								<td><a href="/board/boardDownload?boardFileNo=${b.boardFileNo}" style="cursor:pointer;">${b.boardFileNo}다운로드</a></td>
-							</tr>
-						</c:forEach>
-					<!-- 작성자만 지울수 있도록 수정 -->
-					<c:if test="${boardOne.memberId == loginMemberId}">
-						<form action="/board/deleteBoard" method="post">
-							<input type="hidden" name="boardNo" value="${boardOne.boardNo}">
-							<button type=submit onClick="return confirm('삭제하시겠습니까?')">삭제</button>
-						</form>
-					</c:if>
+							<a href="/board/boardDownload?boardFileNo=${b.boardFileNo}" style="cursor:pointer;">${b.boardFileOri}</a><br>
+						</c:forEach><br>
+						<!-- 작성자만 지울수 있도록 수정 -->
+						<c:if test="${boardOne.memberId == loginMemberId}">
+							<form action="/group/board/deleteBoard" method="post">
+								<input type="hidden" name="boardNo" value="${boardOne.boardNo}">
+								<button class="btn btn-primary" type=submit onClick="return confirm('삭제하시겠습니까?')">삭제</button>
+							</form>
+						</c:if>
+					</div><!-- ./detail-content -->
 				</div>
 			</div>
 		</div>

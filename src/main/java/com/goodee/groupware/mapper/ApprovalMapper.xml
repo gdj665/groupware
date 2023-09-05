@@ -128,7 +128,8 @@
 	<update id="updateApprovalRecall" parameterType="com.goodee.groupware.vo.Approval">
 		UPDATE approval 
 		SET approval_last_status = '회수',
-		approval_now_status = '결재취소'
+			approval_now_status = '결재취소',
+			updatedate = now()
 		WHERE approval_no = #{approvalNo}
 	</update>
 	
@@ -137,7 +138,8 @@
 		UPDATE approval
 		SET	approval_first_comment = #{approvalFirstComment},
 			approval_second_comment = #{approvalSecondComment},
-			approval_third_comment = #{approvalThirdComment}
+			approval_third_comment = #{approvalThirdComment},
+			updatedate = now()
 		WHERE approval_no = #{approvalNo}
 	</update>
 	
@@ -145,7 +147,8 @@
 	<update id="updateApprovalStatus" parameterType="com.goodee.groupware.vo.Approval">
 		UPDATE approval
 		SET	approval_now_status = #{approvalNowStatus},
-			approval_last_status = #{approvalLastStatus}
+			approval_last_status = #{approvalLastStatus},
+			updatedate = now()
 		WHERE approval_no = #{approvalNo}
 	</update>
 </mapper>
