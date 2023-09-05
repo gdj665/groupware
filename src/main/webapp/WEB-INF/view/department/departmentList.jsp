@@ -32,6 +32,7 @@
 				</div>
 				<div class="container-wrapper">
 				    <div class="container">
+				    	<br>
 				  		<h5>이동할 사원 선택</h5>
 				        <div>
 				            <ul class="main-list">
@@ -77,6 +78,7 @@
 				    </div>
 				    <div class="container">
 				        <!-- 세 번째 컨테이너 내용 -->
+				        <br>
 				        <h5>이동할 부서 선택</h5>
 				        <form id="updateForm" action="/group/department/updateDepartment" method="post">
 				            <table>

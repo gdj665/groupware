@@ -2,6 +2,7 @@ package com.goodee.groupware.controller;
 
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -24,10 +25,12 @@ public class DepartmentController {
 	
 	// 리스트 출력 
 	@GetMapping("/group/department/departmentList")
-		public String getDepartmentList(Model model) {
+		public String getDepartmentList(Model model,
+										HttpSession session) {
 		
 		Map<String,Object> resultMap = departmentService.getDepartmentList();
-		
+		String memberId = (String) session.getAttribute("loginMember");
+		model.addAttribute("memberId", memberId);
 		// Model에 addAttribute를 사용하여 view에 값을 보낸다.
 		// 부서 리스트
 		model.addAttribute("departmentList", resultMap.get("department"));

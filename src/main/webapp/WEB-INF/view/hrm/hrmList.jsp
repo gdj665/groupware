@@ -36,7 +36,7 @@
 				    <button id="addHrmLink" class="btn btn-primary toggle-button">
 				      <i class="fas fa-user-plus"></i> 사원 추가
 				    </button>
-				    <button id="excelBtn" class="btn btn-primary toggle-button">
+				    <button id="excelBtn" class="btn btn-success toggle-button">
 				      <i class="fas fa-file-excel"></i> 엑셀 다운로드
 				    </button>
 				    <button id="toggleServiceDept" class="btn btn-primary toggle-button">
