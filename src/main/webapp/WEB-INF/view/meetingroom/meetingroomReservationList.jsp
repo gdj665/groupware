@@ -141,9 +141,7 @@
 							                                </c:forEach>
 							                                <!-- 공휴일이 아닌 경우 검은색으로 표시 -->
 							                                <c:if test="${not isHoliday}">
-							                                    <a href="#">
-							                                    	<span>${day}</span>
-							                                    </a>
+							                                	<span>${day}</span>
 							                                </c:if>
 							                            </c:otherwise>
 													</c:choose>
@@ -185,7 +183,7 @@
 												<th>회의실 이름</th>
 												<td>
 													<select name="meetingroomNo" id="addMeetingroomNoId">
-														<option>== 선택하기 ==</option>
+														<option value="">== 선택하기 ==</option>
 														<c:forEach var="s" items="${m.meetingroomList}">
 															<option value="${s.meetingroomNo}">회의실&nbsp;${s.meetingroomNo}호</option>
 														</c:forEach>
