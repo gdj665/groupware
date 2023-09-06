@@ -48,10 +48,24 @@ public class MeetingroomService {
 			lastPage += 1;
 		}
 		
+		// 페이지 네비게이션 페이징
+		int pagePerPage = 5;
+		
+		// 최소 페이지, 최대 페이지 구하기
+		int minPage = ((currentPage-1) / pagePerPage) * pagePerPage + 1;
+		int maxPage = minPage + (pagePerPage -1);
+		
+		// maxPage가 마지막 페이지를 넘어가지 않도록 함
+		if(maxPage > lastPage) {
+			maxPage = lastPage;
+		}
+		
 		// Map에 담아서 controller로 넘기기
 		Map<String, Object> meetingroomMap = new HashMap<>(); 
 		meetingroomMap.put("meetingroomList", meetingroomList);
 		meetingroomMap.put("lastPage", lastPage);
+		meetingroomMap.put("minPage", minPage);
+		meetingroomMap.put("maxPage", maxPage);
 		
 		log.debug("\u001B[31m"+"MeetingroomService.getMeetingroomList() meetingroomMap : "+ meetingroomMap.toString()+"\u001B[0m");
 		return meetingroomMap;

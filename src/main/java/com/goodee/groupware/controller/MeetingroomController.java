@@ -55,6 +55,8 @@ public class MeetingroomController {
 		// 페이징 값
 		model.addAttribute("currentPage", currentPage);
 		model.addAttribute("lastPage", meetingroomMap.get("lastPage"));
+		model.addAttribute("minPage", meetingroomMap.get("minPage"));
+		model.addAttribute("maxPage", meetingroomMap.get("maxPage"));
 		
 		return "/meetingroom/meetingroomList";
 	}

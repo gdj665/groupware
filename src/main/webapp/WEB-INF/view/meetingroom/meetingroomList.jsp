@@ -8,8 +8,8 @@
 	<title>회의실 관리</title>
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
-<!-- 개인 css -->
-<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/schedule.css">
+<!-- CSS -->
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/modal.css">
 </head>
 <body>
 	<!--  사이드바 -->
@@ -30,36 +30,54 @@
 								<button class="btn btn-primary" id="addMeetingroomModalOpen">회의실 추가</button>
 							</div>
 							<br>
-							<table style="width: 100%;">
-								<tr>
-									<th class="table_cell">회의실 이름</th>
-									<th class="table_cell">회의실 상세내용</th>
-									<th class="table_cell">회의실 생성일</th>
-									<th class="table_cell">회의실 수정일</th>
-									<th class="table_cell">삭제하기</th>
-								</tr>
+							<table class="table table-hover">
+								<thead class="table-active">
+									<tr>
+										<th>회의실 이름</th>
+										<th>회의실 상세내용</th>
+										<th>회의실 생성일</th>
+										<th>회의실 수정일</th>
+										<th>삭제하기</th>
+									</tr>
+								</thead>
 								<c:forEach var="r" items="${m.meetingroomList}">
 								<tr>
-									<th class="table_cell">회의실 ${r.meetingroomNo}호</th>
-									<th class="table_cell">${r.meetingroomContent}</th>		
-									<th class="table_cell">${r.createdate}</th>		
-									<th class="table_cell">${r.updatedate}</th>
-									<th class="table_cell">
+									<td>회의실 ${r.meetingroomNo}호</td>
+									<td>${r.meetingroomContent}</td>		
+									<td>${r.createdate}</td>		
+									<td>${r.updatedate}</td>
+									<td>
 										<a href="${pageContext.request.contextPath}/group/meetingroom/deleteMeetingroom?meetingroomNo=${r.meetingroomNo}" onClick="return confirm('삭제하시겠습니까?')">삭제</a>
-									</th>
+									</td>
 								</tr>
 								</c:forEach>
 							</table>
 							<br>
-							<div style="text-align: center;">
+							
+							<ul class="pagination" style="justify-content: center;">
 								<c:if test="${currentPage > 1}">
-									<a class="btn btn-primary" href="${pageContext.request.contextPath}/group/meetingroom/meetingroomList?currentPage=${currentPage-1}">이전</a>
+									<li class="page-item">
+										<a href="${pageContext.request.contextPath}/group/meetingroom/meetingroomList?currentPage=${currentPage-1}" class="page-link">이전</a>
+									</li>
 								</c:if>
-								<span>&nbsp;&nbsp;&nbsp;&nbsp;${currentPage}&nbsp;&nbsp;&nbsp;&nbsp;</span>
+								
+								<c:forEach var="i" begin="${minPage}" end="${maxPage}" step="1">
+									<li class="page-item">
+										<c:if test="${i ==  currentPage}">
+											<span style="background-color: #cccccc;" class="page-link current-page">${i}</span>
+										</c:if>
+										<c:if test="${i !=  currentPage}">
+											<a href="${pageContext.request.contextPath}/group/meetingroom/meetingroomList?currentPage=${i}" class="page-link">${i}</a>
+										</c:if>
+									</li>
+								</c:forEach>
+								
 								<c:if test="${currentPage < lastPage}">
-									<a class="btn btn-primary" href="${pageContext.request.contextPath}/group/meetingroom/meetingroomList?currentPage=${currentPage+1}">다음</a>
+									<li class="page-item">
+										<a href="${pageContext.request.contextPath}/group/meetingroom/meetingroomList?currentPage=${currentPage+1}" class="page-link">다음</a>
+									</li>
 								</c:if>
-							</div>
+							</ul>
 							
 							<!-- 회의실 추가 모달 -->
 							<div id="addMeetingroomModal" class="modal">
