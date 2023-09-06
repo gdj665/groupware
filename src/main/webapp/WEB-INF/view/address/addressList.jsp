@@ -33,24 +33,24 @@
 						</form>
 					</div>
 					<br>
-					<a href="${pageContext.request.contextPath}/address/addressList?currentPage=${currentPage}" class="choso-button btn btn-primary">전체</a>
-					<a href="${pageContext.request.contextPath}/address/addressList?currentPage=1&colpol=ㄱ" class="choso-button btn btn-primary">ㄱ</a>
-					<a href="${pageContext.request.contextPath}/address/addressList?currentPage=1&colpol=ㄴ" class="choso-button btn btn-primary">ㄴ</a>
-					<a href="${pageContext.request.contextPath}/address/addressList?currentPage=1&colpol=ㄷ" class="choso-button btn btn-primary">ㄷ</a>
-					<a href="${pageContext.request.contextPath}/address/addressList?currentPage=1&colpol=ㄹ" class="choso-button btn btn-primary">ㄹ</a>
-					<a href="${pageContext.request.contextPath}/address/addressList?currentPage=1&colpol=ㅁ" class="choso-button btn btn-primary">ㅁ</a>
-					<a href="${pageContext.request.contextPath}/address/addressList?currentPage=1&colpol=ㅂ" class="choso-button btn btn-primary">ㅂ</a>
-					<a href="${pageContext.request.contextPath}/address/addressList?currentPage=1&colpol=ㅅ" class="choso-button btn btn-primary">ㅅ</a>
-					<a href="${pageContext.request.contextPath}/address/addressList?currentPage=1&colpol=ㅇ" class="choso-button btn btn-primary">ㅇ</a>
-					<a href="${pageContext.request.contextPath}/address/addressList?currentPage=1&colpol=ㅈ" class="choso-button btn btn-primary">ㅈ</a>
-					<a href="${pageContext.request.contextPath}/address/addressList?currentPage=1&colpol=ㅊ" class="choso-button btn btn-primary">ㅊ</a>
-					<a href="${pageContext.request.contextPath}/address/addressList?currentPage=1&colpol=ㅋ" class="choso-button btn btn-primary">ㅋ</a>
-					<a href="${pageContext.request.contextPath}/address/addressList?currentPage=1&colpol=ㅌ" class="choso-button btn btn-primary">ㅌ</a>
-					<a href="${pageContext.request.contextPath}/address/addressList?currentPage=1&colpol=ㅍ" class="choso-button btn btn-primary">ㅍ</a>
-					<a href="${pageContext.request.contextPath}/address/addressList?currentPage=1&colpol=ㅎ" class="choso-button btn btn-primary">ㅎ</a>
+					<a href="${pageContext.request.contextPath}/group/address/addressList?currentPage=${currentPage}" class="choso-button btn btn-primary">전체</a>
+					<a href="${pageContext.request.contextPath}/group/address/addressList?currentPage=1&colpol=ㄱ" class="choso-button btn btn-primary">ㄱ</a>
+					<a href="${pageContext.request.contextPath}/group/address/addressList?currentPage=1&colpol=ㄴ" class="choso-button btn btn-primary">ㄴ</a>
+					<a href="${pageContext.request.contextPath}/group/address/addressList?currentPage=1&colpol=ㄷ" class="choso-button btn btn-primary">ㄷ</a>
+					<a href="${pageContext.request.contextPath}/group/address/addressList?currentPage=1&colpol=ㄹ" class="choso-button btn btn-primary">ㄹ</a>
+					<a href="${pageContext.request.contextPath}/group/address/addressList?currentPage=1&colpol=ㅁ" class="choso-button btn btn-primary">ㅁ</a>
+					<a href="${pageContext.request.contextPath}/group/address/addressList?currentPage=1&colpol=ㅂ" class="choso-button btn btn-primary">ㅂ</a>
+					<a href="${pageContext.request.contextPath}/group/address/addressList?currentPage=1&colpol=ㅅ" class="choso-button btn btn-primary">ㅅ</a>
+					<a href="${pageContext.request.contextPath}/group/address/addressList?currentPage=1&colpol=ㅇ" class="choso-button btn btn-primary">ㅇ</a>
+					<a href="${pageContext.request.contextPath}/group/address/addressList?currentPage=1&colpol=ㅈ" class="choso-button btn btn-primary">ㅈ</a>
+					<a href="${pageContext.request.contextPath}/group/address/addressList?currentPage=1&colpol=ㅊ" class="choso-button btn btn-primary">ㅊ</a>
+					<a href="${pageContext.request.contextPath}/group/address/addressList?currentPage=1&colpol=ㅋ" class="choso-button btn btn-primary">ㅋ</a>
+					<a href="${pageContext.request.contextPath}/group/address/addressList?currentPage=1&colpol=ㅌ" class="choso-button btn btn-primary">ㅌ</a>
+					<a href="${pageContext.request.contextPath}/group/address/addressList?currentPage=1&colpol=ㅍ" class="choso-button btn btn-primary">ㅍ</a>
+					<a href="${pageContext.request.contextPath}/group/address/addressList?currentPage=1&colpol=ㅎ" class="choso-button btn btn-primary">ㅎ</a>
 				    <br><br>
-				<table>
-					<thead>
+				<table  class="table table-hover">
+					<thead class="table-active">
 						<tr>
 							<td>이름</td>
 							<td>부서</td>

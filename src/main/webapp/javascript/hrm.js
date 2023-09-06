@@ -180,10 +180,10 @@ $(document).ready(function() {
 
     // 전화번호 검사
     var memberPhone = $('#addMemberPhone').val();
-    if (memberPhone === "") {
-        alert("전화번호를 입력해주세요.");
-        return;
-    }
+	   if (!/^[0-9]+$/.test(memberPhone)) {
+	    alert("전화번호는 숫자만 입력해야 합니다.");
+	    return;
+	}
 
     // 직급 검사
     var memberRank = $('select[name="memberRank"]').val();

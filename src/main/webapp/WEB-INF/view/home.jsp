@@ -44,6 +44,7 @@
         </div>
       </div>
     </div>
+    <script src="${pageContext.request.contextPath}/javascript/home.js"></script>
  <jsp:include page="${pageContext.request.contextPath}/menu/code.jsp"></jsp:include>
 </body>
 

@@ -17,6 +17,8 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/1.3.8/FileSaver.min.js"></script>
 <!-- 아이콘 -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<!-- bootStrap CSS -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 
 <body>
@@ -47,8 +49,8 @@
 				    </button>
 				  </div>
 				<div class="table-container" id="serviceDeptTable">
-					<table>
-					    <thead>
+					<table class="table table-hover">
+					    <thead class="table-active">
 					        <tr>
 					            <th>부서</th>
 					            <th>멤버</th>
@@ -91,8 +93,8 @@
 					</table>
 				</div>
 				 <div class="table-container" id="hrDeptTable">
-			    <table>
-				    <thead>
+			    <table class="table table-hover">
+				    <thead class="table-active">
 				        <tr>
 				            <th>부서</th>
 				            <th>멤버</th>
@@ -146,7 +148,7 @@
 							<tr>
 			                    <td>부서</td>
 			                    <td>
-			                        <select name="bigDepartment" id="bigDepartment">
+			                        <select name="bigDepartment" id="bigDepartment" >
 			                            <option value="">===   부서 선택   ===</option>
 			                            <option value="100">인사 부</option>
 			                            <option value="200">서비스 부</option>
@@ -156,7 +158,7 @@
 			                <tr>
 			                    <td>팀</td>
 			                    <td>
-			                        <select name="departmentNo" id="littleDepartment">
+			                        <select name="departmentNo" id="littleDepartment" class="form-label">
 			                            <option value="">=== 선택 ===</option>
 			                            <!-- 서버에서 받아온 팀 리스트를 반복하여 옵션 생성 -->
 			                            <c:forEach var="team" items="${teamDepartmentList}">
@@ -200,7 +202,7 @@
 		  	                <tr>
 			                	<td>전화번호</td>
 			                	<td>
-									<input type="number" name="memberPhone" id="addMemberPhone" placeholder="전화번호을 입력하세요" required="required">
+									<input type="text" name="memberPhone" id="addMemberPhone" placeholder="전화번호을 입력하세요" required="required">
 			                	</td>
 			                </tr>
 			                <tr>
@@ -296,7 +298,7 @@
 		  	                <tr>
 			                	<td>전화번호</td>
 			                	<td>
-									<input type="number" name="memberPhone" id="memberPhone"  readonly="readonly">
+									<input type="text" name="memberPhone" id="memberPhone"  readonly="readonly">
 			                	</td>
 			                </tr>
 			                <tr>
@@ -349,5 +351,4 @@
 	<script src="${pageContext.request.contextPath}/javascript/hrm.js"></script>
  <jsp:include page="${pageContext.request.contextPath}/menu/code.jsp"></jsp:include>
 </body>
-
 </html>
