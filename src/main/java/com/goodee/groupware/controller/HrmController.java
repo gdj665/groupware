@@ -3,6 +3,8 @@ package com.goodee.groupware.controller;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,7 +26,8 @@ public class HrmController {
 	private DepartmentService departmentService;
 	// 사원 리스트 출력
 	@GetMapping("/group/hrm/hrmList")
-	public String getMemberList(Model model) {
+	public String getMemberList(Model model,
+								HttpSession session) {
 		List<Map<String,Object>> memberList = hrmService.getMemberList();
 		List<Map<String,Object>> departmentCnt = hrmService.departmentCnt();
 		Map<String,Object> resultMap = departmentService.getDepartmentList();
