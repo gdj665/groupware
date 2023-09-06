@@ -104,5 +104,8 @@
 			</div>
 		</div>
 	</div>
+	
+	<!-- javaScirpt -->
+	<jsp:include page="${pageContext.request.contextPath}/menu/code.jsp"></jsp:include>
 </body>
 </html>

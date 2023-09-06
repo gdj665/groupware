@@ -168,9 +168,9 @@
 			</div><!-- row -->
 		</div><!-- modal_content -->
 	</div><!-- modal -->
-	<script src="${pageContext.request.contextPath}/assets/libs/jquery/dist/jquery.min.js"></script>
-	<script src="${pageContext.request.contextPath}/assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 	<!-- 개인 js -->
 	<script src="${pageContext.request.contextPath}/javascript/addApproval.js"></script>
+	<!-- javaScirpt -->
+	<jsp:include page="${pageContext.request.contextPath}/menu/code.jsp"></jsp:include>
 </body>
 </html>

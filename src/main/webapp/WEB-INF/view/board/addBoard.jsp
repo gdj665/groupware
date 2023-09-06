@@ -53,5 +53,7 @@
 	
 	<!-- 개인 js -->
 	<script src="${pageContext.request.contextPath}/javascript/addBoard.js"></script>
+	<!-- javaScirpt -->
+	<jsp:include page="${pageContext.request.contextPath}/menu/code.jsp"></jsp:include>
 </body>
 </html>

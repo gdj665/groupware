@@ -161,16 +161,16 @@
 						<input type="text" class="form-control" value="${approvalOne.approvalThirdComment}" readonly="readonly"><br>
 			
 						<!-- 작성자만 지울수 있도록 수정 -->
-						<c:if test="${approvalOne.memberId == loginMemberId && approvalOne.approvalNowStatus eq '결재전'}">
+						<c:if test="${approvalOne.memberId == memberId && approvalOne.approvalNowStatus eq '결재전'}">
 							<form action="/group/approval/updateApprovalRecall" method="post">
 								<input type="hidden" name="approvalNo" value="${approvalOne.approvalNo}">
 								<button class="btn btn-primary" type="submit" onClick="return confirm('회수하시겠습니까?')">회수하기</button>
 							</form>
 						</c:if>
 						<!-- 결재 진행 -->
-						<c:if test="${(approvalOne.approvalFirstId == loginMemberId && approvalOne.approvalFirstComment == null && approvalOne.approvalNowStatus != '결재완료')
-									|| (approvalOne.approvalSecondId == loginMemberId && approvalOne.approvalSecondComment == null && approvalOne.approvalFirstComment != null && approvalOne.approvalNowStatus != '결재완료')
-									|| (approvalOne.approvalThirdId == loginMemberId && approvalOne.approvalThirdComment == null && approvalOne.approvalSecondComment != null && approvalOne.approvalFirstComment != null && approvalOne.approvalNowStatus != '결재완료')}">
+						<c:if test="${(approvalOne.approvalFirstId == memberId && approvalOne.approvalFirstComment == null && approvalOne.approvalNowStatus != '결재완료')
+									|| (approvalOne.approvalSecondId == memberId && approvalOne.approvalSecondComment == null && approvalOne.approvalFirstComment != null && approvalOne.approvalNowStatus != '결재완료')
+									|| (approvalOne.approvalThirdId == memberId && approvalOne.approvalThirdComment == null && approvalOne.approvalSecondComment != null && approvalOne.approvalFirstComment != null && approvalOne.approvalNowStatus != '결재완료')}">
 							<form action="/approval/updateApprovalComment" method="post">
 								<!-- 확인이 필요한 값 -->
 								<input type="hidden" name="approvalNo" value="${approvalOne.approvalNo}">
@@ -196,5 +196,7 @@
 			</div>
 		</div>
 	</div>
+	<!-- javaScirpt -->
+	<jsp:include page="${pageContext.request.contextPath}/menu/code.jsp"></jsp:include>
 </body>
 </html>

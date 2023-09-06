@@ -48,7 +48,7 @@ public class ApprovalController {
 		model.addAttribute("approvalList",resultMap.get("approvalList"));
 		model.addAttribute("currentPage", currentPage);
 		model.addAttribute("lastPage", resultMap.get("lastPage"));
-		model.addAttribute("memberId", resultMap.get("memberId")); 
+		model.addAttribute("memberId",memberId); 
 		model.addAttribute("minPage", resultMap.get("minPage"));
 		model.addAttribute("maxPage", resultMap.get("maxPage"));
 		
@@ -60,14 +60,16 @@ public class ApprovalController {
   
 	// 4.) 결재 추가
 	@GetMapping("/group/approval/addApproval")
-	public String addApproval(Model model) { 
+	public String addApproval(Model model,HttpSession session) { 
 		
 		// 결재자 선택을 위해 리스트를 불러온다
 		Map<String,Object> resultMap = departmentService.getDepartmentList();
+		String memberId = (String) session.getAttribute("loginMember");
 		
 		// 부서 리스트
 		model.addAttribute("departmentList", resultMap.get("department"));
 		model.addAttribute("memberList", resultMap.get("memberList"));
+		model.addAttribute("memberId", memberId);
 		
 		return "/approval/addApproval";
 	}
@@ -109,13 +111,13 @@ public class ApprovalController {
 	@GetMapping("/group/approval/oneApproval")
 	public String getOneApproval(Model model,Approval approval,ApprovalFile approvalFile, HttpSession session) {
 		
-		String loginMemberId = (String) session.getAttribute("loginMember");
+		String memberId = (String) session.getAttribute("loginMember");
 		Map<String, Object> oneApprovalMap = approvalService.getOneApproval(approval, approvalFile);
 		
 		// 상세출력에 필요한 세션 값과 결재 파일 상세 정보, 첨부파일 리스트를 가져오기
 		model.addAttribute("approvalOne",oneApprovalMap.get("approvalOne"));
 		model.addAttribute("approvalFileList",oneApprovalMap.get("approvalFileList"));
-		model.addAttribute("loginMemberId",loginMemberId);
+		model.addAttribute("memberId",memberId);
 		
 		return "/approval/oneApproval";
 	}

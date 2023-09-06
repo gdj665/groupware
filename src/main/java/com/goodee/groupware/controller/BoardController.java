@@ -60,19 +60,22 @@ public class BoardController {
 	public String getOneBoard(Model model,Board board,BoardFile boardFile, HttpSession session) {
 		
 		// 세션에서 아이디값 받아오기
-		String loginMemberId = (String) session.getAttribute("loginMember");
+		String memberId = (String) session.getAttribute("loginMember");
 		
 		Map<String, Object> boardOneMap = boardService.getOneBoard(board, boardFile);
 		model.addAttribute("boardOne",boardOneMap.get("boardOne"));
 		model.addAttribute("boardFileList",boardOneMap.get("boardFileList"));
-		model.addAttribute("loginMemberId",loginMemberId);
+		model.addAttribute("memberId",memberId);
 		
 		return "/board/boardOne";
 	}
 	
 	// 4.) 게시물 추가
 	@GetMapping("/group/board/addBoard")
-	public String addBoard() {
+	public String addBoard(Model model,HttpSession session) {
+		String memberId = (String)session.getAttribute("loginMember");
+		model.addAttribute("memberId", memberId);
+		
 		return "/board/addBoard";
 	}
 	@PostMapping("/group/board/addBoard")

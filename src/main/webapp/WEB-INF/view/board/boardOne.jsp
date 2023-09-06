@@ -46,7 +46,7 @@
 							<a href="/board/boardDownload?boardFileNo=${b.boardFileNo}" style="cursor:pointer;">${b.boardFileOri}</a><br>
 						</c:forEach><br>
 						<!-- 작성자만 지울수 있도록 수정 -->
-						<c:if test="${boardOne.memberId == loginMemberId}">
+						<c:if test="${boardOne.memberId == memberId}">
 							<form action="/group/board/deleteBoard" method="post">
 								<input type="hidden" name="boardNo" value="${boardOne.boardNo}">
 								<button class="btn btn-primary" type=submit onClick="return confirm('삭제하시겠습니까?')">삭제</button>
@@ -59,7 +59,6 @@
 	</div>
 	
 	<!-- javaScirpt -->
-	<script src="${pageContext.request.contextPath}/assets/libs/jquery/dist/jquery.min.js"></script>
-	<script src="${pageContext.request.contextPath}/assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+	<jsp:include page="${pageContext.request.contextPath}/menu/code.jsp"></jsp:include>
 </body>
 </html>
