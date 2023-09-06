@@ -53,16 +53,20 @@ public class RepairController {
 		return "/repair/addRepair";
 	}
 	
-	// 2) repairList출력(대기중)
+	// 2) repairList출력
 	@GetMapping("/group/repair/repairList")
 	public String repairList(Model model, Repair repair, HttpSession session,
 							@RequestParam(name ="currentPage", defaultValue = "1") int currentPage,
-							@RequestParam(name ="rowPerPage", defaultValue = "3") int rowPerPage) {
+							@RequestParam(name ="rowPerPage", defaultValue = "8") int rowPerPage) {
 		// 아무값이 넘어오지 않을경우 대기중으로 넣음
-		if(repair.getRepairStatus().equals("null") || repair.getRepairStatus().equals("")) {
+		
+		log.debug("RepairController.repairList() repair.getRepairStatus() ---> " + repair.getRepairStatus());
+		if(repair.getRepairStatus() == null || repair.getRepairStatus().equals("")) {
 			System.out.println("null값이라 대기중 추가");
 			repair.setRepairStatus("대기중");
 		}
+		
+		String repairStatus = repair.getRepairStatus();
 		
 		log.debug("RepairController.repairList() repair ---> " + repair.toString());
 		String memberId = (String) session.getAttribute("loginMember");
@@ -71,7 +75,7 @@ public class RepairController {
 		Map<String,Object> pageMap = new HashMap<>();
 		pageMap.put("currentPage", currentPage);
 		pageMap.put("rowPerPage", rowPerPage);
-		pageMap.put("repairStatus", repair.getRepairStatus());
+		pageMap.put("repairStatus", repairStatus);
 		pageMap.put("repairProductCategory", repair.getRepairProductCategory());
 		
 		// repairList 서비스 호출
@@ -90,13 +94,13 @@ public class RepairController {
 		model.addAttribute("minPage", resultMap.get("minPage"));
 		model.addAttribute("maxPage", resultMap.get("maxPage"));
 		
-		if(repair.getRepairStatus().equals("대기중")) {
+		if(repairStatus.equals("대기중")) {
 			System.out.println("대기중 리스트로!");
 			return "/repair/watingRepairList";
-		} else if(repair.getRepairStatus().equals("수리중")) {
+		} else if(repairStatus.equals("수리중")) {
 			System.out.println("수리중 리스트로!");
 			return "/repair/repairList";
-		} else if(repair.getRepairStatus().equals("수리완료")) {
+		} else if(repairStatus.equals("수리완료")) {
 			System.out.println("수리완료 리스트로!");
 			return "/repair/completedList";
 		} 

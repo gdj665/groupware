@@ -54,7 +54,7 @@
 					</table>
 					<br>
 					<!-- 검색및 페이징 -->
-					<form action="${pageContext.request.contextPath}/repair/repairList" method="get">
+					<form action="${pageContext.request.contextPath}/group/repair/repairList" method="get">
 						<div class="input-group" style="width:25% !important;">
 							<input type="text" name="repairProductCategory">
 							<input type="hidden" name="repairStatus" value="대기중">

@@ -19,7 +19,7 @@
 	        	<div class="card">
 					<!-- 장비추가는 팀장급부터만 가능하게 세션에 level값으로 조건 -->
 	        		<h5 class="card-title fw-semibold mb-4">AS추가</h5>
-					<form id="addRepairForm" action="${pageContext.request.contextPath}/repair/addRepair" method="post">
+					<form id="addRepairForm" action="${pageContext.request.contextPath}/group/repair/addRepair" method="post">
 						<input type="hidden" value="대기중" readonly="readonly" required="required">
 						<table>
 							<tr>

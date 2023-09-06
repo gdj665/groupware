@@ -151,7 +151,7 @@
 	
 	<!-- 장비 대여 모달 -->
 	<div class="statusModal">
-		<div class="modal_content">
+		<div class="modal_content2">
 			<h3>장비 대여</h3>
 			<form id="addEqHistoryForm" action="${pageContext.request.contextPath}/group/eqHistory/addEqHistory" method="post">
 				<input type="hidden" name="equipmentNo" id="equipmentNoInput" value="equipmentNoInput">

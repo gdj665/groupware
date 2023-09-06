@@ -3,6 +3,7 @@ package com.goodee.groupware.controller;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -64,7 +65,7 @@ public class EquipmentController {
 	
 	// 2) 장비 추가 매핑
 	@PostMapping("/group/equipment/addEquipment")
-	public String addEquipment(Equipment equipment) {
+	public String addEquipment(Equipment equipment ) {
 		// 추가 서비스 호출
 		int row = equipmentService.addEquipment(equipment);
 		

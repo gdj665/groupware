@@ -24,6 +24,30 @@
 	</insert>
 	<!-- 2) as목록 리스트 (대기중, 수리중, 수리완료로 나뉨 -->
 	<select id="getRepairList" resultType="java.util.Map" parameterType="java.util.Map">
+		<if test="repairStatus == '대기중'">
+		SELECT 
+			repair_no repairNo,
+			member_id memberId,
+			repair_product_category repairProductCategory,
+			repair_product_name repairProductName,
+			receiving_date receivingDate,
+			repair_date repairDate,
+			repair_release_date repairReleaseDate,
+			repair_price repairPrice,
+			repair_status repairStatus,
+			repair_receiving_reason repairReceivingReason,
+			repair_content repairContent,
+			createdate createdate,
+			updatedate updatedate
+		FROM repair
+		<where>
+			repair_status = #{repairStatus}
+			<if test="repairProductCategory != null">
+				AND	repair_product_category LIKE '%' #{repairProductCategory} '%'
+			</if>
+		</where>
+		</if>
+		<if test="repairStatus != '대기중'">
 		SELECT 
 			r.repair_no repairNo,
 			r.member_id memberId,
@@ -40,13 +64,13 @@
 			r.createdate createdate,
 			r.updatedate updatedate
 		FROM repair r INNER JOIN member m ON r.member_id = m.member_id
-		
 		<where>
 			r.repair_status = #{repairStatus}
 			<if test="repairProductCategory != null">
 				AND	r.repair_product_category LIKE '%' #{repairProductCategory} '%'
 			</if>
 		</where>
+		</if>
 		ORDER BY createdate DESC
 		LIMIT #{beginRow}, #{rowPerPage}
 	</select>

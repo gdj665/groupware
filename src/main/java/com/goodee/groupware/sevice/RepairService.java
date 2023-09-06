@@ -51,6 +51,8 @@ public class RepairService {
 		//log.debug("RepairService.getRepairList() pageMap --->" + pageMap.toString());
 		
 		List<Map<String,Object>> repairList = repairMapper.getRepairList(map);
+		
+		log.debug("RepairService.getRepairList() map --->" + map.get("repairStatus"));
 		log.debug("RepairService.getRepairList() repairList --->" + repairList.toString());
 		
 		int repairListCnt = repairMapper.getRepairListCnt(map);
