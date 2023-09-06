@@ -15,8 +15,6 @@
 </script>
 </head>
 <body>
-	
-	
 	<jsp:include page="${pageContext.request.contextPath}/menu/menu.jsp"></jsp:include>
 	<div class="body-wrapper">
 		<jsp:include page="${pageContext.request.contextPath}/menu/header.jsp"></jsp:include>
@@ -25,7 +23,7 @@
 	        	<div class="card">
 					<!-- 장비추가는 팀장급부터만 가능하게 세션에 level값으로 조건 -->
 	        		<h5 class="card-title fw-semibold mb-4">장비 상세보기</h5>
-					<table>
+					<table class="table table-hover">
 						<tr>
 							<td>장비번호</td>
 							<td>${equipmentOne.equipmentNo}</td>
@@ -58,15 +56,17 @@
 						</tr>
 					</table>
 					<br>
-					<table border=1>
-						<tr>
-							<th>대여 번호</th>
-							<th>장비 번호</th>
-							<th>대여자</th>
-							<th>대여시작일</th>
-							<th>반납일</th>
-							<th>대여 사유</th>
-						</tr>
+					<table class="table table-hover">
+						<thead class="table-active">
+							<tr>
+								<th>대여 번호</th>
+								<th>장비 번호</th>
+								<th>대여자</th>
+								<th>대여시작일</th>
+								<th>반납일</th>
+								<th>대여 사유</th>
+							</tr>
+						</thead>
 						<c:forEach var="eh" items="${eqHistoryList}">
 							<tr>
 								<td>${eh.equipmentHistoryNo}</td>			

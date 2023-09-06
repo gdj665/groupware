@@ -39,18 +39,20 @@
 						<button class="btn btn-success" id="excelBtn">엑셀 다운</button>
 					</span>
 					<br>
-					<table>
-						<tr>
-							<th>자재번호</th>
-							<th>분류명</th>
-							<th>부품명</th>
-							<th>수량</th>
-							<th>가격</th>
-							<th>상세내용</th>
-							<c:if test="${memberLevel > 1}">
-								<th>비활성</th>
-							</c:if>
-						</tr>
+					<table class="table table-hover">
+						<thead class="table-active">
+							<tr>
+								<th>자재번호</th>
+								<th>분류명</th>
+								<th>부품명</th>
+								<th>수량</th>
+								<th>가격</th>
+								<th>상세내용</th>
+								<c:if test="${memberLevel > 1}">
+									<th>비활성</th>
+								</c:if>
+							</tr>
+						</thead>
 						<c:forEach var="f" items="${fixturesList}">
 							<tr>
 								<td>${f.partsNo}</td>

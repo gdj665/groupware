@@ -32,17 +32,19 @@
 						<button class="btn btn-success" id="excelBtn">엑셀 다운</button>
 					</span>
 					<br>
-					<table>
-						<tr>
-							<th>번호</th>
-							<th>수리담당자</th>
-							<th>제품분류</th>
-							<th>제품명</th>
-							<th>입고날짜</th>
-							<th>수리날짜</th>
-							<th>출고날짜</th>
-							<th>수리상태</th>
-						</tr>
+					<table class="table table-hover">
+						<thead class="table-active">
+							<tr>
+								<th>번호</th>
+								<th>수리담당자</th>
+								<th>제품분류</th>
+								<th>제품명</th>
+								<th>입고날짜</th>
+								<th>수리날짜</th>
+								<th>출고날짜</th>
+								<th>수리상태</th>
+							</tr>
+						</thead>
 						<c:forEach var="r" items="${repairList}">
 							<tr>
 								<td>

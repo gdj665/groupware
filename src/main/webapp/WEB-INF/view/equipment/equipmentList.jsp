@@ -13,9 +13,6 @@
 <!-- file download api : FileServer saveAs-->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/1.3.8/FileSaver.min.js"></script>
 </head>
-<style>
-	
-</style>
 <body>	
 	<jsp:include page="${pageContext.request.contextPath}/menu/menu.jsp"></jsp:include>
 	<div class="body-wrapper">
@@ -32,19 +29,21 @@
 						<button class="btn btn-success" id="excelBtn">엑셀 다운</button>
 	        		</span>
 					<br>
-					<table>
-						<tr>
-							<th>장비번호</th>
-							<th>장비명</th>
-							<th>마지막 점검일</th>
-							<th>점검예정일</th>
-							<th>점검</th>
-							<th>대여</th>
-							<!-- 비활성화는 팀장급부터만 가능하게 세션에 level값으로 조건 -->
-							<c:if test="${memberLevel > 1}">
-								<th>비활성화</th>
-							</c:if>
-						</tr>
+					<table class="table table-hover">
+						<thead class="table-active">
+							<tr>
+								<th>장비번호</th>
+								<th>장비명</th>
+								<th>마지막 점검일</th>
+								<th>점검예정일</th>
+								<th>점검</th>
+								<th>대여</th>
+								<!-- 비활성화는 팀장급부터만 가능하게 세션에 level값으로 조건 -->
+								<c:if test="${memberLevel > 1}">
+									<th>비활성화</th>
+								</c:if>
+							</tr>
+						</thead>
 						<c:forEach var="e" items="${equipmentList}">
 						<tr>
 							<td><a href="${pageContext.request.contextPath}/group/equipment/equipmentOne?equipmentNo=${e.equipmentNo}">${e.equipmentNo}</a></td>

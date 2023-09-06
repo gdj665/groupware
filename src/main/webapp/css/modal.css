@@ -90,35 +90,6 @@
 }
 
 
-
-/* 전체 테이블 스타일 */
-table {
-	width: 100%;
-	border-collapse: collapse;
-	border: 1;
-}
-
-/* 테이블 헤더 스타일 */
-th {
-	background-color: darkgrey;
-	color: #fff;
-	font-weight: bold;
-	text-align: center;
-	padding: 10px;
-	border: 1px solid #ddd;
-}
-
-tr {
-	text-align: center;
-}
-
-/* 테이블 데이터 스타일 */
-td {
-	text-align: center;
-	padding: 8px;
-	border: 1px solid #ddd;
-}
-
 /* 링크 스타일 */
 a {
 	text-decoration: none;
@@ -173,7 +144,7 @@ a:hover {
 }
 
 .page-item {
-	margin: 0 5px;
+	margin: 0px;
 }
 
 .current-page {

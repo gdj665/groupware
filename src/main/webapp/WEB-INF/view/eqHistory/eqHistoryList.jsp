@@ -17,16 +17,18 @@
 	        	<div class="card">
 					<!-- 자재추가는 팀장급부터만 가능하게 세션에 level값으로 조건 -->
 					<h5 class="card-title fw-semibold mb-4">${memberId}님 장비 사용내역</h5>
-					<table>
-						<tr>
-							<th>장비 번호</th>
-							<th>장비명</th>
-							<th>대여상태</th>
-							<th>대여시작일</th>
-							<th>반납일</th>
-							<th>대여사유</th>
-							<th>반납하기</th>
-						</tr>
+					<table class="table table-hover">
+						<thead class="table-active">
+							<tr>
+								<th>장비 번호</th>
+								<th>장비명</th>
+								<th>대여상태</th>
+								<th>대여시작일</th>
+								<th>반납일</th>
+								<th>대여사유</th>
+								<th>반납하기</th>
+							</tr>
+						</thead>
 						<c:forEach var="eqH" items="${eqHistoryListById}">
 							<tr>
 								<td>${eqH.equipmentHistoryNo}</td>			
