@@ -50,13 +50,28 @@
 			INNER JOIN member m ON s.member_id = m.member_id
 		<where>
             <if test="scheduleCategory == '개인'">
-				AND m.member_id = #{memberId} 
+				m.member_id = #{memberId} 
+				AND schedule_category = #{scheduleCategory}
+				AND m.department_no = #{departmentNo}
+				AND YEAR(s.schedule_begindate) = #{targetYear}
+	            AND MONTH(s.schedule_begindate) = #{targetMonth} 	
+				AND DAY(s.schedule_begindate) = #{targetDate}
             </if>
-			AND schedule_category = #{scheduleCategory}
-			AND m.department_no = #{departmentNo}
-			AND YEAR(s.schedule_begindate) = #{targetYear}
-            AND MONTH(s.schedule_begindate) = #{targetMonth} 	
-			AND DAY(s.schedule_begindate) = #{targetDate}
+            <if test="scheduleCategory == '부서'">
+            	schedule_category = #{scheduleCategory}
+				AND m.department_no = #{departmentNo}
+				AND YEAR(s.schedule_begindate) = #{targetYear}
+	            AND MONTH(s.schedule_begindate) = #{targetMonth} 	
+				AND DAY(s.schedule_begindate) = #{targetDate}
+            </if>
+            <if test="scheduleCategory == null or scheduleCategory == ''">
+            	s.schedule_category IN ('부서', '개인')
+            	AND m.department_no = #{departmentNo}
+				AND YEAR(s.schedule_begindate) = #{targetYear}
+	            AND MONTH(s.schedule_begindate) = #{targetMonth} 	
+				AND DAY(s.schedule_begindate) = #{targetDate}
+            	AND (s.schedule_category = '부서' OR (s.schedule_category = '개인' AND m.member_id = #{memberId}))
+            </if>
 		</where>	
 	</select>
 	

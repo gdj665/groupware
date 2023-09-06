@@ -37,13 +37,18 @@
 							<!-- model값 받아와서 문자로 셋팅 -->
 							<c:set var="m" value="${scheduleMap}"></c:set>
 							<div style="padding:20px; font-size: 30pt; font-weight: bold; color:#000000;">나의 일정</div>
-							<div style="text-align: right;">
-								<button class="btn text-white" style="background-color:green;" id="addPersonalScheduleModalOpen">개인일정 등록</button>
-								<button class="btn text-white" style="background-color:orange;" id="addDepartmentScheduleModalOpen">부서일정 등록</button>
+							<br>
+							<div style="display: flex; justify-content: space-between; align-items: center;">
+							    <div>
+							        <a class="btn text-white" style="background-color:black;" href="${pageContext.request.contextPath}/group/schedule/scheduleList?targetYear=${m.targetYear}&targetMonth=${m.targetMonth}">전체</a>
+							        <a class="btn text-white" style="background-color:green;" href="${pageContext.request.contextPath}/group/schedule/scheduleList?targetYear=${m.targetYear}&targetMonth=${m.targetMonth}&scheduleCategory=개인">개인</a>
+							        <a class="btn text-white" style="background-color:orange;" href="${pageContext.request.contextPath}/group/schedule/scheduleList?targetYear=${m.targetYear}&targetMonth=${m.targetMonth}&scheduleCategory=부서">부서</a>
+							    </div>
+							    <div>
+							        <button class="btn text-white" style="background-color:green;" id="addPersonalScheduleModalOpen">개인일정 등록</button>
+							        <button class="btn text-white" style="background-color:orange;" id="addDepartmentScheduleModalOpen">부서일정 등록</button>
+							    </div>
 							</div>
-							<a class="btn text-white" style="background-color:black;" href="${pageContext.request.contextPath}/group/schedule/scheduleList?targetYear=${m.targetYear}&targetMonth=${m.targetMonth}">전체</a>
-							<a class="btn text-white" style="background-color:green;" href="${pageContext.request.contextPath}/group/schedule/scheduleList?targetYear=${m.targetYear}&targetMonth=${m.targetMonth}&scheduleCategory=개인">개인</a>
-							<a class="btn text-white" style="background-color:orange;" href="${pageContext.request.contextPath}/group/schedule/scheduleList?targetYear=${m.targetYear}&targetMonth=${m.targetMonth}&scheduleCategory=부서">부서</a>
 							<div style="text-align: center;">
 								<h1>
 									<a href="${pageContext.request.contextPath}/group/schedule/scheduleList?targetYear=${m.targetYear}&targetMonth=${m.targetMonth-1}&scheduleCategory=${m.scheduleCategory}">이전달</a>
