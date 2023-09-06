@@ -8,10 +8,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>home</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
-<!-- 개인 css -->
-<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/department.css">
 </head>
-
 <body>
     <!--  사이드바 -->
     <jsp:include page="${pageContext.request.contextPath}/menu/menu.jsp"></jsp:include>
@@ -108,7 +105,6 @@
         </div>
       </div>
     </div>
-    <script src="${pageContext.request.contextPath}/javascript/department.js"></script>
  <jsp:include page="${pageContext.request.contextPath}/menu/code.jsp"></jsp:include>
 </body>
 
