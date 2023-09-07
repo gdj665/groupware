@@ -4,10 +4,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -30,7 +32,13 @@ public class RepairController {
 	
 	// 1) repair추가
 	@PostMapping("/group/repair/addRepair")
-	public String addRepair(Repair repair, RedirectAttributes redirectAttributes) {
+	public String addRepair(@Valid Repair repair, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+		
+		if (bindingResult.hasErrors()) {
+	        // 유효성 검사에서 오류가 발생한 경우
+	        // 오류 처리를 수행하고 원하는 페이지로 리다이렉트하거나 메시지를 표시할 수 있습니다.
+	        return "/repair/addRepair"; // 오류 페이지로 리다이렉트 또는 이동
+	    }
 		
 		// repair 추가 서비스 호출
 		int row = repairSerivce.addRepair(repair);
@@ -113,7 +121,14 @@ public class RepairController {
 	@PostMapping("/group/repair/updateRepair")
 	public String updateRepair(@RequestParam(name = "partsNo[]", required = false) int[] partsNoArray,
             					@RequestParam(name = "partsCnt[]", required = false) int[] partsCntArray,
-								Repair repair, RepairParts repairParts, RedirectAttributes redirectAttributes) {
+								@Valid Repair repair, @Valid RepairParts repairParts, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+		
+		if (bindingResult.hasErrors()) {
+	        // 유효성 검사에서 오류가 발생한 경우
+	        // 오류 처리를 수행하고 원하는 페이지로 리다이렉트하거나 메시지를 표시할 수 있습니다.
+	        return "/repair/addRepair"; // 오류 페이지로 리다이렉트 또는 이동
+	    }
+		
 		
 		int row =0;
 		

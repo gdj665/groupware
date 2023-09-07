@@ -19,78 +19,75 @@
 	<div class="body-wrapper">
 		<jsp:include page="${pageContext.request.contextPath}/menu/header.jsp"></jsp:include>
 		<div class="container-fluid">
-			<div class="container-fluid">
-	        	<div class="card">
-	        		<h5 class="card-title fw-semibold mb-4">AS대기리스트</h5>
-					<span style="text-align: right;">
-						<button class="btn btn-success" id="excelBtn">엑셀 다운</button>
-	        		</span>
-	        		<br>
-					<table class="table table-hover">
-						<thead class="table-active">
-							<tr>
-								<th>번호</th>
-								<th>제품분류</th>
-								<th>제품명</th>
-								<th>입고날짜</th>
-								<th>수리상태</th>
-								<th>입고사유</th>
-								<th>수리</th>
-							</tr>
-						</thead>
-						<c:forEach var="r" items="${repairList}">
-						<tr>
-							<td>${r.repairNo}</td>
-							<td>${r.repairProductCategory}</td>
-							<td>${r.repairProductName}</td>
-							<td>${r.receivingDate}</td>
-							<td>${r.repairStatus}</td>
-							<td>${r.repairReceivingReason}</td>
-							<td>
-								<a href ="#" class="underRepairModalOpen" data-underRepairNo="${r.repairNo}" data-underMemberId="${memberId}" data-underRepairProductName="${r.repairProductName}">수리시작</a>
-							</td>
-						</tr>
-					</c:forEach>
-					</table>
-					<br>
-					<!-- 검색및 페이징 -->
-					<form action="${pageContext.request.contextPath}/group/repair/repairList" method="get">
-						<div class="input-group" style="width:25% !important;">
-							<input type="text" name="repairProductCategory">
-							<input type="hidden" name="repairStatus" value="대기중">
-							<button class="btn btn-primary" type="submit">검색</button>
-						</div>
-					</form>
-					
-					<ul class="pagination" style="justify-content: center;">
-						<c:if test="${currentPage > 1}">
-							<li class="page-item">
-								<a href="${pageContext.request.contextPath}/repair/repairList?currentPage=${currentPage-1}&repairProductCategory=${param.repairProductCategory}&repairStatus=대기중">이전</a>
-							</li>
-						</c:if>
-						
-						<c:forEach var="i" begin="${minPage}" end="${maxPage}" step="1">
-							<li class="page-item">
-								<c:if test="${i ==  currentPage}">
-									<span style="background-color: #cccccc;" class="page-link current-page">${i}</span>
-								</c:if>
-								<c:if test="${i !=  currentPage}">
-									<a href="${pageContext.request.contextPath}/group/repair/repairList?currentPage=${i}&repairProductCategory=${param.repairProductCategory}&repairStatus=대기중" class="page-link">${i}</a>
-								</c:if>
-							</li>
-						</c:forEach>
-						
-						<c:if test="${currentPage < lastPage}">
-							<li class="page-item">
-								<a href="${pageContext.request.contextPath}/repair/repairList?currentPage=${currentPage+1}&repairProductCategory=${param.repairProductCategory}&repairStatus=대기중">다음</a>
-							</li>						
-						</c:if>
-					</ul>
-					<br>
+       		<h5 class="card-title fw-semibold mb-4">AS대기리스트</h5>
+			<span style="text-align: right;">
+				<button class="btn btn-success" id="excelBtn">엑셀 다운</button>
+       		</span>
+       		<br>
+       		<br>
+			<table class="table table-hover">
+				<thead class="table-active">
+					<tr>
+						<th>번호</th>
+						<th>제품분류</th>
+						<th>제품명</th>
+						<th>입고날짜</th>
+						<th>수리상태</th>
+						<th>입고사유</th>
+						<th>수리</th>
+					</tr>
+				</thead>
+				<c:forEach var="r" items="${repairList}">
+				<tr>
+					<td>${r.repairNo}</td>
+					<td>${r.repairProductCategory}</td>
+					<td>${r.repairProductName}</td>
+					<td>${r.receivingDate}</td>
+					<td>${r.repairStatus}</td>
+					<td>${r.repairReceivingReason}</td>
+					<td>
+						<a href ="#" class="underRepairModalOpen" data-underRepairNo="${r.repairNo}" data-underMemberId="${memberId}" data-underRepairProductName="${r.repairProductName}">수리시작</a>
+					</td>
+				</tr>
+			</c:forEach>
+			</table>
+			<br>
+			<!-- 검색및 페이징 -->
+			<form action="${pageContext.request.contextPath}/group/repair/repairList" method="get">
+				<div class="input-group" style="width:25% !important;">
+					<input type="text" name="repairProductCategory">
+					<input type="hidden" name="repairStatus" value="대기중">
+					<button class="btn btn-primary" type="submit">검색</button>
 				</div>
-	    	</div>
+			</form>
+			
+			<ul class="pagination" style="justify-content: center;">
+				<c:if test="${currentPage > 1}">
+					<li class="page-item">
+						<a href="${pageContext.request.contextPath}/repair/repairList?currentPage=${currentPage-1}&repairProductCategory=${param.repairProductCategory}&repairStatus=대기중">이전</a>
+					</li>
+				</c:if>
+				
+				<c:forEach var="i" begin="${minPage}" end="${maxPage}" step="1">
+					<li class="page-item">
+						<c:if test="${i ==  currentPage}">
+							<span style="background-color: #cccccc;" class="page-link current-page">${i}</span>
+						</c:if>
+						<c:if test="${i !=  currentPage}">
+							<a href="${pageContext.request.contextPath}/group/repair/repairList?currentPage=${i}&repairProductCategory=${param.repairProductCategory}&repairStatus=대기중" class="page-link">${i}</a>
+						</c:if>
+					</li>
+				</c:forEach>
+				
+				<c:if test="${currentPage < lastPage}">
+					<li class="page-item">
+						<a href="${pageContext.request.contextPath}/repair/repairList?currentPage=${currentPage+1}&repairProductCategory=${param.repairProductCategory}&repairStatus=대기중">다음</a>
+					</li>						
+				</c:if>
+			</ul>
+			<br>
 		</div>
-	</div>
+   	</div>
 	
 	<!-- 대기중 -> 수리중 업데이트 모달 -->
 	<div id="underRepairModal" class="modal">

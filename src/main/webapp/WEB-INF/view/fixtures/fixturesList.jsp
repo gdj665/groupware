@@ -28,84 +28,81 @@
 	<div class="body-wrapper">
 		<jsp:include page="${pageContext.request.contextPath}/menu/header.jsp"></jsp:include>
 		<div class="container-fluid">
-			<div class="container-fluid">
-	        	<div class="card">
-					<!-- 자재추가는 팀장급부터만 가능하게 세션에 level값으로 조건 -->
-					<h5 class="card-title fw-semibold mb-4">자재 목록</h5>
-					<span style="text-align: right;">
+			<!-- 자재추가는 팀장급부터만 가능하게 세션에 level값으로 조건 -->
+			<h5 class="card-title fw-semibold mb-4">자재 목록</h5>
+			<span style="text-align: right;">
+				<c:if test="${memberLevel > 1}">
+					<button class="btn btn-primary" id="open">자재 추가</button>
+				</c:if>
+				<button class="btn btn-success" id="excelBtn">엑셀 다운</button>
+			</span>
+			<br>
+			<br>
+			<table class="table table-hover">
+				<thead class="table-active">
+					<tr>
+						<th>자재번호</th>
+						<th>분류명</th>
+						<th>부품명</th>
+						<th>수량</th>
+						<th>가격</th>
+						<th>상세내용</th>
 						<c:if test="${memberLevel > 1}">
-							<button class="btn btn-primary" id="open">자재 추가</button>
+							<th>비활성</th>
 						</c:if>
-						<button class="btn btn-success" id="excelBtn">엑셀 다운</button>
-					</span>
-					<br>
-					<table class="table table-hover">
-						<thead class="table-active">
-							<tr>
-								<th>자재번호</th>
-								<th>분류명</th>
-								<th>부품명</th>
-								<th>수량</th>
-								<th>가격</th>
-								<th>상세내용</th>
-								<c:if test="${memberLevel > 1}">
-									<th>비활성</th>
-								</c:if>
-							</tr>
-						</thead>
-						<c:forEach var="f" items="${fixturesList}">
-							<tr>
-								<td>${f.partsNo}</td>
-								<td>${f.partsCategory}</td>
-								<td>${f.partsName}</td>
-								<td>${f.partsCnt}</td>
-								<td>${f.partsPrice}원</td>
-								<td>${f.partsContent}</td>
-								<c:if test="${memberLevel > 1}">
-									<td>
-										<a href="/group/fixtures/updatePartsAlive?partsNo=${f.partsNo}" onClick="return confirm('${f.partsName} 비활성화 하시겠습니까?')">비활성</a>
-									</td>
-								</c:if>
-							</tr>
-						</c:forEach>
-					</table>
-					<br>
-					<div>
-						<form action="${pageContext.request.contextPath}/group/fixtures/fixturesList" method="get">
-							<div class="input-group" style="width:25% !important;">
-								<input type="text" class="form-control" name="partsName" placeholder="부품명으로 검색">
-								<button class="btn btn-primary" type="submit">검색</button>
-							</div>
-						</form>
+					</tr>
+				</thead>
+				<c:forEach var="f" items="${fixturesList}">
+					<tr>
+						<td>${f.partsNo}</td>
+						<td>${f.partsCategory}</td>
+						<td>${f.partsName}</td>
+						<td>${f.partsCnt}</td>
+						<td>${f.partsPrice}원</td>
+						<td>${f.partsContent}</td>
+						<c:if test="${memberLevel > 1}">
+							<td>
+								<a href="/group/fixtures/updatePartsAlive?partsNo=${f.partsNo}" onClick="return confirm('${f.partsName} 비활성화 하시겠습니까?')">비활성</a>
+							</td>
+						</c:if>
+					</tr>
+				</c:forEach>
+			</table>
+			<br>
+			<div>
+				<form action="${pageContext.request.contextPath}/group/fixtures/fixturesList" method="get">
+					<div class="input-group" style="width:25% !important;">
+						<input type="text" class="form-control" name="partsName" placeholder="부품명으로 검색">
+						<button class="btn btn-primary" type="submit">검색</button>
 					</div>
-					<ul class="pagination" style="justify-content: center;">
-					    <c:if test="${currentPage > 1}">
-					        <li class="page-item">
-					            <a href="${pageContext.request.contextPath}/group/fixtures/fixturesList?currentPage=${currentPage-1}&partsName=${param.partsName}" class="page-link">이전</a>
-					        </li>
-					    </c:if>
-					    
-					    <c:forEach var="i" begin="${minPage}" end="${maxPage}" step="1">
-					        <li class="page-item">
-					            <c:if test="${i ==  currentPage}">
-					                <span style="background-color: #cccccc;" class="page-link current-page">${i}</span>
-					            </c:if>
-					            <c:if test="${i !=  currentPage}">
-					                <a href="${pageContext.request.contextPath}/group/fixtures/fixturesList?currentPage=${i}&partsName=${param.partsName}" class="page-link">${i}</a>
-					            </c:if>
-					        </li>
-					    </c:forEach>
-					    
-					    <c:if test="${currentPage < lastPage}">
-					        <li class="page-item">
-					            <a href="${pageContext.request.contextPath}/group/fixtures/fixturesList?currentPage=${currentPage+1}&partsName=${param.partsName}" class="page-link">다음</a>
-					        </li>
-					    </c:if>
-					</ul>
-	        	</div>
-	    	</div>
-		</div>
-	</div>
+				</form>
+			</div>
+			<ul class="pagination" style="justify-content: center;">
+			    <c:if test="${currentPage > 1}">
+			        <li class="page-item">
+			            <a href="${pageContext.request.contextPath}/group/fixtures/fixturesList?currentPage=${currentPage-1}&partsName=${param.partsName}" class="page-link">이전</a>
+			        </li>
+			    </c:if>
+			    
+			    <c:forEach var="i" begin="${minPage}" end="${maxPage}" step="1">
+			        <li class="page-item">
+			            <c:if test="${i ==  currentPage}">
+			                <span style="background-color: #cccccc;" class="page-link current-page">${i}</span>
+			            </c:if>
+			            <c:if test="${i !=  currentPage}">
+			                <a href="${pageContext.request.contextPath}/group/fixtures/fixturesList?currentPage=${i}&partsName=${param.partsName}" class="page-link">${i}</a>
+			            </c:if>
+			        </li>
+			    </c:forEach>
+			    
+			    <c:if test="${currentPage < lastPage}">
+			        <li class="page-item">
+			            <a href="${pageContext.request.contextPath}/group/fixtures/fixturesList?currentPage=${currentPage+1}&partsName=${param.partsName}" class="page-link">다음</a>
+			        </li>
+			    </c:if>
+			</ul>
+       	</div>
+   	</div>
 	
 	
 	<div class="modal">

@@ -39,7 +39,7 @@ $(document).ready(function(){
 // --------------------------------------장비 추가 모달창-----------------------------------------	
 		// 장비추가 모달창 오픈
 		$('#open').click(function(){
-			$('.modal').fadeIn();
+			$('#addEquipmentModal').fadeIn();
 		});
 		
 		// 장비 추가 버튼
@@ -72,7 +72,7 @@ $(document).ready(function(){
 			}
 			
 			$('#addEquipmentForm').submit();
-			$('.modal').fadeOut();
+			$('addEquipmentModal').fadeOut();
 		});
 		
 		// 오류 메시지를 초기화하고 입력란에 포커스를 줄 때 사용되는 함수
@@ -115,7 +115,7 @@ $(document).ready(function(){
 	        $("#equipmentNameInput").val(equipmentName); // 모달 내의 input 요소에 장비이름 설정(보여주기식)
 	        $("#loginIdInput").val(loginId); // 대여자 Id값(세션에서 받아옴)
 	        $('#equipmentBegindateId').val(preDate); // 대여시작일은 현재 날짜	        
-	        $('.statusModal').fadeIn();
+	        $('#updateEquipmentModal').fadeIn();
 	    });
 		
 		// 장비 대여 추가 버튼
@@ -134,7 +134,7 @@ $(document).ready(function(){
 			}
 			
 			$('#addEqHistoryForm').submit();
-			$('.statusModal').fadeOut();
+			$('updateEquipmentModal').fadeOut();
 		});
 	 	
 		// 오류 메시지를 초기화하고 입력란에 포커스를 줄 때 사용되는 함수

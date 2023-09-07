@@ -3,11 +3,13 @@ package com.goodee.groupware.controller;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.bind.DefaultValue;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -26,9 +28,15 @@ public class EquipmentHistoryController {
 	
 	// 1) 장비 대여 추가 매핑
 	@PostMapping("/group/eqHistory/addEqHistory")
-	public String addEqHistory(EquipmentHistory eqHistory, Equipment equipment) {
-		
+	public String addEqHistory(@Valid EquipmentHistory eqHistory, @Valid Equipment equipment, BindingResult bindingResult) {
 		log.debug("EquipmentHistoryController.addEqHistory() eqHistory --->" + eqHistory.toString());
+		
+		if (bindingResult.hasErrors()) {
+	        // 유효성 검사에서 오류가 발생한 경우
+	        // 오류 처리를 수행하고 원하는 페이지로 리다이렉트하거나 메시지를 표시할 수 있습니다.
+	        return "/eqHistory/eqHistoryList"; // 오류 페이지로 리다이렉트 또는 이동
+	    }
+		
 		// 장비사용내역 추가 및 장비상태 업데이트 서비스 호출
 		int row = 0;
 		
@@ -45,7 +53,14 @@ public class EquipmentHistoryController {
 	
 	// 1.1) 장비 반납시 비대여로 업데이트
 	@GetMapping("/group/eqHistory/updateEquipment") 
-	public String updateEquipment(Equipment equipment, EquipmentHistory eqHistory) {
+	public String updateEquipment(@Valid Equipment equipment, @Valid EquipmentHistory eqHistory, BindingResult bindingResult) {
+		
+		if (bindingResult.hasErrors()) {
+	        // 유효성 검사에서 오류가 발생한 경우
+	        // 오류 처리를 수행하고 원하는 페이지로 리다이렉트하거나 메시지를 표시할 수 있습니다.
+	        return "/eqHistory/eqHistoryList"; // 오류 페이지로 리다이렉트 또는 이동
+	    }
+		
 		int row = 0;
 		
 		if (equipment != null) {

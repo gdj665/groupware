@@ -8,6 +8,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -65,7 +66,14 @@ public class EquipmentController {
 	
 	// 2) 장비 추가 매핑
 	@PostMapping("/group/equipment/addEquipment")
-	public String addEquipment(Equipment equipment ) {
+	public String addEquipment(@Valid Equipment equipment, BindingResult bindingResult ) {
+		
+		if (bindingResult.hasErrors()) {
+	        // 유효성 검사에서 오류가 발생한 경우
+	        // 오류 처리를 수행하고 원하는 페이지로 리다이렉트하거나 메시지를 표시할 수 있습니다.
+	        return "/equipment/equipmentList"; // 오류 페이지로 리다이렉트 또는 이동
+	    }
+		
 		// 추가 서비스 호출
 		int row = equipmentService.addEquipment(equipment);
 		
@@ -81,22 +89,36 @@ public class EquipmentController {
 	
 	// 3) 장비 비활성화 매핑
 	@GetMapping("/group/equipment/updateEquipment")
-	public String updateEquipment(Equipment equipment) {
-		// 삭제 서비스 호출
+	public String updateEquipment(@Valid Equipment equipment, BindingResult bindingResult) {
+		
+		if (bindingResult.hasErrors()) {
+	        // 유효성 검사에서 오류가 발생한 경우
+	        // 오류 처리를 수행하고 원하는 페이지로 리다이렉트하거나 메시지를 표시할 수 있습니다.
+	        return "/equipment/equipmentList"; // 오류 페이지로 리다이렉트 또는 이동
+	    }
+		
+		// 비활성화 서비스 호출
 		int row = equipmentService.updateEquipment(equipment);
 		
 		log.debug("EquipmentController.updateEquipment() equipment --->" + equipment.toString());
 		if(row > 0) {
-			log.debug("EquipmentController.updateEquipment() row --->" + row + "장비삭제성공"); 
+			log.debug("EquipmentController.updateEquipment() row --->" + row + "장비비활성성공"); 
 		} else {
-			log.debug("EquipmentController.updateEquipment() row --->" + row + "장비삭제실패"); 
+			log.debug("EquipmentController.updateEquipment() row --->" + row + "장비비활성실패"); 
 		}
 		return "redirect:/group/equipment/equipmentList";
 	}
 	
 	// 4) 장비 점검 업데이트 매핑
 	@GetMapping("/group/equipment/updateEqInspect")
-	public String updateEquipmentInspect(Equipment equipment) {
+	public String updateEquipmentInspect(@Valid Equipment equipment, BindingResult bindingResult) {
+		
+		if (bindingResult.hasErrors()) {
+	        // 유효성 검사에서 오류가 발생한 경우
+	        // 오류 처리를 수행하고 원하는 페이지로 리다이렉트하거나 메시지를 표시할 수 있습니다.
+	        return "/equipment/equipmentList"; // 오류 페이지로 리다이렉트 또는 이동
+	    }
+		
 		// 장비 점검 서비스 호출
 		int row = equipmentService.updateEquipmentInspect(equipment);
 		
