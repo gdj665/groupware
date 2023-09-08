@@ -82,5 +82,6 @@
 			</div>
        	</div>
    	</div>
+<jsp:include page="${pageContext.request.contextPath}/menu/code.jsp"></jsp:include>
 </body>
 </html>

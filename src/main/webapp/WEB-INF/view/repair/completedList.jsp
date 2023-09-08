@@ -25,7 +25,7 @@
 		<jsp:include page="${pageContext.request.contextPath}/menu/header.jsp"></jsp:include>
 		<div class="container-fluid">
 			<!-- 수리완료 리스트 -->
-			<h1>AS완료리스트</h1>
+			<h5 class="card-title fw-semibold mb-4">AS완료리스트</h5>
 			<span style="text-align: right;">
 				<button class="btn btn-success" id="excelBtn">엑셀 다운</button>
 			</span>
@@ -63,7 +63,7 @@
 			<!-- 검색및 페이징 -->
 			<form action="${pageContext.request.contextPath}/group/repair/repairList" method="get">
 				<div class="input-group" style="width:25% !important;">
-					<input type="text" name="repairProductCategory">
+					<input type="text" class="form-control" style="width:30% !important;" name="repairProductCategory" placeholder="제품분류로 검색">
 					<input type="hidden" name="repairStatus" value="수리완료">
 					<button class="btn btn-primary" type="submit">검색</button>
 				</div>

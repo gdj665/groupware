@@ -55,8 +55,13 @@ public class RepairController {
 	
 	// 1.1) addRepair 폼으로
 	@GetMapping("/group/repair/addRepairForm")
-	public String addRepairForm() {
+	public String addRepairForm(Model model, HttpSession session) {
 		log.debug("RepairController.addRepairForm() AS추가폼으로 이동");
+		
+		// myPage 들어가기 위한 세션 아이디값
+		String memberId = (String) session.getAttribute("loginMember");
+		
+		model.addAttribute("memberId", memberId);
 		
 		return "/repair/addRepair";
 	}

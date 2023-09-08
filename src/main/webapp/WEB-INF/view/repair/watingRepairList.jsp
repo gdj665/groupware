@@ -55,7 +55,7 @@
 			<!-- 검색및 페이징 -->
 			<form action="${pageContext.request.contextPath}/group/repair/repairList" method="get">
 				<div class="input-group" style="width:25% !important;">
-					<input type="text" name="repairProductCategory">
+					<input type="text" class="form-control" style="width:30% !important;" name="repairProductCategory" placeholder="제품분류로 검색">
 					<input type="hidden" name="repairStatus" value="대기중">
 					<button class="btn btn-primary" type="submit">검색</button>
 				</div>
@@ -64,7 +64,7 @@
 			<ul class="pagination" style="justify-content: center;">
 				<c:if test="${currentPage > 1}">
 					<li class="page-item">
-						<a href="${pageContext.request.contextPath}/repair/repairList?currentPage=${currentPage-1}&repairProductCategory=${param.repairProductCategory}&repairStatus=대기중">이전</a>
+						<a href="${pageContext.request.contextPath}/group/repair/repairList?currentPage=${currentPage-1}&repairProductCategory=${param.repairProductCategory}&repairStatus=대기중">이전</a>
 					</li>
 				</c:if>
 				
@@ -81,7 +81,7 @@
 				
 				<c:if test="${currentPage < lastPage}">
 					<li class="page-item">
-						<a href="${pageContext.request.contextPath}/repair/repairList?currentPage=${currentPage+1}&repairProductCategory=${param.repairProductCategory}&repairStatus=대기중">다음</a>
+						<a href="${pageContext.request.contextPath}/group/repair/repairList?currentPage=${currentPage+1}&repairProductCategory=${param.repairProductCategory}&repairStatus=대기중">다음</a>
 					</li>						
 				</c:if>
 			</ul>
@@ -127,6 +127,7 @@
 			<button class="close" type="button">닫기</button>
 		</div>
 	</div>
+<jsp:include page="${pageContext.request.contextPath}/menu/code.jsp"></jsp:include>
 <script src="${pageContext.request.contextPath}/javascript/watingRepairList.js"></script>
 </body>
 </html>

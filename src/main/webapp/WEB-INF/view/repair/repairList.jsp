@@ -70,10 +70,10 @@
 			</table>
 			<br>
 			<!-- 검색및 페이징 -->
-			<form action="${pageContext.request.contextPath}/repair/repairList"
+			<form action="${pageContext.request.contextPath}/group/repair/repairList"
 				method="get">
 				<div class="input-group" style="width:25% !important;">
-					<input type="text" name="repairProductCategory"> <input
+					<input type="text" class="form-control" style="width:30% !important;" name="repairProductCategory" placeholder="제품분류로 검색"> <input
 						type="hidden" name="repairStatus" value="수리중">
 					<button class="btn btn-primary" type="submit">검색</button>
 				</div>

@@ -39,6 +39,7 @@ public class FixturesController {
 		String Level = (String) session.getAttribute("memberLevel");
 		// 앞에 숫자만 사용하여 비교하도록 int값으로 파싱함
 		int memberLevel = Integer.parseInt(Level.substring(0, 1));
+		String memberId = (String) session.getAttribute("loginMember");
 		
 		// Model에 addAttribute를 사용하여 view에 값을 보낸다.
 		// 자재 리스트
@@ -47,11 +48,13 @@ public class FixturesController {
 		model.addAttribute("partsCategoryList", resultMap.get("partsCategoryList"));
 		// 자재 추가 및 비활성화를 위해 level값 보냄
 		model.addAttribute("memberLevel", memberLevel);
+		model.addAttribute("memberId", memberId);
 		// 페이징 변수 값
 		model.addAttribute("currentPage", currentPage);
 		model.addAttribute("lastPage", resultMap.get("lastPage"));
 		model.addAttribute("minPage", resultMap.get("minPage"));
 		model.addAttribute("maxPage", resultMap.get("maxPage"));
+		
 		
 		return "/fixtures/fixturesList";
 	}
