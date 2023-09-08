@@ -35,6 +35,9 @@ public class MeetingroomController {
 	public String getMeetingroomList(HttpSession session , Model model, Member member,
 									@RequestParam(name ="currentPage", defaultValue = "1") int currentPage,
 									@RequestParam(name ="rowPerPage", defaultValue = "3") int rowPerPage) {
+		// 세션 아이디 값 저장
+		String memberId =(String)session.getAttribute("loginMember");
+		
 		// 세션 부서 레벨 저장
 		String memberLevel =(String)session.getAttribute("memberLevel");
 		
@@ -57,7 +60,7 @@ public class MeetingroomController {
 		model.addAttribute("lastPage", meetingroomMap.get("lastPage"));
 		model.addAttribute("minPage", meetingroomMap.get("minPage"));
 		model.addAttribute("maxPage", meetingroomMap.get("maxPage"));
-		
+		model.addAttribute("memberId", memberId);
 		return "/meetingroom/meetingroomList";
 	}
 
@@ -104,6 +107,9 @@ public class MeetingroomController {
 		log.debug("\u001B[31m"+"targetMonth : "+ targetMonth+"\u001B[0m");
 		log.debug("\u001B[31m"+"meetingroomNo : "+ meetingroomNo+"\u001B[0m");
 		
+		// 세션 아이디 값 저장
+		String memberId =(String)session.getAttribute("loginMember");
+		
 		// 세션 부서 번호 저장
 		int departmentNo = (Integer) session.getAttribute("departmentNo");
 		
@@ -120,6 +126,7 @@ public class MeetingroomController {
 		model.addAttribute("getHolidayList", getHolidayList);
 		model.addAttribute("meetingroomNo", meetingroomNo);
 		model.addAttribute("departmentNo", departmentNo);
+		model.addAttribute("memberId", memberId);
 		
 		return "/meetingroom/meetingroomReservationList";
 	}
@@ -136,6 +143,9 @@ public class MeetingroomController {
 // ----- 회의실 예약/취소 조회 -----
 	@GetMapping("/group/meetingroom/meetingroomReservationHistory")
 	public String getReservationHistory(HttpSession session, Model model, MeetingroomReserve meetingroomReserve) {
+		// 세션 아이디 값 저장
+		String memberId =(String)session.getAttribute("loginMember");
+		
 		// 세션 부서 번호 저장
 		int departmentNo = (Integer) session.getAttribute("departmentNo");
 		meetingroomReserve.setDepartmentNo(departmentNo);
@@ -148,6 +158,7 @@ public class MeetingroomController {
 		// Model에 담아서 View로 넘기기
 		model.addAttribute("reservationHistoryList", reservationHistoryList);
 		model.addAttribute("departmentNo", departmentNo);
+		model.addAttribute("memberId", memberId);
 		return "/meetingroom/meetingroomReservationHistory";
 	}
 	

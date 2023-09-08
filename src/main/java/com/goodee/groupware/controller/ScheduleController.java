@@ -57,6 +57,7 @@ public class ScheduleController {
 		model.addAttribute("scheduleMap", scheduleMap);
 		model.addAttribute("fail", fail);
 		model.addAttribute("getHolidayList", getHolidayList);
+		model.addAttribute("memberId", memberId);
 		return "/schedule/scheduleList";
 	}
 	
@@ -89,6 +90,7 @@ public class ScheduleController {
 		// Model에 담아서 View로 넘기기
 		model.addAttribute("oneScheduleMap", oneScheduleMap);
 		model.addAttribute("memberLevel",memberLevel);
+		model.addAttribute("memberId", memberId);
 		return "/schedule/oneSchedule";
 	}
 	
