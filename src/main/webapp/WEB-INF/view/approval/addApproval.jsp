@@ -21,53 +21,51 @@
 		<jsp:include page="${pageContext.request.contextPath}/menu/header.jsp"></jsp:include>
 		<div class="container-fluid">
 			<div class="container-fluid">
-				<div class="card">
-					<div style="padding:20px; font-size: 30pt; font-weight: bold; color:#000000;">결재 문서 작성</div>
-					<form action="/group/approval/addApproval" method="post" enctype="multipart/form-data" id="uploadForm">
-						
-						<!-- 결재 문서 선택 -->
-						<label class="form-label">기안서 종류</label>
-							<select name="approvalForm" id="approvalForm" required="required">
-								<option value="">===선택해주세요===</option>
-								<option value="기안서">기안서</option>
-								<option value="지출결의서">지출결의서</option>
-								<option value="휴가계획서">휴가계획서</option>
-							</select><br><br>
-						
-						<!-- 제목 기입 -->
-						<label for="approvalTitle" class="form-label">제목</label>
-						<input type="text" id="approvalTitle" name="approvalTitle" required="required" class="form-control" style="background-color:#FFFFFF;"><br>
-						<!-- 작성자 명 세션에서 받아와서 출력 -->
-						<label class="form-label">작성자</label>
-						<input type="text" value="<c:out value="${sessionScope.loginMember}" />" readonly><br><br>
-						<!-- 내용 출력 -->
-						<label for="approvalContent" class="form-label">내용</label>
-						<textarea id="approvalContent" name="approvalContent" rows="20" cols="50" required="required" class="form-control" style="background-color:#FFFFFF; border: 1px solid #cccccc;"></textarea><br>
-						
-						<!-- 첨부파일 추가 -->
-						<input type="file" name="multipartFile" id="fileInput" multiple><br><br>
-						<!-- 선택한 첨부파일들 이름 출력 -->
-						<label class="form-label">선택된 파일</label>
-						<div style="background-color:#FFFFFF; border: 1px solid #cccccc; padding:5px;" id="selectedFiles"></div><br>
-						
-						<!-- 모달창 열기 버튼 / 결재자 선택 -->
-						<button id="open" type="button" class="btn btn-primary">결재자 선택</button><br><br>
-						<!-- 결재자 출력 -->
-						<label class="form-label">1차 결재자</label>
-						<input type="hidden" value="" name="approvalFirstId" class="memberIdInputFirst">
-						<input type="text" value="" class="memberNameInputFirst" readonly>
-						
-						<label class="form-label">2차 결재자</label>
-						<input type="hidden" value="" name="approvalSecondId" class="memberIdInputSecond">
-						<input type="text" value="" class="memberNameInputSecond" readonly>
-						
-						<label class="form-label">3차 결재자</label>
-						<input type="hidden" value="" name="approvalThirdId" class="memberIdInputThird">
-						<input type="text" value="" class="memberNameInputThird" readonly><br><br>
-						<!-- 결재 폼 보내기 -->
-						<button type="submit" form="uploadForm" class="btn btn-primary">결재 진행</button>
-					</form>
-				</div>
+				<div style="padding:20px; font-size: 30pt; font-weight: bold; color:#000000;">결재 문서 작성</div>
+				<form action="/group/approval/addApproval" method="post" enctype="multipart/form-data" id="uploadForm">
+					
+					<!-- 결재 문서 선택 -->
+					<label class="form-label">기안서 종류</label>
+						<select name="approvalForm" id="approvalForm" required="required">
+							<option value="">===선택해주세요===</option>
+							<option value="기안서">기안서</option>
+							<option value="지출결의서">지출결의서</option>
+							<option value="휴가계획서">휴가계획서</option>
+						</select><br><br>
+					
+					<!-- 제목 기입 -->
+					<label for="approvalTitle" class="form-label">제목</label>
+					<input type="text" id="approvalTitle" name="approvalTitle" required="required" class="form-control" style="background-color:#FFFFFF;"><br>
+					<!-- 작성자 명 세션에서 받아와서 출력 -->
+					<label class="form-label">작성자</label>
+					<input type="text" value="<c:out value="${sessionScope.loginMember}" />" readonly><br><br>
+					<!-- 내용 출력 -->
+					<label for="approvalContent" class="form-label">내용</label>
+					<textarea id="approvalContent" name="approvalContent" rows="20" cols="50" required="required" class="form-control" style="background-color:#FFFFFF; border: 1px solid #cccccc;"></textarea><br>
+					
+					<!-- 첨부파일 추가 -->
+					<input type="file" name="multipartFile" id="fileInput" multiple><br><br>
+					<!-- 선택한 첨부파일들 이름 출력 -->
+					<label class="form-label">선택된 파일</label>
+					<div style="background-color:#FFFFFF; border: 1px solid #cccccc; padding:5px;" id="selectedFiles"></div><br>
+					
+					<!-- 모달창 열기 버튼 / 결재자 선택 -->
+					<button id="open" type="button" class="btn btn-primary">결재자 선택</button><br><br>
+					<!-- 결재자 출력 -->
+					<label class="form-label">1차 결재자</label>
+					<input type="hidden" value="" name="approvalFirstId" class="memberIdInputFirst">
+					<input type="text" value="" class="memberNameInputFirst" readonly>
+					
+					<label class="form-label">2차 결재자</label>
+					<input type="hidden" value="" name="approvalSecondId" class="memberIdInputSecond">
+					<input type="text" value="" class="memberNameInputSecond" readonly>
+					
+					<label class="form-label">3차 결재자</label>
+					<input type="hidden" value="" name="approvalThirdId" class="memberIdInputThird">
+					<input type="text" value="" class="memberNameInputThird" readonly><br><br>
+					<!-- 결재 폼 보내기 -->
+					<button type="submit" form="uploadForm" class="btn btn-primary">결재 진행</button>
+				</form>
 			</div>
 		</div>
 	</div>
