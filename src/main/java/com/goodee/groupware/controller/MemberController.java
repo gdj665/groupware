@@ -192,7 +192,7 @@ public class MemberController {
 	public String mypage(Model model, String memberId) {
 		Member member = hrmService.getOneMember(memberId);
 		model.addAttribute("member", member);
-		
+		model.addAttribute("memberId", member.getMemberId());
 		return "/member/mypage";
 	}
 	
