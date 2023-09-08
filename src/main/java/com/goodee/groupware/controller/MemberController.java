@@ -1,6 +1,8 @@
 package com.goodee.groupware.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.Cookie;
@@ -18,7 +20,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.goodee.groupware.sevice.HrmService;
 import com.goodee.groupware.sevice.MemberService;
+import com.goodee.groupware.sevice.ScheduleService;
 import com.goodee.groupware.vo.Member;
+import com.goodee.groupware.vo.Schedule;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -31,12 +35,28 @@ public class MemberController {
 	@Autowired
 	private HrmService hrmService;
 	
+	@Autowired
+	private ScheduleService scheduleService;
+	
 //	home 페이지 이동
 	@GetMapping("/group/home")
-	public String home(HttpSession session,
-			HttpServletRequest request) {
+	public String home(HttpSession session, Model model) {
+		// 세션 아이디 값
 		String memberId = (String)session.getAttribute("loginMember");
-		request.setAttribute("memberId", memberId);
+		// 세션 부서 번호 저장
+		int departmentNo = (Integer) session.getAttribute("departmentNo");
+		
+		// 매개 변수 값들을 Map에 저장
+		Map<String,Object> paramMap = new HashMap<>();
+		paramMap.put("memberId", memberId);
+		paramMap.put("departmentNo", departmentNo);
+		
+		// 서비스에서 받아온 값을 Map에 저장
+		Map<String,Object> todayScheduleMap = new HashMap<>(); 
+		todayScheduleMap = scheduleService.getTodaySchduleList(paramMap);
+		
+		model.addAttribute("todayScheduleList", todayScheduleMap.get("todayScheduleList"));
+		model.addAttribute("memberId", memberId);
 		return "/home";
 	}
 	

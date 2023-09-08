@@ -124,4 +124,19 @@
 			AND member_id = #{memberId}	
 	</update>
 	
+	<!-- 오늘의 개인일정과 부서일정 -->
+	<select id="getTodaySchduleList" parameterType="java.util.Map" resultType="com.goodee.groupware.vo.Schedule">
+		SELECT s.member_id memberId,
+			s.schedule_category scheduleCategory,
+			s.schedule_title scheduleTitle,
+			s.schedule_content scheduleContent
+		FROM schedule s	
+			INNER JOIN member m ON s.member_id = m.member_id
+		WHERE
+			s.schedule_category IN ('부서', '개인')
+			AND s.schedule_begindate = CURDATE()
+			AND m.department_no = #{departmentNo}
+			AND (s.schedule_category = '부서' OR (s.schedule_category = '개인' AND m.member_id = #{memberId}))
+	</select>
+	
 </mapper>

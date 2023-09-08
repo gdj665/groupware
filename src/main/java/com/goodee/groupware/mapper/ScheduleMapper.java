@@ -30,4 +30,7 @@ public interface ScheduleMapper {
 	
 	// 일정 수정
 	int updateSchdule(Schedule schedule);
+	
+	// 오늘의 개인일정과 부서일정
+	List<Schedule> getTodaySchduleList(Map<String, Object> paramMap);
 }

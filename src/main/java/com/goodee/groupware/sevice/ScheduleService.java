@@ -291,4 +291,20 @@ public class ScheduleService {
 		log.debug("\u001B[31m"+"ScheduleService.updateDepartmentSchedule() row : "+row+"\u001B[0m");
 		return row;
 	}
+	
+// ----- 오늘의 개인일정과 부서일정 -----
+	public Map<String, Object> getTodaySchduleList(Map<String,Object> map){
+		
+		// 오늘 나의 일정
+		List<Schedule> todayScheduleList = new ArrayList<>();
+		todayScheduleList = scheduleMapper.getTodaySchduleList(map);
+		
+		// Map에 담아서 Controller로 넘기기
+		Map<String,Object> resultMap = new HashMap<>();
+		resultMap.put("todayScheduleList", todayScheduleList);
+		
+		log.debug("\u001B[31m"+"ScheduleService.getTodaySchduleList() resultMap : "+ resultMap.toString()+"\u001B[0m");
+		return resultMap;
+	}
+	
 }
