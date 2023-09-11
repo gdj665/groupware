@@ -183,7 +183,6 @@ public class ScheduleService {
 	            holidayMap.put("dateName", dateName);
 	            holidayList.add(holidayMap);
 	        }
-
 	        return holidayList;
 	    } catch (Exception e) {
 	        e.printStackTrace();
