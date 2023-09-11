@@ -222,4 +222,11 @@ $(document).ready(function() {
 	        }).open();
 	    });
 	}
+	var message = $("#message").text();
+    
+    // 메시지가 비어 있지 않으면 알림 창을 띄우고 리디렉션합니다.
+    if (message.trim() !== "") {
+        alert(message);
+        window.location.href = "/group/home";
+    }
 });

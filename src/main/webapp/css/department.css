@@ -34,8 +34,9 @@ body {
 .container:nth-child(1),
 .container:nth-child(2),
 .container:nth-child(3) {
-    height: 400px; /* 세로 고정값 */
+    height: 600px; /* 세로 고정값 */
     overflow-y: scroll; /* 내용이 넘칠 경우 스크롤 생성 */
+    width: 1000px;
 }
 
 /* 두 번째 컨테이너 스타일 */

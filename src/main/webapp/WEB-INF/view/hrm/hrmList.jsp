@@ -48,6 +48,7 @@
 				      <i class="fas fa-users-cog"></i> 인사 부서
 				    </button>
 				  </div>
+				  <div id="message">${message}</div>
 				<div class="table-container" id="serviceDeptTable">
 					<table class="table table-hover">
 					    <thead class="table-active">

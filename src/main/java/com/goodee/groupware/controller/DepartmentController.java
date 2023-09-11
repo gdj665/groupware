@@ -3,10 +3,12 @@ package com.goodee.groupware.controller;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -36,7 +38,10 @@ public class DepartmentController {
 		// 앞에 숫자만 사용하여 비교하도록 int값으로 파싱함
 		int memberLevel = Integer.parseInt(Level.substring(0, 1));
 		if(memberLevel < 3) {
-			return "redirect:/group/home";
+			String message = "권한이 없어 입장 불가능합니다.";
+			model.addAttribute("message", message);
+			log.debug("DepartmentCotroller.row()-->" + message);
+			return "/department/departmentList";
 		}
 		// Model에 addAttribute를 사용하여 view에 값을 보낸다.
 		// 부서 리스트
@@ -50,7 +55,7 @@ public class DepartmentController {
 	}
 	// 부서추가
 		@PostMapping("/group/department/addDepartment")
-		public String addDepartment(Department department) {
+		public String addDepartment(@Valid Department department, BindingResult bindingResult) {
 			// 유효성검사
 			if(department.getDepartmentId().equals("") || department.getDepartmentId() == null) {
 				return "redirect:/group/department/departmentList";

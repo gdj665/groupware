@@ -25,7 +25,6 @@ $(document).ready(function () {
             });
         }
     });
-
  // ul li 숨기고 보이는 기능  ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     $('.toggle-link').click(function (e) {
         e.preventDefault();
@@ -71,10 +70,10 @@ $(document).ready(function () {
     });
     // 모달창 이벤트 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 	$('#addDepartmentLink').click(function(){
-		$('.modal').fadeIn();
+		$('#modal').fadeIn();
 	}) 
-	$('.modal').click(function() {
-			$('.modal').fadeOut();
+	$('#modal').click(function() {
+			$('#modal').fadeOut();
 		});
 		$('.modal_content').click(function(event) {
 			event.stopPropagation(); // 이벤트 전파 중단
@@ -96,25 +95,25 @@ $(document).ready(function () {
     		$('#addDepartmentIdMsg').text('');
     	}
 		$('#addDepartmentForm').submit();
-    	$('.modal').fadeOut();
+    	$('#modal').fadeOut();
 	});
 	
 	$('#close').click(function(){
-		$('.modal').fadeOut();
+		$('#modal').fadeOut();
 	});
 	
 	
 	
 	// 모달창2 이벤트
 	$('#deleteDepartmentLink').click(function(){
-	    $('.modal2').fadeIn();
+	    $('#modal2').fadeIn();
 	});
 
 	$('#close2').click(function(){
-	    $('.modal2').fadeOut();
+	    $('#modal2').fadeOut();
 	});
-	$('.modal2').click(function() {
-		$('.modal2').fadeOut();
+	$('#modal2').click(function() {
+		$('#modal2').fadeOut();
 	});
 	$('.modal_content2').click(function(event) {
 		event.stopPropagation(); // 이벤트 전파 중단
@@ -133,7 +132,7 @@ $(document).ready(function () {
 	    // 선택된 체크박스가 하나인지 확인
 	    if (selectedCheckboxes.length === 1) {
 	        $('#deleteDepartmentForm').submit();
-	        $('.modal2').fadeOut();
+	        $('#modal2').fadeOut();
 	    } else {
 	        alert("하나의 부서만 선택해주세요.");
 	        // 모든 체크박스 해제
@@ -148,6 +147,12 @@ $(document).ready(function () {
 	    $("input[type='checkbox']").not(this).prop("checked", false);
 	});
 
-
+	var message = $("#message").text();
+    
+    // 메시지가 비어 있지 않으면 알림 창을 띄우고 리디렉션합니다.
+    if (message.trim() !== "") {
+        alert(message);
+        window.location.href = "/group/home";
+    }
 
 });

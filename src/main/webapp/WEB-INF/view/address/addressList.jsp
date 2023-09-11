@@ -18,10 +18,8 @@
       <!--  해더바 -->
       <jsp:include page="${pageContext.request.contextPath}/menu/header.jsp"></jsp:include>
       <!-- 내용물 추가하는 곳 -->
-      <div class="container-fluid">
-        <div class="container-fluid">
-          <div class="card">
-            <div class="card-body">
+      
+      <br><br><br><br>
               <h1 class="text-center mt-4">주소록</h1>
 				<div class="container">
 					<div>
@@ -103,10 +101,6 @@
 					</div>
 				</div>
             </div>
-          </div>
-        </div>
-      </div>
-    </div>
 	<script src="${pageContext.request.contextPath}/javascript/address.js"></script>
  <jsp:include page="${pageContext.request.contextPath}/menu/code.jsp"></jsp:include>
 </body>

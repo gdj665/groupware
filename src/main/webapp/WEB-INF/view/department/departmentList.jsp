@@ -18,10 +18,7 @@
       <!--  해더바 -->
       <jsp:include page="${pageContext.request.contextPath}/menu/header.jsp"></jsp:include>
       <!-- 내용물 추가하는 곳 -->
-      <div class="container-fluid">
-        <div class="container-fluid">
-          <div class="card">
-            <div class="card-body">
+      <br><br><br><br>
               <h1 class="text-center mt-4">부서관리</h1>
 				<div class="text-center mt-3">
 				<!-- "부서추가" 버튼 -->
@@ -34,6 +31,7 @@
 				    <div class="container">
 				    	<br>
 				  		<h5>이동할 사원 선택</h5>
+				  		<div id="message">${message}</div>
 				        <div>
 				            <ul class="main-list">
 				                <li>
@@ -121,9 +119,10 @@
 				        </form>
 				    </div>
 				</div>
+            </div>
 				<!-- 부서 추가 모달창 html -->
 				
-				<div class="modal">
+				<div class="modal" id="modal">
 					<div class="modal_content">
 						<h3>부서 추가</h3>
 						<form id="addDepartmentForm" action="${pageContext.request.contextPath}/group/department/addDepartment" method="post">
@@ -153,7 +152,7 @@
 					</div>
 				</div>
 				<!-- 부서 삭제 모달창 html -->
-				<div class="modal2">
+				<div class="modal" id="modal2">
 					<div class="modal_content2">
 						<h3>부서 삭제</h3>
 						<h6>부서 삭제를 하시려면 부서인원을 모두 이동 후 삭제가능합니다.</h6>
@@ -174,11 +173,6 @@
 						<button id="close2" type="button" class="btn btn-primary">닫기</button>
 					</div>
 				</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
     <script src="${pageContext.request.contextPath}/javascript/department.js"></script>
  <jsp:include page="${pageContext.request.contextPath}/menu/code.jsp"></jsp:include>
 </body>

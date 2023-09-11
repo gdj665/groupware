@@ -24,7 +24,7 @@ public class MemberRest {
 	private MemberService memberService;
 	
 //	사인 추가 실행
-	@PostMapping("/member/addSign")
+	@PostMapping("/group/member/addSign")
 	public String addSign(HttpSession session,
 						HttpServletRequest request,
 						@RequestParam(name = "sign") String sign) {
@@ -36,7 +36,7 @@ public class MemberRest {
 	}
 	
 //	부서 근태 출력
-	@GetMapping("/member/restWorkCheckList")
+	@GetMapping("/group/member/restWorkCheckList")
 	public ArrayList<Map<String, Object>> getWorkCheckList(HttpSession session,
 									@RequestParam(required = false, name = "targetYear") Integer targetYear,		
 									@RequestParam(required = false, name = "targetMonth") Integer targetMonth) {

@@ -33,7 +33,9 @@ public class HrmController {
 		// 앞에 숫자만 사용하여 비교하도록 int값으로 파싱함
 		int memberLevel = Integer.parseInt(Level.substring(0, 1));
 		if(memberLevel < 3) {
-			return "redirect:/group/home";
+			String message = "권한이 없어 입장 불가능합니다.";
+			model.addAttribute("message", message);
+			return "/hrm/hrmList";
 		}
 		List<Map<String,Object>> memberList = hrmService.getMemberList();
 		List<Map<String,Object>> departmentCnt = hrmService.departmentCnt();
