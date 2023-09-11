@@ -24,4 +24,10 @@ public interface BoardMapper {
 	
 	// 4.) 게시물 추가
 	int addBoard(Board board);
+	
+	// 홈화면 공지 게시판 출력
+	List<Map<String, Object>> getBoardListByNotice();
+	
+	// 홈화면 부서 게시판 출력
+	List<Map<String, Object>> getBoardListByDepartment(Map<String, Object>map);
 }

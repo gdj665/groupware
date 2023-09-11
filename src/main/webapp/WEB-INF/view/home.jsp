@@ -25,29 +25,64 @@
 							<br><br>
 							<div class="row">
 								<div class="col-sm-8">
-									<span>&nbsp;</span>
+									<span>여기에 그래프 하나 넣을까요?</span>
 								</div>
 								<div class="col-sm-4">
-									<h5>오늘의 일정 목록</h5>
 									<table class="table table-hover">
-										<thead class="table-active">
+										<tr style="background-color:#E4F1FF; font-size: 18px;">
+											<td colspan="3">오늘의 일정 목록</td>
+										</tr>
+										<tr>
+											<th class="table-active">카테고리</th>
+											<th class="table-active">제목</th>
+											<th class="table-active">내용</th>
+										</tr>
+										<c:forEach var="t" items="${todayScheduleList}">
 											<tr>
-												<th>카테고리</th>
-												<th>제목</th>
-												<th>내용</th>
-											
+												<td>${t.scheduleCategory}</td>
+												<td>${t.scheduleTitle}</td>
+												<td>${t.scheduleContent}</td>
 											</tr>
-										</thead>
-											<c:forEach var="t" items="${todayScheduleList}">
-												<tr>
-													<td>${t.scheduleCategory}</td>
-													<td>${t.scheduleTitle}</td>
-													<td>${t.scheduleContent}</td>
-												</tr>
-											</c:forEach>
+										</c:forEach>
 									</table>
 								</div>
-								<br><br><br><br><br><br><br><br><br><br>
+							</div>
+							<br><br>
+							<div class="row">
+								<div class="col-sm-6">
+									<table class="table table-hover">
+										<tr style="background-color:#E4F1FF; font-size: 18px;">
+											<td colspan="2">공지사항</td>
+										</tr>
+										<tr>
+											<th class="table-active">제목</th>
+											<th class="table-active">내용</th>
+										</tr>
+										<c:forEach var="n" items="${boardListByNotice}">
+											<tr>
+												<td>${n.boardTitle}</td>
+												<td>${n.boardContent}</td>
+											</tr>
+										</c:forEach>
+									</table>
+								</div>
+								<div class="col-sm-6">
+									<table class="table table-hover">
+										<tr style="background-color:#E4F1FF; font-size: 18px;">
+											<td colspan="2">부서 게시판</td>
+										</tr>
+										<tr>
+											<th class="table-active">제목</th>
+											<th class="table-active">내용</th>
+										</tr>
+										<c:forEach var="d" items="${boardListByDepartment}">
+											<tr>
+												<td>${d.boardTitle}</td>
+												<td>${d.boardContent}</td>
+											</tr>
+										</c:forEach>
+									</table>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -55,8 +90,6 @@
 			</div>
 		</div>
 	</div>
-    <!--  <script src="${pageContext.request.contextPath}/javascript/home.js"></script> -->
- <jsp:include page="${pageContext.request.contextPath}/menu/code.jsp"></jsp:include>
+	<jsp:include page="${pageContext.request.contextPath}/menu/code.jsp"></jsp:include>
 </body>
-
 </html>

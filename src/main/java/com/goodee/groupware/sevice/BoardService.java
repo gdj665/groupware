@@ -179,4 +179,24 @@ public class BoardService {
 		return row;
 	}
 	
+	// 홈화면 공지 게시판 출력
+	public Map<String,Object> getBoardListByNotice(){
+		// 공지 게시판 출력
+		List<Map<String,Object>> boardListByNotice = boardMapper.getBoardListByNotice();
+		
+		// Map에 담아서 Controller로 넘기기
+		Map<String,Object> resultMap = new HashMap<String,Object>();
+		resultMap.put("boardListByNotice", boardListByNotice);
+		return resultMap;
+	}
+	
+	// 홈화면 부서 게시판 출력
+	public Map<String,Object> getBoardListByDepartment(Map<String, Object>map){
+		// 부서 게시판 출력
+		List<Map<String,Object>> boardListByDepartment = boardMapper.getBoardListByDepartment(map);
+		
+		Map<String,Object> resultMap = new HashMap<String,Object>();
+		resultMap.put("boardListByDepartment", boardListByDepartment);
+		return resultMap;
+	}
 }

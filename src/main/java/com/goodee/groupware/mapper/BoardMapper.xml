@@ -90,4 +90,30 @@
 		)
 	</insert>
 	
+	<!-- 홈화면 공지 게시판 출력 -->
+	<select id="getBoardListByNotice" resultType="java.util.Map">
+	SELECT 
+		board_no boardNo,
+		member_id memberId,
+		board_title boardTitle,
+		board_content boardContent,
+		department_no departmentNo
+	FROM board
+	WHERE department_no = 0
+	ORDER BY createdate DESC
+	</select>
+	
+	<!-- 홈화면 부서 게시판 출력 -->
+	<select id="getBoardListByDepartment" parameterType="java.util.Map" resultType="java.util.Map">
+	SELECT 
+		board_no boardNo,
+		member_id memberId,
+		board_title boardTitle,
+		board_content boardContent,
+		department_no departmentNo
+	FROM board
+	WHERE department_no = #{departmentParentNo}
+	ORDER BY createdate DESC
+	LIMIT 0, 5
+	</select>
 </mapper>

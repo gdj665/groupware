@@ -18,11 +18,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.goodee.groupware.sevice.BoardService;
 import com.goodee.groupware.sevice.HrmService;
 import com.goodee.groupware.sevice.MemberService;
 import com.goodee.groupware.sevice.ScheduleService;
 import com.goodee.groupware.vo.Member;
-import com.goodee.groupware.vo.Schedule;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -31,12 +31,13 @@ import lombok.extern.slf4j.Slf4j;
 public class MemberController {
 	@Autowired
 	private MemberService memberService;
-	
 	@Autowired
 	private HrmService hrmService;
-	
 	@Autowired
 	private ScheduleService scheduleService;
+	@Autowired
+	private BoardService boardService;
+	
 	
 //	home 페이지 이동
 	@GetMapping("/group/home")
@@ -46,16 +47,32 @@ public class MemberController {
 		// 세션 부서 번호 저장
 		int departmentNo = (Integer) session.getAttribute("departmentNo");
 		
+		// 부서번호를 부모 부서 번호로 변경
+		int departmentParentNo = departmentNo/100*100;
+		
 		// 매개 변수 값들을 Map에 저장
 		Map<String,Object> paramMap = new HashMap<>();
 		paramMap.put("memberId", memberId);
 		paramMap.put("departmentNo", departmentNo);
+		paramMap.put("departmentParentNo", departmentParentNo);
 		
-		// 서비스에서 받아온 값을 Map에 저장
+		// 오늘의 개인일정과 부서일정 Map에 저장
 		Map<String,Object> todayScheduleMap = new HashMap<>(); 
 		todayScheduleMap = scheduleService.getTodaySchduleList(paramMap);
 		
+		// 공지 게시판 출력
+		Map<String, Object> noticeBoardMap = new HashMap<>();
+		noticeBoardMap = boardService.getBoardListByNotice();
+		
+		// 부서 게시판 출력
+		Map<String, Object> departmentBoardMap = new HashMap<>();
+		departmentBoardMap = boardService.getBoardListByDepartment(paramMap);
+		
+		// Model에 담아서 View로 넘기기
 		model.addAttribute("todayScheduleList", todayScheduleMap.get("todayScheduleList"));
+		model.addAttribute("boardListByNotice", noticeBoardMap.get("boardListByNotice"));
+		model.addAttribute("boardListByDepartment", departmentBoardMap.get("boardListByDepartment"));
+		
 		model.addAttribute("memberId", memberId);
 		return "/home";
 	}
