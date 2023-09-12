@@ -19,54 +19,50 @@
 		<jsp:include page="${pageContext.request.contextPath}/menu/header.jsp"></jsp:include>
 		<!-- 내용물 추가하는 곳 -->
 		<div class="container-fluid">
-       		<div class="card">
-           		<div class="card-body">
-					<div class="container-wrapper">
-						<div class="container">
-						<div style="padding:20px; font-size: 30pt; font-weight: bold; color:#000000;">부서 예약 정보</div>
-						<br>
-							<table class="table table-hover">
-								<thead class="table-active">
-									<tr>
-										<th>회의실 이름</th>
-										<th>회의실 예약 날짜</th>
-										<th>회의실 예약 시간</th>
-										<th>회의실 예약 상태</th>
-									</tr>
-								</thead>
-								<c:forEach var="h" items="${reservationHistoryList}">
-									<tr>
-										<td>회의실 ${h.meetingroomNo}호</td>
-										<td>${h.meetingroomReserveDate}</td>
-										<td>
-											<c:if test="${h.meetingroomReserveTime == '1'}">
-												<span>10:00 - 12:00</span>
-											</c:if>
-											<c:if test="${h.meetingroomReserveTime == '2'}">
-												<span>13:00 - 15:00</span>
-											</c:if>
-											<c:if test="${h.meetingroomReserveTime == '3'}">
-												<span>15:00 - 17:00</span>
-											</c:if>
-											<c:if test="${h.meetingroomReserveTime == '4'}">
-												<span>17:00 - 19:00</span>
-											</c:if>
-										</td>
-										<th class="table_cell">
-											<a href="${pageContext.request.contextPath}/group/meetingroom/updateMeetingroomReservation?meetingroomReserveNo=${h.meetingroomReserveNo}" onClick="return confirm('예약취소 하시겠습니까?')">
-												<c:if test="${h.meetingroomReserveStatus == 'Y'}">
-													<span>예약중</span>
-												</c:if>
-											</a>
-											<c:if test="${h.meetingroomReserveStatus == 'N'}">
-												<span>예약취소</span>
-											</c:if>
-										</th>
-									</tr>
-								</c:forEach>
-							</table>
-						</div>
-					</div>
+			<div class="container-wrapper">
+				<div class="container">
+					<div style="padding:20px; font-size: 30pt; font-weight: bold; color:#000000;">부서 예약 정보</div>
+					<br>
+					<table class="table table-hover">
+						<thead class="table-active">
+							<tr>
+								<th>회의실 이름</th>
+								<th>회의실 예약 날짜</th>
+								<th>회의실 예약 시간</th>
+								<th>회의실 예약 상태</th>
+							</tr>
+						</thead>
+						<c:forEach var="h" items="${reservationHistoryList}">
+							<tr>
+								<td>회의실 ${h.meetingroomNo}호</td>
+								<td>${h.meetingroomReserveDate}</td>
+								<td>
+									<c:if test="${h.meetingroomReserveTime == '1'}">
+										<span>10:00 - 12:00</span>
+									</c:if>
+									<c:if test="${h.meetingroomReserveTime == '2'}">
+										<span>13:00 - 15:00</span>
+									</c:if>
+									<c:if test="${h.meetingroomReserveTime == '3'}">
+										<span>15:00 - 17:00</span>
+									</c:if>
+									<c:if test="${h.meetingroomReserveTime == '4'}">
+										<span>17:00 - 19:00</span>
+									</c:if>
+								</td>
+								<th class="table_cell">
+									<a href="${pageContext.request.contextPath}/group/meetingroom/updateMeetingroomReservation?meetingroomReserveNo=${h.meetingroomReserveNo}" onClick="return confirm('예약취소 하시겠습니까?')">
+										<c:if test="${h.meetingroomReserveStatus == 'Y'}">
+											<span>예약중</span>
+										</c:if>
+									</a>
+									<c:if test="${h.meetingroomReserveStatus == 'N'}">
+										<span>예약취소</span>
+									</c:if>
+								</th>
+							</tr>
+						</c:forEach>
+					</table>
 				</div>
 			</div>
 		</div>

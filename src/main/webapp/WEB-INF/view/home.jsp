@@ -71,73 +71,69 @@
 		<jsp:include page="${pageContext.request.contextPath}/menu/header.jsp"></jsp:include>
 		<!-- 내용물 추가하는 곳 -->
 		<div class="container-fluid">
-			<div class="card">
-				<div class="card-body">
-					<div class="container-wrapper">
-						<div class="container">
-							<h1>출근/퇴근 버튼 누르셨나요??</h1>
-							<br><br>
-							<div class="row">
-								<div class="col-sm-8">
-									<canvas id="target2" style="width:60%;max-width:700px"></canvas>
-								</div>
-								<div class="col-sm-4">
-									<table class="table table-hover">
-										<tr style="background-color:#E4F1FF; font-size: 18px;">
-											<td colspan="3">오늘의 일정 목록</td>
-										</tr>
-										<tr>
-											<th class="table-active">카테고리</th>
-											<th class="table-active">제목</th>
-											<th class="table-active">내용</th>
-										</tr>
-										<c:forEach var="t" items="${todayScheduleList}">
-											<tr>
-												<td>${t.scheduleCategory}</td>
-												<td>${t.scheduleTitle}</td>
-												<td>${t.scheduleContent}</td>
-											</tr>
-										</c:forEach>
-									</table>
-								</div>
-							</div>
-							<br><br>
-							<div class="row">
-								<div class="col-sm-6">
-									<table class="table table-hover">
-										<tr style="background-color:#E4F1FF; font-size: 18px;">
-											<td colspan="2">공지사항</td>
-										</tr>
-										<tr>
-											<th class="table-active">제목</th>
-											<th class="table-active">내용</th>
-										</tr>
-										<c:forEach var="n" items="${boardListByNotice}">
-											<tr>
-												<td>${n.boardTitle}</td>
-												<td>${n.boardContent}</td>
-											</tr>
-										</c:forEach>
-									</table>
-								</div>
-								<div class="col-sm-6">
-									<table class="table table-hover">
-										<tr style="background-color:#E4F1FF; font-size: 18px;">
-											<td colspan="2">부서 게시판</td>
-										</tr>
-										<tr>
-											<th class="table-active">제목</th>
-											<th class="table-active">내용</th>
-										</tr>
-										<c:forEach var="d" items="${boardListByDepartment}">
-											<tr>
-												<td>${d.boardTitle}</td>
-												<td>${d.boardContent}</td>
-											</tr>
-										</c:forEach>
-									</table>
-								</div>
-							</div>
+			<div class="container-wrapper">
+				<div class="container">
+					<br><br>
+					<div class="row">
+						<div class="col-sm-8">
+							<canvas id="target2" style="width:100%;max-width:700px"></canvas>
+						</div>
+						<div class="col-sm-4">
+						<br>
+							<table class="table table-hover">
+								<tr style="background-color:#E4F1FF; font-size: 18px;">
+									<td colspan="3">오늘의 일정 목록</td>
+								</tr>
+								<tr>
+									<th class="table-active">카테고리</th>
+									<th class="table-active">제목</th>
+									<th class="table-active">내용</th>
+								</tr>
+								<c:forEach var="t" items="${todayScheduleList}">
+									<tr>
+										<td>${t.scheduleCategory}</td>
+										<td>${t.scheduleTitle}</td>
+										<td>${t.scheduleContent}</td>
+									</tr>
+								</c:forEach>
+							</table>
+						</div>
+					</div>
+					<br><br>
+					<div class="row">
+						<div class="col-sm-6">
+							<table class="table table-hover">
+								<tr style="background-color:#E4F1FF; font-size: 18px;">
+									<td colspan="2">공지사항</td>
+								</tr>
+								<tr>
+									<th class="table-active">제목</th>
+									<th class="table-active">내용</th>
+								</tr>
+								<c:forEach var="n" items="${boardListByNotice}">
+									<tr>
+										<td>${n.boardTitle}</td>
+										<td>${n.boardContent}</td>
+									</tr>
+								</c:forEach>
+							</table>
+						</div>
+						<div class="col-sm-6">
+							<table class="table table-hover">
+								<tr style="background-color:#E4F1FF; font-size: 18px;">
+									<td colspan="2">부서 게시판</td>
+								</tr>
+								<tr>
+									<th class="table-active">제목</th>
+									<th class="table-active">내용</th>
+								</tr>
+								<c:forEach var="d" items="${boardListByDepartment}">
+									<tr>
+										<td>${d.boardTitle}</td>
+										<td>${d.boardContent}</td>
+									</tr>
+								</c:forEach>
+							</table>
 						</div>
 					</div>
 				</div>
