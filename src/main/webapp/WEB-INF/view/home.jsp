@@ -8,60 +8,6 @@
 	<title>홈</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
-<script>
-    $(document).ready(function () {	
-        const x = [];
-        const y1 = [];		
-        const y2 = [];		
-		
-        // 동기호출로 x, y값을 셋팅
-        $.ajax({
-            url : '/group/rest/getMyWorkCheckCntList',
-            type : 'get',
-            success : function(model) {
-                model.forEach(function(item, index){
-                    // chart모델 생성
-                    x.push(item.memberId);
-                    y1.push(item.workCnt);
-                    y2.push(item.annualCnt);
-                });
-
-                // 차트 생성
-                new Chart("target2", {
-                    type: "bar",
-                    data: {
-                        labels: x,
-                        datasets: [
-                            {
-                                label: '근무일',
-                                backgroundColor: 'rgb(255, 99, 132)',
-                                data: y1
-                            },
-                            {
-                                label: '연차 사용',
-                                backgroundColor: 'rgb(132, 99, 132)',
-                                data: y2
-                            },
-                        ]
-                    },
-                    options : {
-                        scales : {
-                            yAxes : [
-                                {
-                                    ticks : {
-                                        beginAtZero : true,
-                                        min: 0,
-                                        max: 14
-                                    }
-                                }
-                            ]
-                        }
-                    }
-                });
-            }
-        });
-    });
-</script>
 </head>
 <body>
 	<!--  사이드바 -->
@@ -73,6 +19,7 @@
 		<div class="container-fluid">
 			<div class="container-wrapper">
 				<div class="container">
+					<div style="padding:20px; font-size: 30pt; font-weight: bold; color:#000000;">출근/퇴근 버튼 누르셨나요?</div>
 					<br><br>
 					<div class="row">
 						<div class="col-sm-8">
@@ -140,6 +87,7 @@
 			</div>
 		</div>
 	</div>
+	<script src="${pageContext.request.contextPath}/javascript/home.js"></script>
 	<jsp:include page="${pageContext.request.contextPath}/menu/code.jsp"></jsp:include>
 </body>
 </html>
