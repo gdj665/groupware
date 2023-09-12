@@ -37,7 +37,7 @@ public class ApprovalController {
 	public String getBoardList(Model model,
 		HttpSession session,
 		@RequestParam(name = "currentPage", defaultValue = "1") int currentPage,
-		@RequestParam(name = "rowPerPage", defaultValue = "3") int rowPerPage,
+		@RequestParam(name = "rowPerPage", defaultValue = "5") int rowPerPage,
 		@RequestParam(name = "searchWord", required = false) String searchWord,
 		@RequestParam(name = "approvalNowStatus", required = false) String approvalNowStatus) {
   
