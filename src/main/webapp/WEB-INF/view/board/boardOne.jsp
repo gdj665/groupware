@@ -41,9 +41,12 @@
 					<textarea class="form-control" rows="20" cols="50" readonly="readonly">${boardOne.boardContent}</textarea><br>
 					
 					<label class="form-label">첨부파일 목록</label><br>
-					<c:forEach var="b" items="${boardFileList}">
-						<a href="/board/boardDownload?boardFileNo=${b.boardFileNo}" style="cursor:pointer;">${b.boardFileOri}</a><br>
-					</c:forEach><br>
+					<div class="file-box">
+						<c:forEach var="b" items="${boardFileList}">
+							<a href="/board/boardDownload?boardFileNo=${b.boardFileNo}" style="cursor:pointer;">${b.boardFileOri}</a><br>
+						</c:forEach>
+					</div><br>
+					
 					<!-- 작성자만 지울수 있도록 수정 -->
 					<c:if test="${boardOne.memberId == memberId}">
 						<form action="/group/board/deleteBoard" method="post">

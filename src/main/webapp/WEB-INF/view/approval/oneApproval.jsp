@@ -119,7 +119,7 @@
 							<input type="text" class="form-control" value="${approvalOne.approvalNo}" readonly="readonly"><br>
 						</div>
 						<div class="col-sm-4">
-							<label class="form-label">생성일</label>
+							<label class="form-label">결재 요청일</label>
 							<input type="text" class="form-control" value="${approvalOne.createdate}" readonly="readonly"><br>
 						</div>
 						<div class="col-sm-4">
@@ -146,9 +146,11 @@
 					
 					<!-- 파일 다운로드 -->
 					<label class="form-label">첨부파일 목록</label><br>
-					<c:forEach var="a" items="${approvalFileList}">
-						<a href="/approval/approvalDownload?approvalFileNo=${a.approvalFileNo}" style="cursor:pointer;">${a.approvalFileOri}</a>
-					</c:forEach><br><hr>
+					<div class="file-box">
+						<c:forEach var="a" items="${approvalFileList}">
+							<a href="/approval/approvalDownload?approvalFileNo=${a.approvalFileNo}" style="cursor:pointer;">${a.approvalFileOri}</a><br>
+						</c:forEach>
+					</div><br>
 					
 					<label class="form-label"><h4>결재 코멘트</h4></label><br>
 					<!-- 결재자 코멘트 -->
