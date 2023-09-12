@@ -93,7 +93,7 @@
 	<div id="underRepairModal" class="modal">
 		<div class="modal_content">
 			<h3>수리시작</h3>
-			<form id="updateUnderRepair" action="${pageContext.request.contextPath}/repair/updateRepair" method="post">
+			<form id="updateUnderRepair" action="${pageContext.request.contextPath}/group/repair/updateRepair" method="post">
 				<input type="hidden" name="repairNo" id="underRepairNoInput" value="underRepairNoInput">
 				<table>
 					<tr>
