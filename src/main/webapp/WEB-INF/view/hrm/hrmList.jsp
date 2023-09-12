@@ -33,14 +33,17 @@
           <div class="card">
             <div class="card-body">
              <h1 class="text-center mt-4">사원관리</h1>
-				<div class="container">
+              		<div style="text-align: right;">
+					  <button id="addHrmLink" class="btn btn-primary toggle-button">
+					    <i class="fas fa-user-plus"></i> 사원 추가
+					  </button>
+					  <button id="excelBtn" class="btn btn-success toggle-button">
+					    <i class="fas fa-file-excel"></i> 엑셀 다운로드
+					  </button>
+					</div>
+				<div class="container">		
 				 <div class="button-container">
-				    <button id="addHrmLink" class="btn btn-primary toggle-button">
-				      <i class="fas fa-user-plus"></i> 사원 추가
-				    </button>
-				    <button id="excelBtn" class="btn btn-success toggle-button">
-				      <i class="fas fa-file-excel"></i> 엑셀 다운로드
-				    </button>
+				   
 				    <button id="toggleServiceDept" class="btn btn-primary toggle-button">
 				      <i class="fas fa-users"></i> 서비스 부서
 				    </button>
