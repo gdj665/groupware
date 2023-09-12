@@ -1,6 +1,8 @@
 package com.goodee.groupware.restapi;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -46,4 +48,20 @@ public class MemberRest {
 		ArrayList<Map<String, Object>> workCheckList = (ArrayList)memberService.getWorkCheckList(departmentNo, targetYear, targetMonth).get("workCheckList");
 		return workCheckList;
 	}
+	
+//	개인 근태 출력
+	@GetMapping("/group/rest/getMyWorkCheckCntList")
+	public List<Map<String, Object>> getMyWorkCheckCntList(HttpSession session){
+		
+		String memberId =(String)session.getAttribute("loginMember");
+		
+		Map<String, Object> paramMap = new HashMap<>();
+		paramMap.put("memberId", memberId);
+		
+		List<Map<String, Object>> myWorkCheckCntList = new ArrayList<>();
+		myWorkCheckCntList = memberService.getMyWorkCheckCnt(paramMap);
+		
+		return myWorkCheckCntList;
+	}
+	
 }

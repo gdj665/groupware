@@ -132,4 +132,13 @@
 		ON b.member_id = a.member_id
 	</select>
 	
+	<!-- 이번달 개인 근무 횟수와 연차 사용 횟수 출력 -->
+	<select id="getMyWorkCheckCntList" parameterType="java.util.Map" resultType="java.util.Map">
+		SELECT member_id memberId,
+			COUNT(work_begin) workCnt,
+			COUNT(CASE WHEN work_annual = 'Y' THEN 1 END) annualCnt
+		FROM work
+		WHERE member_id = #{memberId}
+			AND MONTH(work_date) = MONTH(CURDATE());
+	</select>
 </mapper>

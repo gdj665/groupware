@@ -244,4 +244,12 @@ public class MemberService {
 		return workMap;
 	}
 
+//	이번달 개인 근무 횟수와 연차 사용 횟수 출력	
+	public List<Map<String, Object>> getMyWorkCheckCnt(Map<String, Object> paramMap){
+		
+		List<Map<String, Object>> getMyWorkCheckCntList = new ArrayList<>();
+		getMyWorkCheckCntList = memberMapper.getMyWorkCheckCntList(paramMap);
+		
+		return getMyWorkCheckCntList;
+	}
 }

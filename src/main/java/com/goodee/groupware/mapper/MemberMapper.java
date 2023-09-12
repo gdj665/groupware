@@ -42,4 +42,7 @@ public interface MemberMapper {
 
 //	근태 근태 지각, 조퇴, 연차 출력
 	List<Map<String, Object>> getWorkCheckList(Map<String, Object> paramMap);
+	
+//	이번달 개인 근무 횟수와 연차 사용 횟수 출력	
+	List<Map<String, Object>> getMyWorkCheckCntList(Map<String, Object> paramMap);
 }
