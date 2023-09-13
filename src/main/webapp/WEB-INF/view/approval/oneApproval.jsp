@@ -172,7 +172,7 @@
 					<c:if test="${(approvalOne.approvalFirstId == memberId && approvalOne.approvalFirstComment == null && approvalOne.approvalNowStatus != '결재완료')
 								|| (approvalOne.approvalSecondId == memberId && approvalOne.approvalSecondComment == null && approvalOne.approvalFirstComment != null && approvalOne.approvalNowStatus != '결재완료')
 								|| (approvalOne.approvalThirdId == memberId && approvalOne.approvalThirdComment == null && approvalOne.approvalSecondComment != null && approvalOne.approvalFirstComment != null && approvalOne.approvalNowStatus != '결재완료')}">
-						<form action="/approval/updateApprovalComment" method="post">
+						<form action="/group/approval/updateApprovalComment" method="post">
 							<!-- 확인이 필요한 값 -->
 							<input type="hidden" name="approvalNo" value="${approvalOne.approvalNo}">
 					 		<input type="hidden" name="approvalFirstComment" value="${approvalOne.approvalFirstComment}">

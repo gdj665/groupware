@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.goodee.groupware.sevice.EquipmentHistoryService;
 import com.goodee.groupware.sevice.EquipmentService;
 import com.goodee.groupware.vo.Equipment;
 import com.goodee.groupware.vo.EquipmentHistory;

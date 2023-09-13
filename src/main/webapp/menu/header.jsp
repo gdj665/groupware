@@ -40,9 +40,6 @@
 								<a href="${pageContext.request.contextPath}/group/address/addressList" class="d-flex align-items-center gap-2 dropdown-item">
 									<i class="ti ti-mail fs-6"></i>My Account
 								</a>
-								<a href="javascript:void(0)" class="d-flex align-items-center gap-2 dropdown-item">
-									<i class="ti ti-list-check fs-6"></i>My Task
-								</a>
 								<!-- 로그아웃 -->
 								<a href="${pageContext.request.contextPath}/group/logout" class="btn btn-outline-primary mx-3 mt-2 d-block">Logout</a>
 							</div>

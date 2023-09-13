@@ -156,7 +156,7 @@ public class MemberController {
 	}
 	
 //	비밀번호 수정 실행 페이지 (첫 로그인 or 비번 초기화 후)
-	@PostMapping("/member/updatePw")
+	@PostMapping("/group/member/updatePw")
 	public String updatePw(@RequestParam(name = "memberId") String memberId,
 							@RequestParam(name = "memberPw") String memberPw) {
 		Member member = new Member();
