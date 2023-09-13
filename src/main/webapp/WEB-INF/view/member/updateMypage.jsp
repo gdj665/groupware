@@ -3,8 +3,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>마이페이지 수정</title>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
 <script	src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.0/dist/jquery.min.js"></script>
@@ -90,47 +91,61 @@
 		</script>
 </head>
 <body>
-	<c:set var="m" value="${member}"></c:set>
-	<h1>mypage</h1>
-		${m.memberId}<br>
-	<!-- Button trigger modal -->
-	<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#updatePwModal">
-	  비밀번호 수정
-	</button>
-	
-	<!-- Modal -->
-	<div class="modal fade" id="updatePwModal" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
-	  <div class="modal-dialog">
-	    <div class="modal-content">
-	      <div class="modal-header">
-	        <h1 class="modal-title fs-5" id="modalLabel">비밀번호 수정</h1>
-	        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-	      </div>
-	      <div class="modal-body">
-			<!-- 비번 수정 -->
-			기존 비번 : <input type="password" id="memberPw"><br>
-			새 비번 입력 : <input type="password" id="newMemberPw"><br>
-			새 비번 확인 : <input type="password" id="checkMemberPw"><br>
-	      </div>
-	      <div class="modal-footer">
-	        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
-	        <button type="button" id="pwBtn" class="btn btn-primary">수정</button>
-	      </div>
-	    </div>
-	  </div>
+	<!--  사이드바 -->
+	<jsp:include page="${pageContext.request.contextPath}/menu/menu.jsp"></jsp:include>
+	<div class="body-wrapper">
+		<!--  해더바 -->
+		<jsp:include page="${pageContext.request.contextPath}/menu/header.jsp"></jsp:include>
+		<!-- 내용물 추가하는 곳 -->
+		<div class="container-fluid">
+			<div class="container-wrapper">
+				<div class="container">
+					<c:set var="m" value="${member}"></c:set>
+					<h1>mypage</h1>
+						${m.memberId}<br>
+					<!-- Button trigger modal -->
+					<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#updatePwModal">
+					  비밀번호 수정
+					</button>
+					
+					<!-- Modal -->
+					<div class="modal fade" id="updatePwModal" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+					  <div class="modal-dialog">
+					    <div class="modal-content">
+					      <div class="modal-header">
+					        <h1 class="modal-title fs-5" id="modalLabel">비밀번호 수정</h1>
+					        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					      </div>
+					      <div class="modal-body">
+							<!-- 비번 수정 -->
+							기존 비번 : <input type="password" id="memberPw"><br>
+							새 비번 입력 : <input type="password" id="newMemberPw"><br>
+							새 비번 확인 : <input type="password" id="checkMemberPw"><br>
+					      </div>
+					      <div class="modal-footer">
+					        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+					        <button type="button" id="pwBtn" class="btn btn-primary">수정</button>
+					      </div>
+					    </div>
+					  </div>
+					</div>
+								
+					<form action="/group/member/updateMypage" method="post" id="updateForm">
+						<input type="hidden" value="${m.memberId}" name="memberId" id="memberId">
+						${m.departmentNo}<br>
+						<input type="text" value="${m.memberName}" name="memberName" required="required"><br>
+						${m.memberGender}<br>
+						<input type="text" value="${m.memberPhone}" maxlength="11" name="memberPhone" required="required"><br>
+						<input type="text" value="${m.memberEmail}" name="memberEmail" required="required"><br>
+						<input type="text" value="${m.memberAddress}" name="memberAddress" required="required"><br>
+						<button type="button" id="updateBtn">수정</button>
+						<a href="/group/member/mypage?memberId=${m.memberId}">취소</a>
+					</form>
+				</div>
+			</div>
+		</div>
 	</div>
-		
-		
-	<form action="/group/member/updateMypage" method="post" id="updateForm">
-		<input type="hidden" value="${m.memberId}" name="memberId" id="memberId">
-		${m.departmentNo}<br>
-		<input type="text" value="${m.memberName}" name="memberName" required="required"><br>
-		${m.memberGender}<br>
-		<input type="text" value="${m.memberPhone}" maxlength="11" name="memberPhone" required="required"><br>
-		<input type="text" value="${m.memberEmail}" name="memberEmail" required="required"><br>
-		<input type="text" value="${m.memberAddress}" name="memberAddress" required="required"><br>
-		<button type="button" id="updateBtn">수정</button>
-		<a href="/group/member/mypage?memberId=${m.memberId}">취소</a>
-	</form>
+	<!-- 템플릿 코드 -->
+    <jsp:include page="${pageContext.request.contextPath}/menu/code.jsp"></jsp:include>
 </body>
 </html>

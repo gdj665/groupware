@@ -4,21 +4,37 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>Insert title here</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>사인 수정</title>
 	<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/signature_pad/1.5.3/signature_pad.min.js"></script>
 </head>
 <body>
-	<c:set var="m" value="${member}"></c:set>
-	<!-- 기존사인 출력 -->
-	기존 사인 <br>
-	<img src="/signFile/${m.memberSignFile}"><br>
-	새 사인 등록<br>
-	<canvas id="goal" style="border: 1px solid black"></canvas><br>
-	<div>
-		<button id="clear">초기화</button>
-		<button id="send">저장</button>
+	<!--  사이드바 -->
+	<jsp:include page="${pageContext.request.contextPath}/menu/menu.jsp"></jsp:include>
+	<div class="body-wrapper">
+		<!--  해더바 -->
+		<jsp:include page="${pageContext.request.contextPath}/menu/header.jsp"></jsp:include>
+		<!-- 내용물 추가하는 곳 -->
+		<div class="container-fluid">
+			<div class="container-wrapper">
+				<div class="container">
+					<c:set var="m" value="${member}"></c:set>
+					<!-- 기존사인 출력 -->
+					기존 사인 <br>
+					<img src="/signFile/${m.memberSignFile}"><br>
+					새 사인 등록<br>
+					<canvas id="goal" style="border: 1px solid black"></canvas><br>
+					<div>
+						<button id="clear">초기화</button>
+						<button id="send">저장</button>
+					</div>
+				</div>
+			</div>
+		</div>
 	</div>
+	<!-- 템플릿 코드 -->
+    <jsp:include page="${pageContext.request.contextPath}/menu/code.jsp"></jsp:include>
 </body>
 	<script>
 		// canvas 데이터 가지고 오기
