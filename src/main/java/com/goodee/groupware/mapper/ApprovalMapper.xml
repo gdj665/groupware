@@ -128,7 +128,7 @@
 	<update id="updateApprovalRecall" parameterType="com.goodee.groupware.vo.Approval">
 		UPDATE approval 
 		SET approval_last_status = '회수',
-			approval_now_status = '결재취소',
+			approval_now_status = '결재완료',
 			updatedate = now()
 		WHERE approval_no = #{approvalNo}
 	</update>
