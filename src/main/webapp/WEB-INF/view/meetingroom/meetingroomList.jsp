@@ -80,7 +80,7 @@
 					<!-- 회의실 추가 모달 -->
 					<div id="addMeetingroomModal" class="modal">
 						<div class="modal_content">
-							<h3>개인 일정 등록</h3>
+							<h3>회의실 등록</h3>
 							<form id="addMeetingroomForm" method="post" action="${pageContext.request.contextPath}/group/meetingroom/addMeetingroom">
 								<table>
 									<tr>

@@ -72,6 +72,7 @@
 	 		AND meetingroom_reserve_status = 'Y'
 			AND YEAR(meetingroom_reserve_date) = #{targetYear}
             AND MONTH(meetingroom_reserve_date) = #{targetMonth}
+            AND meetingroom_reserve_date >= CURDATE();
 		</where>
 	</select>
 	
