@@ -119,6 +119,8 @@ public class ApprovalController {
 		model.addAttribute("approvalFileList",oneApprovalMap.get("approvalFileList"));
 		model.addAttribute("memberId",memberId);
 		
+		log.debug("ApprovalController.oneApprovalMap --> "+oneApprovalMap); 
+		
 		return "/approval/oneApproval";
 	}
 	

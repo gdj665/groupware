@@ -72,7 +72,7 @@
 		a.approval_first_id AS approvalFirstId,
 		m_first.member_name AS approvalFirstName,
 		a.approval_first_comment AS approvalFirstComment,
-		a.approval_first_id AS approvalSecondId,
+		a.approval_second_id AS approvalSecondId,
 		m_second.member_name AS approvalSecondName,
 		a.approval_second_comment AS approvalSecondComment,
 		a.approval_third_id AS approvalThirdId,
