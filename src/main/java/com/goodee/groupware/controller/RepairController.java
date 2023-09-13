@@ -32,13 +32,8 @@ public class RepairController {
 	
 	// 1) repair추가
 	@PostMapping("/group/repair/addRepair")
-	public String addRepair(@Valid Repair repair, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+	public String addRepair( Repair repair , RedirectAttributes redirectAttributes) {
 		
-		if (bindingResult.hasErrors()) {
-	        // 유효성 검사에서 오류가 발생한 경우
-	        // 오류 처리를 수행하고 원하는 페이지로 리다이렉트하거나 메시지를 표시할 수 있습니다.
-	        return "/repair/addRepair"; // 오류 페이지로 리다이렉트 또는 이동
-	    }
 		
 		// repair 추가 서비스 호출
 		int row = repairSerivce.addRepair(repair);

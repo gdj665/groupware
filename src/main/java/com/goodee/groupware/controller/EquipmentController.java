@@ -66,13 +66,7 @@ public class EquipmentController {
 	
 	// 2) 장비 추가 매핑
 	@PostMapping("/group/equipment/addEquipment")
-	public String addEquipment(@Valid Equipment equipment, BindingResult bindingResult ) {
-		
-		if (bindingResult.hasErrors()) {
-	        // 유효성 검사에서 오류가 발생한 경우
-	        // 오류 처리를 수행하고 원하는 페이지로 리다이렉트하거나 메시지를 표시할 수 있습니다.
-	        return "/equipment/equipmentList"; // 오류 페이지로 리다이렉트 또는 이동
-	    }
+	public String addEquipment( Equipment equipment ) {
 		
 		// 추가 서비스 호출
 		int row = equipmentService.addEquipment(equipment);
@@ -89,13 +83,8 @@ public class EquipmentController {
 	
 	// 3) 장비 비활성화 매핑
 	@GetMapping("/group/equipment/updateEquipment")
-	public String updateEquipment(@Valid Equipment equipment, BindingResult bindingResult) {
+	public String updateEquipment( Equipment equipment) {
 		
-		if (bindingResult.hasErrors()) {
-	        // 유효성 검사에서 오류가 발생한 경우
-	        // 오류 처리를 수행하고 원하는 페이지로 리다이렉트하거나 메시지를 표시할 수 있습니다.
-	        return "/equipment/equipmentList"; // 오류 페이지로 리다이렉트 또는 이동
-	    }
 		
 		// 비활성화 서비스 호출
 		int row = equipmentService.updateEquipment(equipment);
@@ -111,13 +100,7 @@ public class EquipmentController {
 	
 	// 4) 장비 점검 업데이트 매핑
 	@GetMapping("/group/equipment/updateEqInspect")
-	public String updateEquipmentInspect(@Valid Equipment equipment, BindingResult bindingResult) {
-		
-		if (bindingResult.hasErrors()) {
-	        // 유효성 검사에서 오류가 발생한 경우
-	        // 오류 처리를 수행하고 원하는 페이지로 리다이렉트하거나 메시지를 표시할 수 있습니다.
-	        return "/equipment/equipmentList"; // 오류 페이지로 리다이렉트 또는 이동
-	    }
+	public String updateEquipmentInspect (Equipment equipment ) {
 		
 		// 장비 점검 서비스 호출
 		int row = equipmentService.updateEquipmentInspect(equipment);

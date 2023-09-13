@@ -61,13 +61,7 @@ public class FixturesController {
 	
 	// 2) parts 추가
 	@PostMapping("/group/fixtures/addParts")
-	public String addParts(@Valid Parts parts, BindingResult bindingResult) {
-		
-		if (bindingResult.hasErrors()) {
-	        // 유효성 검사에서 오류가 발생한 경우
-	        // 오류 처리를 수행하고 원하는 페이지로 리다이렉트하거나 메시지를 표시할 수 있습니다.
-	        return "/fixtures/fixturesList"; // 오류 페이지로 리다이렉트 또는 이동
-	    }
+	public String addParts( Parts parts) {
 		
 		// 추가 서비스 호출
 		int row = fixturesService.addParts(parts);
@@ -83,13 +77,8 @@ public class FixturesController {
 	
 	// 3) parts 비활성화
 	@GetMapping("/group/fixtures/updatePartsAlive")
-	public String updatePartsAlive(@Valid Parts parts, BindingResult bindingResult) {
+	public String updatePartsAlive( Parts parts) {
 		
-		if (bindingResult.hasErrors()) {
-	        // 유효성 검사에서 오류가 발생한 경우
-	        // 오류 처리를 수행하고 원하는 페이지로 리다이렉트하거나 메시지를 표시할 수 있습니다.
-	        return "/fixtures/fixturesList"; // 오류 페이지로 리다이렉트 또는 이동
-	    }
 		
 		// 비활성화 서비스 호출
 		int row = fixturesService.updatePartsAlive(parts);
