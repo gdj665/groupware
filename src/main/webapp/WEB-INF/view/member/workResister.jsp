@@ -30,9 +30,13 @@
 							<a class="btn text-white" style="background-color:orange;" href="${pageContext.request.contextPath}/group/member/workEnd?memberId=${m.memberId}">퇴근</a>
 							<div style="text-align: center;">
 								<h1>
-									<a href="${pageContext.request.contextPath}/group/member/workResister?targetYear=${m.targetYear}&targetMonth=${m.targetMonth - 1}">이전달</a>
+									<a href="${pageContext.request.contextPath}/group/member/workResister?targetYear=${m.targetYear}&targetMonth=${m.targetMonth - 1}">
+										<img style="width: 80px;" src="${pageContext.request.contextPath}/img/previous.jpg">
+									</a>
 									${m.targetYear}년 ${m.targetMonth+1}월
-									<a href="${pageContext.request.contextPath}/group/member/workResister?targetYear=${m.targetYear}&targetMonth=${m.targetMonth + 1}">다음달</a>
+									<a href="${pageContext.request.contextPath}/group/member/workResister?targetYear=${m.targetYear}&targetMonth=${m.targetMonth + 1}">
+										<img style="width: 80px;" src="${pageContext.request.contextPath}/img/next.jpg">
+									</a>
 								</h1>
 							</div>
 							<br><br>

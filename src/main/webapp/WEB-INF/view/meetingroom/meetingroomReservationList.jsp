@@ -36,9 +36,13 @@
 					<br><br>
 					<div style="text-align: center;">
 						<h1>
-							<a href="${pageContext.request.contextPath}/group/meetingroom/meetingroomReservationList?targetYear=${m.targetYear}&targetMonth=${m.targetMonth-1}&meetingroomNo=${meetingroomNo}">이전달</a>
-							<span>${m.targetYear}년 ${m.targetMonth+1}월 달력</span>
-							<a href="${pageContext.request.contextPath}/group/meetingroom/meetingroomReservationList?targetYear=${m.targetYear}&targetMonth=${m.targetMonth+1}&meetingroomNo=${meetingroomNo}">다음달</a>
+							<a href="${pageContext.request.contextPath}/group/meetingroom/meetingroomReservationList?targetYear=${m.targetYear}&targetMonth=${m.targetMonth-1}&meetingroomNo=${meetingroomNo}">
+								<img style="width: 80px;" src="${pageContext.request.contextPath}/img/previous.jpg">
+							</a>
+							<span>${m.targetYear}년 ${m.targetMonth+1}월</span>
+							<a href="${pageContext.request.contextPath}/group/meetingroom/meetingroomReservationList?targetYear=${m.targetYear}&targetMonth=${m.targetMonth+1}&meetingroomNo=${meetingroomNo}">
+								<img style="width: 80px;" src="${pageContext.request.contextPath}/img/next.jpg">
+							</a>
 						</h1>
 					</div>
 					<br>

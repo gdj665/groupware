@@ -49,9 +49,13 @@
 					</div>
 					<div style="text-align: center;">
 						<h1>
-							<a href="${pageContext.request.contextPath}/group/schedule/scheduleList?targetYear=${m.targetYear}&targetMonth=${m.targetMonth-1}&scheduleCategory=${m.scheduleCategory}">이전달</a>
-							<span>${m.targetYear}년 ${m.targetMonth+1}월 달력</span>
-							<a href="${pageContext.request.contextPath}/group/schedule/scheduleList?targetYear=${m.targetYear}&targetMonth=${m.targetMonth+1}&scheduleCategory=${m.scheduleCategory}">다음달</a>
+							<a href="${pageContext.request.contextPath}/group/schedule/scheduleList?targetYear=${m.targetYear}&targetMonth=${m.targetMonth-1}&scheduleCategory=${m.scheduleCategory}">
+								<img style="width: 80px;" src="${pageContext.request.contextPath}/img/previous.jpg">
+							</a>
+							<span>${m.targetYear}년 ${m.targetMonth+1}월</span>
+							<a href="${pageContext.request.contextPath}/group/schedule/scheduleList?targetYear=${m.targetYear}&targetMonth=${m.targetMonth+1}&scheduleCategory=${m.scheduleCategory}">
+								<img style="width: 80px;" src="${pageContext.request.contextPath}/img/next.jpg">
+							</a>
 						</h1>
 					</div>
 					<br><br>
@@ -122,12 +126,12 @@
 					                                <c:if test="${day == (fn:substring(c.scheduleBegindate,8,10))}">
 					                                    <c:if test="${c.scheduleCategory == '개인'}">
 					                                        <a href="#" class="updatePersonalScheduleModalOpen" data-updatePersonalScheduleNo="${c.scheduleNo}">
-					                                            <span style="color:green;">${c.scheduleCategory} ${c.scheduleTitle}(시작)</span><br>
+					                                            <span style="color:green;">${c.scheduleTitle}</span><br>
 					                                        </a>
 					                                    </c:if>
 					                                    <c:if test="${c.scheduleCategory == '부서'}">
 					                                        <a href="#" class="updateDepartmentScheduleModalOpen" data-updateDepartmentScheduleNo="${c.scheduleNo}">
-					                                            <span style="color:orange;">${c.scheduleCategory} ${c.scheduleTitle}(시작)</span><br>
+					                                            <span style="color:orange;">${c.scheduleTitle}</span><br>
 					                                        </a>	
 					                                    </c:if>
 					                                </c:if>
