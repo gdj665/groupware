@@ -78,7 +78,7 @@
 				        <!-- 세 번째 컨테이너 내용 -->
 				        <br>
 				        <h5>이동할 부서 선택</h5>
-				        <form id="updateForm" action="/group/department/updateDepartment" method="post">
+				        <form id="updateForm" action="${pageContext.request.contextPath}/group/department/updateDepartment" method="post">
 				            <table>
 				                <tr>
 				                    <td>부서</td>
