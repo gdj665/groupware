@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>장비사용내역</title>
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/modal.css">
 </head>
 <body>

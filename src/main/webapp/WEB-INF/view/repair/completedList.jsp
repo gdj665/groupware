@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>AS완료 목록</title>
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/modal.css">
 <!-- excel api : sheetjs-->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.15.5/xlsx.full.min.js"></script>

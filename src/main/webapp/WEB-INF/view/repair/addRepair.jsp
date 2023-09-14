@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>AS 추가</title>
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/modal.css">
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/addRepair.css">
 <!-- jquery -->
