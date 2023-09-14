@@ -22,7 +22,9 @@
 		<dependency>
 		    <groupId>org.springframework.boot</groupId>
 		    <artifactId>spring-boot-starter-validation</artifactId>
+		    <scope>provided</scope>
 		</dependency>
+		
       	<!--내장톰캣 jsp -->
 		<dependency>
           <groupId>org.apache.tomcat.embed</groupId>
