@@ -1,5 +1,6 @@
 package com.goodee.groupware.sevice;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -182,13 +183,26 @@ public class MeetingroomService {
 	}
 	
 // ----- 회의실 예약/취소 조회 -----	
-	public List<MeetingroomReserve> getReservationHistory(MeetingroomReserve meetingroomReserve){
-		// Map에 담아서 Controller로 넘기기
+	public Map<String, Object> getReservationHistory(MeetingroomReserve meetingroomReserve){
+		
+		// 오늘 날짜
+		LocalDate day = LocalDate.now();
+		int year = day.getYear();
+		int month = day.getMonthValue();
+		int date = day.getDayOfMonth();
+		String today = year + "-" + month + "-" + date;
+		
+		// 회의실 예약 내역 목록 조회
 		List<MeetingroomReserve> reservationHistoryList = new ArrayList<>();
 		reservationHistoryList = meetingroomMapper.getReservationHistory(meetingroomReserve);
 		log.debug("\u001B[31m"+"MeetingroomService.reservationHistoryList() reservationHistoryList : "+ reservationHistoryList.toString()+"\u001B[0m");
 		
-		return reservationHistoryList;
+		// Map에 담아서 Controller로 넘기기
+		Map<String, Object> reservationHistoryMap = new HashMap<String, Object>();
+		reservationHistoryMap.put("today", today);
+		reservationHistoryMap.put("reservationHistoryList", reservationHistoryList);
+		
+		return reservationHistoryMap;
 	}
 	
 // ----- 회의실 예약 상태 취소로 변경 -----	

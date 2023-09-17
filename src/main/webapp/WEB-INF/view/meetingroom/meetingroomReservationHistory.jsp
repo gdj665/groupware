@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -51,11 +52,16 @@
 									</c:if>
 								</td>
 								<th class="table_cell">
-									<a href="${pageContext.request.contextPath}/group/meetingroom/updateMeetingroomReservation?meetingroomReserveNo=${h.meetingroomReserveNo}" onClick="return confirm('예약취소 하시겠습니까?')">
-										<c:if test="${h.meetingroomReserveStatus == 'Y'}">
-											<span>예약중</span>
+									<c:if test="${h.meetingroomReserveStatus == 'Y'}">
+										<c:if test="${fn:substring(h.meetingroomReserveDate, 8, 10) >= fn:substring(today, 7, 9)}">
+											<a href="${pageContext.request.contextPath}/group/meetingroom/updateMeetingroomReservation?meetingroomReserveNo=${h.meetingroomReserveNo}" onClick="return confirm('예약취소 하시겠습니까?')">
+												<span>예약중</span>
+											</a>
 										</c:if>
-									</a>
+										<c:if test="${fn:substring(h.meetingroomReserveDate, 8, 10) < fn:substring(today, 7, 9)}">
+											<span>예약마감</span>
+										</c:if>
+									</c:if>
 									<c:if test="${h.meetingroomReserveStatus == 'N'}">
 										<span>예약취소</span>
 									</c:if>

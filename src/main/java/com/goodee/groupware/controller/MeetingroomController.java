@@ -153,14 +153,16 @@ public class MeetingroomController {
 		meetingroomReserve.setDepartmentNo(departmentNo);
 		
 		// 요청한 매개값을 담아 서비스를 호출
-		List<MeetingroomReserve> reservationHistoryList = new ArrayList<>();
-		reservationHistoryList = meetingroomService.getReservationHistory(meetingroomReserve);
-		log.debug("\u001B[31m"+"MeetingroomController.getReservationHistory() reservationHistoryList : "+ reservationHistoryList.toString()+"\u001B[0m");
+		Map<String, Object> reservationHistoryMap = new HashMap<>();
+		reservationHistoryMap = meetingroomService.getReservationHistory(meetingroomReserve);
+		log.debug("\u001B[31m"+"MeetingroomController.getReservationHistory() reservationHistoryList : "+ reservationHistoryMap.toString()+"\u001B[0m");
 		
 		// Model에 담아서 View로 넘기기
-		model.addAttribute("reservationHistoryList", reservationHistoryList);
 		model.addAttribute("departmentNo", departmentNo);
 		model.addAttribute("memberId", memberId);
+		model.addAttribute("reservationHistoryList", reservationHistoryMap.get("reservationHistoryList"));
+		model.addAttribute("today", reservationHistoryMap.get("today"));
+		
 		return "/meetingroom/meetingroomReservationHistory";
 	}
 	
