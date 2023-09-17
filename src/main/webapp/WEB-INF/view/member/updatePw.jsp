@@ -5,6 +5,8 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>비밀번호 수정</title>
+	<!-- CSS -->
+	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/modal.css">
 <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.0/dist/jquery.min.js"></script>
 	<script>
 //		비밀번호 정규식 -> 8자리 이상 하나 이상 문자, 하나 이상 특수문자, 하나 이상 숫자	
@@ -39,13 +41,23 @@
 		<div class="container-fluid">
 			<div class="container-wrapper">
 				<div class="container">
-					${memberId}님 비번 변경<br>
+					<div style="padding:20px; font-size: 30pt; font-weight: bold; color:#000000;">비밀번호 변경</div>
 					<form action="/group/member/updatePw" method="post" id="pwForm">
 						<input type="hidden" value="${memberId}" name="memberId">
 						<h5>최소 8 자, 하나 이상의 문자, 하나의 숫자 및 하나의 특수 문자</h5>
-						새 비번 입력 : <input type="password" id="memberPw" name="memberPw"><br>
-						새 비번 확인 : <input type="password" id="checkMemberPw"><br>
-						<button type="button" id="submitBtn">변경</button>
+						<table class="table table-hover">
+						<tr>
+							<td>
+								새 비번 입력 : <input type="password" id="memberPw" name="memberPw">
+							</td>
+						</tr>
+						<tr>
+							<td>
+								새 비번 확인 : <input type="password" id="checkMemberPw">
+							</td>
+						</tr>
+						</table>
+						<button class="btn btn-primary" type="button" id="submitBtn">변경</button>
 					</form>
 				</div>
 			</div>

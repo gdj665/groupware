@@ -154,7 +154,7 @@ public class ScheduleController {
 		row = scheduleService.deleteDepartmentSchedule(schedule);
 		log.debug("\u001B[31m"+"ScheduleController.deleteDepartmentSchedule() row : "+row+"\u001B[0m");
 		
-		if(row == 0) { // 등록에 실패하면
+		if(row == 0) { // 삭제에 실패하면
 			redirectAttributes.addAttribute("fail","실패");
 		}
 		return "redirect:/group/schedule/scheduleList";
