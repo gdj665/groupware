@@ -43,8 +43,10 @@ public class MeetingroomController {
 		
 		// 권한 유효성 검사
 		if(!memberLevel.equals("4관리자")) { // 관리자가 아니면 홈으로 되돌아간다.
-			log.debug("\u001B[31m"+"관리자가 아닙니다"+"\u001B[0m");
-			return "redirect:/group/home";
+			String message = "관리자가 아닙니다.";
+			model.addAttribute("message", message);
+			log.debug("\u001B[31m"+"MeetingroomController.getMeetingroomList() message : "+ message.toString()+"\u001B[0m");
+			return "/meetingroom/meetingroomList";
 		}
 		
 		// 요청한 매개값을 담아 서비스를 호출

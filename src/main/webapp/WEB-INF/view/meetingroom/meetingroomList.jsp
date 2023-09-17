@@ -21,6 +21,7 @@
 		<div class="container-fluid">
 			<div class="container-wrapper">
 				<div class="container">
+					<input id="message" type="hidden" value="${message}">
 					<!-- model값 받아와서 문자로 셋팅 -->
 					<c:set var="m" value="${meetingroomMap}"></c:set>
 					<div style="padding:20px; font-size: 30pt; font-weight: bold; color:#000000;">회의실 목록</div>

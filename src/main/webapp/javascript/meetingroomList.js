@@ -27,4 +27,12 @@ $(document).ready(function(){
     $('.close').click(function(){
 		$('#addMeetingroomModal').fadeOut();
 	});
+//	-------------------------------------------------------------------------
+	// 권한 유효성 검사
+	var message = $("#message").val();
+	
+	if (message.trim() !== "") {
+        alert(message);
+        window.location.href = "/group/home";
+    }
 });
