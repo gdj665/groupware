@@ -169,7 +169,7 @@ public class MemberController {
 		if (hrmService.getOneMember(memberId).getMemberSignFile() != null) {
 			return "redirect:/group/home";
 		}
-		return "redirct:/group/member/addSign";
+		return "redirect:/group/member/addSign";
 	}
 	
 //	비밀번호 수정 실행 페이지(마이페이지에서 수정)
@@ -235,9 +235,14 @@ public class MemberController {
 	
 //	마이페이지 수정 출력
 	@GetMapping("/group/member/updateMypage")
-	public String updateMypage(Model model, String memberId) {
+	public String updateMypage(Model model, HttpSession session, String memberId) {
 		Member member = hrmService.getOneMember(memberId);
+		
+		// 세션 아이디 값
+		String sessionId = (String)session.getAttribute("loginMember");
+		
 		model.addAttribute("member", member);
+		model.addAttribute("memberId", sessionId);
 		return "/member/updateMypage";
 	}
 	

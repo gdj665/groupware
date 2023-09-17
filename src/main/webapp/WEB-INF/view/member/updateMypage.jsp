@@ -6,11 +6,11 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>마이페이지 수정</title>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
-<script	src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.0/dist/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/signature_pad/1.5.3/signature_pad.min.js"></script>
-	<script>
+<!-- CSS -->
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/modal.css">
+<script>
 //			비밀번호 정규식 -> 8자리 이상 하나 이상 문자, 하나 이상 특수문자, 하나 이상 숫자	
 			const reg = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
 			$(document).ready(function(){
@@ -101,8 +101,8 @@
 			<div class="container-wrapper">
 				<div class="container">
 					<c:set var="m" value="${member}"></c:set>
-					<h1>mypage</h1>
-						${m.memberId}<br>
+					<div style="padding:20px; font-size: 30pt; font-weight: bold; color:#000000;">개인정보 수정</div>
+					${m.memberId}<br>
 					<!-- Button trigger modal -->
 					<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#updatePwModal">
 					  비밀번호 수정
@@ -138,8 +138,8 @@
 						<input type="text" value="${m.memberPhone}" maxlength="11" name="memberPhone" required="required"><br>
 						<input type="text" value="${m.memberEmail}" name="memberEmail" required="required"><br>
 						<input type="text" value="${m.memberAddress}" name="memberAddress" required="required"><br>
-						<button type="button" id="updateBtn">수정</button>
-						<a href="/group/member/mypage?memberId=${m.memberId}">취소</a>
+						<button class="btn btn-primary" type="button" id="updateBtn">수정</button>
+						<a class="btn btn-primary" href="/group/member/mypage?memberId=${m.memberId}">취소</a>
 					</form>
 				</div>
 			</div>

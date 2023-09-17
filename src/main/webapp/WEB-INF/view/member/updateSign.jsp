@@ -8,6 +8,8 @@
 	<title>사인 수정</title>
 	<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/signature_pad/1.5.3/signature_pad.min.js"></script>
+<!-- CSS -->
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/modal.css">
 </head>
 <body>
 	<!--  사이드바 -->
@@ -19,15 +21,29 @@
 		<div class="container-fluid">
 			<div class="container-wrapper">
 				<div class="container">
+					<div style="padding:20px; font-size: 30pt; font-weight: bold; color:#000000;">사인 수정</div>
+					<br>
 					<c:set var="m" value="${member}"></c:set>
-					<!-- 기존사인 출력 -->
-					기존 사인 <br>
-					<img src="/signFile/${m.memberSignFile}"><br>
-					새 사인 등록<br>
-					<canvas id="goal" style="border: 1px solid black"></canvas><br>
+					<table class="table table-hover">
+						<thead class="table-active">
+							<tr>
+								<th>기존 사인</th>
+								<th>새 사인 등록</th>
+							</tr>
+						</thead>
+						<tr>
+							<td>
+								<!-- 기존사인 출력 -->
+								<img src="${pageContext.request.contextPath}/signFile/${m.memberSignFile}">
+							</td>
+							<td>
+								<canvas id="goal" style="border: 1px solid black"></canvas>
+							</td>
+						</tr>
+					</table>	
 					<div>
-						<button id="clear">초기화</button>
-						<button id="send">저장</button>
+						<button class="btn btn-primary" id="clear">초기화</button>&nbsp;&nbsp;
+						<button class="btn btn-primary" id="send">저장</button>
 					</div>
 				</div>
 			</div>
