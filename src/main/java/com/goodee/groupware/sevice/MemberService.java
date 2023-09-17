@@ -122,6 +122,14 @@ public class MemberService {
 		paramMap.put("targetMonth", targetMonth + 1);
 		ArrayList<Work> workList = (ArrayList)memberMapper.getWorkList(paramMap);
 		workMap.put("workList", workList);
+		
+		// 오늘 날짜
+		LocalDate day = LocalDate.now();
+		int todayMonth = day.getMonthValue();
+		int todayDate = day.getDayOfMonth();
+		workMap.put("todayDate", todayDate);
+		workMap.put("todayMonth", todayMonth);
+		
 		return workMap;
 	}
 	

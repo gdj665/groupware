@@ -260,7 +260,15 @@ public class MemberController {
 									@RequestParam(required = false, name = "targetMonth") Integer targetMonth) {
 		String memberId =(String)session.getAttribute("loginMember");
 		Map<String, Object> workMap = memberService.getWorkList(memberId, targetYear, targetMonth);
+		
+		// 요청한 매개값을 담아 서비스를 호출
+		List<Map<String, String>> getHolidayList = new ArrayList<>();
+		getHolidayList = scheduleService.getHolidayList(targetYear, targetMonth);
+		
 		model.addAttribute("workMap", workMap);
+		model.addAttribute("getHolidayList", getHolidayList);
+		model.addAttribute("todayDate", workMap.get("todayDate"));
+		model.addAttribute("todayMonth", workMap.get("todayMonth"));
 		return "/member/workResister";
 	}
 	
