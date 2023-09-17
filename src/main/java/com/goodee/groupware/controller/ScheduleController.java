@@ -58,6 +58,8 @@ public class ScheduleController {
 		model.addAttribute("fail", fail);
 		model.addAttribute("getHolidayList", getHolidayList);
 		model.addAttribute("memberId", memberId);
+		model.addAttribute("todayDate", scheduleMap.get("todayDate"));
+		model.addAttribute("todayMonth", scheduleMap.get("todayMonth"));
 		return "/schedule/scheduleList";
 	}
 	

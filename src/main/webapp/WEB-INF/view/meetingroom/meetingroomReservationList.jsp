@@ -67,7 +67,7 @@
 							    <c:set var="day" value="${i - m.beginBlank + 1}"></c:set>
 							    <c:choose>
 							        <c:when test="${day > 0 && day <= m.lastDate}">
-							            <td class="table_cell">
+							            <td class="table_cell" style="background-color: ${day == todayDate and (m.targetMonth + 1) == todayMonth ? '#FFF5E0' : 'transparent'};">
 							            <div style="text-align: left;">
 											<c:choose>
 					                            <c:when test="${i % 7 == 0}">
@@ -107,8 +107,20 @@
 							            </div>
 										<c:forEach var="r" items="${m.reserveList}">
 											<c:if test="${day == (fn:substring(r.meetingroomReserveDate,8,10))}">
-												<span>회의실 ${r.meetingroomNo}호</span>
-												<span>(${r.meetingroomReserveTime}타임)</span><br>
+												<span>${r.meetingroomNo}호</span>
+												<c:if test="${r.meetingroomReserveTime == '1'}">
+													<span>(10:00 - 12:00)</span>
+												</c:if>
+												<c:if test="${r.meetingroomReserveTime == '2'}">
+													<span>(13:00 - 15:00)</span>
+												</c:if>
+												<c:if test="${r.meetingroomReserveTime == '3'}">
+													<span>(15:00 - 17:00)</span>
+												</c:if>
+												<c:if test="${r.meetingroomReserveTime == '4'}">
+													<span>(17:00 - 19:00)</span>
+												</c:if>
+												<br>
 											</c:if>
 										</c:forEach>
 					                 	<!-- 공휴일에 빨간색으로 공휴일 이름 표시 -->

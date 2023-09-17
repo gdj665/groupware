@@ -163,6 +163,13 @@ public class MeetingroomService {
 		reservationMap.put("reserveList", reserveList);
 		reservationMap.put("meetingroomList", meetingroomList);
 		
+		// 오늘 날짜
+		LocalDate day = LocalDate.now();
+		int todayMonth = day.getMonthValue();
+		int todayDate = day.getDayOfMonth();
+		reservationMap.put("todayDate", todayDate);
+		reservationMap.put("todayMonth", todayMonth);
+		
 		log.debug("\u001B[31m"+"MeetingroomService.getMeetingroomReservationList() reservationMap : "+ reservationMap.toString()+"\u001B[0m");
 		return reservationMap;
 	}

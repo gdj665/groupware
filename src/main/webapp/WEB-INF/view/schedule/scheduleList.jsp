@@ -81,7 +81,7 @@
 							    <c:set var="day" value="${i - m.beginBlank + 1}"></c:set>
 							    <c:choose>
 							        <c:when test="${day > 0 && day <= m.lastDate}">
-							            <td class="table_cell">
+							            <td class="table_cell" style="background-color: ${day == todayDate and (m.targetMonth + 1) == todayMonth ? '#FFF5E0' : 'transparent'};">
 							                <div style="text-align: left;">
 							                        <c:choose>
 							                            <c:when test="${i % 7 == 0}">

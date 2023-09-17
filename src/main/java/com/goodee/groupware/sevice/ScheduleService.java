@@ -5,6 +5,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -92,10 +93,17 @@ public class ScheduleService {
 		List<Schedule> scheduleList = new ArrayList<>();
 		scheduleList = scheduleMapper.getScheduleList(paramMap);
 		
+		// 오늘 날짜
+		LocalDate day = LocalDate.now();
+		int todayMonth = day.getMonthValue();
+		int todayDate = day.getDayOfMonth();
+		scheduleMap.put("todayDate", todayDate);
+		scheduleMap.put("todayMonth", todayMonth);
+		
 		// Map에 담아서 넘기기
 		scheduleMap.put("scheduleList", scheduleList);
 		log.debug("\u001B[31m"+"ScheduleService.getScheduleList() scheduleMap : "+ scheduleMap.toString()+"\u001B[0m");
-
+		
 		return scheduleMap;
 	}	
 	

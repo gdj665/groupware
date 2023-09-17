@@ -129,6 +129,8 @@ public class MeetingroomController {
 		model.addAttribute("meetingroomNo", meetingroomNo);
 		model.addAttribute("departmentNo", departmentNo);
 		model.addAttribute("memberId", memberId);
+		model.addAttribute("todayDate", reservationMap.get("todayDate"));
+		model.addAttribute("todayMonth", reservationMap.get("todayMonth"));
 		
 		return "/meetingroom/meetingroomReservationList";
 	}
