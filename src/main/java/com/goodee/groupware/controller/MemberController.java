@@ -193,10 +193,14 @@ public class MemberController {
 	
 //	사인 수정 페이지
 	@GetMapping("/group/member/updateSign")
-	public String updateSign(Model model, String memberId) {
+	public String updateSign(Model model, HttpSession session) {
+		// 세션 아이디 값
+		String memberId = (String)session.getAttribute("loginMember");
+		
 //		기존 사인 데이터 가지고 오기 위함
 		Member member = hrmService.getOneMember(memberId);
 		model.addAttribute("member", member);
+		model.addAttribute("memberId", memberId);
 		return "/member/updateSign";
 	}
 	

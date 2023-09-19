@@ -23,16 +23,16 @@
           <div class="col-md-8 col-lg-6 col-xxl-3">
             <div class="card mb-0">
               <div class="card-body">
-                <a href="./index.html" class="text-nowrap logo-img text-center d-block py-3 w-100">
-                  <img src="../assets/images/logos/dark-logo.svg" width="180" alt="">
+                <a class="text-nowrap logo-img text-center d-block py-3 w-100">
+                  <img src="${pageContext.request.contextPath}/assets/images/logos/dark-logo.svg" width="180" alt="">
                 </a>
-                <form action="/group/login" method="post" id="loginForm">
+                <form action="${pageContext.request.contextPath}/group/login" method="post" id="loginForm">
                   <div class="mb-3">
-                    <label for="exampleInputEmail1" class="form-label">Username</label>
+                    <label for="exampleInputEmail1" class="form-label">아이디</label>
                     <input type="text" class="form-control" id="memberId" aria-describedby="emailHelp" name="memberId" value="${saveLoginId}">
                   </div>
                   <div class="mb-4">
-                    <label for="exampleInputPassword1" class="form-label">Password</label>
+                    <label for="exampleInputPassword1" class="form-label">비밀번호</label>
                     <input type="password" class="form-control" id="memberPw" name="memberPw">
                   </div>
                   <div class="d-flex align-items-center justify-content-between mb-4">
