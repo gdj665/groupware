@@ -110,7 +110,7 @@
 	<div id="completedRepairModal" class="modal">
 		<div class="modal_content">
 			<form id="updateCompletedRepair"
-				action="${pageContext.request.contextPath}/repair/updateRepair"
+				action="${pageContext.request.contextPath}/group/repair/updateRepair"
 				method="post">
 				<div class="row">
 					<div class="col-lg-12">
